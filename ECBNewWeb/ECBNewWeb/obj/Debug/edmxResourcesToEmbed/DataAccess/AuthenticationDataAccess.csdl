@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AuthenticationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccessLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccessLevel1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Grants" Relationship="Self.FK__Grants__AccessLe__265233F6" FromRole="AccessLevels" ToRole="Grants" />
+  </EntityType>
+  <EntityType Name="ActionMethod">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActionMethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Grants" Relationship="Self.FK__Grants__ActionMe__6BF08837" FromRole="ActionMethods" ToRole="Grants" />
+  </EntityType>
+  <EntityType Name="Grant">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ActionMethodId" />
+      <PropertyRef Name="AccessLevel" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="ActionMethodId" Type="Int32" Nullable="false" />
+    <Property Name="AccessLevel" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AccessLevel1" Relationship="Self.FK__Grants__AccessLe__265233F6" FromRole="Grants" ToRole="AccessLevels" />
+    <NavigationProperty Name="ActionMethod" Relationship="Self.FK__Grants__ActionMe__6BF08837" FromRole="Grants" ToRole="ActionMethods" />
+    <NavigationProperty Name="LogIn" Relationship="Self.FK__Grants__UserId__2746582F" FromRole="Grants" ToRole="LogIn" />
+  </EntityType>
+  <EntityType Name="LogIn">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="employee_id" Type="Int32" />
+    <Property Name="volunteer_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="passChanged" Type="Int32" />
+    <Property Name="department" Type="Int32" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserComments" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyID" Type="Int32" />
+    <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
+    <Property Name="IsResetPasswordNeeded" Type="Boolean" />
+    <Property Name="PasswordChangedOn" Type="DateTime" Precision="3" />
+    <Property Name="SecurityQuestionID" Type="Int32" />
+    <Property Name="SecurityAnswer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="userRole" Type="Int32" />
+    <Property Name="importance" Type="Int32" />
+    <Property Name="active" Type="Boolean" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Grants" Relationship="Self.FK__Grants__UserId__2746582F" FromRole="LogIn" ToRole="Grants" />
+    <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_Users2" FromRole="LogIn" ToRole="UserRoles" />
+  </EntityType>
+  <EntityType Name="ParentFacility">
+    <Key>
+      <PropertyRef Name="ParentId" />
+    </Key>
+    <Property Name="ParentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentFacilityArabicName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ParentFacilityEnglishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ClassNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SubFacilities" Relationship="Self.FK__Facilitie__Paren__1650D657" FromRole="ParentFacilities" ToRole="SubFacilities" />
+    <NavigationProperty Name="ParentFacilityRoles" Relationship="Self.FK__FacilityR__Paren__12804573" FromRole="ParentFacilities" ToRole="ParentFacilityRoles" />
+  </EntityType>
+  <EntityType Name="ParentFacilityRole">
+    <Key>
+      <PropertyRef Name="FacilityRoleId" />
+    </Key>
+    <Property Name="FacilityRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentFacilityId" Type="Int32" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ParentFacility" Relationship="Self.FK__FacilityR__Paren__12804573" FromRole="ParentFacilityRoles" ToRole="ParentFacilities" />
+    <NavigationProperty Name="Role" Relationship="Self.FK__FacilityR__RoleI__137469AC" FromRole="ParentFacilityRoles" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ParentFacilityRoles" Relationship="Self.FK__FacilityR__RoleI__137469AC" FromRole="Roles" ToRole="ParentFacilityRoles" />
+    <NavigationProperty Name="SubFacilityRoles" Relationship="Self.FK__SubFacili__RoleI__1EE61C58" FromRole="Roles" ToRole="SubFacilityRoles" />
+    <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_Roles" FromRole="Roles" ToRole="UserRoles" />
+  </EntityType>
+  <EntityType Name="SubFacility">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FacilityEnglishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FacilityArabicName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ParentFacilityId" Type="Int32" />
+    <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CssClasses" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ParentFacility" Relationship="Self.FK__Facilitie__Paren__1650D657" FromRole="SubFacilities" ToRole="ParentFacilities" />
+    <NavigationProperty Name="SubFacilityRoles" Relationship="Self.FK__SubFacili__SubFa__1DF1F81F" FromRole="SubFacilities" ToRole="SubFacilityRoles" />
+  </EntityType>
+  <EntityType Name="SubFacilityRole">
+    <Key>
+      <PropertyRef Name="SubFacilityRoleId" />
+    </Key>
+    <Property Name="SubFacilityRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SubFacilityId" Type="Int32" />
+    <Property Name="RoleId" Type="Int32" />
+    <NavigationProperty Name="Role" Relationship="Self.FK__SubFacili__RoleI__1EE61C58" FromRole="SubFacilityRoles" ToRole="Roles" />
+    <NavigationProperty Name="SubFacility" Relationship="Self.FK__SubFacili__SubFa__1DF1F81F" FromRole="SubFacilityRoles" ToRole="SubFacilities" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserRoleID" />
+    </Key>
+    <Property Name="UserRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="LogIn" Relationship="Self.FK_UserRoles_Users2" FromRole="UserRoles" ToRole="LogIn" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_UserRoles_Roles" FromRole="UserRoles" ToRole="Roles" />
+  </EntityType>
+  <Association Name="FK__Grants__AccessLe__265233F6">
+    <End Role="AccessLevels" Type="Self.AccessLevel" Multiplicity="1" />
+    <End Role="Grants" Type="Self.Grant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccessLevels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Grants">
+        <PropertyRef Name="AccessLevel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Grants__ActionMe__6BF08837">
+    <End Role="ActionMethods" Type="Self.ActionMethod" Multiplicity="1" />
+    <End Role="Grants" Type="Self.Grant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActionMethods">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Grants">
+        <PropertyRef Name="ActionMethodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Grants__UserId__2746582F">
+    <End Role="LogIn" Type="Self.LogIn" Multiplicity="1" />
+    <End Role="Grants" Type="Self.Grant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogIn">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Grants">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Users2">
+    <End Role="LogIn" Type="Self.LogIn" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogIn">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Facilitie__Paren__1650D657">
+    <End Role="ParentFacilities" Type="Self.ParentFacility" Multiplicity="0..1" />
+    <End Role="SubFacilities" Type="Self.SubFacility" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ParentFacilities">
+        <PropertyRef Name="ParentId" />
+      </Principal>
+      <Dependent Role="SubFacilities">
+        <PropertyRef Name="ParentFacilityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FacilityR__Paren__12804573">
+    <End Role="ParentFacilities" Type="Self.ParentFacility" Multiplicity="1" />
+    <End Role="ParentFacilityRoles" Type="Self.ParentFacilityRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ParentFacilities">
+        <PropertyRef Name="ParentId" />
+      </Principal>
+      <Dependent Role="ParentFacilityRoles">
+        <PropertyRef Name="ParentFacilityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FacilityR__RoleI__137469AC">
+    <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+    <End Role="ParentFacilityRoles" Type="Self.ParentFacilityRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="ParentFacilityRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubFacili__RoleI__1EE61C58">
+    <End Role="Roles" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="SubFacilityRoles" Type="Self.SubFacilityRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="SubFacilityRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoles_Roles">
+    <End Role="Roles" Type="Self.Role" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubFacili__SubFa__1DF1F81F">
+    <End Role="SubFacilities" Type="Self.SubFacility" Multiplicity="0..1" />
+    <End Role="SubFacilityRoles" Type="Self.SubFacilityRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubFacilities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubFacilityRoles">
+        <PropertyRef Name="SubFacilityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AuthenticationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccessLevels" EntityType="Self.AccessLevel" />
+    <EntitySet Name="ActionMethods" EntityType="Self.ActionMethod" />
+    <EntitySet Name="Grants" EntityType="Self.Grant" />
+    <EntitySet Name="LogIns" EntityType="Self.LogIn" />
+    <EntitySet Name="ParentFacilities" EntityType="Self.ParentFacility" />
+    <EntitySet Name="ParentFacilityRoles" EntityType="Self.ParentFacilityRole" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="SubFacilities" EntityType="Self.SubFacility" />
+    <EntitySet Name="SubFacilityRoles" EntityType="Self.SubFacilityRole" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+    <AssociationSet Name="FK__Grants__AccessLe__265233F6" Association="Self.FK__Grants__AccessLe__265233F6">
+      <End Role="AccessLevels" EntitySet="AccessLevels" />
+      <End Role="Grants" EntitySet="Grants" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Grants__ActionMe__6BF08837" Association="Self.FK__Grants__ActionMe__6BF08837">
+      <End Role="ActionMethods" EntitySet="ActionMethods" />
+      <End Role="Grants" EntitySet="Grants" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Grants__UserId__2746582F" Association="Self.FK__Grants__UserId__2746582F">
+      <End Role="LogIn" EntitySet="LogIns" />
+      <End Role="Grants" EntitySet="Grants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Users2" Association="Self.FK_UserRoles_Users2">
+      <End Role="LogIn" EntitySet="LogIns" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Facilitie__Paren__1650D657" Association="Self.FK__Facilitie__Paren__1650D657">
+      <End Role="ParentFacilities" EntitySet="ParentFacilities" />
+      <End Role="SubFacilities" EntitySet="SubFacilities" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FacilityR__Paren__12804573" Association="Self.FK__FacilityR__Paren__12804573">
+      <End Role="ParentFacilities" EntitySet="ParentFacilities" />
+      <End Role="ParentFacilityRoles" EntitySet="ParentFacilityRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FacilityR__RoleI__137469AC" Association="Self.FK__FacilityR__RoleI__137469AC">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="ParentFacilityRoles" EntitySet="ParentFacilityRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubFacili__RoleI__1EE61C58" Association="Self.FK__SubFacili__RoleI__1EE61C58">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="SubFacilityRoles" EntitySet="SubFacilityRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoles_Roles" Association="Self.FK_UserRoles_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubFacili__SubFa__1DF1F81F" Association="Self.FK__SubFacili__SubFa__1DF1F81F">
+      <End Role="SubFacilities" EntitySet="SubFacilities" />
+      <End Role="SubFacilityRoles" EntitySet="SubFacilityRoles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

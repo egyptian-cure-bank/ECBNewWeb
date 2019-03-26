@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MarketingModelStoreContainer" CdmEntityContainer="MarketEntities">
+    <EntitySetMapping Name="doners">
+      <EntityTypeMapping TypeName="MarketingModel.doner">
+        <MappingFragment StoreEntitySet="doners">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="numberOfDonations" ColumnName="numberOfDonations" />
+          <ScalarProperty Name="DID" ColumnName="DID" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="wasf" ColumnName="wasf" />
+          <ScalarProperty Name="cent_id" ColumnName="cent_id" />
+          <ScalarProperty Name="job" ColumnName="job" />
+          <ScalarProperty Name="workplace" ColumnName="workplace" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="class" ColumnName="class" />
+          <ScalarProperty Name="Typecontact" ColumnName="Typecontact" />
+          <ScalarProperty Name="motabare3" ColumnName="motabare3" />
+          <ScalarProperty Name="freq" ColumnName="freq" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="notes" ColumnName="notes" />
+          <ScalarProperty Name="mob" ColumnName="mob" />
+          <ScalarProperty Name="site" ColumnName="site" />
+          <ScalarProperty Name="NULL" ColumnName="NULL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="markets">
+      <EntityTypeMapping TypeName="MarketingModel.market">
+        <MappingFragment StoreEntitySet="market">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="dat" ColumnName="dat" />
+          <ScalarProperty Name="no" ColumnName="no" />
+          <ScalarProperty Name="cod" ColumnName="cod" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="cash" ColumnName="cash" />
+          <ScalarProperty Name="employee" ColumnName="employee" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="site" ColumnName="site" />
+          <ScalarProperty Name="combID" ColumnName="combID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="FinApprov" ColumnName="FinApprov" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="marketingsites">
+      <EntityTypeMapping TypeName="MarketingModel.marketingsite">
+        <MappingFragment StoreEntitySet="marketingsites">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="sitename" ColumnName="sitename" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="centers">
+      <EntityTypeMapping TypeName="MarketingModel.center">
+        <MappingFragment StoreEntitySet="centers">
+          <ScalarProperty Name="center_name" ColumnName="center_name" />
+          <ScalarProperty Name="government_id" ColumnName="government_id" />
+          <ScalarProperty Name="center_id" ColumnName="center_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="governments">
+      <EntityTypeMapping TypeName="MarketingModel.government">
+        <MappingFragment StoreEntitySet="governments">
+          <ScalarProperty Name="government_name" ColumnName="government_name" />
+          <ScalarProperty Name="government_id" ColumnName="government_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="marketingrectypes">
+      <EntityTypeMapping TypeName="MarketingModel.marketingrectype">
+        <MappingFragment StoreEntitySet="marketingrectype">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

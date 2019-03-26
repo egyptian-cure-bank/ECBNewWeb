@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Shefaa_BankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="LogIn">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="100" />
+    <Property Name="employee_id" Type="int" />
+    <Property Name="volunteer_id" Type="nvarchar" MaxLength="50" />
+    <Property Name="passChanged" Type="int" />
+    <Property Name="department" Type="int" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserComments" Type="nvarchar" MaxLength="100" />
+    <Property Name="CompanyID" Type="int" />
+    <Property Name="LastLoginTime" Type="datetime" />
+    <Property Name="IsResetPasswordNeeded" Type="bit" />
+    <Property Name="PasswordChangedOn" Type="datetime" />
+    <Property Name="SecurityQuestionID" Type="int" />
+    <Property Name="SecurityAnswer" Type="nvarchar" MaxLength="50" />
+    <Property Name="userRole" Type="int" />
+    <Property Name="importance" Type="int" />
+    <Property Name="active" Type="bit" />
+    <Property Name="title" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="Shefaa_BankModelStoreContainer">
+    <EntitySet Name="LogIn" EntityType="Self.LogIn" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

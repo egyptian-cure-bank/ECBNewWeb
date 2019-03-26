@@ -1,0 +1,198 @@
+﻿@model ECBNewWeb.Models.DonorData
+@{
+    ViewBag.Title = "Add Doners";
+    Layout = "~/Views/Shared/_LayoutShefaa.cshtml";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<main class="page-content">
+    <div class="container-fluid">
+        <h2>بيانات المتبرع</h2>
+        <p>إضافة متبرع جديد</p>
+        <hr>
+        
+
+
+@using (Html.BeginForm("SaveDonor", "Donor", FormMethod.Post ,htmlAttributes: new { @id = "myform"} ))
+{
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="" class="">اسم المتبرع</label>
+                @Html.TextBoxFor(m => m.DonorName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })
+                @*<input type="text" class="form-control">*@
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">اللقب</label>
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">التليفون</label>
+                @Html.TextBoxFor(m => m.Tele, new { @class = "form-control", type = "number", maxlength = "11" })
+                @Html.ValidationMessageFor(m => m.Tele, "", new { @class = "text-danger" })
+                @*<input type="number" class="form-control">*@
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="" class="">المحافظة</label>
+                @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control", @id = "govern" })
+                @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" })
+                @*<select id="govern" class="form-control">
+                </select>*@
+
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">المركز</label>
+                @Html.DropDownListFor(x => x.CenterId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "centers" })
+                @Html.ValidationMessageFor(x => x.CenterId, "", new { @class = "text-danger" })
+                @*<select id="centers" class="form-control"></select>*@
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">النوع</label>
+                @Html.DropDownListFor(x => x.GenderValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "genders" })
+                @Html.ValidationMessageFor(x => x.GenderValue, "", new { @class = "text-danger" })
+                @*<select class="form-control"></select>*@
+            </div>
+       
+            <div class="form-group col-md-3">
+                <label for="" class="">الوظيفة</label>
+                @Html.TextBoxFor(m => m.Job, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">الشركة</label>
+               @Html.TextBoxFor(m => m.WorkPlace, new { @class = "form-control" })
+            </div>
+            
+            <div class="form-group col-md-3">
+                <label for="" class="">وسيلة الاتصال</label>
+                @Html.DropDownListFor(x => x.ContactValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "typeContact" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">متبرع</label>
+                @Html.DropDownListFor(x => x.Motabre3Value, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "motabre3" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">تكرار التبرع</label>
+                @Html.DropDownListFor(x => x.FreqValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "freq" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">العنوان</label>
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">البريد الالكترونى <span style="color:red">(هام للتواصل)</span></label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="" class="">ملاحظات</label>
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="rkow justify-content-end">
+            <button id="saveDonor" class="btn btn-success  col-md-1 form-group " type="submit" >حفظ</button>
+            <button id="cancelSave" class="btn btn-danger col-md-1 form-group" type="reset">الغاء</button>
+            
+        </div>
+
+    if (TempData["Msg"] != null)
+        {
+            <div class="modal  fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                        </div>
+                        <div class="modal-body">
+                            @if(TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                            {
+                                <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                            }
+                            else
+                            {
+                                <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                     $('#myModal').modal('show');
+            </script>
+        }
+
+}
+       
+       
+        
+
+        <hr>
+    </div>
+</main>
+
+
+    <!--Scripts-->
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<!--End Scripts-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var data = [];
+        $.getJSON("/Donor/PopulateGenderList", null, function (data) {
+            data = $.map(data, function (item, a) {
+                return "<option value=" + item.Value + ">" + item.Text + "</option>";
+            });
+            $("#genders").html(data);
+        });
+        var data = [];
+        $.getJSON("/Donor/PopulateTypeContactList", null, function (data) {
+            data = $.map(data, function (item, a) {
+                return "<option value=" + item.Value + ">" + item.Text + "</option>";
+            });
+            $("#typeContact").html(data);
+        });
+        var data = [];
+        $.getJSON("/Donor/PopulateMotabare3List", null, function (data) {
+            data = $.map(data, function (item, a) {
+                return "<option value=" + item.Value + ">" + item.Text + "</option>";
+            });
+            $("#motabre3").html(data);
+        });
+        var data = [];
+        $.getJSON("/Donor/PopulatFreqList", null, function (data) {
+            data = $.map(data, function (item, a) {
+                return "<option value=" + item.Value + ">" + item.Text + "</option>";
+            });
+            $("#freq").html(data);
+        });
+        $("#govern").change(function () {
+            var data = [];
+            var selectedvalue = $("#govern option:selected").val();
+            $.getJSON("/Donor/PopulateCenters", { GovId: selectedvalue }, function (data) {
+                data = $.map(data, function (item, a) {
+                    return "<option value=" + item.Value + ">" + item.Text + "</option>";
+                });
+                $("#centers").html(data);
+            });
+        });
+    });
+
+</script>
+
+

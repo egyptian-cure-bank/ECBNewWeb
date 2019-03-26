@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            //Manage menu click activation
+            $('.sub-menu li').click(function () {
+                var parentId = $(this).parent().attr('id');
+                $('.menu-content li').removeClass('active');
+                $('#' + parentId).prev().addClass('active');
+                $(this).addClass('active');
+                $('.sub-menu li').not(this).removeClass('active');
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light custom-nav-style">
+        <a class="navbar-brand" href=@Url.Action("Index","Home")><img src="~/Img/ecb logo.png" class="navBrandLogo" /></a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">تسجيل خروج</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="nav-side-menu ">
+        <div class="brand"><a href=@Url.Action("Index","Home")><img src="~/Img/ecb logo.png" class="brandLogo" /></a></div>
+        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+        <div class="menu-list">
+
+            <ul id="menu-content" class="menu-content collapse out">
+
+                <li data-toggle="collapse" data-target="#products" class="collapsed">
+                    <a href="#"><span class="arrow"></span> إدارة النظام <i class="fa fa-cogs fa-lg"></i></a>
+                </li>
+                <ul class="sub-menu collapse" id="products">
+                    <li class=""><a href="#">إدارة المستخدمين</a></li>
+                </ul>
+
+                <li data-toggle="collapse" data-target="#service" class="collapsed">
+                    <a href="#"><span class="arrow"></span> التسويق <i class="fa fa-globe fa-lg"></i></a>
+                </li>
+                <ul class="sub-menu collapse" id="service">
+                    <li>إضافة متبرع</li>
+                    <li>إضافة تبرع جديد</li>
+                    <li>بحث عن تبرع</li>
+                </ul>
+
+                <li data-toggle="collapse" data-target="#new" class="collapsed">
+                    <a href="#"><span class="arrow"></span> New <i class="fa fa-car fa-lg"></i></a>
+                </li>
+                <ul class="sub-menu collapse" id="new">
+                    <li>New New 1</li>
+                    <li>New New 2</li>
+                    <li>New New 3</li>
+                </ul>
+
+                <li>
+                    <a href="#">
+                         Profile <i class="fa fa-user fa-lg"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                         Users <i class="fa fa-users fa-lg"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @*</div>*@
+    @RenderSection("scripts", required: false)
+    <div class="body-content">
+        <div class="container-fluid">
+            here
+        </div>
+        
+        @RenderBody()
+        
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    
+</body>
+</html>

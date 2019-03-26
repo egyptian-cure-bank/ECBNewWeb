@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Shefaa_BankModelStoreContainer" CdmEntityContainer="Shefaa_BankEntities">
+    <EntitySetMapping Name="LogIns">
+      <EntityTypeMapping TypeName="Shefaa_BankModel.LogIn">
+        <MappingFragment StoreEntitySet="LogIn">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="userRole" ColumnName="userRole" />
+          <ScalarProperty Name="importance" ColumnName="importance" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

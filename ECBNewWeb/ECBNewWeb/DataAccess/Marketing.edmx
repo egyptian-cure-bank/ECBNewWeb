@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MarketingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="centers">
+          <Key>
+            <PropertyRef Name="center_id" />
+          </Key>
+          <Property Name="center_id" Type="int" Nullable="false" />
+          <Property Name="government_id" Type="int" />
+          <Property Name="center_name" Type="nvarchar" MaxLength="52" />
+        </EntityType>
+        <EntityType Name="doners">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="86" />
+          <Property Name="title" Type="nvarchar" MaxLength="24" />
+          <Property Name="numberOfDonations" Type="nvarchar" MaxLength="10" />
+          <Property Name="DID" Type="int" />
+          <Property Name="address" Type="nvarchar" MaxLength="87" />
+          <Property Name="wasf" Type="nvarchar" MaxLength="58" />
+          <Property Name="cent_id" Type="int" />
+          <Property Name="job" Type="nvarchar" MaxLength="13" />
+          <Property Name="workplace" Type="nvarchar" MaxLength="43" />
+          <Property Name="sex" Type="nvarchar" MaxLength="8" />
+          <Property Name="class" Type="nvarchar" MaxLength="10" />
+          <Property Name="Typecontact" Type="nvarchar" MaxLength="25" />
+          <Property Name="motabare3" Type="nvarchar" MaxLength="20" />
+          <Property Name="freq" Type="nvarchar" MaxLength="15" />
+          <Property Name="email" Type="nvarchar" MaxLength="46" />
+          <Property Name="notes" Type="nvarchar" MaxLength="147" />
+          <Property Name="mob" Type="nvarchar" MaxLength="28" />
+          <Property Name="site" Type="int" />
+          <Property Name="NULL" Type="int" />
+        </EntityType>
+        <EntityType Name="governments">
+          <Key>
+            <PropertyRef Name="government_id" />
+          </Key>
+          <Property Name="government_id" Type="int" Nullable="false" />
+          <Property Name="government_name" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="market">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dat" Type="date" />
+          <Property Name="no" Type="int" />
+          <Property Name="cod" Type="nvarchar" MaxLength="10" />
+          <Property Name="name" Type="int" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="currency" Type="nvarchar" MaxLength="19" />
+          <Property Name="cash" Type="int" />
+          <Property Name="employee" Type="int" />
+          <Property Name="type" Type="int" />
+          <Property Name="note" Type="nvarchar" MaxLength="43" />
+          <Property Name="site" Type="int" />
+          <Property Name="combID" Type="nvarchar" MaxLength="55" />
+          <Property Name="timestamp" Type="datetime2" Precision="0" />
+          <Property Name="FinApprov" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="marketingrectype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="marketingsites">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="sitename" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MarketingModelStoreContainer">
+          <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="doners" EntityType="Self.doners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="governments" EntityType="Self.governments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="market" EntityType="Self.market" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="marketingrectype" EntityType="Self.marketingrectype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="marketingsites" EntityType="Self.marketingsites" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MarketingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="doner">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="86" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="numberOfDonations" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DID" Type="Int32" />
+          <Property Name="address" Type="String" MaxLength="87" FixedLength="false" Unicode="true" />
+          <Property Name="wasf" Type="String" MaxLength="58" FixedLength="false" Unicode="true" />
+          <Property Name="cent_id" Type="Int32" />
+          <Property Name="job" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="workplace" Type="String" MaxLength="43" FixedLength="false" Unicode="true" />
+          <Property Name="sex" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="class" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Typecontact" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="motabare3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="freq" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="46" FixedLength="false" Unicode="true" />
+          <Property Name="notes" Type="String" MaxLength="147" FixedLength="false" Unicode="true" />
+          <Property Name="mob" Type="String" MaxLength="28" FixedLength="false" Unicode="true" />
+          <Property Name="site" Type="Int32" />
+          <Property Name="NULL" Type="Int32" />
+        </EntityType>
+        <EntityType Name="market">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dat" Type="DateTime" Precision="0" />
+          <Property Name="no" Type="Int32" />
+          <Property Name="cod" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="Int32" />
+          <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="currency" Type="String" MaxLength="19" FixedLength="false" Unicode="true" />
+          <Property Name="cash" Type="Int32" />
+          <Property Name="employee" Type="Int32" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="true" />
+          <Property Name="site" Type="Int32" />
+          <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="true" />
+          <Property Name="timestamp" Type="DateTime" Precision="0" />
+          <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="marketingsite">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="sitename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="doners" EntityType="Self.doner" />
+          <EntitySet Name="markets" EntityType="Self.market" />
+          <EntitySet Name="marketingsites" EntityType="Self.marketingsite" />
+          <EntitySet Name="centers" EntityType="MarketingModel.center" />
+          <EntitySet Name="governments" EntityType="MarketingModel.government" />
+          <EntitySet Name="marketingrectypes" EntityType="MarketingModel.marketingrectype" />
+        </EntityContainer>
+        <EntityType Name="center">
+          <Key>
+            <PropertyRef Name="center_id" />
+          </Key>
+          <Property Name="center_id" Type="Int32" Nullable="false" />
+          <Property Name="government_id" Type="Int32" />
+          <Property Name="center_name" Type="String" MaxLength="52" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="government">
+          <Key>
+            <PropertyRef Name="government_id" />
+          </Key>
+          <Property Name="government_id" Type="Int32" Nullable="false" />
+          <Property Name="government_name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="marketingrectype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MarketingModelStoreContainer" CdmEntityContainer="MarketEntities">
+          <EntitySetMapping Name="doners">
+            <EntityTypeMapping TypeName="MarketingModel.doner">
+              <MappingFragment StoreEntitySet="doners">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="numberOfDonations" ColumnName="numberOfDonations" />
+                <ScalarProperty Name="DID" ColumnName="DID" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="wasf" ColumnName="wasf" />
+                <ScalarProperty Name="cent_id" ColumnName="cent_id" />
+                <ScalarProperty Name="job" ColumnName="job" />
+                <ScalarProperty Name="workplace" ColumnName="workplace" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="class" ColumnName="class" />
+                <ScalarProperty Name="Typecontact" ColumnName="Typecontact" />
+                <ScalarProperty Name="motabare3" ColumnName="motabare3" />
+                <ScalarProperty Name="freq" ColumnName="freq" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="mob" ColumnName="mob" />
+                <ScalarProperty Name="site" ColumnName="site" />
+                <ScalarProperty Name="NULL" ColumnName="NULL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="markets">
+            <EntityTypeMapping TypeName="MarketingModel.market">
+              <MappingFragment StoreEntitySet="market">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="dat" ColumnName="dat" />
+                <ScalarProperty Name="no" ColumnName="no" />
+                <ScalarProperty Name="cod" ColumnName="cod" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="cash" ColumnName="cash" />
+                <ScalarProperty Name="employee" ColumnName="employee" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="site" ColumnName="site" />
+                <ScalarProperty Name="combID" ColumnName="combID" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="FinApprov" ColumnName="FinApprov" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="marketingsites">
+            <EntityTypeMapping TypeName="MarketingModel.marketingsite">
+              <MappingFragment StoreEntitySet="marketingsites">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="sitename" ColumnName="sitename" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="centers">
+            <EntityTypeMapping TypeName="MarketingModel.center">
+              <MappingFragment StoreEntitySet="centers">
+                <ScalarProperty Name="center_name" ColumnName="center_name" />
+                <ScalarProperty Name="government_id" ColumnName="government_id" />
+                <ScalarProperty Name="center_id" ColumnName="center_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="governments">
+            <EntityTypeMapping TypeName="MarketingModel.government">
+              <MappingFragment StoreEntitySet="governments">
+                <ScalarProperty Name="government_name" ColumnName="government_name" />
+                <ScalarProperty Name="government_id" ColumnName="government_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="marketingrectypes">
+            <EntityTypeMapping TypeName="MarketingModel.marketingrectype">
+              <MappingFragment StoreEntitySet="marketingrectype">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

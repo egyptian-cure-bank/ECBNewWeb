@@ -1,0 +1,118 @@
+﻿@model IEnumerable<ECBNewWeb.Models.DonorData>
+
+<link href="~/Content/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+
+<main class="page-content">
+    <p>
+        <a href="/Donor/AddDoners" class="btn btn-info "><span class="glyphicon glyphicon-plus" > </span> اضافة متبرع جديد</a>
+    <table id="demoGrid" style="text-align:right"  class="table table-hover dt-responsive nowrap table-sm" cellspacing="0" style="width:100%" >
+        <thead>
+            <tr style="text-align:right" >
+                <th style="text-align:right" > 
+                    اسم المتبرع
+                </th>
+                <th style="text-align:right" >
+                    التليفون
+                </th>
+                <th style="text-align:right" >
+                    المحافظة
+                </th>
+                <th style="text-align:right" >
+                    المركز
+                </th>
+                <th style="text-align:right" >
+                    
+                </th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr style="text-align:right" >
+                <td>
+                    @item.DonorName
+                </td>
+                <td>
+                    @item.Tele
+                </td>
+                <td>
+                    @item.GovernmentName
+                </td>
+                <td>
+                    @item.CenterName
+                </td>
+                <td>
+                    <a  class="btn btn-success" id="@item.Id" onclick="EditDonor(this.id)"  ><span class="glyphicon glyphicon-pencil" style="color:white" ></span></a> 
+                    <a class="btn btn-danger" id="@item.Id" onclick="DeleteDonor(this.id)"><span class="glyphicon glyphicon-trash" style="color:white"></span></a> 
+                </td>
+            </tr>
+        }
+    </table>
+</main>
+
+<div id="myModalEdit" class="modal fade " style="text-align:center">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModalDelete" class="modal fade " style="text-align:center">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+
+<script>
+        $('#demoGrid').dataTable({
+        });
+
+</script>
+
+
+
+
+<script>
+
+    function EditDonor(id) {
+
+        $.get("@Url.Action("Edit", "Donor")/" + id,
+        function (data) { $('.modal-body').html(data); })
+        $('#myModalEdit').modal('show');
+        $('#myModalEdit').on('hidden.bs.modal', function (e) {
+            $('.modal-body').html("");
+        })
+    }
+
+    function DeleteDonor(id) {
+
+        $.get("@Url.Action("Delete", "Donor")/" + id,
+        function (data) { $('.modal-body').html(data); })
+        $('#myModalDelete').modal('show');
+        $('#myModalDelete').on('hidden.bs.modal', function (e) {
+            $('.modal-body').html("");
+        })
+    }
+
+
+</script>

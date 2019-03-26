@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MarketingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="doner">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="86" FixedLength="false" Unicode="true" />
+    <Property Name="title" Type="String" MaxLength="24" FixedLength="false" Unicode="true" />
+    <Property Name="numberOfDonations" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="DID" Type="Int32" />
+    <Property Name="address" Type="String" MaxLength="87" FixedLength="false" Unicode="true" />
+    <Property Name="wasf" Type="String" MaxLength="58" FixedLength="false" Unicode="true" />
+    <Property Name="cent_id" Type="Int32" />
+    <Property Name="job" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="workplace" Type="String" MaxLength="43" FixedLength="false" Unicode="true" />
+    <Property Name="sex" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="class" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Typecontact" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="motabare3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="freq" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="46" FixedLength="false" Unicode="true" />
+    <Property Name="notes" Type="String" MaxLength="147" FixedLength="false" Unicode="true" />
+    <Property Name="mob" Type="String" MaxLength="28" FixedLength="false" Unicode="true" />
+    <Property Name="site" Type="Int32" />
+    <Property Name="NULL" Type="Int32" />
+  </EntityType>
+  <EntityType Name="market">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dat" Type="DateTime" Precision="0" />
+    <Property Name="no" Type="Int32" />
+    <Property Name="cod" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="Int32" />
+    <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="currency" Type="String" MaxLength="19" FixedLength="false" Unicode="true" />
+    <Property Name="cash" Type="Int32" />
+    <Property Name="employee" Type="Int32" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="true" />
+    <Property Name="site" Type="Int32" />
+    <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="true" />
+    <Property Name="timestamp" Type="DateTime" Precision="0" />
+    <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="marketingsite">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="sitename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="doners" EntityType="Self.doner" />
+    <EntitySet Name="markets" EntityType="Self.market" />
+    <EntitySet Name="marketingsites" EntityType="Self.marketingsite" />
+    <EntitySet Name="centers" EntityType="MarketingModel.center" />
+    <EntitySet Name="governments" EntityType="MarketingModel.government" />
+    <EntitySet Name="marketingrectypes" EntityType="MarketingModel.marketingrectype" />
+  </EntityContainer>
+  <EntityType Name="center">
+    <Key>
+      <PropertyRef Name="center_id" />
+    </Key>
+    <Property Name="center_id" Type="Int32" Nullable="false" />
+    <Property Name="government_id" Type="Int32" />
+    <Property Name="center_name" Type="String" MaxLength="52" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="government">
+    <Key>
+      <PropertyRef Name="government_id" />
+    </Key>
+    <Property Name="government_id" Type="Int32" Nullable="false" />
+    <Property Name="government_name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="marketingrectype">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

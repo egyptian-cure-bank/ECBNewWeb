@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+    <title>Egyptian Cure Bank</title>
+    <!--bootstrap Css-->
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <!--fontawesome Css-->
+    <link rel="stylesheet" href="~/Content/all.css">
+    
+    <!-- my Style-->
+    <link href="~/Content/style.css" rel=stylesheet>
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
+</head>
+<body dir="rtl" style="text-align: right">
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <a href="#">بنك الشفاء المصرى</a>
+                    <div id="close-sidebar">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="sidebar-header">
+                    <div class="user-info">
+                        <span class="user-name">
+                            @{ var UserSession = Session["CurrentUser"] as ECBNewWeb.CustomAuthentication.CustomMembershipUser;
+                                <strong>@UserSession.FirstName</strong>
+                                <strong>@UserSession.LastName</strong>
+                             }
+                        </span>
+                        @*<span class="user-role">مدير</span>
+                        <span class="user-status">
+                            <i class="fa fa-circle"></i>
+                            <span>اونلاين</span>
+                        </span>*@
+                    </div>
+                    <div class="user-pic">
+                        <!--<img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+                          alt="User picture">-->
+                    </div>
+                </div>
+                <!-- sidebar-header  -->
+                <!--
+                      <div class="sidebar-search">
+                        <div>
+                          <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                -->
+                <!-- sidebar-search  -->
+                <div class="sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>عام</span>
+                        </li>
+                        <li class="sidebar-dropdown ">
+                            <a href="#">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span>إدارة النظام</span>
+                                <!--<span class="badge badge-pill badge-warning">جديد</span>-->
+                            </a>
+                            <div class="sidebar-submenu" >
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            بيانات المستخدمين
+                                            <!--<span class="badge badge-pill badge-success">Pro</span>-->
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">ادارة 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">ادارة 2</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>المالية</span>
+                                <!--<span class="badge badge-pill badge-danger">3</span>-->
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            Products
+
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Orders</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Credit cart</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown active">
+                            <a href="#">
+                                <i class="far fa-gem"></i>
+                                <span>التسويق</span>
+                            </a>
+                            <div class="sidebar-submenu" style="display:block;" >
+                                <ul>
+                                    <li>
+                                        <a href="~/Donation/AddDonations">اضافة تبرع</a>
+                                    </li>
+                                    <li>
+                                        <a href="~/Donor/AddDoners">اضافة متبرع</a>
+                                    </li>
+                                    <li>
+                                        <a href="~/Donor/Doner">المتبرعين</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">التبرعات</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">تقارير التبرعات</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-chart-line"></i>
+                                <span>التشغيل</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">Pie chart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Line chart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Bar chart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Histogram</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-globe"></i>
+                                <span>تطوير المستشفيات</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">Google maps</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Open street map</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-globe"></i>
+                                <span>القوافل</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">Google maps</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Open street map</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="header-menu">
+                            <span>اخرى</span>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-book"></i>
+                                <span>Documentation</span>
+                                <!--<span class="badge badge-pill badge-primary">Beta</span>-->
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-calendar"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-folder"></i>
+                                <span>Examples</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-content  -->
+            <div class="sidebar-footer">
+                <a href="#">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-pill badge-warning notification">3</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-envelope"></i>
+                    <span class="badge badge-pill badge-success notification">7</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-cog"></i>
+                    <span class="badge-sonar"></span>
+                </a>
+                <a href="@Url.Action("LogOut","Account")">
+                    <i class="fa fa-power-off"></i>
+                </a>
+            </div>
+        </nav>
+        <!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
+       
+        <!-- page-content" -->
+        @RenderBody()
+        <!-- page-content" -->
+
+    </div>
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")*@
+    <!--Scripts-->
+
+
+    
+    <script src="~/Scripts/my-script.js"></script>
+    <!--End Scripts-->
+   
+   
+</body>
+</html>
