@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <!--fontawesome Css-->
     <link rel="stylesheet" href="~/Content/all.css">
-    
+
     <!-- my Style-->
     <link href="~/Content/style.css" rel=stylesheet>
     <script src="~/Scripts/jquery-3.0.0.min.js"></script>
     <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
+        @Scripts.Render("~/bundles/bootstrap")*@
 </head>
 <body dir="rtl" style="text-align: right">
     <div class="page-wrapper chiller-theme toggled">
@@ -39,13 +39,13 @@
                             @{ var UserSession = Session["CurrentUser"] as ECBNewWeb.CustomAuthentication.CustomMembershipUser;
                                 <strong>@UserSession.FirstName</strong>
                                 <strong>@UserSession.LastName</strong>
-                             }
+                            }
                         </span>
                         @*<span class="user-role">مدير</span>
-                        <span class="user-status">
-                            <i class="fa fa-circle"></i>
-                            <span>اونلاين</span>
-                        </span>*@
+                            <span class="user-status">
+                                <i class="fa fa-circle"></i>
+                                <span>اونلاين</span>
+                            </span>*@
                     </div>
                     <div class="user-pic">
                         <!--<img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
@@ -79,7 +79,7 @@
                                 <span>إدارة النظام</span>
                                 <!--<span class="badge badge-pill badge-warning">جديد</span>-->
                             </a>
-                            <div class="sidebar-submenu" >
+                            <div class="sidebar-submenu">
                                 <ul>
                                     <li>
                                         <a href="#">
@@ -124,7 +124,7 @@
                                 <i class="far fa-gem"></i>
                                 <span>التسويق</span>
                             </a>
-                            <div class="sidebar-submenu" style="display:block;" >
+                            <div class="sidebar-submenu" style="display:block;">
                                 <ul>
                                     <li>
                                         <a href="~/Donation/AddDonations">اضافة تبرع</a>
@@ -133,7 +133,7 @@
                                         <a href="~/Donor/AddDoners">اضافة متبرع</a>
                                     </li>
                                     <li>
-                                        <a href="~/Donor/Doner">المتبرعين</a>
+                                        <a href="~/Donor/doner">المتبرعين</a>
                                     </li>
                                     <li>
                                         <a href="#">التبرعات</a>
@@ -244,22 +244,21 @@
             </div>
         </nav>
         <!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
-       
         <!-- page-content" -->
         @RenderBody()
         <!-- page-content" -->
 
     </div>
     @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/jqueryval")*@
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")*@
     <!--Scripts-->
 
 
-    
+
     <script src="~/Scripts/my-script.js"></script>
     <!--End Scripts-->
-   
-   
+
+
 </body>
 </html>

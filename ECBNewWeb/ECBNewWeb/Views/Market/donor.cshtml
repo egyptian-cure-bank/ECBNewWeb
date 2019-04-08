@@ -50,7 +50,6 @@
         }
     </table>
 </main>
-
 <div id="myModalEdit" class="modal fade " style="text-align:center">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -97,7 +96,7 @@
     function EditDonor(id) {
 
         $.get("@Url.Action("Edit", "Donor")/" + id,
-        function (data) { $('.modal-body').html(data); })
+        function (data) { $('.modal-body').html(data);})
         $('#myModalEdit').modal('show');
         $('#myModalEdit').on('hidden.bs.modal', function (e) {
             $('.modal-body').html("");

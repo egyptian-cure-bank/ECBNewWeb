@@ -11,8 +11,8 @@ namespace ECBNewWeb.Models
     {
         //Governments
 
-        [Required(ErrorMessage ="يجب اختيار المحافظة")]
-        public int GovernmentId { get; set; }
+        [Required(ErrorMessage = "يجب اختيار المحافظة")]
+        public int? GovernmentId { get; set; }
         public string GovernmentName { get; set; }
         public IEnumerable<SelectListItem> MyGovernments { get; set; }
         //Centers
@@ -37,19 +37,19 @@ namespace ECBNewWeb.Models
         //Donors
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="يجب ادخال الاسم")]
+        [Required(ErrorMessage = "يجب ادخال الاسم")]
         public string DonorName { get; set; }
         public string Title { get; set; }
-        
-        [Required(ErrorMessage ="يجب ادخال رقم التليفون")]
-        [MaxLength(11,ErrorMessage = "رقم التليفون غير صحيح")]
+
+        [Required(ErrorMessage = "يجب ادخال رقم التليفون")]
+        [MaxLength(11, ErrorMessage = "رقم التليفون غير صحيح")]
         [MinLength(11, ErrorMessage = "رقم التليفون غير صحيح")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "رقم تليفون غير صحيح")]
         public string Tele { get; set; }
         public string Job { get; set; }
         public string WorkPlace { get; set; }
         public string Address { get; set; }
-        [Required(ErrorMessage ="برجاء ادخال الايميل")]
+        [Required(ErrorMessage = "برجاء ادخال الايميل")]
         [EmailAddress(ErrorMessage = "ايميل غير صحيح")]
         public string Email { get; set; }
         public string Notes { get; set; }

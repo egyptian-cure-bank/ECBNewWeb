@@ -111,9 +111,6 @@ body {
   left: -300px;
   z-index: 999;
 }
-.page-wrapper{
-    background: White;
-}
 
 .sidebar-wrapper ul {
   list-style-type: none;
@@ -534,7 +531,7 @@ body {
 }
 /* content page */
 .page-wrapper {
-    background-color: white;
+    background-color: #eee;
 }
 /*content page*/
 
