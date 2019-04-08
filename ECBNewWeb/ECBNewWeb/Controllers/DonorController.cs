@@ -212,7 +212,6 @@ namespace ECBNewWeb.Controllers
         //    return RedirectToAction(Request.UrlReferrer.ToString());
         //}
 
-
         public ActionResult Doner()
         {
             MarketEntities db = new MarketEntities();
