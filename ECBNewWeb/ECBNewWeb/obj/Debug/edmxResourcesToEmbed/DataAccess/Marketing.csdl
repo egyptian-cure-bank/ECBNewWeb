@@ -59,6 +59,10 @@
     <EntitySet Name="centers" EntityType="MarketingModel.center" />
     <EntitySet Name="governments" EntityType="MarketingModel.government" />
     <EntitySet Name="marketingrectypes" EntityType="MarketingModel.marketingrectype" />
+    <EntitySet Name="Currencies" EntityType="MarketingModel.Currency" />
+    <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
+    <EntitySet Name="KnowingMethods" EntityType="MarketingModel.KnowingMethod" />
+    <EntitySet Name="PaymentMethods" EntityType="MarketingModel.PaymentMethod" />
   </EntityContainer>
   <EntityType Name="center">
     <Key>
@@ -81,5 +85,37 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="DonationPurpose">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="KnowingMethod">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="PaymentMethod">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

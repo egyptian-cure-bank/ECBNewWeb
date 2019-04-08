@@ -11,6 +11,10 @@
         <EntityTypeShape EntityType="MarketingModel.center" Width="1.5" PointX="4.75" PointY="2.25" />
         <EntityTypeShape EntityType="MarketingModel.government" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="MarketingModel.marketingrectype" Width="1.5" PointX="2.75" PointY="4.875" />
+        <EntityTypeShape EntityType="MarketingModel.Currency" Width="1.5" PointX="4.75" PointY="4" />
+        <EntityTypeShape EntityType="MarketingModel.DonationPurpose" Width="1.5" PointX="2.75" PointY="6.5" />
+        <EntityTypeShape EntityType="MarketingModel.KnowingMethod" Width="1.5" PointX="4.75" PointY="5.75" />
+        <EntityTypeShape EntityType="MarketingModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="7.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

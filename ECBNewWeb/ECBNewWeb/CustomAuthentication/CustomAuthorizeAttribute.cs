@@ -38,6 +38,7 @@ namespace ECBNewWeb.CustomAuthentication
                                    && f.Controller == CurrentController
                                    select acc.AccessLevel1 + f.ActionMethodName + f.Controller).ToList();
             List<string> SplitedAccessLevels = AccessLevel.Split(',').ToList();
+            //Compare
             foreach (string CurrentAccessLevel in AllAccessLevels)
             {
                 foreach (string Splited in SplitedAccessLevels)

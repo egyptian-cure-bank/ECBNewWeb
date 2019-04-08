@@ -31,5 +31,9 @@ namespace ECBNewWeb.DataAccess
         public DbSet<center> centers { get; set; }
         public DbSet<government> governments { get; set; }
         public DbSet<marketingrectype> marketingrectypes { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<DonationPurpose> DonationPurposes { get; set; }
+        public DbSet<KnowingMethod> KnowingMethods { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
     }
 }

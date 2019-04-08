@@ -11,12 +11,10 @@ namespace ECBNewWeb.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class doner
     {
         public int id { get; set; }
-
         public string name { get; set; }
         public string title { get; set; }
         public string numberOfDonations { get; set; }

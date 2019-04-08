@@ -8,10 +8,8 @@ namespace ECBNewWeb.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage ="يجب كتابه اسم المستخدم")]
         public string UserName { get; set; }
         [DataType(DataType.Password)]
-        [Required(ErrorMessage ="يجب كتابة الباسورد")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
     }

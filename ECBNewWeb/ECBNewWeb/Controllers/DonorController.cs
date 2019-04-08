@@ -7,6 +7,7 @@ using ECBNewWeb.CustomAuthentication;
 using System.Web.Security;
 using ECBNewWeb.DataAccess;
 using ECBNewWeb.Models;
+using System.Net;
 
 namespace ECBNewWeb.Controllers
 {
@@ -18,10 +19,10 @@ namespace ECBNewWeb.Controllers
             ViewBag.Msg = null;
             DonorData _DonorData = new DonorData();
             _DonorData.MyGovernments = PopulateGovernments();
-            return View("~/Views/Market/AddDoners.cshtml",_DonorData);
+            return View("~/Views/Market/AddDoners.cshtml", _DonorData);
         }
 
-        private List<SelectListItem> PopulateGovernments()
+        public List<SelectListItem> PopulateGovernments()
         {
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
@@ -42,7 +43,7 @@ namespace ECBNewWeb.Controllers
                 }
             }
             return Items;
-            
+
         }
         public JsonResult PopulateCenters(int GovId)
         {
@@ -50,12 +51,12 @@ namespace ECBNewWeb.Controllers
             using (MarketEntities context = new MarketEntities())
             {
                 List<DonorData> MyCenter = (from c in context.centers
-                                         where c.government_id == GovId
-                                         select new DonorData() { CenterId = c.center_id, CenterName = c.center_name }).ToList<DonorData>();
+                                            where c.government_id == GovId
+                                            select new DonorData() { CenterId = c.center_id, CenterName = c.center_name }).ToList<DonorData>();
 
                 foreach (DonorData Cen in MyCenter)
                 {
-                    
+
                     SelectListItem selectList = new SelectListItem()
                     {
                         Text = Cen.CenterName,
@@ -82,6 +83,18 @@ namespace ECBNewWeb.Controllers
             Gender.Gender = GenderListItems;
             return Json(Gender.Gender, JsonRequestBehavior.AllowGet);
         }
+        public List<SelectListItem> PopulateGenderListForEdit()
+        {
+            var GenderListItems = new List<SelectListItem>
+            {
+                new SelectListItem {Text="--إختار نوع--", Value = "", Disabled = true,Selected = true },
+                new SelectListItem { Text = "ذكر", Value = "ذكر" },
+                new SelectListItem { Text = "انثى", Value = "انثى" }
+            };
+            DonorData Gender = new DonorData();
+            Gender.Gender = GenderListItems;
+            return GenderListItems;
+        }
         public JsonResult PopulateTypeContactList()
         {
             var ContactListItems = new List<SelectListItem>
@@ -94,6 +107,17 @@ namespace ECBNewWeb.Controllers
             DonorData Contact = new DonorData();
             Contact.TypeContacts = ContactListItems;
             return Json(Contact.TypeContacts, JsonRequestBehavior.AllowGet);
+        }
+        public List<SelectListItem> PopulateTypeContactListForEdit()
+        {
+            var ContactListItems = new List<SelectListItem>
+            {
+                new SelectListItem {Text="--إختار وسيلة إتصال--", Value = "", Disabled = true,Selected = true },
+                new SelectListItem { Text = "رسالة موبايل", Value = "رسالة موبايل" },
+                new SelectListItem { Text = "بريد ألكتروني", Value = "بريد ألكتروني" },
+                new SelectListItem { Text = "بريد عادي", Value = "بريد عادي" }
+            };
+            return ContactListItems;
         }
         public JsonResult PopulateMotabare3List()
         {
@@ -108,6 +132,17 @@ namespace ECBNewWeb.Controllers
             Contact.Motabre3 = Motabre3ListItems;
             return Json(Contact.Motabre3, JsonRequestBehavior.AllowGet);
         }
+        public List<SelectListItem> PopulateMotabare3ListForEdit()
+        {
+            var Motabre3ListItems = new List<SelectListItem>
+            {
+                new SelectListItem {Text="--إختار متبرع--", Value = "", Disabled = true,Selected = true },
+                new SelectListItem { Text = "بنك الشفاء", Value = "بنك الشفاء" },
+                new SelectListItem { Text = "بنك الطعام", Value = "بنك الطعام" },
+                new SelectListItem { Text = "شفاء و طعام", Value = "شفاء و طعام" }
+            };
+            return Motabre3ListItems;
+        }
         public JsonResult PopulatFreqList()
         {
             var FreqListItems = new List<SelectListItem>
@@ -119,6 +154,16 @@ namespace ECBNewWeb.Controllers
             DonorData Contact = new DonorData();
             Contact.Freq = FreqListItems;
             return Json(Contact.Freq, JsonRequestBehavior.AllowGet);
+        }
+        public List<SelectListItem> PopulatFreqListForEdit()
+        {
+            var FreqListItems = new List<SelectListItem>
+            {
+                new SelectListItem {Text="--إختار تكرار التبرع--", Value = "", Disabled = true,Selected = true },
+                new SelectListItem { Text = "شهرى", Value = "شهرى" },
+                new SelectListItem { Text = "متقطع", Value = "متقطع" }
+            };
+            return FreqListItems;
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -158,7 +203,7 @@ namespace ECBNewWeb.Controllers
                     return RedirectToAction("AddDoners", Donor);
                 }
             }
-            
+
             _DonorData.MyGovernments = PopulateGovernments();
             return RedirectToAction("AddDoners", Donor);
         }
@@ -174,8 +219,8 @@ namespace ECBNewWeb.Controllers
                                     join cen in db.centers on a.cent_id equals cen.center_id
                                     join gov in db.governments on cen.government_id equals gov.government_id
                                     select new DonorData()
-                                    { 
-                                        Id =a.id,
+                                    {
+                                        Id = a.id,
                                         DonorName = a.name,
                                         Title = a.title,
                                         Tele = a.mob,
@@ -187,30 +232,101 @@ namespace ECBNewWeb.Controllers
             return View("~/Views/Market/donor.cshtml", list);
         }
 
-
         [HttpGet]
+        //[CustomAuthorize(AccessLevel ="EditEditDonor")]
         public ActionResult Edit(int id)
         {
-         
-            if (Request.IsAjaxRequest())
+            ViewBag.MyGovernments = PopulateGovernments();
+            ViewBag.Gender = PopulateGenderListForEdit();
+            ViewBag.TypeContact = PopulateTypeContactListForEdit();
+            ViewBag.Motabre3 = PopulateMotabare3ListForEdit();
+            ViewBag.Freq = PopulatFreqListForEdit();
+            DonorData FilteredDonor;
+            Center CenterGovernId;
+            using (MarketEntities db = new MarketEntities())
             {
-                //MarketEntities db = new MarketEntities();
-                //var donor = db.doners.Find(id);
-                return PartialView("~/Views/Market/Edit.cshtml");
+                FilteredDonor = (from d in db.doners
+                                 where d.id == id
+                                 select new DonorData()
+                                 {
+                                     DonorName = d.name,
+                                     Title = d.title,
+                                     Tele = d.mob,
+                                     CenterId = d.cent_id,
+                                     GenderValue = d.sex,
+                                     Job = d.job,
+                                     ContactValue = d.Typecontact,
+                                     Motabre3Value = d.motabare3,
+                                     FreqValue = d.freq,
+                                     Address = d.address,
+                                     WorkPlace = d.workplace,
+                                     Email = d.email,
+                                     Notes = d.notes
+                                 }).FirstOrDefault();
+
+                CenterGovernId = (from c in db.centers
+                                  where c.center_id == FilteredDonor.CenterId
+                                  select new Center() { GovernId = c.government_id }).FirstOrDefault();
+                FilteredDonor.GovernmentId = CenterGovernId.GovernId;
+                //Repopulate Centers regarding the GovernmentId
+                List<SelectListItem> Items = new List<SelectListItem>();
+                using (MarketEntities context = new MarketEntities())
+                {
+                    List<Center> MyCenter = (from c in context.centers
+                                             where c.government_id == CenterGovernId.GovernId
+                                             select new Center() { CenterId = c.center_id, CenterName = c.center_name }).ToList<Center>();
+
+                    foreach (Center Cen in MyCenter)
+                    {
+
+                        SelectListItem selectList = new SelectListItem()
+                        {
+                            Text = Cen.CenterName,
+                            Value = Cen.CenterId.ToString()
+                        };
+                        Items.Add(selectList);
+                    }
+                }
+                Center Cens = new Center()
+                {
+                    MyCenters = Items
+                };
+                FilteredDonor.MyCenters = Cens.MyCenters;
+
             }
-            else
-            {
-                return View("Index");
-            }
+            return PartialView("~/Views/Market/Edit.cshtml", FilteredDonor);
         }
-
-
-
-
+        [HttpPost]
+        public ActionResult SaveEdit(DonorData DonorVData)
+        {
+            if (DonorVData.Id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            using (MarketEntities Market = new MarketEntities())
+            {
+                var DonorToUpdate = Market.doners.Find(DonorVData.Id);
+                DonorToUpdate.name = DonorVData.DonorName;
+                DonorToUpdate.title = DonorVData.Title;
+                DonorToUpdate.mob = DonorVData.Tele;
+                DonorToUpdate.cent_id = DonorVData.CenterId;
+                DonorToUpdate.sex = DonorVData.GenderValue;
+                DonorToUpdate.job = DonorVData.Job;
+                DonorToUpdate.Typecontact = DonorVData.ContactValue;
+                DonorToUpdate.motabare3 = DonorVData.Motabre3Value;
+                DonorToUpdate.freq = DonorVData.Motabre3Value;
+                DonorVData.Address = DonorVData.Address;
+                DonorToUpdate.workplace = DonorVData.WorkPlace;
+                DonorToUpdate.email = DonorVData.Email;
+                DonorToUpdate.notes = DonorVData.Notes;
+                TryUpdateModel(DonorToUpdate);
+                Market.SaveChanges();
+            }
+                return RedirectToAction("doner");
+        }
         [HttpGet]
         public ActionResult Delete(int id)
         {
-
             if (Request.IsAjaxRequest())
             {
                 //MarketEntities db = new MarketEntities();
@@ -222,9 +338,5 @@ namespace ECBNewWeb.Controllers
                 return View("Index");
             }
         }
-
-
-
-
     }
 }

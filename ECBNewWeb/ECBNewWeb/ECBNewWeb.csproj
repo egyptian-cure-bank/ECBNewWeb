@@ -191,6 +191,12 @@
     <Compile Include="DataAccess\center.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\Currency.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\DonationPurpose.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\doner.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
@@ -199,6 +205,9 @@
     </Compile>
     <Compile Include="DataAccess\Grant.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\KnowingMethod.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\LogIn.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
@@ -233,6 +242,9 @@
     <Compile Include="DataAccess\ParentFacilityRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\PaymentMethod.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\Role.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
@@ -250,6 +262,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Center.cs" />
+    <Compile Include="Models\DonationData.cs" />
     <Compile Include="Models\DonorData.cs" />
     <Compile Include="Models\Governtment.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -304,7 +317,6 @@
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\all.css" />
-    <Content Include="Content\bootstrap-glyphicons.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -317,7 +329,6 @@
     <Content Include="Content\chosen.min.css" />
     <Content Include="Content\code.css" />
     <Content Include="Content\css\all.css" />
-    <Content Include="Content\css\bootstrap-glyphicons.min.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\code.css" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -325,19 +336,12 @@
     <Content Include="Content\css\images\bars.svg" />
     <Content Include="Content\css\images\close.svg" />
     <Content Include="Content\css\style.css" />
-    <Content Include="Content\dataTables.bootstrap.min.css" />
-    <Content Include="Content\dataTables.bootstrap4.min.css" />
-    <Content Include="Content\jquery.dataTables.min.css" />
-    <Content Include="Content\responsive.bootstrap.min.css" />
-    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\images\arrow.svg" />
     <Content Include="Content\images\bars.svg" />
     <Content Include="Content\images\close.svg" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Content\popper.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -405,6 +409,7 @@
       <LastGenOutput>Marketing.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Img\ecb logo.png" />
@@ -450,12 +455,20 @@
     <Content Include="webfonts\fa-brands-400.svg" />
     <Content Include="webfonts\fa-regular-400.svg" />
     <Content Include="webfonts\fa-solid-900.svg" />
+    <Content Include="Content\css\ie8.scss" />
+    <Content Include="Content\css\ie9.scss" />
+    <Content Include="Content\css\main.scss" />
     <Content Include="Content\css\.DS_Store" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Scripts\ie\backgroundsize.min.htc" />
     <Content Include="Scripts\ie\html5shiv.js" />
     <Content Include="Scripts\ie\respond.min.js" />
@@ -471,6 +484,9 @@
     <Content Include="Content\bootstrap-reboot.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\ie8.scss" />
+    <Content Include="Content\ie9.scss" />
+    <Content Include="Content\main.scss" />
     <Content Include="Content\.DS_Store" />
     <Content Include="Content\webfonts\fa-brands-400.eot" />
     <Content Include="Content\webfonts\fa-brands-400.ttf" />
@@ -506,6 +522,23 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\bootstrap.bundle.js" />
+    <Content Include="Scripts\js\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\js\bootstrap.js" />
+    <Content Include="Scripts\js\bootstrap.min.js" />
+    <Content Include="Scripts\js\ie\backgroundsize.min.htc" />
+    <Content Include="Scripts\js\ie\html5shiv.js" />
+    <Content Include="Scripts\js\ie\respond.min.js" />
+    <Content Include="Scripts\js\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\js\jquery.min.js" />
+    <Content Include="Scripts\js\jquery.nanoscroller.js" />
+    <Content Include="Scripts\js\jquery.scrollex.min.js" />
+    <Content Include="Scripts\js\jquery.scrolly.min.js" />
+    <Content Include="Scripts\js\main.js" />
+    <Content Include="Scripts\js\my-script.js" />
+    <Content Include="Scripts\js\popper.min.js" />
+    <Content Include="Scripts\js\skel.min.js" />
+    <Content Include="Scripts\js\util.js" />
     <Content Include="Scripts\my-script.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -536,6 +569,10 @@
     <Content Include="Views\Home\rules.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\test.cshtml" />
+    <Content Include="Scripts\js\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\js\bootstrap.js.map" />
+    <Content Include="Scripts\js\bootstrap.min.js.map" />
     <Content Include="Views\Shared\_LayoutShefaa.cshtml" />
     <Content Include="Views\test.cshtml" />
     <Content Include="webfonts\fa-brands-400.eot" />
@@ -553,9 +590,9 @@
     <Content Include="Views\Market\AddDonations.cshtml" />
     <Content Include="Views\Market\AddDoners.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Market\Delete.cshtml" />
     <Content Include="Views\Market\donor.cshtml" />
     <Content Include="Views\Market\Edit.cshtml" />
-    <Content Include="Views\Market\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

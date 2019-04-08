@@ -1,8 +1,10 @@
-﻿@{
+﻿@model ECBNewWeb.Models.DonationData
+
+@{
     ViewBag.Title = "AddDonations";
     Layout = "~/Views/Shared/_LayoutShefaa.cshtml";
 }
-    <!--Scripts-->
+<!--Scripts-->
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
 <link href="~/Content/fontawesome.css" rel="stylesheet" />
@@ -12,97 +14,88 @@
 <!--End Scripts-->
 <!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
 <main class="page-content">
-        <div class="container-fluid">
-            <h2>بيانات إيصال التبرع</h2>
-            <p>إضافة تبرع</p>
-            <hr>
+    <div class="container-fluid">
+        <h2>بيانات إيصال التبرع</h2>
+        <p>إضافة تبرع</p>
+        <hr>
+        @using (Html.BeginForm("SaveDonation", "Donation", FormMethod.Post))
+        {
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="" class="">اسم المحصل</label>
-                    <input type="text" class="form-control" value="اسم المحصل" disabled>
+                    @{ var UserSession = Session["CurrentUser"] as ECBNewWeb.CustomAuthentication.CustomMembershipUser;
+                        var UserName = @UserSession.FirstName + " " + @UserSession.LastName;}
+                    <input type="text" class="form-control" value="@UserName" disabled>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">اسم المتبرع</label>
-                    <input id="donors" type="text" class="form-control">
+                    @Html.TextBoxFor(m => m.DonorName, new { @class = "form-control", @id = "donors" })
+
+                    @*Related Donor Id stored in the below hidden field*@
+                    @Html.TextAreaFor(m => m.DonorId, new { @id = "donorId", @hidden = true })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الموقع</label>
-                    <select class="form-control">
-                        <option>المقر</option>
-                        <option>سيتى ستارز</option>
-                    </select>
-                    
+                    @Html.DropDownListFor(x => x.SiteId, Model.MySites as List<SelectListItem>, new { @class = "form-control", @id = "sites" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">نوع الإيصال</label>
-                    <select class="form-control">
-                        <option>إيصال 2018</option>
-                        <option>إيصال 2017</option>
-                    </select>
+                    @Html.DropDownListFor(x => x.RecId, Model.MyReceipts as List<SelectListItem>, "--إختار إيصال--", new { @class = "form-control", @id = "recType" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">تاريخ الإيصال</label>
-                    <input type="date" class="form-control">
+                    @Html.TextBoxFor(m => m.RecDate, new { @class = "form-control", @id = "recDate", @type = "date" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">المبلغ</label>
-                    <input type="text" class="form-control">
+                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @id = "amount", @Value = "", @type = "number" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">رقم الإيصال</label>
-                    <input type="text" class="form-control">
+                    @Html.TextBoxFor(m => m.RecNumber, new { @class = "form-control", @id = "recNumber", @Value = "" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">العملة</label>
-                    <select class="form-control">
-                        <option>جنية مصرى</option>
-                        <option>دولار امريكى</option>
-                    </select>
+                    @Html.DropDownListFor(x => x.CurrencyName, Model.MyCurrency as List<SelectListItem>, "--إختار عملة--", new { @class = "form-control", @id = "currency" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الغرض</label>
-                    <select class="form-control">
-                        <option>تبرع عام</option>
-                        <option>صدقة</option>
-                        <option>صدقة جارية</option>
-                    </select>
+                    @Html.DropDownListFor(x => x.PurpId, Model.MyPurposes as List<SelectListItem>, "--إختار غرض--", new { @class = "form-control", @id = "purpose" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">طريقة الدفع</label>
-                    <select class="form-control">
-                        <option>فيزا</option>
-                        <option>نقدا</option>
-                        <option>شيك</option>
-                    </select>
+                    @Html.DropDownListFor(x => x.PaymentId, Model.MyPayments as List<SelectListItem>, new { @class = "form-control", @id = "paymentmethod" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">وسيلة التعرف</label>
-                    <select class="form-control">
-                        <option>مواقع تبرع</option>
-                        <option>متبرع سابق</option>
-                        <option>إعلانات تليفزيون</option>
-                    </select>
+                    @Html.DropDownListFor(x => x.KnowingId, Model.MyKnowingMethods as List<SelectListItem>, "--إختار وسيلة التعرف--", new { @class = "form-control", @id = "knowingMethod" })
                 </div>
 
 
             </div>
             <div class="row justify-content-end">
-                <button class="btn btn-success  col-md-1 form-group">حفظ</button>
+                <button class="btn btn-success  col-md-1 form-group" type="submit">حفظ</button>
 
-                <button class="btn btn-danger col-md-1 form-group">الغاء</button>
+                <button class="btn btn-danger col-md-1 form-group" type="reset">الغاء</button>
             </div>
 
             <hr>
-
-            <div id="loadingIndicator" class="submit-progress d-none">
-                <i class="fa fa-2x fa-spinner fa-spin"></i>
-                <label>Please Wait....</label>
-            </div>
+                        }
+        <div id="loadingIndicator" class="submit-progress d-none">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+            <label>Please Wait....</label>
         </div>
-
-    </main>
+    </div>
+</main>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        //Select Default Value For sites DropDownList
+        $("#sites").val(-1);
+        //Select Default Value For Paymentmethod DropDownList
+        $("#paymentmethod").val(-1);
+    });
+    var item = [];
     $("#donors").autocomplete({
         source: function (request, response) {
             if ($("#donors").val != null) {
@@ -113,15 +106,21 @@
                     contentType: "application/json",
                     dataType: "json",
                     success: function (data) {
-                        $("#donors").html(''),
+                        //$("#donors").html(''),
                         response($.map(data, function (item) {
                             return {
-                                label: item
+                                label: item.name,
+                                value: item.id
                             }
                         }));
                     }
                 });
             }
+        },
+        select: function (event, ui) {
+            this.value = ui.item.label;
+            $("#donorId").val(ui.item.value);
+            return false;
         },
         search: function (event, ui) {
             $(".submit-progress").removeClass("d-none");
@@ -132,4 +131,3 @@
     });
 </script>
 <!-- page-content" -->
-
