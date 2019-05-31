@@ -12,16 +12,11 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class marketingsite
+    public partial class CanceledReceipt
     {
-        public marketingsite()
-        {
-            this.markets = new HashSet<market>();
-        }
-    
-        public int id { get; set; }
-        public string sitename { get; set; }
-    
-        public virtual ICollection<market> markets { get; set; }
+        public int CanceledReceiptId { get; set; }
+        public Nullable<int> ResponsibilityId { get; set; }
+        public Nullable<int> ReceiptNo { get; set; }
+        public Nullable<int> Canceled { get; set; }
     }
 }
