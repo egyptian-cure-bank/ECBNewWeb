@@ -73,15 +73,15 @@
             
             <div class="form-group col-md-3">
                 <label for="" class="">وسيلة الاتصال</label>
-                @Html.DropDownListFor(x => x.ContactValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "typeContact" })
+                @Html.DropDownListFor(x => x.TypeContactName, Model.TypeContacts as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
             </div>
             <div class="form-group col-md-3">
                 <label for="" class="">متبرع</label>
-                @Html.DropDownListFor(x => x.Motabre3Value, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "motabre3" })
+                @Html.DropDownListFor(x => x.DonorOfName, Model.DonorOFs as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
             </div>
             <div class="form-group col-md-3">
                 <label for="" class="">تكرار التبرع</label>
-                @Html.DropDownListFor(x => x.FreqValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "freq" })
+                @Html.DropDownListFor(x => x.FreqName, Model.Freqs as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
             </div>
             <div class="form-group col-md-3">
                 <label for="" class="">العنوان</label>
@@ -160,27 +160,27 @@
             });
             $("#genders").html(data);
         });
-        var data = [];
-        $.getJSON("/Donor/PopulateTypeContactList", null, function (data) {
-            data = $.map(data, function (item, a) {
-                return "<option value=" + item.Value + ">" + item.Text + "</option>";
-            });
-            $("#typeContact").html(data);
-        });
-        var data = [];
-        $.getJSON("/Donor/PopulateMotabare3List", null, function (data) {
-            data = $.map(data, function (item, a) {
-                return "<option value=" + item.Value + ">" + item.Text + "</option>";
-            });
-            $("#motabre3").html(data);
-        });
-        var data = [];
-        $.getJSON("/Donor/PopulatFreqList", null, function (data) {
-            data = $.map(data, function (item, a) {
-                return "<option value=" + item.Value + ">" + item.Text + "</option>";
-            });
-            $("#freq").html(data);
-        });
+        //var data = [];
+        //$.getJSON("/Donor/PopulateTypeContactList", null, function (data) {
+        //    data = $.map(data, function (item, a) {
+        //        return "<option value=" + item.Value + ">" + item.Text + "</option>";
+        //    });
+        //    $("#typeContact").html(data);
+        //});
+        //var data = [];
+        //$.getJSON("/Donor/PopulateMotabare3List", null, function (data) {
+        //    data = $.map(data, function (item, a) {
+        //        return "<option value=" + item.Value + ">" + item.Text + "</option>";
+        //    });
+        //    $("#motabre3").html(data);
+        //});
+        //var data = [];
+        //$.getJSON("/Donor/PopulatFreqList", null, function (data) {
+        //    data = $.map(data, function (item, a) {
+        //        return "<option value=" + item.Value + ">" + item.Text + "</option>";
+        //    });
+        //    $("#freq").html(data);
+        //});
         $("#govern").change(function () {
             var data = [];
             var selectedvalue = $("#govern option:selected").val();

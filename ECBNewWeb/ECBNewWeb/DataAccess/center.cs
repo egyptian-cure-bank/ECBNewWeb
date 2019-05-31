@@ -14,8 +14,16 @@ namespace ECBNewWeb.DataAccess
     
     public partial class center
     {
+        public center()
+        {
+            this.doners = new HashSet<doner>();
+        }
+    
         public int center_id { get; set; }
         public Nullable<int> government_id { get; set; }
         public string center_name { get; set; }
+    
+        public virtual government government { get; set; }
+        public virtual ICollection<doner> doners { get; set; }
     }
 }

@@ -26,14 +26,20 @@ namespace ECBNewWeb.Models
         public string GenderValue { get; set; }
         public IEnumerable<SelectListItem> Gender { get; set; }
         //TypeContact
+        public int? ContactId { get; set; }
+        public string TypeContactName { get; set; }
         public string ContactValue { get; set; }
         public IEnumerable<SelectListItem> TypeContacts { get; set; }
         //Motabare3
+        public int? DonorOfId { get; set; }
+        public string DonorOfName { get; set; }
         public string Motabre3Value { get; set; }
-        public IEnumerable<SelectListItem> Motabre3 { get; set; }
+        public IEnumerable<SelectListItem> DonorOFs { get; set; }
         //Freq
+        public int? FreqId { get; set; }
+        public string FreqName { get; set; }
         public string FreqValue { get; set; }
-        public IEnumerable<SelectListItem> Freq { get; set; }
+        public IEnumerable<SelectListItem> Freqs { get; set; }
         //Donors
         public int Id { get; set; }
 

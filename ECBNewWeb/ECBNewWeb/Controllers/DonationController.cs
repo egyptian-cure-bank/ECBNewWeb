@@ -159,7 +159,6 @@ namespace ECBNewWeb.Controllers
         [HttpPost]
         public ActionResult SaveDonation(DonationData Donation)
         {
-
             using (MarketEntities Market = new MarketEntities())
             {
                 if (ModelState.IsValid)

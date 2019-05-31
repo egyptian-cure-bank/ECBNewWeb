@@ -19,6 +19,9 @@ namespace ECBNewWeb.Controllers
             ViewBag.Msg = null;
             DonorData _DonorData = new DonorData();
             _DonorData.MyGovernments = PopulateGovernments();
+            _DonorData.DonorOFs = PopulateMotabare3List();
+            _DonorData.Freqs = PopulatFreqList();
+            _DonorData.TypeContacts = PopulateTypeContactList();
             return View("~/Views/Market/AddDoners.cshtml", _DonorData);
         }
 
@@ -95,18 +98,33 @@ namespace ECBNewWeb.Controllers
             Gender.Gender = GenderListItems;
             return GenderListItems;
         }
-        public JsonResult PopulateTypeContactList()
+        public List<SelectListItem> PopulateTypeContactList()
         {
-            var ContactListItems = new List<SelectListItem>
+            List<SelectListItem> Items = new List<SelectListItem>();
+            using (MarketEntities db = new MarketEntities())
             {
-                new SelectListItem {Text="--إختار وسيلة إتصال--", Value = "", Disabled = true,Selected = true },
-                new SelectListItem { Text = "رسالة موبايل", Value = "رسالة موبايل" },
-                new SelectListItem { Text = "بريد ألكتروني", Value = "بريد ألكتروني" },
-                new SelectListItem { Text = "بريد عادي", Value = "بريد عادي" }
-            };
-            DonorData Contact = new DonorData();
-            Contact.TypeContacts = ContactListItems;
-            return Json(Contact.TypeContacts, JsonRequestBehavior.AllowGet);
+                List<DonorData> TypeContact = (from typeContact in db.TypeContacts
+                                          where typeContact.Active == 1
+                                          select new DonorData() { ContactId = typeContact.Id, TypeContactName = typeContact.ContactTypeName }).ToList<DonorData>();
+                SelectListItem DisabledItem = new SelectListItem()
+                {
+                    Text = "--إختار وسيلة إتصال--",
+                    Value = "",
+                    Disabled = true,
+                    Selected = true
+                };
+                Items.Add(DisabledItem);
+                foreach (DonorData ContactType in TypeContact)
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = ContactType.TypeContactName,
+                        Value = ContactType.TypeContactName
+                    };
+                    Items.Add(selectList);
+                }
+            }
+            return Items;
         }
         public List<SelectListItem> PopulateTypeContactListForEdit()
         {
@@ -119,52 +137,63 @@ namespace ECBNewWeb.Controllers
             };
             return ContactListItems;
         }
-        public JsonResult PopulateMotabare3List()
+        public List<SelectListItem> PopulateMotabare3List()
         {
-            var Motabre3ListItems = new List<SelectListItem>
+            List<SelectListItem> Items = new List<SelectListItem>();
+            using (MarketEntities db = new MarketEntities())
             {
-                new SelectListItem {Text="--إختار متبرع--", Value = "", Disabled = true,Selected = true },
-                new SelectListItem { Text = "بنك الشفاء", Value = "بنك الشفاء" },
-                new SelectListItem { Text = "بنك الطعام", Value = "بنك الطعام" },
-                new SelectListItem { Text = "شفاء و طعام", Value = "شفاء و طعام" }
-            };
-            DonorData Contact = new DonorData();
-            Contact.Motabre3 = Motabre3ListItems;
-            return Json(Contact.Motabre3, JsonRequestBehavior.AllowGet);
+                List<DonorData> MyDonorOf = (from donorof in db.DonorOfs
+                                             where donorof.Active == 1
+                                              select new DonorData() { DonorOfId = donorof.Id, DonorOfName = donorof.Name }).ToList<DonorData>();
+                SelectListItem DisabledItem = new SelectListItem()
+                {
+                    Text = "--إختار متبرع--",
+                    Value = "",
+                    Disabled = true,
+                    Selected = true
+                };
+                Items.Add(DisabledItem);
+                foreach (DonorData DonOf in MyDonorOf)
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = DonOf.DonorOfName,
+                        Value = DonOf.DonorOfName
+                    };
+                    Items.Add(selectList);
+                }
+            }
+            return Items;
         }
-        public List<SelectListItem> PopulateMotabare3ListForEdit()
+        public List<SelectListItem> PopulatFreqList()
         {
-            var Motabre3ListItems = new List<SelectListItem>
+            List<SelectListItem> Items = new List<SelectListItem>();
+            using (MarketEntities db = new MarketEntities())
             {
-                new SelectListItem {Text="--إختار متبرع--", Value = "", Disabled = true,Selected = true },
-                new SelectListItem { Text = "بنك الشفاء", Value = "بنك الشفاء" },
-                new SelectListItem { Text = "بنك الطعام", Value = "بنك الطعام" },
-                new SelectListItem { Text = "شفاء و طعام", Value = "شفاء و طعام" }
-            };
-            return Motabre3ListItems;
+                List<DonorData> MyFreq = (from freq in db.DonationFrequencies
+                                          where freq.Active == 1
+                                          select new DonorData() { FreqId = freq.Id, FreqName = freq.FrequencyName }).ToList<DonorData>();
+                SelectListItem DisabledItem = new SelectListItem()
+                {
+                    Text = "--إختار تكرار التبرع--",
+                    Value = "",
+                    Disabled = true,
+                    Selected = true
+                };
+                Items.Add(DisabledItem);
+                foreach(DonorData Freq in MyFreq)
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = Freq.FreqName,
+                        Value = Freq.FreqName
+                    };
+                    Items.Add(selectList);
+                }
+            }
+            return Items;
         }
-        public JsonResult PopulatFreqList()
-        {
-            var FreqListItems = new List<SelectListItem>
-            {
-                new SelectListItem {Text="--إختار تكرار التبرع--", Value = "", Disabled = true,Selected = true },
-                new SelectListItem { Text = "شهرى", Value = "شهرى" },
-                new SelectListItem { Text = "متقطع", Value = "متقطع" }
-            };
-            DonorData Contact = new DonorData();
-            Contact.Freq = FreqListItems;
-            return Json(Contact.Freq, JsonRequestBehavior.AllowGet);
-        }
-        public List<SelectListItem> PopulatFreqListForEdit()
-        {
-            var FreqListItems = new List<SelectListItem>
-            {
-                new SelectListItem {Text="--إختار تكرار التبرع--", Value = "", Disabled = true,Selected = true },
-                new SelectListItem { Text = "شهرى", Value = "شهرى" },
-                new SelectListItem { Text = "متقطع", Value = "متقطع" }
-            };
-            return FreqListItems;
-        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveDonor(DonorData Donor)
@@ -183,10 +212,11 @@ namespace ECBNewWeb.Controllers
                     DBDonors.sex = Donor.GenderValue;
                     DBDonors.job = Donor.Job;
                     DBDonors.workplace = Donor.WorkPlace;
-                    DBDonors.Typecontact = Donor.ContactValue;
-                    DBDonors.motabare3 = Donor.Motabre3Value;
-                    DBDonors.freq = Donor.FreqValue;
+                    DBDonors.Typecontact = Donor.TypeContactName;
+                    DBDonors.motabare3 = Donor.DonorOfName;
+                    DBDonors.freq = Donor.FreqName;
                     DBDonors.address = Donor.Address;
+                    DBDonors.email = Donor.Email;
                     DBDonors.notes = Donor.Notes;
                     Market.doners.Add(DBDonors);
                     int rowAffected = Market.SaveChanges();
@@ -238,9 +268,9 @@ namespace ECBNewWeb.Controllers
         {
             ViewBag.MyGovernments = PopulateGovernments();
             ViewBag.Gender = PopulateGenderListForEdit();
-            ViewBag.TypeContact = PopulateTypeContactListForEdit();
-            ViewBag.Motabre3 = PopulateMotabare3ListForEdit();
-            ViewBag.Freq = PopulatFreqListForEdit();
+            ViewBag.TypeContact = PopulateTypeContactList();
+            ViewBag.Motabre3 = PopulateMotabare3List();
+            ViewBag.Freq = PopulatFreqList();
             DonorData FilteredDonor;
             Center CenterGovernId;
             using (MarketEntities db = new MarketEntities())
@@ -255,9 +285,9 @@ namespace ECBNewWeb.Controllers
                                      CenterId = d.cent_id,
                                      GenderValue = d.sex,
                                      Job = d.job,
-                                     ContactValue = d.Typecontact,
-                                     Motabre3Value = d.motabare3,
-                                     FreqValue = d.freq,
+                                     TypeContactName = d.Typecontact,
+                                     DonorOfName  = d.motabare3,
+                                     FreqName = d.freq,
                                      Address = d.address,
                                      WorkPlace = d.workplace,
                                      Email = d.email,
@@ -312,10 +342,10 @@ namespace ECBNewWeb.Controllers
                 DonorToUpdate.cent_id = DonorVData.CenterId;
                 DonorToUpdate.sex = DonorVData.GenderValue;
                 DonorToUpdate.job = DonorVData.Job;
-                DonorToUpdate.Typecontact = DonorVData.ContactValue;
-                DonorToUpdate.motabare3 = DonorVData.Motabre3Value;
-                DonorToUpdate.freq = DonorVData.Motabre3Value;
-                DonorVData.Address = DonorVData.Address;
+                DonorToUpdate.Typecontact = DonorVData.TypeContactName;
+                DonorToUpdate.motabare3 = DonorVData.DonorOfName;
+                DonorToUpdate.freq = DonorVData.FreqName;
+                DonorToUpdate.address = DonorVData.Address;
                 DonorToUpdate.workplace = DonorVData.WorkPlace;
                 DonorToUpdate.email = DonorVData.Email;
                 DonorToUpdate.notes = DonorVData.Notes;
