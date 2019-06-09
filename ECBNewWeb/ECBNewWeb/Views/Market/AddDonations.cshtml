@@ -94,7 +94,42 @@
         $("#sites").val(-1);
         //Select Default Value For Paymentmethod DropDownList
         $("#paymentmethod").val(-1);
+        //get NextReceiptNumber When RecType changed
+        $("#recType").change(function () {
+            var selectedvalue = $("#recType option:selected").val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetNextReceiptNoFromRecType", "Donation")',
+                dataType: 'json',
+                data: { RecTypeId: selectedvalue },
+                success: function (response) {
+                    var NextRecNo = $.parseJSON(response);
+                    if (NextRecNo[0].NextReceiptNo != null) {
+                        $("#recNumber").val(NextRecNo[0].NextReceiptNo);
+                    }
+                    else {
+                        //get FirstReceiptNumber When RecType changed,If "NextReceiptNo From Table BookResposibilities" Is null
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("GetReceiptNoFromRecType", "Donation")',
+                            dataType: 'json',
+                            data: { RecTypeId: selectedvalue },
+                            success: function (response) {
+                                var myobj = $.parseJSON(response);
+                                $("#recNumber").val(myobj[0].FirstReceiptNo);
+                            },
+                            error: function (response) {
+                                console.log(response);
+                            }
+                        });
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
     });
+ });
     var item = [];
     $("#donors").autocomplete({
         source: function (request, response) {
@@ -130,4 +165,3 @@
         }
     });
 </script>
-<!-- page-content" -->

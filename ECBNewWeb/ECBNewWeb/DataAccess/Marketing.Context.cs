@@ -36,9 +36,7 @@ namespace ECBNewWeb.DataAccess
         public DbSet<KnowingMethod> KnowingMethods { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<BookResposibility> BookResposibilities { get; set; }
-        public DbSet<BookType> BookTypes { get; set; }
         public DbSet<CanceledReceipt> CanceledReceipts { get; set; }
-        public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DonationFrequency> DonationFrequencies { get; set; }
         public DbSet<DonorOf> DonorOfs { get; set; }
@@ -46,5 +44,8 @@ namespace ECBNewWeb.DataAccess
         public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
         public DbSet<UserSite> UserSites { get; set; }
         public DbSet<TypeContact> TypeContacts { get; set; }
+        public DbSet<MarketingLicens> MarketingLicenses { get; set; }
+        public DbSet<BookType> BookTypes { get; set; }
+        public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
     }
 }

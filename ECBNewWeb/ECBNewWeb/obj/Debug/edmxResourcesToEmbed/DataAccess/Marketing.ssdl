@@ -16,11 +16,14 @@
   <EntityType Name="BookTypes">
     <Key>
       <PropertyRef Name="BookTypeId" />
+      <PropertyRef Name="BookNo" />
+      <PropertyRef Name="RecTypeId" />
+      <PropertyRef Name="LicenseId" />
     </Key>
     <Property Name="BookTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="BookNo" Type="int" />
-    <Property Name="BookTypeName" Type="varchar" MaxLength="100" />
-    <Property Name="LicenseId" Type="int" />
+    <Property Name="BookNo" Type="int" Nullable="false" />
+    <Property Name="RecTypeId" Type="int" Nullable="false" />
+    <Property Name="LicenseId" Type="int" Nullable="false" />
     <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="CanceledReceipts">
@@ -51,11 +54,14 @@
   <EntityType Name="CurrencyCovnersionRates">
     <Key>
       <PropertyRef Name="Id" />
+      <PropertyRef Name="SourceCurrency" />
+      <PropertyRef Name="TargetCurrency" />
+      <PropertyRef Name="FromDate" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SourceCurrency" Type="varchar" MaxLength="50" />
-    <Property Name="TargetCurrency" Type="varchar" MaxLength="50" />
-    <Property Name="FromDate" Type="date" />
+    <Property Name="SourceCurrency" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="TargetCurrency" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FromDate" Type="date" Nullable="false" />
     <Property Name="ToDate" Type="date" />
     <Property Name="Active" Type="int" />
   </EntityType>
@@ -126,6 +132,7 @@
       <PropertyRef Name="EmployeeId" />
     </Key>
     <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeNo" Type="int" />
     <Property Name="FirstName" Type="varchar" MaxLength="50" />
     <Property Name="MiddleName" Type="varchar" MaxLength="50" />
     <Property Name="LastName" Type="varchar" MaxLength="50" />
@@ -186,12 +193,24 @@
     <Property Name="ResponsibilityId" Type="int" />
     <Property Name="DonationPurposeId" Type="int" />
   </EntityType>
+  <EntityType Name="MarketingLicenses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LicenseName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FromDate" Type="date" />
+    <Property Name="ToDate" Type="date" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Active" Type="int" />
+  </EntityType>
   <EntityType Name="marketingrectype">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="25" />
+    <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="marketingsites">
     <Key>
@@ -280,6 +299,7 @@
     <EntitySet Name="HandleBookReceipts" EntityType="Self.HandleBookReceipts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KnowingMethod" EntityType="Self.KnowingMethod" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="market" EntityType="Self.market" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarketingLicenses" EntityType="Self.MarketingLicenses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="marketingrectype" EntityType="Self.marketingrectype" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="marketingsites" EntityType="Self.marketingsites" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
