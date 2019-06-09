@@ -15,9 +15,9 @@ namespace ECBNewWeb.DataAccess
     public partial class BookType
     {
         public int BookTypeId { get; set; }
-        public int BookNo { get; set; }
-        public int RecTypeId { get; set; }
-        public int LicenseId { get; set; }
+        public Nullable<int> BookNo { get; set; }
+        public string BookTypeName { get; set; }
+        public Nullable<int> LicenseId { get; set; }
         public Nullable<int> Active { get; set; }
     }
 }

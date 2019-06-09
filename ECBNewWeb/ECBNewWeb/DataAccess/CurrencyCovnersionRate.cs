@@ -17,7 +17,7 @@ namespace ECBNewWeb.DataAccess
         public int Id { get; set; }
         public string SourceCurrency { get; set; }
         public string TargetCurrency { get; set; }
-        public System.DateTime FromDate { get; set; }
+        public Nullable<System.DateTime> FromDate { get; set; }
         public Nullable<System.DateTime> ToDate { get; set; }
         public Nullable<int> Active { get; set; }
     }

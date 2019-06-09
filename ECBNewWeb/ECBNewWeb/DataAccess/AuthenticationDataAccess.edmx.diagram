@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="43fa71dddff543beb49962a37478c28d" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="43fa71dddff543beb49962a37478c28d" Name="Diagram1">
         <EntityTypeShape EntityType="AuthenticationModel.AccessLevel" Width="1.5" PointX="0.75" PointY="21.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AuthenticationModel.ActionMethod" Width="1.5" PointX="0.75" PointY="24.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AuthenticationModel.Grant" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />

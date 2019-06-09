@@ -257,9 +257,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Marketing.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\MarketingLicens.cs">
-      <DependentUpon>Marketing.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataAccess\marketingrectype.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
