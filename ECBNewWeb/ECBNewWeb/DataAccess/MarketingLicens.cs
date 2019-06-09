@@ -12,12 +12,13 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class BookType
+    public partial class MarketingLicens
     {
-        public int BookTypeId { get; set; }
-        public int BookNo { get; set; }
-        public int RecTypeId { get; set; }
-        public int LicenseId { get; set; }
+        public int Id { get; set; }
+        public string LicenseName { get; set; }
+        public Nullable<System.DateTime> FromDate { get; set; }
+        public Nullable<System.DateTime> ToDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> Active { get; set; }
     }
 }

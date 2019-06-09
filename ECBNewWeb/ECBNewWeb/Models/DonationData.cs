@@ -38,6 +38,7 @@ namespace ECBNewWeb.Models
         public DateTime RecDate { get; set; }
         public decimal Amount { get; set; }
         public int RecNumber { get; set; }
+        public int? NextRecNumber { get; set; }
 
 
     }

@@ -21,11 +21,14 @@
         <EntityType Name="BookTypes">
           <Key>
             <PropertyRef Name="BookTypeId" />
+            <PropertyRef Name="BookNo" />
+            <PropertyRef Name="RecTypeId" />
+            <PropertyRef Name="LicenseId" />
           </Key>
           <Property Name="BookTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BookNo" Type="int" />
-          <Property Name="BookTypeName" Type="varchar" MaxLength="100" />
-          <Property Name="LicenseId" Type="int" />
+          <Property Name="BookNo" Type="int" Nullable="false" />
+          <Property Name="RecTypeId" Type="int" Nullable="false" />
+          <Property Name="LicenseId" Type="int" Nullable="false" />
           <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="CanceledReceipts">
@@ -56,11 +59,14 @@
         <EntityType Name="CurrencyCovnersionRates">
           <Key>
             <PropertyRef Name="Id" />
+            <PropertyRef Name="SourceCurrency" />
+            <PropertyRef Name="TargetCurrency" />
+            <PropertyRef Name="FromDate" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SourceCurrency" Type="varchar" MaxLength="50" />
-          <Property Name="TargetCurrency" Type="varchar" MaxLength="50" />
-          <Property Name="FromDate" Type="date" />
+          <Property Name="SourceCurrency" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TargetCurrency" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" />
           <Property Name="Active" Type="int" />
         </EntityType>
@@ -131,6 +137,7 @@
             <PropertyRef Name="EmployeeId" />
           </Key>
           <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeNo" Type="int" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" />
           <Property Name="MiddleName" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
@@ -191,12 +198,24 @@
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="DonationPurposeId" Type="int" />
         </EntityType>
+        <EntityType Name="MarketingLicenses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LicenseName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FromDate" Type="date" />
+          <Property Name="ToDate" Type="date" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
         <EntityType Name="marketingrectype">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="25" />
+          <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="marketingsites">
           <Key>
@@ -285,6 +304,7 @@
           <EntitySet Name="HandleBookReceipts" EntityType="Self.HandleBookReceipts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KnowingMethod" EntityType="Self.KnowingMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="market" EntityType="Self.market" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketingLicenses" EntityType="Self.MarketingLicenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="marketingrectype" EntityType="Self.marketingrectype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="marketingsites" EntityType="Self.marketingsites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
@@ -378,9 +398,7 @@
           <EntitySet Name="KnowingMethods" EntityType="MarketingModel.KnowingMethod" />
           <EntitySet Name="PaymentMethods" EntityType="MarketingModel.PaymentMethod" />
           <EntitySet Name="BookResposibilities" EntityType="MarketingModel.BookResposibility" />
-          <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
           <EntitySet Name="CanceledReceipts" EntityType="MarketingModel.CanceledReceipt" />
-          <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
           <EntitySet Name="Departments" EntityType="MarketingModel.Department" />
           <EntitySet Name="DonationFrequencies" EntityType="MarketingModel.DonationFrequency" />
           <EntitySet Name="DonorOfs" EntityType="MarketingModel.DonorOf" />
@@ -400,6 +418,9 @@
             <End Role="market" EntitySet="markets" />
           </AssociationSet>
           <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
+          <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
+          <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+          <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -425,6 +446,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -471,16 +493,6 @@
           <Property Name="ParentEmployeeId" Type="Int32" />
           <Property Name="NextReceiptNo" Type="Int32" />
         </EntityType>
-        <EntityType Name="BookType">
-          <Key>
-            <PropertyRef Name="BookTypeId" />
-          </Key>
-          <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookNo" Type="Int32" />
-          <Property Name="BookTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LicenseId" Type="Int32" />
-          <Property Name="Active" Type="Int32" />
-        </EntityType>
         <EntityType Name="CanceledReceipt">
           <Key>
             <PropertyRef Name="CanceledReceiptId" />
@@ -489,17 +501,6 @@
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="ReceiptNo" Type="Int32" />
           <Property Name="Canceled" Type="Int32" />
-        </EntityType>
-        <EntityType Name="CurrencyCovnersionRate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SourceCurrency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TargetCurrency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FromDate" Type="DateTime" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Precision="0" />
-          <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -544,6 +545,7 @@
           <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
+          <Property Name="EmployeeNo" Type="Int32" />
         </EntityType>
         <EntityType Name="HandleBookReceipt">
           <Key>
@@ -609,6 +611,44 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ContactTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BookType">
+          <Key>
+            <PropertyRef Name="BookTypeId" />
+            <PropertyRef Name="BookNo" />
+            <PropertyRef Name="RecTypeId" />
+            <PropertyRef Name="LicenseId" />
+          </Key>
+          <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookNo" Type="Int32" Nullable="false" />
+          <Property Name="RecTypeId" Type="Int32" Nullable="false" />
+          <Property Name="LicenseId" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MarketingLicens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LicenseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FromDate" Type="DateTime" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CurrencyCovnersionRate">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="SourceCurrency" />
+            <PropertyRef Name="TargetCurrency" />
+            <PropertyRef Name="FromDate" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceCurrency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TargetCurrency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Precision="0" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
       </Schema>
@@ -696,6 +736,7 @@
           <EntitySetMapping Name="marketingrectypes">
             <EntityTypeMapping TypeName="MarketingModel.marketingrectype">
               <MappingFragment StoreEntitySet="marketingrectype">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -751,17 +792,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BookTypes">
-            <EntityTypeMapping TypeName="MarketingModel.BookType">
-              <MappingFragment StoreEntitySet="BookTypes">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
-                <ScalarProperty Name="BookTypeName" ColumnName="BookTypeName" />
-                <ScalarProperty Name="BookNo" ColumnName="BookNo" />
-                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CanceledReceipts">
             <EntityTypeMapping TypeName="MarketingModel.CanceledReceipt">
               <MappingFragment StoreEntitySet="CanceledReceipts">
@@ -769,18 +799,6 @@
                 <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
                 <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
                 <ScalarProperty Name="CanceledReceiptId" ColumnName="CanceledReceiptId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CurrencyCovnersionRates">
-            <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
-              <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
-                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-                <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
-                <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -817,6 +835,7 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="MarketingModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="NickName" ColumnName="NickName" />
@@ -861,6 +880,41 @@
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="ContactTypeName" ColumnName="ContactTypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookTypes">
+            <EntityTypeMapping TypeName="MarketingModel.BookType">
+              <MappingFragment StoreEntitySet="BookTypes">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
+                <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
+                <ScalarProperty Name="BookNo" ColumnName="BookNo" />
+                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketingLicenses">
+            <EntityTypeMapping TypeName="MarketingModel.MarketingLicens">
+              <MappingFragment StoreEntitySet="MarketingLicenses">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="LicenseName" ColumnName="LicenseName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrencyCovnersionRates">
+            <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
+              <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
+                <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
