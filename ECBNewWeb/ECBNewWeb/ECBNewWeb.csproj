@@ -353,6 +353,32 @@
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\all.css" />
+    <Content Include="Content\assets\app\js\dashboard.js" />
+    <Content Include="Content\assets\app\media\img\flags\020-flag.svg" />
+    <Content Include="Content\assets\app\media\img\users\user4.jpg" />
+    <Content Include="Content\assets\demo\default\base\layout_custome_style.css" />
+    <Content Include="Content\assets\demo\default\base\script.js" />
+    <Content Include="Content\assets\demo\default\base\scripts.bundle.js" />
+    <Content Include="Content\assets\demo\default\base\style.bundle.css" />
+    <Content Include="Content\assets\demo\default\base\style.bundle.rtl.css" />
+    <Content Include="Content\assets\demo\default\media\img\logo\favicon.ico" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo2.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo3.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logotitle.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo_compact.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo_default_dark.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo_default_light.png" />
+    <Content Include="Content\assets\demo\default\media\img\logo\logo_large.png" />
+    <Content Include="Content\assets\demo\default\media\img\misc\notification_bg.jpg" />
+    <Content Include="Content\assets\demo\default\media\img\misc\quick_actions_bg.jpg" />
+    <Content Include="Content\assets\demo\default\media\img\misc\user_profile_bg.jpg" />
+    <Content Include="Content\assets\font\webfont.js" />
+    <Content Include="Content\assets\vendors\base\fonts\flaticon\Flaticon.svg" />
+    <Content Include="Content\assets\vendors\base\fonts\line-awesome\line-awesome.svg" />
+    <Content Include="Content\assets\vendors\base\vendors.bundle.css" />
+    <Content Include="Content\assets\vendors\base\vendors.bundle.js" />
+    <Content Include="Content\assets\vendors\base\vendors.bundle.rtl.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -554,6 +580,13 @@
     <Content Include="DataAccess\Marketing.edmx.diagram">
       <DependentUpon>Marketing.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\assets\vendors\base\fonts\flaticon\Flaticon.eot" />
+    <Content Include="Content\assets\vendors\base\fonts\flaticon\Flaticon.ttf" />
+    <Content Include="Content\assets\vendors\base\fonts\flaticon\Flaticon.woff" />
+    <Content Include="Content\assets\vendors\base\fonts\line-awesome\line-awesome.eot" />
+    <Content Include="Content\assets\vendors\base\fonts\line-awesome\line-awesome.ttf" />
+    <Content Include="Content\assets\vendors\base\fonts\line-awesome\line-awesome.woff" />
+    <Content Include="Content\assets\vendors\base\fonts\line-awesome\line-awesome.woff2" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -629,6 +662,7 @@
     <Content Include="Views\Market\Delete.cshtml" />
     <Content Include="Views\Market\donor.cshtml" />
     <Content Include="Views\Market\Edit.cshtml" />
+    <Content Include="Views\Shared\_LayoutShefaa2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

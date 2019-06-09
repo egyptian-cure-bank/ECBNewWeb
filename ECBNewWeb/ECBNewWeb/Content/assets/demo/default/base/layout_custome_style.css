@@ -1,0 +1,14 @@
+body.m-aside-left--skin-dark .m-header .m-header-head {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: #f2f3f8;
+}
+
+.m-brand.m-brand--skin-dark {
+    background: #00a4e4;
+    
+}
+
+body {
+    font-family: 'Segoe UI'
+}
