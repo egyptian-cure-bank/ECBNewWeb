@@ -51,6 +51,7 @@ namespace ECBNewWeb.Controllers
                         "Inner Join BookResposibilities " +
                         "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
                         "Where dbo.BookTypes.RecTypeId = @RecTypeId " +
+                        "And marketingrectype.Active = 1 " +
                         "And dbo.BookResposibilities.DeliveryDate is null ";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -69,17 +70,26 @@ namespace ECBNewWeb.Controllers
         }
         public JsonResult GetNextReceiptNoFromRecType(int RecTypeId)
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             DataTable dt = new DataTable();
-            string Cmd = "Select BookResposibilities.NextReceiptNo " +
-                        "From HandleBookReceipts " +
-                        "Inner Join BookTypes " +
-                        "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
-                        "Inner Join marketingrectype " +
-                        "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
-                        "Inner Join BookResposibilities " +
-                        "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+            string Cmd = "Select min(BookResposibilities.NextReceiptNo)as NextReceiptNo, "+
+                        "(Select Max(market.no) "+
+                        "From BookResposibilities InnerResp Inner Join market On market.ResponsibilityId = InnerResp.RespId "+
+                        "Where InnerResp.RespId = dbo.BookResposibilities.RespId And market.no = dbo.BookResposibilities.NextReceiptNo)as LastSavedRecNo, "+
+                        "HandleBookReceipts.LastReceiptNo " +
+                        "From HandleBookReceipts "+
+                        "Inner Join BookTypes "+
+                        "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId "+
+                        "Inner Join marketingrectype "+
+                        "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id "+
+                        "Inner Join BookResposibilities "+
+                        "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId "+
                         "Where dbo.BookTypes.RecTypeId = @RecTypeId " +
-                        "And dbo.BookResposibilities.DeliveryDate is null";
+                        "And marketingrectype.Active = 1 "+
+                        "And dbo.BookResposibilities.DeliveryDate is null "+
+                        "And BookResposibilities.EmployeeId = @UserId "+
+                        "Group by BookResposibilities.RespId,BookResposibilities.NextReceiptNo,HandleBookReceipts.LastReceiptNo  " +
+                        "Having min(IsNull(BookResposibilities.NextReceiptNo, 0)) > 0";
             string JsonString = null;
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -87,6 +97,7 @@ namespace ECBNewWeb.Controllers
                 using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                 {
                     Command.Parameters.AddWithValue("@RecTypeId", RecTypeId);
+                    Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
                     SqlDataAdapter adapt = new SqlDataAdapter(Command);
                     adapt.Fill(dt);
                     JsonSerializerSettings SerSettings = new JsonSerializerSettings();
@@ -252,6 +263,7 @@ namespace ECBNewWeb.Controllers
                     int RespId = 0;
                     int NextReceiptNo = 0;
                     int FirstReceiptNo = 0;
+                    int LastReceiptNo = 0;
                     int RespCount = 0;
                     int UpdateRecordCount = 0;
                     using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
@@ -311,7 +323,8 @@ namespace ECBNewWeb.Controllers
                                 RespCount = (Int32)Command.ExecuteScalar();
                                 if (RespCount > 0)
                                 {
-                                    string Query = "Select IsNull(BookResposibilities.NextReceiptNo,0)as NextReceiptNo,IsNull(HandleBookReceipts.FirstReceiptNo,0) as FirstReceiptNo " +
+                                    string Query = "Select IsNull(BookResposibilities.NextReceiptNo,0)as NextReceiptNo,IsNull(HandleBookReceipts.FirstReceiptNo,0) as FirstReceiptNo, " +
+                                                    "HandleBookReceipts.LastReceiptNo " +
                                                     "From HandleBookReceipts "+
                                                     "Inner Join BookTypes "+
                                                     "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId "+
@@ -332,6 +345,7 @@ namespace ECBNewWeb.Controllers
                                         {
                                             NextReceiptNo = Reader.GetInt32(0);
                                             FirstReceiptNo = Reader.GetInt32(1);
+                                            LastReceiptNo = Reader.GetInt32(2);
                                         }
                                         Reader.Close();
                                     }
@@ -352,7 +366,10 @@ namespace ECBNewWeb.Controllers
                                         {
                                             UpdateCom.Parameters.AddWithValue("@RespId", RespId);
                                             UpdateCom.Parameters.AddWithValue("@RecIncrement", NextReceiptNo + 1);
-                                            UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                            if (NextReceiptNo+1 <= LastReceiptNo)
+                                            {
+                                                UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                            }
                                         }
                                     }
                                 }
@@ -361,6 +378,11 @@ namespace ECBNewWeb.Controllers
                     }
                 }
             }
+            return RedirectToAction("AddDonations", Donation);
+        }
+        [HttpPost]
+        public ActionResult CancelReceipt(DonationData Donation)
+        {
             return RedirectToAction("AddDonations", Donation);
         }
     }
