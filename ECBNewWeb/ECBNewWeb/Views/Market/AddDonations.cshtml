@@ -74,13 +74,13 @@
 
             </div>
             <div class="row justify-content-end">
-                <button class="btn btn-success  col-md-1 form-group" type="submit">حفظ</button>
+                <button class="btn btn-success  col-md-1 form-group" formaction="SaveDonation" type="submit">حفظ</button>
 
-                <button class="btn btn-danger col-md-1 form-group" type="reset">الغاء</button>
+                <button class="btn btn-danger col-md-1 form-group" formaction="CancelReceipt" type="submit">الغاء</button>
             </div>
 
             <hr>
-                        }
+ }
         <div id="loadingIndicator" class="submit-progress d-none">
             <i class="fa fa-2x fa-spinner fa-spin"></i>
             <label>Please Wait....</label>
@@ -105,7 +105,12 @@
                 success: function (response) {
                     var NextRecNo = $.parseJSON(response);
                     if (NextRecNo[0].NextReceiptNo != null) {
-                        $("#recNumber").val(NextRecNo[0].NextReceiptNo);
+                        if (NextRecNo[0].LastSavedRecNo == NextRecNo[0].NextReceiptNo && NextRecNo[0].LastSavedRecNo == NextRecNo[0].LastReceiptNo) {
+                            $("#recNumber").val("يجب تسليم هذا الدفتر");
+                        }
+                        else {
+                            $("#recNumber").val(NextRecNo[0].NextReceiptNo);
+                        }
                     }
                     else {
                         //get FirstReceiptNumber When RecType changed,If "NextReceiptNo From Table BookResposibilities" Is null
