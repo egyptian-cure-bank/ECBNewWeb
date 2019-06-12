@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "AddLicenses";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+<main class="page-content">
+    <div class="container-fluid">
+  
+
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--tab">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        اضافة ترخيص
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+@using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!--begin::Form-->
+
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">اسم الترخيص</label>
+                                        <input type="text" class="form-control m-input" placeholder="اسم الترخيص">
+                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
+                                         @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">تاريخ البداية</label>
+                                        <input type="date" class="form-control m-input" >
+                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
+                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">تاريخ النهاية</label>
+                                        <input type="date" class="form-control m-input">
+                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
+                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                    </div>
+
+                                    
+                                    
+                                   
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+
+                                        <label class="m-checkbox m-checkbox--state-success ">
+                                            <input type="checkbox" checked> حالة الترخيص
+                                            <span></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                                
+                                
+                               
+                            </div>
+
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <button type="reset" class="btn btn-success m-btn--pill">حفظ</button>
+                                    <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                </div>
+                            </div>
+}
+
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Portlet-->
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</main>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

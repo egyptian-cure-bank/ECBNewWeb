@@ -8,7 +8,67 @@ body.m-aside-left--skin-dark .m-header .m-header-head {
     background: #00a4e4;
     
 }
-
 body {
-    font-family: 'Segoe UI'
+    font-family :  'Roboto-Medium' , 'Tajawal-Medium';
 }
+
+@font-face {
+    font-family: 'Tajawal-Medium';
+    src: url('../../../../fonts/Tajawal/Tajawal-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('../../../../fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+}
+.form-control , .btn {
+    font-family: 'Roboto-Medium' , 'Tajawal-Medium';
+
+}
+
+.m-demo .m-demo__preview {
+    background: NONE;
+    border: NONE;
+    padding: 0px;
+}
+
+.m-demo {
+    background: none;
+    margin-bottom: 0px;
+}
+
+
+.m-form .m-form__group {
+    padding-top: 0;
+}
+
+.m-btn--pill {
+    padding: 0.85rem 2.15rem;
+}
+
+
+
+.m-checkbox>span:after {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text
+{
+    font-family:inherit;
+}
+
+.btn.btn-outline-accent {
+    color: #00c5dc;
+}
+
+.m-btn--icon.m-btn--icon-only {
+    width: 22px;
+    height: 20px;
+}
+
+.m-btn--icon.m-btn--icon-only [class^="flaticon-"], .m-btn--icon.m-btn--icon-only [class*=" flaticon-"] {
+    font-size: 1.0rem;
+}
+

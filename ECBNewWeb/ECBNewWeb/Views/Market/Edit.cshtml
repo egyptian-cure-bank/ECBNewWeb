@@ -1,96 +1,234 @@
 ﻿@model ECBNewWeb.Models.DonorData
-<h4>تعديل متبرع</h4>
 
-@using (Html.BeginForm("SaveEdit", "Donor", FormMethod.Post))
-{
-        <div class="row justify-content-md-center">
-            <div class="form-group col-md-6">
-                <label for="" class="">اسم المتبرع</label>  
-                @Html.HiddenFor(d => d.Id)             
-                @Html.TextBoxFor(d => d.DonorName, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">اللقب</label>
-                @Html.TextBoxFor(d => d.Title, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">التليفون</label>
-                @Html.TextBoxFor(d => d.Tele, new { @class = "form-control" })
-            </div>
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
 
-            <div class="form-group col-md-3">
-                <label for="" class="">المحافظة</label>
-                @Html.DropDownListFor(x => x.GovernmentId, ViewBag.MyGovernments as List<SelectListItem>, new { @class = "form-control", @id = "govern" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">المركز</label>
-                @Html.DropDownListFor(x => x.CenterId, Model.MyCenters as List<SelectListItem>, new { @class = "form-control", @id = "centers" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">النوع</label>
-                @Html.DropDownListFor(x => x.GenderValue, ViewBag.Gender as List<SelectListItem>, new { @class = "form-control", @id = "genders" })
-            </div>
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h5 class="m-portlet__head-text">
+                                تعديل متبرع
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @using (Html.BeginForm("SaveEdit", "Donor", FormMethod.Post))
+                {
 
-            <div class="form-group col-md-3">
-                <label for="" class="">الوظيفة</label>
-                @Html.TextBoxFor(d => d.Job, new { @class = "form-control" })
-            </div>
+                    <!--
+                        <div class="row justify-content-md-center">
+                            <div class="form-group col-md-6">
+                                <label for="" class="">اسم المتبرع</label>
+                                @Html.HiddenFor(d => d.Id)
+                                @Html.TextBoxFor(d => d.DonorName, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">اللقب</label>
+                                @Html.TextBoxFor(d => d.Title, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">التليفون</label>
+                                @Html.TextBoxFor(d => d.Tele, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">المحافظة</label>
+                                @Html.DropDownListFor(x => x.GovernmentId, ViewBag.MyGovernments as List<SelectListItem>, new { @class = "form-control", @id = "govern" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">المركز</label>
+                                @Html.DropDownListFor(x => x.CenterId, Model.MyCenters as List<SelectListItem>, new { @class = "form-control", @id = "centers" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">النوع</label>
+                                @Html.DropDownListFor(x => x.GenderValue, ViewBag.Gender as List<SelectListItem>, new { @class = "form-control", @id = "genders" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">وسيلة الاتصال</label>
+                                @Html.DropDownListFor(x => x.TypeContactName, ViewBag.TypeContact as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">متبرع</label>
+                                @Html.DropDownListFor(x => x.DonorOfName, ViewBag.Motabre3 as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">تكرار التبرع</label>
+                                @Html.DropDownListFor(x => x.FreqName, ViewBag.Freq as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">العنوان</label>
+                                @Html.TextBoxFor(d => d.Address, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">الشركة</label>
+                                @Html.TextBoxFor(d => d.WorkPlace, new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="" class="">الوظيفة</label>
+                                @Html.TextBoxFor(d => d.Job, new { @class = "form-control" })
+                            </div>
 
 
-            <div class="form-group col-md-3">
-                <label for="" class="">وسيلة الاتصال</label>
-                @Html.DropDownListFor(x => x.TypeContactName, ViewBag.TypeContact as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">متبرع</label>
-                @Html.DropDownListFor(x => x.DonorOfName, ViewBag.Motabre3 as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">تكرار التبرع</label>
-                @Html.DropDownListFor(x => x.FreqName, ViewBag.Freq as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
-            </div>
-            <div class="form-group col-md-6">
-                <label for="" class="">العنوان</label>
-                @Html.TextBoxFor(d => d.Address, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-md-6">
-                <label for="" class="">الشركة</label>
-                @Html.TextBoxFor(d => d.WorkPlace, new { @class = "form-control" })
-            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">وسيلة الاتصال</label>
+                                @Html.DropDownListFor(x => x.ContactValue, ViewBag.TypeContact as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">متبرع</label>
+                                @Html.DropDownListFor(x => x.Motabre3Value, ViewBag.Motabre3 as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">تكرار التبرع</label>
+                                @Html.DropDownListFor(x => x.FreqValue, ViewBag.Freq as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">العنوان</label>
+                                @Html.TextBoxFor(d => d.Address, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">الشركة</label>
+                                @Html.TextBoxFor(d => d.WorkPlace, new { @class = "form-control" })
+                            </div>
 
-            <div class="form-group col-md-6">
-                <label for="" class="">البريد الالكترونى <span style="color:red">(هام للتواصل)</span></label>
-                @Html.TextBoxFor(d => d.Email, new { @class = "form-control" })
+                            <div class="form-group col-md-6">
+                                <label for="" class="">البريد الالكترونى <span style="color:red">(هام للتواصل)</span></label>
+                                @Html.TextBoxFor(d => d.Email, new { @class = "form-control" })
 
-            </div>
-            <div class="form-group col-md-6">
-                <label for="" class="">ملاحظات</label>
-                @Html.TextBoxFor(d => d.Notes, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">ملاحظات</label>
+                                @Html.TextBoxFor(d => d.Notes, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <button id="saveDonor" class="btn btn-success  col-md-2 form-group " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="cancelSave" class="btn btn-danger col-md-2 form-group" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+
+                       -->
+
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group m-form__group col-md-4">
+                                <label for="">اسم المتبرع</label>
+                                @Html.HiddenFor(d => d.Id)
+                                @Html.TextBoxFor(d => d.DonorName, new { @class = "form-control m-input", @placeholder = "اسم المتبرع" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">اللقب</label>
+                                @Html.TextBoxFor(d => d.Title, new { @class = "form-control m-input" , @placeholder = "اللقب" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">التليفون</label>
+                                @Html.TextBoxFor(d => d.Tele, new { @class = "form-control m-input", @placeholder = "التليفون" })
+                            </div>
+
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">المحافظة</label>
+                                @Html.DropDownListFor(x => x.GovernmentId, ViewBag.MyGovernments as List<SelectListItem>, new { @class = "form-control  m-input", @id = "govern" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">المركز</label>
+                                @Html.DropDownListFor(x => x.CenterId, Model.MyCenters as List<SelectListItem>, new { @class = "form-control m-input", @id = "centers" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">النوع</label>
+                                @Html.DropDownListFor(x => x.GenderValue, ViewBag.Gender as List<SelectListItem>, new { @class = "form-control m-input", @id = "genders" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">الوظيفة</label>
+                                @Html.TextBoxFor(d => d.Job, new { @class = "form-control m-input", @placeholder = "االوظيفة" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">وسيلة الاتصال</label>
+                                @Html.DropDownListFor(x => x.ContactValue, ViewBag.TypeContact as List<SelectListItem>, new { @class = "form-control m-input", @id = "typeContact" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">متبرع</label>
+                                @Html.DropDownListFor(x => x.Motabre3Value, ViewBag.Motabre3 as List<SelectListItem>, new { @class = "form-control m-input", @id = "motabre3" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">تكرار التبرع</label>
+                                @Html.DropDownListFor(x => x.FreqValue, ViewBag.Freq as List<SelectListItem>, new { @class = "form-control m-input", @id = "freq" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">العنوان</label>
+                                @Html.TextBoxFor(d => d.Address, new { @class = "form-control m-input" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">الشركة</label>
+                                @Html.TextBoxFor(d => d.WorkPlace, new { @class = "form-control m-input", @placeholder = "الشركة" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">البريد الالكترونى</label>
+                                @Html.TextBoxFor(d => d.Email, new { @class = "form-control m-input", @placeholder = "البريد الالكترونى" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">ملاحظات</label>
+                                @Html.TextBoxFor(d => d.Notes, new { @class = "form-control m-input", @placeholder = "ملاحظات" })
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="saveDonor" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="cancelSave" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                }
+                </div>
             </div>
         </div>
-        <div class="row justify-content-end">
-            <button id="saveDonor" class="btn btn-success  col-md-2 form-group " type="submit">
-                حفظ
-                <span class="glyphicon glyphicon-ok"></span>
-            </button>
-            <button id="cancelSave" class="btn btn-danger col-md-2 form-group" data-dismiss="modal" type="reset">
-                الغاء
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>
-        </div>
-}
-<script type="text/javascript">
-    $(document).ready(function () {
+    </div>
 
-        $("#govern").change(function () {
-            var data = [];
-            var selectedvalue = $("#govern option:selected").val();
-            $.getJSON("/Donor/PopulateCenters", { GovId: selectedvalue }, function (data) {
-                data = $.map(data, function (item, a) {
-                    return "<option value=" + item.Value + ">" + item.Text + "</option>";
-                });
-                $("#centers").html(data);
-            });
-        });
-    });
-</script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+
+                        $("#govern").change(function () {
+                            var data = [];
+                            var selectedvalue = $("#govern option:selected").val();
+                            $.getJSON("/Donor/PopulateCenters", { GovId: selectedvalue }, function (data) {
+                                data = $.map(data, function (item, a) {
+                                    return "<option value=" + item.Value + ">" + item.Text + "</option>";
+                                });
+                                $("#centers").html(data);
+                            });
+                        });
+                    });
+                </script>
