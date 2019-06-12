@@ -146,6 +146,7 @@ namespace ECBNewWeb.Controllers
                         "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
                         "Where dbo.BookResposibilities.DeliveryDate is null " +
                         "And marketingrectype.Active = 1 " +
+                        "And BookTypes.Active = 1 " +
                         "And dbo.BookResposibilities.EmployeeId = @UserId " +
                         "Group by marketingrectype.name,marketingrectype.id";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
