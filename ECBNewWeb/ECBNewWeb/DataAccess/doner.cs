@@ -34,5 +34,9 @@ namespace ECBNewWeb.DataAccess
         public string mob { get; set; }
         public Nullable<int> site { get; set; }
         public Nullable<int> NULL { get; set; }
+        public Nullable<int> DonorOfId { get; set; }
+        public Nullable<int> DonationFreqId { get; set; }
+    
+        public virtual center center { get; set; }
     }
 }

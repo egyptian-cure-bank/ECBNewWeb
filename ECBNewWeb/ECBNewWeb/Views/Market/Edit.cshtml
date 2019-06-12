@@ -37,7 +37,6 @@
                                 <label for="" class="">التليفون</label>
                                 @Html.TextBoxFor(d => d.Tele, new { @class = "form-control" })
                             </div>
-
                             <div class="form-group col-md-3">
                                 <label for="" class="">المحافظة</label>
                                 @Html.DropDownListFor(x => x.GovernmentId, ViewBag.MyGovernments as List<SelectListItem>, new { @class = "form-control", @id = "govern" })
@@ -49,6 +48,26 @@
                             <div class="form-group col-md-3">
                                 <label for="" class="">النوع</label>
                                 @Html.DropDownListFor(x => x.GenderValue, ViewBag.Gender as List<SelectListItem>, new { @class = "form-control", @id = "genders" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">وسيلة الاتصال</label>
+                                @Html.DropDownListFor(x => x.TypeContactName, ViewBag.TypeContact as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">متبرع</label>
+                                @Html.DropDownListFor(x => x.DonorOfName, ViewBag.Motabre3 as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">تكرار التبرع</label>
+                                @Html.DropDownListFor(x => x.FreqName, ViewBag.Freq as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">العنوان</label>
+                                @Html.TextBoxFor(d => d.Address, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="">الشركة</label>
+                                @Html.TextBoxFor(d => d.WorkPlace, new { @class = "form-control" })
                             </div>
 
                             <div class="form-group col-md-3">
@@ -188,7 +207,7 @@
                                 الغاء
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
-                            
+
                         </div>
                     </div>
 

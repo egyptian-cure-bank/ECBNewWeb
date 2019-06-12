@@ -191,10 +191,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AuthenticationDataAccess.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\BookResposibility.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\BookType.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\CanceledReceipt.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\center.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Currency.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\CurrencyCovnersionRate.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Department.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\DonationFrequency.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\DonationPurpose.cs">
@@ -203,11 +221,20 @@
     <Compile Include="DataAccess\doner.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\DonorOf.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Employee.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\government.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Grant.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\HandleBookReceipt.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\KnowingMethod.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
@@ -233,6 +260,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Marketing.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\MarketingLicens.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\marketingrectype.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
@@ -257,8 +287,14 @@
     <Compile Include="DataAccess\SubFacilityRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\TypeContact.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\UserRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\UserSite.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="Filters\AuthFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">

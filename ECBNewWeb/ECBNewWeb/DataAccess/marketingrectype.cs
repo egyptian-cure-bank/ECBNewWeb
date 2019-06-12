@@ -16,5 +16,6 @@ namespace ECBNewWeb.DataAccess
     {
         public int id { get; set; }
         public string name { get; set; }
+        public Nullable<int> Active { get; set; }
     }
 }

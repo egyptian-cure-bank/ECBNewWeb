@@ -29,5 +29,9 @@ namespace ECBNewWeb.DataAccess
         public string combID { get; set; }
         public Nullable<System.DateTime> timestamp { get; set; }
         public string FinApprov { get; set; }
+        public Nullable<int> ResponsibilityId { get; set; }
+        public Nullable<int> DonationPurposeId { get; set; }
+    
+        public virtual marketingsite marketingsite { get; set; }
     }
 }
