@@ -104,7 +104,7 @@
                 data: { RecTypeId: selectedvalue },
                 success: function (response) {
                     var RecNo = $.parseJSON(response);
-                    if (RecNo[0].NextReceiptNo != null) {
+                    if (RecNo[0].NextReceiptNo != null && RecNo[0].NextReceiptNo != 0) {
                         if (RecNo[0].LastSavedRecNo == RecNo[0].NextReceiptNo && RecNo[0].LastSavedRecNo == RecNo[0].LastReceiptNo || RecNo[0].LastCanceledReceiptNo == RecNo[0].LastReceiptNo) {
                             $("#recNumber").val("يجب تسليم هذا الدفتر");
                         }
@@ -120,8 +120,8 @@
                             dataType: 'json',
                             data: { RecTypeId: selectedvalue },
                             success: function (response) {
-                                var myobj = $.parseJSON(response);
-                                $("#recNumber").val(myobj[0].FirstReceiptNo);
+                                var FirstRecNo = $.parseJSON(response);
+                                $("#recNumber").val(FirstRecNo[0].FirstReceiptNo);
                             },
                             error: function (response) {
                                 console.log(response);
