@@ -58,3 +58,17 @@ body {
 {
     font-family:inherit;
 }
+
+.btn.btn-outline-accent {
+    color: #00c5dc;
+}
+
+.m-btn--icon.m-btn--icon-only {
+    width: 22px;
+    height: 20px;
+}
+
+.m-btn--icon.m-btn--icon-only [class^="flaticon-"], .m-btn--icon.m-btn--icon-only [class*=" flaticon-"] {
+    font-size: 1.0rem;
+}
+

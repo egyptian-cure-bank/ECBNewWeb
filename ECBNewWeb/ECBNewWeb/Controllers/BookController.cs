@@ -14,6 +14,16 @@ namespace ECBNewWeb.Controllers
             return View();
         }
 
+        public ActionResult AllBooks()
+        {
+            return View();
+        }
+
+        public ActionResult EditBook()
+        {
+            return PartialView();
+        }
+
 
         public ActionResult AddReceiptType()
         {
@@ -24,5 +34,18 @@ namespace ECBNewWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult AllHandleBookReceipts()
+        {
+            return View();
+        }
+
+        public ActionResult EditHandleBookReceipts()
+        {
+            return PartialView();
+        }
+
+
+
     }
 }

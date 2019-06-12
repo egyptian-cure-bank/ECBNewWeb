@@ -29,9 +29,8 @@
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
     <!--end::Page Vendors Styles -->
     <link rel="shortcut icon" href="~/Content/assets/demo/default/media/img/logo/logotitle.png" />
-
+    @RenderSection("links",false)
     
-   
     <link rel="stylesheet" href="~/Content/assets/demo/default/base/layout_custome_style.css">
     
     
@@ -175,6 +174,15 @@
                                                         </span>
                                                     </a>
                                                 </li>
+
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AllLicenses" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("AllLicenses", "Licenses")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            التراخيص
+                                                        </span>
+                                                    </a>
+                                                </li>
                                                 
                                             </ul>
                                         </div>
@@ -204,11 +212,29 @@
                                                     </a>
                                                 </li>
 
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "Allbooks" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("Allbooks", "Book")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            تعديل الدفاتر
+                                                        </span>
+                                                    </a>
+                                                </li>
+
                                                 <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "HandleBookReceipts" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("HandleBookReceipts", "Book")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
                                                         <span class="m-menu__link-text">
                                                             تسليم دفتر
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AllHandleBookReceipts" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("AllHandleBookReceipts", "Book")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            تعديل تسليم الدفتر
                                                         </span>
                                                     </a>
                                                 </li>
@@ -596,10 +622,14 @@
     <!--end::Page Vendors -->
     <!--begin::Page Scripts -->
     <script src="~/Content/assets/app/js/dashboard.js" type="text/javascript"></script>
+    
 
     <!--end::Page Scripts -->
     <script src="~/Content/assets/demo/default/base/script.js"></script>
 
+    
+
+    
 </body>
 
 <!-- end::Body -->

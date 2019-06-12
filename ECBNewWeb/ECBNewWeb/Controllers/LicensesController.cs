@@ -13,5 +13,19 @@ namespace ECBNewWeb.Controllers
         {
             return View();
         }
+
+
+        public ActionResult AllLicenses()
+        {
+            return View();
+        }
+
+
+        public ActionResult EditLicenses()
+        {
+            return PartialView();
+        }
+
+
     }
 }
