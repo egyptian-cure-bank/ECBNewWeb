@@ -72,24 +72,28 @@ namespace ECBNewWeb.Controllers
         {
             UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             DataTable dt = new DataTable();
-            string Cmd = "Select min(BookResposibilities.NextReceiptNo)as NextReceiptNo, "+
-                        "(Select Max(market.no) "+
-                        "From BookResposibilities InnerResp Inner Join market On market.ResponsibilityId = InnerResp.RespId "+
-                        "Where InnerResp.RespId = dbo.BookResposibilities.RespId And market.no = dbo.BookResposibilities.NextReceiptNo)as LastSavedRecNo, "+
-                        "HandleBookReceipts.LastReceiptNo " +
-                        "From HandleBookReceipts "+
-                        "Inner Join BookTypes "+
-                        "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId "+
-                        "Inner Join marketingrectype "+
-                        "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id "+
-                        "Inner Join BookResposibilities "+
-                        "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId "+
-                        "Where dbo.BookTypes.RecTypeId = @RecTypeId " +
-                        "And marketingrectype.Active = 1 "+
-                        "And dbo.BookResposibilities.DeliveryDate is null "+
-                        "And BookResposibilities.EmployeeId = @UserId "+
-                        "Group by BookResposibilities.RespId,BookResposibilities.NextReceiptNo,HandleBookReceipts.LastReceiptNo  " +
-                        "Having min(IsNull(BookResposibilities.NextReceiptNo, 0)) > 0";
+            string Cmd = "Select min(BookResp.NextReceiptNo)as NextReceiptNo,  "+
+                          "(Select Max(market.no) "+
+                          "From BookResposibilities InnerResp Inner Join market On market.ResponsibilityId = InnerResp.RespId "+
+                          "Where InnerResp.RespId = BookResp.RespId And market.no = BookResp.NextReceiptNo) as LastSavedRecNo, "+
+                          "Max(CanceledReceipts.ReceiptNo) as LastCanceledReceiptNo, "+
+                          "HandleBookReceipts.LastReceiptNo "+
+                          "From HandleBookReceipts "+
+                          "Inner Join BookTypes "+
+                          "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId "+
+                          "Inner Join marketingrectype "+
+                          "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id "+
+                          "Inner Join BookResposibilities  BookResp "+
+                          "on BookResp.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId "+
+                          "Left Join CanceledReceipts "+
+                          "On BookResp.RespId = dbo.CanceledReceipts.ResponsibilityId "+
+                          "Where dbo.BookTypes.RecTypeId = @RecTypeId "+
+                          "And marketingrectype.Active = 1 "+
+                          "And BookResp.DeliveryDate is null "+
+                          "And BookResp.EmployeeId = @UserId "+
+                          "And dbo.CanceledReceipts.Canceled = 1 "+
+                          "Group by BookResp.RespId, BookResp.NextReceiptNo, HandleBookReceipts.LastReceiptNo "+
+                          "Having min(IsNull(BookResp.NextReceiptNo, 0)) > 0";
             string JsonString = null;
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -383,6 +387,116 @@ namespace ECBNewWeb.Controllers
         [HttpPost]
         public ActionResult CancelReceipt(DonationData Donation)
         {
+            using (MarketEntities Market = new MarketEntities())
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                int RespId = 0;
+                int NextReceiptNo = 0;
+                int FirstReceiptNo = 0;
+                int LastReceiptNo = 0;
+                int CanceledRecIdCount = 0;
+                int UpdateRecordCount = 0;
+                using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+                {
+                    Conn.Open();
+                    //get current responsibility according to userid and receipttypeid
+                    string Cmd = "Select min(BookResposibilities.RespId)as RespId " +
+                                "From HandleBookReceipts " +
+                                "Inner Join BookTypes " +
+                                "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
+                                "Inner Join marketingrectype " +
+                                "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
+                                "Inner Join MarketingLicenses " +
+                                "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
+                                "Inner Join BookResposibilities " +
+                                "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+                                "Where dbo.BookResposibilities.DeliveryDate is null " +
+                                "And marketingrectype.Active = 1 " +
+                                "And dbo.BookResposibilities.EmployeeId = @UserId " +
+                                "And dbo.marketingrectype.id = @RecTypeId ";
+                    using (SqlCommand Command = new SqlCommand(Cmd, Conn))
+                    {
+                        Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                        Command.Parameters.AddWithValue("@RecTypeId", Donation.RecId);
+                        SqlDataReader Reader = Command.ExecuteReader();
+                        if (Reader.Read())
+                        {
+                            RespId = Reader.GetInt32(0);
+                        }
+                    }
+                }
+                if (RespId != 0)
+                {
+                    CanceledReceipt DBCanceledReceipt = new CanceledReceipt();
+                    DBCanceledReceipt.ReceiptNo = Donation.RecNumber;
+                    DBCanceledReceipt.ResponsibilityId = RespId;
+                    DBCanceledReceipt.Canceled = 1;
+                    Market.CanceledReceipts.Add(DBCanceledReceipt);
+                    Market.SaveChanges();
+                    using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+                    {
+                        Con.Open();
+                        string Cmd = "Select count(CanceledReceiptId) From CanceledReceipts Where ResponsibilityId = @RespId ";
+                        using (SqlCommand Command = new SqlCommand(Cmd, Con))
+                        {
+                            Command.Parameters.AddWithValue("@RespId", RespId);
+                            CanceledRecIdCount = (Int32)Command.ExecuteScalar();
+                            if (CanceledRecIdCount > 0)
+                            {
+                                string Query = "Select IsNull(BookResposibilities.NextReceiptNo,0)as NextReceiptNo,IsNull(HandleBookReceipts.FirstReceiptNo,0) as FirstReceiptNo, " +
+                                                "HandleBookReceipts.LastReceiptNo " +
+                                                "From HandleBookReceipts " +
+                                                "Inner Join BookTypes " +
+                                                "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
+                                                "Inner Join marketingrectype " +
+                                                "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
+                                                "Inner Join MarketingLicenses " +
+                                                "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
+                                                "Inner Join BookResposibilities " +
+                                                "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+                                                "Where dbo.BookResposibilities.DeliveryDate is null " +
+                                                "And marketingrectype.Active = 1 " +
+                                                "And BookResposibilities.RespId = @RespId ";
+                                using (SqlCommand Com = new SqlCommand(Query, Con))
+                                {
+                                    Com.Parameters.AddWithValue("@RespId", RespId);
+                                    SqlDataReader Reader = Com.ExecuteReader();
+                                    if (Reader.Read())
+                                    {
+                                        NextReceiptNo = Reader.GetInt32(0);
+                                        FirstReceiptNo = Reader.GetInt32(1);
+                                        LastReceiptNo = Reader.GetInt32(2);
+                                    }
+                                    Reader.Close();
+                                }
+                                if (NextReceiptNo == 0)
+                                {
+                                    string UpdateCommand = "Update BookResposibilities Set NextReceiptNo = @RecIncrement Where RespId = @RespId";
+                                    using (SqlCommand UpdateCom = new SqlCommand(UpdateCommand, Con))
+                                    {
+                                        UpdateCom.Parameters.AddWithValue("@RespId", RespId);
+                                        UpdateCom.Parameters.AddWithValue("@RecIncrement", FirstReceiptNo + 1);
+                                        UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                    }
+                                }
+                                else if (NextReceiptNo > 0)
+                                {
+                                    string UpdateCommand = "Update BookResposibilities Set NextReceiptNo = @RecIncrement Where RespId = @RespId";
+                                    using (SqlCommand UpdateCom = new SqlCommand(UpdateCommand, Con))
+                                    {
+                                        UpdateCom.Parameters.AddWithValue("@RespId", RespId);
+                                        UpdateCom.Parameters.AddWithValue("@RecIncrement", NextReceiptNo + 1);
+                                        if (NextReceiptNo + 1 <= LastReceiptNo)
+                                        {
+                                            UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             return RedirectToAction("AddDonations", Donation);
         }
     }

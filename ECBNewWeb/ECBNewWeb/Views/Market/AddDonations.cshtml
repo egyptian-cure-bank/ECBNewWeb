@@ -103,13 +103,13 @@
                 dataType: 'json',
                 data: { RecTypeId: selectedvalue },
                 success: function (response) {
-                    var NextRecNo = $.parseJSON(response);
-                    if (NextRecNo[0].NextReceiptNo != null) {
-                        if (NextRecNo[0].LastSavedRecNo == NextRecNo[0].NextReceiptNo && NextRecNo[0].LastSavedRecNo == NextRecNo[0].LastReceiptNo) {
+                    var RecNo = $.parseJSON(response);
+                    if (RecNo[0].NextReceiptNo != null) {
+                        if (RecNo[0].LastSavedRecNo == RecNo[0].NextReceiptNo && RecNo[0].LastSavedRecNo == RecNo[0].LastReceiptNo || RecNo[0].LastCanceledReceiptNo == RecNo[0].LastReceiptNo) {
                             $("#recNumber").val("يجب تسليم هذا الدفتر");
                         }
                         else {
-                            $("#recNumber").val(NextRecNo[0].NextReceiptNo);
+                            $("#recNumber").val(RecNo[0].NextReceiptNo);
                         }
                     }
                     else {
