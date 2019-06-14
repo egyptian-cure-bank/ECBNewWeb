@@ -125,6 +125,7 @@
     <EntitySetMapping Name="BookResposibilities">
       <EntityTypeMapping TypeName="MarketingModel.BookResposibility">
         <MappingFragment StoreEntitySet="BookResposibilities">
+          <ScalarProperty Name="DoneFlag" ColumnName="DoneFlag" />
           <ScalarProperty Name="NextReceiptNo" ColumnName="NextReceiptNo" />
           <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
           <ScalarProperty Name="PartialBookIndicator" ColumnName="PartialBookIndicator" />
@@ -139,6 +140,7 @@
     <EntitySetMapping Name="CanceledReceipts">
       <EntityTypeMapping TypeName="MarketingModel.CanceledReceipt">
         <MappingFragment StoreEntitySet="CanceledReceipts">
+          <ScalarProperty Name="ActualDate" ColumnName="ActualDate" />
           <ScalarProperty Name="Canceled" ColumnName="Canceled" />
           <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
           <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
@@ -255,6 +257,7 @@
       <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
         <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
           <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
           <ScalarProperty Name="ToDate" ColumnName="ToDate" />
           <ScalarProperty Name="FromDate" ColumnName="FromDate" />
           <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />

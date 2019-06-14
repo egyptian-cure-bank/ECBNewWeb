@@ -17,6 +17,7 @@
           <Property Name="PartialBookIndicator" Type="int" />
           <Property Name="ParentEmployeeId" Type="int" />
           <Property Name="NextReceiptNo" Type="int" />
+          <Property Name="DoneFlag" Type="int" />
         </EntityType>
         <EntityType Name="BookTypes">
           <Key>
@@ -38,6 +39,7 @@
           <Property Name="CanceledReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="ReceiptNo" Type="int" />
+          <Property Name="ActualDate" Type="datetime" />
           <Property Name="Canceled" Type="int" />
         </EntityType>
         <EntityType Name="centers">
@@ -54,7 +56,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CurrencyName" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="CurrencyCovnersionRates">
           <Key>
@@ -64,10 +66,11 @@
             <PropertyRef Name="FromDate" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SourceCurrency" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="TargetCurrency" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SourceCurrency" Type="int" Nullable="false" />
+          <Property Name="TargetCurrency" Type="int" Nullable="false" />
           <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="Departments">
@@ -182,7 +185,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="dat" Type="date" />
-          <Property Name="no" Type="int" />
+          <Property Name="no" Type="int" Nullable="false" />
           <Property Name="cod" Type="varchar" MaxLength="10" />
           <Property Name="name" Type="int" />
           <Property Name="amount" Type="decimal" Precision="18" Scale="2" />
@@ -193,7 +196,7 @@
           <Property Name="note" Type="varchar" MaxLength="43" />
           <Property Name="site" Type="int" />
           <Property Name="combID" Type="varchar" MaxLength="55" />
-          <Property Name="timestamp" Type="datetime2" Precision="0" />
+          <Property Name="timestamp" Type="datetime2" Precision="7" />
           <Property Name="FinApprov" Type="varchar" MaxLength="1" />
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="DonationPurposeId" Type="int" />
@@ -361,7 +364,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="dat" Type="DateTime" Precision="0" />
-          <Property Name="no" Type="Int32" />
+          <Property Name="no" Type="Int32" Nullable="false" />
           <Property Name="cod" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="Int32" />
           <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
@@ -372,7 +375,7 @@
           <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="false" />
           <Property Name="site" Type="Int32" />
           <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
-          <Property Name="timestamp" Type="DateTime" Precision="0" />
+          <Property Name="timestamp" Type="DateTime" Precision="7" />
           <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="DonationPurposeId" Type="Int32" />
@@ -454,7 +457,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="DonationPurpose">
           <Key>
@@ -492,6 +495,7 @@
           <Property Name="PartialBookIndicator" Type="Int32" />
           <Property Name="ParentEmployeeId" Type="Int32" />
           <Property Name="NextReceiptNo" Type="Int32" />
+          <Property Name="DoneFlag" Type="Int32" />
         </EntityType>
         <EntityType Name="CanceledReceipt">
           <Key>
@@ -501,6 +505,7 @@
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="ReceiptNo" Type="Int32" />
           <Property Name="Canceled" Type="Int32" />
+          <Property Name="ActualDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -645,10 +650,11 @@
             <PropertyRef Name="FromDate" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SourceCurrency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TargetCurrency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SourceCurrency" Type="Int32" Nullable="false" />
+          <Property Name="TargetCurrency" Type="Int32" Nullable="false" />
           <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ToDate" Type="DateTime" Precision="0" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
       </Schema>
@@ -781,6 +787,7 @@
           <EntitySetMapping Name="BookResposibilities">
             <EntityTypeMapping TypeName="MarketingModel.BookResposibility">
               <MappingFragment StoreEntitySet="BookResposibilities">
+                <ScalarProperty Name="DoneFlag" ColumnName="DoneFlag" />
                 <ScalarProperty Name="NextReceiptNo" ColumnName="NextReceiptNo" />
                 <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
                 <ScalarProperty Name="PartialBookIndicator" ColumnName="PartialBookIndicator" />
@@ -795,6 +802,7 @@
           <EntitySetMapping Name="CanceledReceipts">
             <EntityTypeMapping TypeName="MarketingModel.CanceledReceipt">
               <MappingFragment StoreEntitySet="CanceledReceipts">
+                <ScalarProperty Name="ActualDate" ColumnName="ActualDate" />
                 <ScalarProperty Name="Canceled" ColumnName="Canceled" />
                 <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
                 <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
@@ -911,6 +919,7 @@
             <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
               <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="ToDate" ColumnName="ToDate" />
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />

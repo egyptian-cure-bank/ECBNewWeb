@@ -34,7 +34,7 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="dat" Type="DateTime" Precision="0" />
-    <Property Name="no" Type="Int32" />
+    <Property Name="no" Type="Int32" Nullable="false" />
     <Property Name="cod" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="name" Type="Int32" />
     <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
@@ -45,7 +45,7 @@
     <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="false" />
     <Property Name="site" Type="Int32" />
     <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
-    <Property Name="timestamp" Type="DateTime" Precision="0" />
+    <Property Name="timestamp" Type="DateTime" Precision="7" />
     <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
     <Property Name="ResponsibilityId" Type="Int32" />
     <Property Name="DonationPurposeId" Type="Int32" />
@@ -127,7 +127,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
   </EntityType>
   <EntityType Name="DonationPurpose">
     <Key>
@@ -165,6 +165,7 @@
     <Property Name="PartialBookIndicator" Type="Int32" />
     <Property Name="ParentEmployeeId" Type="Int32" />
     <Property Name="NextReceiptNo" Type="Int32" />
+    <Property Name="DoneFlag" Type="Int32" />
   </EntityType>
   <EntityType Name="CanceledReceipt">
     <Key>
@@ -174,6 +175,7 @@
     <Property Name="ResponsibilityId" Type="Int32" />
     <Property Name="ReceiptNo" Type="Int32" />
     <Property Name="Canceled" Type="Int32" />
+    <Property Name="ActualDate" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="Department">
     <Key>
@@ -318,10 +320,11 @@
       <PropertyRef Name="FromDate" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="SourceCurrency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="TargetCurrency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SourceCurrency" Type="Int32" Nullable="false" />
+    <Property Name="TargetCurrency" Type="Int32" Nullable="false" />
     <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Active" Type="Int32" />
   </EntityType>
 </Schema>

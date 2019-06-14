@@ -12,6 +12,7 @@
     <Property Name="PartialBookIndicator" Type="int" />
     <Property Name="ParentEmployeeId" Type="int" />
     <Property Name="NextReceiptNo" Type="int" />
+    <Property Name="DoneFlag" Type="int" />
   </EntityType>
   <EntityType Name="BookTypes">
     <Key>
@@ -33,6 +34,7 @@
     <Property Name="CanceledReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ResponsibilityId" Type="int" />
     <Property Name="ReceiptNo" Type="int" />
+    <Property Name="ActualDate" Type="datetime" />
     <Property Name="Canceled" Type="int" />
   </EntityType>
   <EntityType Name="centers">
@@ -49,7 +51,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CurrencyName" Type="nvarchar" MaxLength="50" />
-    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
   </EntityType>
   <EntityType Name="CurrencyCovnersionRates">
     <Key>
@@ -59,10 +61,11 @@
       <PropertyRef Name="FromDate" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SourceCurrency" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="TargetCurrency" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SourceCurrency" Type="int" Nullable="false" />
+    <Property Name="TargetCurrency" Type="int" Nullable="false" />
     <Property Name="FromDate" Type="date" Nullable="false" />
     <Property Name="ToDate" Type="date" />
+    <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="Departments">
@@ -177,7 +180,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="dat" Type="date" />
-    <Property Name="no" Type="int" />
+    <Property Name="no" Type="int" Nullable="false" />
     <Property Name="cod" Type="varchar" MaxLength="10" />
     <Property Name="name" Type="int" />
     <Property Name="amount" Type="decimal" Precision="18" Scale="2" />
@@ -188,7 +191,7 @@
     <Property Name="note" Type="varchar" MaxLength="43" />
     <Property Name="site" Type="int" />
     <Property Name="combID" Type="varchar" MaxLength="55" />
-    <Property Name="timestamp" Type="datetime2" Precision="0" />
+    <Property Name="timestamp" Type="datetime2" Precision="7" />
     <Property Name="FinApprov" Type="varchar" MaxLength="1" />
     <Property Name="ResponsibilityId" Type="int" />
     <Property Name="DonationPurposeId" Type="int" />
