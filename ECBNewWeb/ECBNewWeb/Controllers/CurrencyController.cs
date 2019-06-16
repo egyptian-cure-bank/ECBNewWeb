@@ -106,8 +106,15 @@ namespace ECBNewWeb.Controllers
             }
             else
             {
-                ViewBag.Msg = "لم يتم الحفظ";
-                TempData["Msg"] = "لم يتم الحفظ";
+                //ViewBag.Msg = "لم يتم الحفظ";
+                //TempData["Msg"] = "لم يتم الحفظ";
+                foreach (ModelState modelstate in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelstate.Errors)
+                    {
+                        TempData["ModelErrors"] = error.ErrorMessage;
+                    }
+                }
                 return RedirectToAction("CurrenyConversion", CurrModel);
             }
         }

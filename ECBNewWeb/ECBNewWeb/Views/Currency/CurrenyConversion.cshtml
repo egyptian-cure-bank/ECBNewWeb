@@ -28,7 +28,7 @@
                         @using (Html.BeginForm("SaveConversionRates", "Currency", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.ValidationSummary(true,"لم يتم الحفظ", new { @class = "text-danger" })
                         <!--begin::Form-->
 
                             <div class="m-portlet__body">
@@ -36,12 +36,12 @@
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="" class="">من عملة</label>
                                         @Html.DropDownListFor(x => x.SourceCurrencyId, Model.SourceMyCurrencies as List<SelectListItem>, new { @class = "form-control m-input", @id = "sourceCurrencyList" })
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
+                                        @Html.ValidationMessageFor(m => m.SourceCurrencyId, "", new { @class = "text-danger" }) 
                                     </div>
                                     <div class="form-group  m-form__group col-md-3">
                                         <label for="" class="">الى عملة</label>
                                          @Html.DropDownListFor(x => x.TargetCurrencyId, Model.TargetMyCurrencies as List<SelectListItem>, new { @class = "form-control m-input", @id = "targetCurrencyList" }) 
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
+                                         @Html.ValidationMessageFor(m => m.TargetCurrencyId, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group m-form__group col-md-3">
@@ -69,7 +69,6 @@
                                 <br />
                                 <div class="row">
                                     <div class="form-group m-form__group col-md-3">
-
                                         <label class="m-checkbox m-checkbox--state-success ">
                                             <input type="checkbox" checked> الحالة
                                             <span></span>
@@ -86,10 +85,10 @@
                                 <div class="m-form__actions">
                                     <button type="submit" class="btn btn-success m-btn--pill">حفظ</button>
                                     <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                    <hr />
+                                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
                                 </div>
                             </div>
-
-
                             if (TempData["Msg"] != null)
                             {
                                 <div class="modal  fade" id="myModal">
@@ -117,8 +116,6 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
