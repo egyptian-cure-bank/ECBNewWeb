@@ -16,7 +16,7 @@ namespace ECBNewWeb.DataAccess
     {
         public int id { get; set; }
         public Nullable<System.DateTime> dat { get; set; }
-        public Nullable<int> no { get; set; }
+        public int no { get; set; }
         public string cod { get; set; }
         public Nullable<int> name { get; set; }
         public Nullable<decimal> amount { get; set; }

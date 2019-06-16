@@ -1,4 +1,4 @@
-﻿
+﻿@model ECBNewWeb.Models.ConversionRateModel
 @{
     ViewBag.Title = "CurrenyConversion";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
@@ -25,53 +25,50 @@
                             </div>
                         </div>
 
-                        @using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+                        @using (Html.BeginForm("SaveConversionRates", "Currency", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.ValidationSummary(true,"لم يتم الحفظ", new { @class = "text-danger" })
                         <!--begin::Form-->
 
                             <div class="m-portlet__body">
                                 <div class="row">
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="" class="">من عملة</label>
-                                        @* @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control m-input", @id = "" }) *@
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
-                                        <select id="" class="form-control m-input"></select>
+                                        @Html.DropDownListFor(x => x.SourceCurrencyId, Model.SourceMyCurrencies as List<SelectListItem>, new { @class = "form-control m-input", @id = "sourceCurrencyList" })
+                                        @Html.ValidationMessageFor(m => m.SourceCurrencyId, "", new { @class = "text-danger" }) 
                                     </div>
                                     <div class="form-group  m-form__group col-md-3">
                                         <label for="" class="">الى عملة</label>
-                                        @* @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control m-input", @id = "" }) *@
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
-                                        <select id="" class="form-control m-input"></select>
+                                         @Html.DropDownListFor(x => x.TargetCurrencyId, Model.TargetMyCurrencies as List<SelectListItem>, new { @class = "form-control m-input", @id = "targetCurrencyList" }) 
+                                         @Html.ValidationMessageFor(m => m.TargetCurrencyId, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">القيمة</label>
-                                        <input type="text" class="form-control m-input" placeholder="القيمة">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @*<input type="number" class="form-control m-input" placeholder="القيمة">*@
+                                        @Html.TextBoxFor(m => m.ConversionRate, new { @class = "form-control m-input",@type = "number", @placeholder = "القيمة" })
+                                        @Html.ValidationMessageFor(m => m.ConversionRate, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">من تاريخ</label>
-                                        <input type="date" class="form-control m-input">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @*<input type="date" class="form-control m-input">*@
+                                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control m-input", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.FromDate, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">الى تاريخ</label>
-                                        <input type="date" class="form-control m-input">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @*<input type="date" class="form-control m-input">*@
+                                        @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control m-input", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.ToDate, "", new { @class = "text-danger" })
                                     </div>
 
                                 </div> 
                                 <br />
                                 <div class="row">
                                     <div class="form-group m-form__group col-md-3">
-
                                         <label class="m-checkbox m-checkbox--state-success ">
                                             <input type="checkbox" checked> الحالة
                                             <span></span>
@@ -86,10 +83,43 @@
 
                             <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-success m-btn--pill">حفظ</button>
+                                    <button type="submit" class="btn btn-success m-btn--pill">حفظ</button>
                                     <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                    <hr />
+                                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
                                 </div>
                             </div>
+                            if (TempData["Msg"] != null)
+                            {
+                                <div class="modal  fade" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                                                {
+                                                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                                                    <script>
+                                                         $('#myModal').modal('show');
+                                                    </script>
+                                                }
+                                                else
+                                                {
+                                                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                                                    <script>
+                                                        $('#myModal').modal('show');
+                                                    </script>
+                                                }
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         }
 
                         <!--end::Form-->
@@ -111,5 +141,13 @@
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Select Default Value For sites DropDownList
+        $("#sourceCurrencyList").val(-1);
+        //Select Default Value For Paymentmethod DropDownList
+        $("#targetCurrencyList").val(-1);
+    })
+</script>
 
 

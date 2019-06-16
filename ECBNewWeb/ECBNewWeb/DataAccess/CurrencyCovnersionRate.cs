@@ -15,10 +15,11 @@ namespace ECBNewWeb.DataAccess
     public partial class CurrencyCovnersionRate
     {
         public int Id { get; set; }
-        public string SourceCurrency { get; set; }
-        public string TargetCurrency { get; set; }
+        public int SourceCurrency { get; set; }
+        public int TargetCurrency { get; set; }
         public System.DateTime FromDate { get; set; }
         public Nullable<System.DateTime> ToDate { get; set; }
+        public Nullable<decimal> Rate { get; set; }
         public Nullable<int> Active { get; set; }
     }
 }
