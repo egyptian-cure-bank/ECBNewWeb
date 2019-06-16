@@ -15,8 +15,6 @@
         <h2>بيانات المتبرع</h2>
         <p>إضافة متبرع جديد</p>
         <hr>
-        
-
 
 @using (Html.BeginForm("SaveDonor", "Donor", FormMethod.Post ,htmlAttributes: new { @id = "myform"} ))
 {
@@ -47,59 +45,8 @@
             @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" })
             @*<select id="govern" class="form-control">
                 </select>*@
-
-<<<<<<< HEAD
-=======
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">المركز</label>
-                @Html.DropDownListFor(x => x.CenterId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "centers" })
-                @Html.ValidationMessageFor(x => x.CenterId, "", new { @class = "text-danger" })
-                @*<select id="centers" class="form-control"></select>*@
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">النوع</label>
-                @Html.DropDownListFor(x => x.GenderValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "genders" })
-                @Html.ValidationMessageFor(x => x.GenderValue, "", new { @class = "text-danger" })
-                @*<select class="form-control"></select>*@
-            </div>
-       
-            <div class="form-group col-md-3">
-                <label for="" class="">الوظيفة</label>
-                @Html.TextBoxFor(m => m.Job, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">الشركة</label>
-               @Html.TextBoxFor(m => m.WorkPlace, new { @class = "form-control" })
-            </div>
-            
-            <div class="form-group col-md-3">
-                <label for="" class="">وسيلة الاتصال</label>
-                @Html.DropDownListFor(x => x.TypeContactName, Model.TypeContacts as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">متبرع</label>
-                @Html.DropDownListFor(x => x.DonorOfName, Model.DonorOFs as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">تكرار التبرع</label>
-                @Html.DropDownListFor(x => x.FreqName, Model.Freqs as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">العنوان</label>
-                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">البريد الالكترونى <span style="color:red">(هام للتواصل)</span></label>
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-3">
-                <label for="" class="">ملاحظات</label>
-                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
-            </div>
->>>>>>> master
         </div>
+
         <div class="form-group col-md-3">
             <label for="" class="">المركز</label>
             @Html.DropDownListFor(x => x.CenterId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "centers" })
@@ -124,15 +71,15 @@
 
         <div class="form-group col-md-3">
             <label for="" class="">وسيلة الاتصال</label>
-            @Html.DropDownListFor(x => x.ContactValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "typeContact" })
+            @Html.DropDownListFor(x => x.TypeContactName, Model.TypeContacts as List<SelectListItem>, new { @class = "form-control", @id = "typeContact" })
         </div>
         <div class="form-group col-md-3">
             <label for="" class="">متبرع</label>
-            @Html.DropDownListFor(x => x.Motabre3Value, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "motabre3" })
+            @Html.DropDownListFor(x => x.DonorOfName, Model.DonorOFs as List<SelectListItem>, new { @class = "form-control", @id = "motabre3" })
         </div>
         <div class="form-group col-md-3">
             <label for="" class="">تكرار التبرع</label>
-            @Html.DropDownListFor(x => x.FreqValue, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "freq" })
+            @Html.DropDownListFor(x => x.FreqName, Model.Freqs as List<SelectListItem>, new { @class = "form-control", @id = "freq" })
         </div>
         <div class="form-group col-md-3">
             <label for="" class="">العنوان</label>
@@ -197,7 +144,8 @@
 
 
             <hr>
-        </div>
+       
+     </div>
 </main>
 
 

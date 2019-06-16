@@ -1,8 +1,12 @@
-﻿
+﻿@model ECBNewWeb.Models.MarketingLicensesModel
 @{
     ViewBag.Title = "AddLicenses";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
 }
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
 <main class="page-content">
     <div class="container-fluid">
   
@@ -25,7 +29,7 @@
                             </div>
                         </div>
 
-@using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+@using (Html.BeginForm("AddLicenses", "Licenses", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -35,21 +39,20 @@
                                 <div class="row">
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">اسم الترخيص</label>
-                                        <input type="text" class="form-control m-input" placeholder="اسم الترخيص">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                         @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+
+                                        @Html.TextBoxFor(m => m.LicenseName, new { @class = "form-control m-input", @placeholder = "اسم الترخيص" })
+                                        @Html.ValidationMessageFor(m => m.LicenseName, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">تاريخ البداية</label>
-                                        <input type="date" class="form-control m-input" >
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+
+                                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control m-input", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.LicenseName, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">تاريخ النهاية</label>
-                                        <input type="date" class="form-control m-input">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control m-input", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.LicenseName, "", new { @class = "text-danger" })
                                     </div>
 
                                     
@@ -61,23 +64,52 @@
                                     <div class="form-group m-form__group col-md-3">
 
                                         <label class="m-checkbox m-checkbox--state-success ">
-                                            <input type="checkbox" checked> حالة الترخيص
+                                            <input type="checkbox" checked  name="Active" id="Active" value="1" > حالة الترخيص
                                             <span></span>
                                         </label>
                                     </div>
 
-                                </div>
-                                
-                                
+                                </div>      
                                
                             </div>
 
                             <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-success m-btn--pill">حفظ</button>
+                                    <button type="submit" class="btn btn-success m-btn--pill" id="btn_SaveLicense">حفظ</button>
                                     <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
                                 </div>
                             </div>
+
+    if (TempData["Msg"] != null)
+    {
+        <div class="modal  fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                    </div>
+                    <div class="modal-body">
+                        @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                        {
+                            <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                        }
+                        else
+                        {
+                            <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+            <script>
+                $('#myModal').modal('show');
+            </script>
+    }
 }
 
                         <!--end::Form-->
@@ -94,8 +126,6 @@
     </div>
 </main>
 
-<script src="~/Scripts/jquery.min.js"></script>
-<script src="~/Scripts/popper.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
+
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
