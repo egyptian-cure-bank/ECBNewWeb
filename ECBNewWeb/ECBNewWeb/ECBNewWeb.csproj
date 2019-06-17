@@ -305,6 +305,7 @@
     <Compile Include="Models\DonorData.cs" />
     <Compile Include="Models\Governtment.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\MarketingLicensesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

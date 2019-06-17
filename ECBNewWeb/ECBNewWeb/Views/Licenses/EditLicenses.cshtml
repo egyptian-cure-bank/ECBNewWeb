@@ -1,4 +1,5 @@
-﻿<div class="">
+﻿@model ECBNewWeb.Models.MarketingLicensesModel
+<div class="">
     <div class="row">
         <div class="col-md-12">
             <!--begin::Portlet-->
@@ -16,41 +17,51 @@
                     </div>
                 </div>
 
-                @using (Html.BeginForm("", "", FormMethod.Post))
+                @using (Html.BeginForm("EditLicenses", "Licenses", FormMethod.Post))
                 {
+                    @Html.HiddenFor(m => m.Id)
                     <div class="m-portlet__body">
                         <div class="row">
                             <div class="form-group m-form__group col-md-3">
                                 <label for="">اسم الترخيص</label>
-                                <input type="text" class="form-control m-input" placeholder="اسم الترخيص">
-                                @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+
+                                @Html.TextBoxFor(m => m.LicenseName, new { @class = "form-control m-input", @placeholder = "اسم الترخيص" })
+                                @Html.ValidationMessageFor(m => m.LicenseName, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group m-form__group col-md-3">
                                 <label for="">تاريخ البداية</label>
-                                <input type="date" class="form-control m-input">
-                                @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+
+                                @Html.TextBoxFor(m => m.FromDate, "{0:yyyy-MM-dd}", new { @class = "form-control m-input", type = "date" })
+                                @Html.ValidationMessageFor(m => m.FromDate, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group m-form__group col-md-3">
                                 <label for="">تاريخ النهاية</label>
-                                <input type="date" class="form-control m-input">
-                                @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                @Html.TextBoxFor(m => m.ToDate, "{0:yyyy-MM-dd}", new { @class = "form-control m-input", type = "date" })
+                                @Html.ValidationMessageFor(m => m.ToDate, "", new { @class = "text-danger" })
                             </div>
-
-
-
-
                         </div>
                         <br />
                         <div class="row">
                             <div class="form-group m-form__group col-md-3">
 
-                                <label class="m-checkbox m-checkbox--state-success ">
-                                    <input type="checkbox" checked> حالة الترخيص
-                                    <span></span>
-                                </label>
+                                @if (Model.Active == 1)
+                                {
+                                    <label class="m-checkbox m-checkbox--state-success ">
+                                        <input type="checkbox" checked name="Active" id="Active" value="1"> حالة الترخيص
+                                        <span></span>
+                                    </label>
+
+                                }
+                                else
+                                {
+                                    <label class="m-checkbox m-checkbox--state-success ">
+                                        <input type="checkbox"  name="Active" id="Active" value="1"> حالة الترخيص
+                                        <span></span>
+                                    </label>
+
+                                }
+
+                                
                             </div>
 
                         </div>
