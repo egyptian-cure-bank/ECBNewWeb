@@ -28,8 +28,8 @@
         <AssociationConnector Association="MarketingModel.FK_market_marketingsites" />
         <EntityTypeShape EntityType="MarketingModel.TypeContact" Width="1.5" PointX="12.375" PointY="0.75" />
         <EntityTypeShape EntityType="MarketingModel.MarketingLicens" Width="1.5" PointX="0.75" PointY="13" />
-        <EntityTypeShape EntityType="MarketingModel.BookType" Width="1.5" PointX="12.375" PointY="3.75" />
         <EntityTypeShape EntityType="MarketingModel.CurrencyCovnersionRate" Width="1.5" PointX="12.375" PointY="7" />
+        <EntityTypeShape EntityType="MarketingModel.BookType" Width="1.5" PointX="12.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

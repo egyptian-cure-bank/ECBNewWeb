@@ -1,4 +1,4 @@
-﻿
+﻿@model ECBNewWeb.Models.BookModel
 @{
     ViewBag.Title = "AddBook";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
@@ -18,77 +18,89 @@
                                     <span class="m-portlet__head-icon m--hide">
                                         <i class="la la-gear"></i>
                                     </span>
+
                                     <h3 class="m-portlet__head-text">
                                         اضافة دفتر
+                                      
+
                                     </h3>
+
                                 </div>
                             </div>
                         </div>
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption text-danger">
+                                <h6>
+                                    @ViewBag.CurrentLicenseName
+                                </h6>
+                            </div>
+                        </div>
+                                
 
-                        @using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                @using (Html.BeginForm("SaveBook", "Book", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <!--begin::Form-->
 
-                            <div class="m-portlet__body">
-                                <div class="row">
-                                    <div class="form-group m-form__group col-md-3">
-                                        <label for="">اسم الدفتر</label>
-                                        <input type="text" class="form-control m-input" placeholder="اسم الدفتر">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                    <div class="m-portlet__body">
+                                        <div class="row">
+                                            <div class="form-group m-form__group col-md-3">
+                                                <label for="">رقم الدفتر</label>
+                                                @*<input type="text" class="form-control m-input" placeholder="اسم الدفتر">*@
+                                                @Html.TextBoxFor(m => m.BookNo, new { @class = "form-control m-input", @type = "number", @placeholder = "رقم الدفتر" })
+                                                @Html.ValidationMessageFor(m => m.BookNo, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="form-group m-form__group col-md-3">
+                                                <label for="" class="">نوع الدفتر</label>
+                                                @Html.DropDownListFor(x => x.RecTypeId, Model.MyRecTypes as List<SelectListItem>, new { @class = "form-control m-input", @id = "recTypeList" })
+                                                @Html.ValidationMessageFor(m => m.RecTypeId, "", new { @class = "text-danger" })
+                                                @*<select id="govern" class="form-control m-input"></select>*@
+                                            </div>
+                                            <div class="form-group m-form__group col-md-3">
+                                                <label for="">رقم اول ايصال</label>
+                                                @*<input type="text" class="form-control m-input " placeholder="رقم اول ايصال">*@
+                                                @Html.TextBoxFor(m => m.FirstReceiptNo, new { @class = "form-control m-input", @type = "number", @placeholder = "رقم اول ايصال" })
+                                                @Html.ValidationMessageFor(m => m.FirstReceiptNo, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="form-group m-form__group col-md-3">
+                                                <label for="">رقم اخر ايصال</label>
+                                                @*<input type="text" class="form-control m-input" placeholder="رقم اخر ايصال">*@
+                                                @Html.TextBoxFor(m => m.LastReceiptNo, new { @class = "form-control m-input", @type = "number", @placeholder = "رقم اخر ايصال" })
+                                                @Html.ValidationMessageFor(m => m.LastReceiptNo, "", new { @class = "text-danger" })
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="form-group m-form__group col-md-3">
+
+                                                <label class="m-checkbox m-checkbox--state-success ">
+                                                    <input type="checkbox" checked> حالة الدفتر
+                                                    <span></span>
+                                                </label>
+                                            </div>
+
+                                        </div>
+
+
+
                                     </div>
-                                    <div class="form-group m-form__group col-md-3">
-                                        <label for="" class="">نوع الدفتر</label>
-                                       @* @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control m-input", @id = "govern" }) *@
-                                       @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
-                                        <select id="govern" class="form-control m-input">
-                                         </select>
+
+                                    <div class="m-portlet__foot m-portlet__foot--fit">
+                                        <div class="m-form__actions">
+                                            <button type="submit" class="btn btn-success m-btn--pill">حفظ</button>
+                                            <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                        </div>
                                     </div>
-                                    <div class="form-group m-form__group col-md-3">
-                                        <label for="">رقم اول ايصال</label>
-                                        <input type="text" class="form-control m-input " placeholder="رقم اول ايصال">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
-                                    </div>
-                                    <div class="form-group m-form__group col-md-3">
-                                        <label for="">رقم اخر ايصال</label>
-                                        <input type="text" class="form-control m-input" placeholder="رقم اخر ايصال">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
-                                    </div>
+                                }
 
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="form-group m-form__group col-md-3">
-
-                                        <label class="m-checkbox m-checkbox--state-success ">
-                                            <input type="checkbox" checked> حالة الدفتر
-                                            <span></span>
-                                        </label>
-                                    </div>
-
-                                </div>
-
-
-
+                                <!--end::Form-->
                             </div>
-
-                            <div class="m-portlet__foot m-portlet__foot--fit">
-                                <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-success m-btn--pill">حفظ</button>
-                                    <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
-                                </div>
-                            </div>
-                        }
-
-                        <!--end::Form-->
+                            <!--end::Portlet-->
+                        </div>
                     </div>
-                    <!--end::Portlet-->
-                </div>
-            </div>
         </div>
 
 
@@ -105,3 +117,8 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#recTypeList").val(-1);
+    });
+</script>

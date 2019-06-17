@@ -21,7 +21,6 @@
         </EntityType>
         <EntityType Name="BookTypes">
           <Key>
-            <PropertyRef Name="BookTypeId" />
             <PropertyRef Name="BookNo" />
             <PropertyRef Name="RecTypeId" />
             <PropertyRef Name="LicenseId" />
@@ -168,7 +167,7 @@
           <Property Name="BookTypeId" Type="int" />
           <Property Name="FirstReceiptNo" Type="int" />
           <Property Name="LastReceiptNo" Type="int" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
           <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="KnowingMethod">
@@ -422,8 +421,8 @@
           </AssociationSet>
           <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
           <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
-          <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
           <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
+          <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -560,7 +559,7 @@
           <Property Name="BookTypeId" Type="Int32" />
           <Property Name="FirstReceiptNo" Type="Int32" />
           <Property Name="LastReceiptNo" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityType Name="UserSite">
@@ -629,19 +628,6 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
-        <EntityType Name="BookType">
-          <Key>
-            <PropertyRef Name="BookTypeId" />
-            <PropertyRef Name="BookNo" />
-            <PropertyRef Name="RecTypeId" />
-            <PropertyRef Name="LicenseId" />
-          </Key>
-          <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookNo" Type="Int32" Nullable="false" />
-          <Property Name="RecTypeId" Type="Int32" Nullable="false" />
-          <Property Name="LicenseId" Type="Int32" Nullable="false" />
-          <Property Name="Active" Type="Int32" />
-        </EntityType>
         <EntityType Name="CurrencyCovnersionRate">
           <Key>
             <PropertyRef Name="Id" />
@@ -655,6 +641,18 @@
           <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ToDate" Type="DateTime" Precision="0" />
           <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BookType">
+          <Key>
+            <PropertyRef Name="BookNo" />
+            <PropertyRef Name="RecTypeId" />
+            <PropertyRef Name="LicenseId" />
+          </Key>
+          <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookNo" Type="Int32" Nullable="false" />
+          <Property Name="RecTypeId" Type="Int32" Nullable="false" />
+          <Property Name="LicenseId" Type="Int32" Nullable="false" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
       </Schema>
@@ -904,17 +902,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BookTypes">
-            <EntityTypeMapping TypeName="MarketingModel.BookType">
-              <MappingFragment StoreEntitySet="BookTypes">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
-                <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
-                <ScalarProperty Name="BookNo" ColumnName="BookNo" />
-                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CurrencyCovnersionRates">
             <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
               <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
@@ -925,6 +912,17 @@
                 <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
                 <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookTypes">
+            <EntityTypeMapping TypeName="MarketingModel.BookType">
+              <MappingFragment StoreEntitySet="BookTypes">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
+                <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
+                <ScalarProperty Name="BookNo" ColumnName="BookNo" />
+                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

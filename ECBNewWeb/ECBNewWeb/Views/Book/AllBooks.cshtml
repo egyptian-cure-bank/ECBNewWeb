@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ECBNewWeb.Models.BookModel>
 @{
     ViewBag.Title = "AllBooks";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
@@ -59,20 +59,21 @@
 
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.BookNo</td>
+                                            <td>@item.RecTypeName</td>
+                                            <td>@item.FirstReceiptNo</td>
+                                            <td>@item.LastReceiptNo</td>
+                                            <td>@item.Active</td>
+                                            <td>
+                                                <button id="@item.BookTypeId" onclick="EditBook(this.id)" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-edit"></i></button>
+                                                @*<button id="" onclick="DeleteDonor(5)" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only"><i class="fa flaticon-delete"></i> </button>*@
+                                            </td>
 
-                                    <tr>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>
-                                            <button id="" onclick="EditBook(5)" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-edit"></i></button>
-                                            @*<button id="" onclick="DeleteDonor(5)" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only"><i class="fa flaticon-delete"></i> </button>*@
-                                        </td>
-
-                                    </tr>
-
+                                        </tr>
+                                    }
                                 </tbody>
 
                             </table>

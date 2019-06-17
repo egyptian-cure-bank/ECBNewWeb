@@ -66,6 +66,7 @@ namespace ECBNewWeb.Controllers
             }
             return Items;
         }
+        //Remote Validation
         public JsonResult CheckCurrencyNameDuplication(string CurrName)
         {
             bool IsExists = true;
