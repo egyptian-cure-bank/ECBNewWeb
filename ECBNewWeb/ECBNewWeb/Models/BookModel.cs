@@ -9,6 +9,7 @@ namespace ECBNewWeb.Models
 {
     public class BookModel
     {
+        public int BookReceiptId { get; set; }
         public int BookTypeId { get; set; }
         [Range(1,99999999999999,ErrorMessage ="الرقم لايمكن ان يكون صفر")]
         public int BookNo { get; set; }
@@ -29,5 +30,8 @@ namespace ECBNewWeb.Models
         [Range(1, 99999999999999, ErrorMessage = "الرقم لايمكن ان يكون صفر")]
         [Required]
         public int?LastReceiptNo { get; set; }
+
+        public IEnumerable<SelectListItem> MyHandleBookReceipts { get; set; }
     }
+
 }

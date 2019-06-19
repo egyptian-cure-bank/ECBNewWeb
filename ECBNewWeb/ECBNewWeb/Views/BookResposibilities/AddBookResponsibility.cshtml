@@ -1,4 +1,4 @@
-﻿
+﻿@model ECBNewWeb.Models.BookResposibilityModel
 @{
     ViewBag.Title = "HandleBookReceipts";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
@@ -26,7 +26,7 @@
                             </div>
                         </div>
 
-                        @using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+                        @using (Html.BeginForm("AddBookResponsibility", "BookResposibilities", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -36,43 +36,40 @@
                                 <div class="row">
                                     <div class="form-group m-form__group  col-md-3">
                                         <label for="" class="">اسم الموظف</label>
-                                        @* @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control m-input", @id = "govern" }) *@
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
-                                        <select id="govern" class="form-control m-input"></select>
+                                    @Html.DropDownListFor(x => x.EmployeeId, Model.MyEmployee as List<SelectListItem>, new { @class = "form-control m-input", @id = "Employeelist" })
+                                    @Html.ValidationMessageFor(m => m.EmployeeId, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group m-form__group  col-md-3">
                                         <label for="" class="">نوع الدفتر</label>
-                                        @* @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control m-input", @id = "govern" }) *@
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
-                                        <select id="govern" class="form-control m-input"></select>
+                                        @Html.DropDownListFor(x => x.RecTypeId, Model.MyRecTypes as List<SelectListItem>, new { @class = "form-control m-input", @id = "recTypeList" })
+                                        
+                                       
                                     </div>
                                     <div class="form-group m-form__group  col-md-3">
                                         <label for="" class="">رقم الدفتر</label>
-                                        @* @Html.DropDownListFor(x => x.GovernmentId, Model.MyGovernments as List<SelectListItem>, new { @class = "form-control m-input", @id = "govern" }) *@
-                                        @* @Html.ValidationMessageFor(m => m.GovernmentId, "", new { @class = "text-danger" }) *@
-                                        <select id="govern" class="form-control m-input"></select>
-                                    </div>
+                                        <select id="bookno" class="form-control m-input" name="HandleBookReceiptId">
 
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">تاريخ التسليم</label>
-                                        <input type="date" class="form-control m-input">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @Html.TextBoxFor(m => m.ReceiveDate, new { @class = "form-control m-input", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.ReceiveDate, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">تاريخ التسوية</label>
-                                        <input type="date" class="form-control m-input">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control m-input", @type = "date", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.DeliveryDate, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="">رقم اول ايصال</label>
-                                        <input type="text" class="form-control m-input " placeholder="رقم اول ايصال">
-                                        @*@Html.TextBoxFor(m => m.DonorName, new { @class = "form-control m-input" })*@
-                                        @*@Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })*@
+                                        @*<input type="text" class="form-control m-input" name="NextReceiptNo" placeholder="رقم اول ايصال" id="nextreceipt2" value="" disabled>*@
+                                        @Html.TextBoxFor(m => m.NextReceiptNo, new { @class = "form-control m-input" , @id= "nextreceipt2" , placeholder = "رقم اول ايصال"  , @readonly= "readonly" })
+                                        
+                                        @Html.ValidationMessageFor(m => m.NextReceiptNo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <br />
@@ -80,7 +77,7 @@
                                     <div class="form-group m-form__group col-md-3">
 
                                         <label class="m-checkbox m-checkbox--state-success ">
-                                            <input type="checkbox" checked> حالة الدفتر
+                                            <input type="checkbox"  name="DoneFlag" id="DoneFlag" value="1"  disabled > حالة الدفتر
                                             <span></span>
                                         </label>
                                     </div>
@@ -93,7 +90,7 @@
 
                             <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-success m-btn--pill">حفظ</button>
+                                    <button type="submit" class="btn btn-success m-btn--pill" id="btn_SaveLicense">حفظ</button>
                                     <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
                                 </div>
                             </div>
@@ -116,4 +113,53 @@
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // get book number
+        $("#recTypeList").change(function () {
+            var typeid = $("#recTypeList").val();
+            $.ajax({
+                url: "/BookResposibilities/PopulateBooks/",
+                data: { bookid: typeid },
+                datatype: "json",
+                success:function(reponse)
+                {
+                    var txt = "";
+                    txt += "<option value= ''>  </option>";
+                    for (var item in reponse) {
+                        txt += "<option value=" + reponse[item].Value + " >" + reponse[item].Text + "</option>";
+                    }
+
+                    $("#bookno").html(txt);
+                }
+                
+
+            })
+
+            $("#nextreceipt2").val('');
+        })
+
+        // Next Receipt number
+        $("#bookno").change(function () {
+            var typeid = $("#bookno").val();
+            $.ajax({
+                url: "/BookResposibilities/PopulateFirstReceiptNumber/",
+                data: { Handlebookreceiptid: typeid },
+                datatype: "json",
+                success: function (response) {
+                    var txt = "";
+                    $("#nextreceipt2").val(response);
+                    $("#nextreceipt2").text(response);
+                }
+
+
+            })
+        })
+
+
+
+
+    })
+</script>
 

@@ -192,20 +192,7 @@ namespace ECBNewWeb.Controllers
             }
             return Json(IsExists, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult HandleBookReceipts()
-        {
-            return View();
-        }
-
-        public ActionResult AllHandleBookReceipts()
-        {
-            return View();
-        }
-
-        public ActionResult EditHandleBookReceipts()
-        {
-            return PartialView();
-        }
+        
 
 
 

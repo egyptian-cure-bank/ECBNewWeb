@@ -158,6 +158,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DonationController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="CustomAuthentication\CustomMembershipUser.cs" />
     <Compile Include="CustomAuthentication\CustomPrincipal.cs" />
     <Compile Include="CustomAuthentication\CustomRole.cs" />
+    <Compile Include="CustomValidation\CompareValidator.cs" />
     <Compile Include="DataAccess\AccessLevel.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
@@ -300,12 +302,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookResposibilityModel.cs" />
     <Compile Include="Models\Center.cs" />
+    <Compile Include="Models\ConversionRateModel.cs" />
+    <Compile Include="Models\CurrencyModel.cs" />
     <Compile Include="Models\DonationData.cs" />
     <Compile Include="Models\DonorData.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\Governtment.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MarketingLicensesModel.cs" />
+    <Compile Include="Models\ReceiptTypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -809,19 +817,20 @@
     <Content Include="Views\Licenses\AddLicenses.cshtml" />
     <Content Include="Views\Book\AddBook.cshtml" />
     <Content Include="Views\Book\AddReceiptType.cshtml" />
-    <Content Include="Views\Book\HandleBookReceipts.cshtml" />
     <Content Include="Views\Currency\AddCurrency.cshtml" />
     <Content Include="Views\Currency\CurrenyConversion.cshtml" />
     <Content Include="Views\Licenses\AllLicenses.cshtml" />
     <Content Include="Views\Licenses\EditLicenses.cshtml" />
     <Content Include="Views\Book\AllBooks.cshtml" />
     <Content Include="Views\Book\EditBook.cshtml" />
-    <Content Include="Views\Book\AllHandleBookReceipts.cshtml" />
-    <Content Include="Views\Book\EditHandleBookReceipts.cshtml" />
+    <Content Include="Views\BookResposibilities\AddBookResponsibility.cshtml" />
+    <Content Include="Views\BookResposibilities\AllBookResponsibility.cshtml" />
+    <Content Include="Views\BookResposibilities\EditBookResponsibility.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Donation\" />
+    <Folder Include="Views\HandleBookReceipts\" />
     <Folder Include="Views\ReceiptType\" />
   </ItemGroup>
   <ItemGroup>

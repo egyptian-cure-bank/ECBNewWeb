@@ -16,7 +16,6 @@
   </EntityType>
   <EntityType Name="BookTypes">
     <Key>
-      <PropertyRef Name="BookTypeId" />
       <PropertyRef Name="BookNo" />
       <PropertyRef Name="RecTypeId" />
       <PropertyRef Name="LicenseId" />
@@ -163,7 +162,7 @@
     <Property Name="BookTypeId" Type="int" />
     <Property Name="FirstReceiptNo" Type="int" />
     <Property Name="LastReceiptNo" Type="int" />
-    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
     <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="KnowingMethod">

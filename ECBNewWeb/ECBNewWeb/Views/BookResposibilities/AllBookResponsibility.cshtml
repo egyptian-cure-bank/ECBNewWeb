@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ECBNewWeb.Models.BookResposibilityModel>
 @{
     ViewBag.Title = "AllHandleBookReceipts";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
@@ -9,6 +9,11 @@
     <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
 }
+
+
+
+
+
 <main class="page-content">
     <div class="container-fluid">
         <div class="m-content">
@@ -52,8 +57,9 @@
                                         <th>اسم الموظف</th>
                                         <th>نوع الدفتر</th>
                                         <th>رقم الدفتر</th>
-                                        <th> رقم اول ايصال </th>
-                                        <th>رقم اخر ايصال</th>
+                                        <th> تاريخ التسليم </th>
+                                        <th>تاريخ التسوية</th>
+                                        <th>رقم اول ايصال</th>
                                         <th>الحالة</th>
                                         <th></th>
                                     </tr>
@@ -61,19 +67,46 @@
                                 </thead>
                                 <tbody>
 
-                                    <tr>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>
-                                            <button id="" onclick="EditHandleBookReceipts(5)" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-edit"></i></button>
-                                            @*<button id="" onclick="DeleteDonor(5)" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only"><i class="fa flaticon-delete"></i> </button>*@
-                                        </td>
+                                    @foreach (var item in Model)
+                                    {
 
-                                    </tr>
+                                        <tr>
+                                            <td>@item.FullName</td>
+                                            <td>
+                                                @item.ReceiptTypeName
+                                            </td>
+                                            <td>@item.BookNo</td>
+                                            <td>
+                                                @item.ReceiveDate
+                                            </td>
+                                            <td>@item.DeliveryDate</td>
+                                            <td>@item.NextReceiptNo</td>
+                                            <td>
+                                                @if (item.DoneFlag == 1)
+                                                {
+                                                    <label class="m-checkbox m-checkbox--single  m-checkbox--state-success ">
+                                                        <input type="checkbox" name="DoneFlag" id="DoneFlag" checked disabled value="@item.DoneFlag">
+                                                        <span></span>
+                                                    </label>
+
+                                                }
+                                                else
+                                                {
+                                                    <label class="m-checkbox m-checkbox--single  m-checkbox--state-danger ">
+                                                        <input type="checkbox" name="DoneFlag" id="DoneFlag" disabled value="@item.DoneFlag">
+                                                        <span></span>
+                                                    </label>
+                                                }
+
+
+                                            </td>
+                                            <td>
+                                                <button id="" onclick="EditBookResponsibility(@item.RespId)" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-edit"></i></button>
+                                                @*<button id="" onclick="DeleteDonor(5)" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only"><i class="fa flaticon-delete"></i> </button>*@
+                                            </td>
+
+                                        </tr>
+                                    }
 
                                 </tbody>
 
@@ -94,6 +127,45 @@
         </div>
     </div>
 </main>
+@if (TempData["Msg"] != null)
+    {
+<div class="modal  fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+            </div>
+            <div class="modal-body">
+
+
+                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                {
+                    <script>
+                        alert("تم الحفظ بنجاح");
+                    </script>
+                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                }
+                else
+                {
+                    <script>
+                        alert("خطا اثناء الحفظ");
+                    </script>
+                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script>
+                $('#myModal').modal('show');
+</script>
+    }
+
 
 <!--End Test Area-->
 <!-- Edit and Delete -->
@@ -111,6 +183,7 @@
     </div>
 </div>
 
+
 <div id="myModalDelete" class="modal fade " style="text-align:center">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -125,20 +198,17 @@
     </div>
 </div>
 
-
-
-
-
 <script>
 
-    function EditHandleBookReceipts(id) {
+    function EditBookResponsibility(id) {
 
-        $.get("@Url.Action("EditHandleBookReceipts", "Book")/" + id,
+        $.get("@Url.Action("EditBookResponsibility", "BookResposibilities")/" + id,
         function (data) { $('.modal-body').html(data); })
         $('#myModalEdit').modal('show');
         $('#myModalEdit').on('hidden.bs.modal', function (e) {
-            $('.modal-body').html("");
+            $('.modal-body').html("hhh");
         })
+        
     }
 
     function DeleteLicenses(id) {
@@ -150,7 +220,6 @@
             $('.modal-body').html("");
         })
     }
-
 
 </script>
 

@@ -242,17 +242,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="BookTypes">
-      <EntityTypeMapping TypeName="MarketingModel.BookType">
-        <MappingFragment StoreEntitySet="BookTypes">
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
-          <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
-          <ScalarProperty Name="BookNo" ColumnName="BookNo" />
-          <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="CurrencyCovnersionRates">
       <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
         <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
@@ -263,6 +252,17 @@
           <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
           <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookTypes">
+      <EntityTypeMapping TypeName="MarketingModel.BookType">
+        <MappingFragment StoreEntitySet="BookTypes">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
+          <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
+          <ScalarProperty Name="BookNo" ColumnName="BookNo" />
+          <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
