@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 
 namespace ECBNewWeb.Controllers
 {
-    
     public class DonationController : Controller
     {
         private CustomMembershipUser UserInfo;
@@ -381,7 +380,7 @@ namespace ECBNewWeb.Controllers
                     }
                 }
             }
-            MarkBookResponsibilityAsDone(NextReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+            MarkBookResponsibilityAsDone(NextReceiptNo,LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
             return RedirectToAction("AddDonations", Donation);
         }
         [HttpPost]
@@ -497,11 +496,11 @@ namespace ECBNewWeb.Controllers
                     }
                 }
             }
-            MarkBookResponsibilityAsDone(NextReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+            MarkBookResponsibilityAsDone(NextReceiptNo,LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
             return RedirectToAction("AddDonations", Donation);
         }
         [HttpPost]
-        public void MarkBookResponsibilityAsDone(int NextReceiptNo,int RecTypeId, int RespId,int UserId)
+        public void MarkBookResponsibilityAsDone(int NextReceiptNo,int LastReceiptNo,int RecTypeId, int RespId,int UserId)
         {
             int CountRec = 0;
             int MaxRecId = 0;
@@ -522,7 +521,7 @@ namespace ECBNewWeb.Controllers
                         Com.CommandText = "Select Max(ReceiptNo)As MaxRecId FROM CanceledReceipts Where ResponsibilityId = @RespId";
                         //Com.Parameters.AddWithValue("@RespId", RespId);
                         MaxRecId = (Int32)Com.ExecuteScalar();
-                        if (MaxRecId == NextReceiptNo)
+                        if (MaxRecId == LastReceiptNo)
                         {
                             Com.CommandText = "Update BookResposibilities " +
                                                 "Set DoneFlag = 1 " +
@@ -553,7 +552,7 @@ namespace ECBNewWeb.Controllers
                     ComV2.Parameters.AddWithValue("@RecTypeId", RecTypeId);
                     ComV2.Parameters.AddWithValue("@UserId", UserId);
                     LastSavedRecNo = (Int32)ComV2.ExecuteScalar();
-                    if (LastSavedRecNo == NextReceiptNo)
+                    if (LastSavedRecNo == LastReceiptNo)
                     {
                         ComV2.CommandText = "Update BookResposibilities " +
                                             "Set DoneFlag = 1 " +

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "MarketPerformance";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<main class="page-content">
+    <div class="container-fluid">
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--tab">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        تقرير حافظة التوريد
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        @using (Html.BeginForm("MarketPerformance", "MarketReports", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!--begin::Form-->
+
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+                                        <span class="user-name">
+                                            إسم المحصل :
+                                            @{ var UserSession = Session["CurrentUser"] as ECBNewWeb.CustomAuthentication.CustomMembershipUser;
+                                                <strong>@UserSession.FirstName</strong>
+                                                <strong>@UserSession.LastName</strong>
+                                            }
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+                                            <label for="" class="">تاريخ الحافظة</label>
+                                            @Html.TextBox("Date",Request["Date"],new { @class = "form-control", @id = "dateParameter", @required="true", @type = "date"})
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <button type="submit" formaction="" class="btn btn-success m-btn--pill">طباعة</button>
+                                </div>
+                            </div>
+                        }
+
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Portlet-->
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</main>
