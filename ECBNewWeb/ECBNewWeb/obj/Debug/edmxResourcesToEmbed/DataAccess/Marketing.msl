@@ -52,14 +52,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="marketingsites">
-      <EntityTypeMapping TypeName="MarketingModel.marketingsite">
-        <MappingFragment StoreEntitySet="marketingsites">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="sitename" ColumnName="sitename" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="centers">
       <EntityTypeMapping TypeName="MarketingModel.center">
         <MappingFragment StoreEntitySet="centers">
@@ -91,15 +83,6 @@
         <MappingFragment StoreEntitySet="Currency">
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DonationPurposes">
-      <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
-        <MappingFragment StoreEntitySet="DonationPurpose">
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="Purpose" ColumnName="Purpose" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -242,6 +225,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CurrencyCovnersionRates">
+      <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
+        <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
+          <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="BookTypes">
       <EntityTypeMapping TypeName="MarketingModel.BookType">
         <MappingFragment StoreEntitySet="BookTypes">
@@ -253,16 +249,48 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CurrencyCovnersionRates">
-      <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
-        <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
+    <EntitySetMapping Name="marketingsites">
+      <EntityTypeMapping TypeName="MarketingModel.marketingsite">
+        <MappingFragment StoreEntitySet="marketingsites">
           <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
-          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
-          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-          <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
-          <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
+          <ScalarProperty Name="sitename" ColumnName="sitename" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DonationPurposes">
+      <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
+        <MappingFragment StoreEntitySet="DonationPurpose">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Purpose" ColumnName="Purpose" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLogins">
+      <EntityTypeMapping TypeName="MarketingModel.UserLogin">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="importance" ColumnName="importance" />
+          <ScalarProperty Name="userRole" ColumnName="userRole" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

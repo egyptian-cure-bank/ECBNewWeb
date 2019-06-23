@@ -12,7 +12,7 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Userlogin
+    public partial class UserLogin
     {
         public int id { get; set; }
         public string username { get; set; }

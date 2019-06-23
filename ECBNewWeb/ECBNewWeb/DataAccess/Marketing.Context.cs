@@ -45,8 +45,8 @@ namespace ECBNewWeb.DataAccess
         public DbSet<MarketingLicens> MarketingLicenses { get; set; }
         public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
         public DbSet<BookType> BookTypes { get; set; }
-        public DbSet<Userlogin> Userlogins { get; set; }
         public DbSet<marketingsite> marketingsites { get; set; }
         public DbSet<DonationPurpose> DonationPurposes { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
     }
 }

@@ -795,7 +795,7 @@ namespace ECBNewWeb.Controllers
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
-                List<MarketGroupBriefModel> MyUser = (from S in db.Userlogins
+                List<MarketGroupBriefModel> MyUser = (from S in db.UserLogins
                                                        where S.active ==1
                                              select new MarketGroupBriefModel() { UserId = S.id, UserName = S.FirstName+" "+S.LastName }).ToList<MarketGroupBriefModel>();
                 foreach (MarketGroupBriefModel S in MyUser)

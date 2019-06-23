@@ -462,13 +462,13 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
           <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
           <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
-          <EntitySet Name="Userlogins" EntityType="MarketingModel.Userlogin" />
           <EntitySet Name="marketingsites" EntityType="MarketingModel.marketingsite" />
           <AssociationSet Name="FK_market_marketingsites" Association="MarketingModel.FK_market_marketingsites">
             <End Role="marketingsite" EntitySet="marketingsites" />
             <End Role="market" EntitySet="markets" />
           </AssociationSet>
           <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
+          <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -681,31 +681,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="LicenseId" Type="Int32" Nullable="false" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
-        <EntityType Name="Userlogin">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-          <Property Name="employee_id" Type="Int32" />
-          <Property Name="volunteer_id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="passChanged" Type="Int16" />
-          <Property Name="department" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
-          <Property Name="UserComments" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyID" Type="Int32" />
-          <Property Name="LastLoginTime" Type="DateTime" Precision="0" />
-          <Property Name="IsResetPasswordNeeded" Type="Int16" />
-          <Property Name="PasswordChangedOn" Type="DateTime" Precision="0" />
-          <Property Name="SecurityQuestionID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="SecurityAnswer" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="userRole" Type="Int32" />
-          <Property Name="importance" Type="Int32" />
-          <Property Name="active" Type="Int16" />
-        </EntityType>
         <EntityType Name="marketingsite">
           <Key>
             <PropertyRef Name="id" />
@@ -735,6 +710,31 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="volunteer_id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="passChanged" Type="Int16" />
+          <Property Name="department" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="UserComments" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="0" />
+          <Property Name="IsResetPasswordNeeded" Type="Int16" />
+          <Property Name="PasswordChangedOn" Type="DateTime" Precision="0" />
+          <Property Name="SecurityQuestionID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="SecurityAnswer" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="userRole" Type="Int32" />
+          <Property Name="importance" Type="Int32" />
+          <Property Name="active" Type="Int16" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -990,8 +990,27 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Userlogins">
-            <EntityTypeMapping TypeName="MarketingModel.Userlogin">
+          <EntitySetMapping Name="marketingsites">
+            <EntityTypeMapping TypeName="MarketingModel.marketingsite">
+              <MappingFragment StoreEntitySet="marketingsites">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="sitename" ColumnName="sitename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DonationPurposes">
+            <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
+              <MappingFragment StoreEntitySet="DonationPurpose">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="MarketingModel.UserLogin">
               <MappingFragment StoreEntitySet="login">
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="importance" ColumnName="importance" />
@@ -1013,25 +1032,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="marketingsites">
-            <EntityTypeMapping TypeName="MarketingModel.marketingsite">
-              <MappingFragment StoreEntitySet="marketingsites">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="sitename" ColumnName="sitename" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DonationPurposes">
-            <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
-              <MappingFragment StoreEntitySet="DonationPurpose">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

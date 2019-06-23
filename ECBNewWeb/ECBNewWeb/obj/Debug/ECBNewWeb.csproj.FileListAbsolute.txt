@@ -386,3 +386,4 @@ C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Newtonso
 C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.csprojResolveAssemblyReference.cache
 C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.dll
 C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.pdb
+D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\stdole.dll

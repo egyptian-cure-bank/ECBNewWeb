@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -165,11 +168,32 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
+    <Compile Include="Controllers\MarketReportsController.cs" />
+    <Compile Include="CrystalReports\Marketing\rptMarketingAdminDetails2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMarketingAdminDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\Marketing\rptMarketingBrief2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMarketingBrief.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\Marketing\rptMyMarketPerformance2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMyMarketPerformance.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CurrencyInfo.cs" />
     <Compile Include="CustomAuthentication\CustomAuthorizeAttribute.cs" />
     <Compile Include="CustomAuthentication\CustomMembership.cs" />
     <Compile Include="CustomAuthentication\CustomMembershipUser.cs" />
     <Compile Include="CustomAuthentication\CustomPrincipal.cs" />
     <Compile Include="CustomAuthentication\CustomRole.cs" />
+    <Compile Include="CustomValidation\CompareValidator.cs" />
     <Compile Include="DataAccess\AccessLevel.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
@@ -290,23 +314,37 @@
     <Compile Include="DataAccess\TypeContact.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\UserLogin.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\UserRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\UserSite.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataSets\MarketingDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MarketingDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Filters\AuthFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\Center.cs" />
+    <Compile Include="Models\ConversionRateModel.cs" />
+    <Compile Include="Models\CurrencyModel.cs" />
     <Compile Include="Models\DonationData.cs" />
     <Compile Include="Models\DonorData.cs" />
     <Compile Include="Models\Governtment.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\MarketGroupBriefModel.cs" />
     <Compile Include="Models\MarketingLicensesModel.cs" />
+    <Compile Include="Models\ReceiptTypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToWord.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -730,6 +768,17 @@
     <Content Include="Content\fonts\Roboto\Roboto-Regular.ttf" />
     <Content Include="Content\fonts\Roboto\Roboto-Thin.ttf" />
     <Content Include="Content\fonts\Roboto\Roboto-ThinItalic.ttf" />
+    <Content Include="DataSets\MarketingDataSet.xsc">
+      <DependentUpon>MarketingDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSets\MarketingDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>MarketingDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="DataSets\MarketingDataSet.xss">
+      <DependentUpon>MarketingDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -818,6 +867,8 @@
     <Content Include="Views\Book\EditBook.cshtml" />
     <Content Include="Views\Book\AllHandleBookReceipts.cshtml" />
     <Content Include="Views\Book\EditHandleBookReceipts.cshtml" />
+    <Content Include="Views\MarketReports\MarketGroupBrief.cshtml" />
+    <Content Include="Views\MarketReports\MarketPerformance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -831,6 +882,21 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingAdminDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMarketingAdminDetails2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBrief.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMarketingBrief2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\Marketing\rptMyMarketPerformance.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMyMarketPerformance2.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
