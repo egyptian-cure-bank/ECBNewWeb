@@ -17,5 +17,6 @@ namespace ECBNewWeb.DataAccess
         public int Id { get; set; }
         public string Purpose { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> Active { get; set; }
     }
 }
