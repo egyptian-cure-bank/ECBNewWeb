@@ -35,6 +35,7 @@ namespace ECBNewWeb.Controllers
             _DonationData.MyPurposes = PopulatePurpose();
             _DonationData.MyPayments = PopulatePayment();
             _DonationData.MyKnowingMethods = PopulateKnowingMethod();
+            _DonationData.BankInfoChecked = "false";
             return View("~/Views/Market/AddDonations.cshtml", _DonationData);
         }
         public JsonResult GetReceiptNoFromRecType(int RecTypeId)
@@ -115,6 +116,12 @@ namespace ECBNewWeb.Controllers
             {
                 List<DonationData> MySite = (from S in db.marketingsites
                                              select new DonationData() { SiteId = S.id, SiteName = S.sitename }).ToList<DonationData>();
+                SelectListItem DisabledItem = new SelectListItem()
+                {
+                    Text = "",
+                    Value = "-1"
+                };
+                Items.Add(DisabledItem);
                 foreach (DonationData S in MySite)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -153,6 +160,12 @@ namespace ECBNewWeb.Controllers
                 {
                     Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
                     SqlDataReader Reader = Command.ExecuteReader();
+                    SelectListItem DisabledItem = new SelectListItem()
+                    {
+                        Text = "",
+                        Value = "-1"
+                    };
+                    Items.Add(DisabledItem);
                     while (Reader.Read())
                     {
                         SelectListItem selectList = new SelectListItem()
@@ -174,6 +187,12 @@ namespace ECBNewWeb.Controllers
             {
                 List<DonationData> MyCurr = (from S in db.Currencies
                                              select new DonationData() { CurrencyId = S.Id, CurrencyName = S.CurrencyName }).ToList<DonationData>();
+                //SelectListItem DisabledItem = new SelectListItem()
+                //{
+                //    Text = "",
+                //    Value = "-1"
+                //};
+                //Items.Add(DisabledItem);
                 foreach (DonationData C in MyCurr)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -194,6 +213,12 @@ namespace ECBNewWeb.Controllers
             {
                 List<DonationData> MyPurpose = (from S in db.DonationPurposes
                                                 select new DonationData() { PurpId = S.Id, PurpName = S.Purpose }).ToList<DonationData>();
+                SelectListItem DisabledItem = new SelectListItem()
+                {
+                    Text = "",
+                    Value = "-1"
+                };
+                Items.Add(DisabledItem);
                 foreach (DonationData P in MyPurpose)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -214,6 +239,12 @@ namespace ECBNewWeb.Controllers
             {
                 List<DonationData> MyPayment = (from S in db.PaymentMethods
                                                 select new DonationData() { PaymentId = S.Id, PaymentName = S.MethodName }).OrderBy(x => x.PaymentId).ToList<DonationData>();
+                SelectListItem DisabledItem = new SelectListItem()
+                {
+                    Text = "",
+                    Value = "-1"
+                };
+                Items.Add(DisabledItem);
                 foreach (DonationData P in MyPayment)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -246,6 +277,31 @@ namespace ECBNewWeb.Controllers
             }
             return Items;
         }
+        public JsonResult PopulateBankInfo()
+        {
+            List<SelectListItem> Items = new List<SelectListItem>();
+            using (MarketEntities context = new MarketEntities())
+            {
+                List<DonationData> MyBanks = (from c in context.ChequeBanks
+                                            select new DonationData() { ChequeBankId = c.ChequeBankId, ChequeBankName = c.ChequeBankName}).ToList<DonationData>();
+
+                foreach (DonationData Banks in MyBanks)
+                {
+
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = Banks.ChequeBankName,
+                        Value = Banks.ChequeBankId.ToString()
+                    };
+                    Items.Add(selectList);
+                }
+            }
+            DonationData banks = new DonationData()
+            {
+                MyChequeBanks = Items
+            };
+            return Json(banks.MyChequeBanks,JsonRequestBehavior.AllowGet);
+        }
         public JsonResult AutoCompleteDonor(string prefix)
         {
             using (MarketEntities db = new MarketEntities())
@@ -264,9 +320,9 @@ namespace ECBNewWeb.Controllers
             int LastReceiptNo = 0;
             int RespCount = 0;
             int UpdateRecordCount = 0;
-            using (MarketEntities Market = new MarketEntities())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (MarketEntities Market = new MarketEntities())
                 {
                     using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                     {
@@ -285,9 +341,9 @@ namespace ECBNewWeb.Controllers
                                     "And marketingrectype.Active = 1 " +
                                     "And dbo.BookResposibilities.EmployeeId = @UserId " +
                                     "And dbo.marketingrectype.id = @RecTypeId ";
-                        using (SqlCommand Command = new SqlCommand(Cmd,Conn))
+                        using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                         {
-                            Command.Parameters.AddWithValue("@UserId",UserInfo.UserId);
+                            Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
                             Command.Parameters.AddWithValue("@RecTypeId", Donation.RecId);
                             SqlDataReader Reader = Command.ExecuteReader();
                             if (Reader.Read())
@@ -299,10 +355,11 @@ namespace ECBNewWeb.Controllers
                     if (RespId != 0)
                     {
                         market DBDonation = new market();
+                        ChequeInformation chequeBankInfo = new ChequeInformation();
                         //get the receipt name from selected receipt id
                         Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
                         DBDonation.dat = Donation.RecDate;
-                        DBDonation.no = Donation.RecNumber;
+                        DBDonation.no = Convert.ToInt32(Donation.RecNumber);
                         DBDonation.name = Donation.DonorId;
                         DBDonation.amount = Donation.Amount;
                         DBDonation.currency = Donation.CurrencyName;
@@ -313,13 +370,23 @@ namespace ECBNewWeb.Controllers
                         DBDonation.ResponsibilityId = RespId;
                         DBDonation.DonationPurposeId = Donation.PurpId;
                         DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
+                        if (Donation.BankInfoChecked == "true")
+                        {
+                            chequeBankInfo.ChequeBankId = Donation.ChequeBankId;
+                            chequeBankInfo.ChequeNo = Donation.ChequeNumber;
+                            chequeBankInfo.ChequeDate = Donation.ChequeDate;
+                            Market.ChequeInformations.Add(chequeBankInfo);
+                            Market.SaveChanges();
+                            DBDonation.ChequeInfoId = chequeBankInfo.Id;
+                        }
+                        // ModelState.AddModelError(string.Empty, "برجاء إستكمال بيانات الشيك");
                         Market.markets.Add(DBDonation);
                         Market.SaveChanges();
                         using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                         {
                             Con.Open();
                             string Cmd = "Select Count(market.ResponsibilityId) From market Where ResponsibilityId = @RespId ";
-                            using (SqlCommand Command = new SqlCommand(Cmd,Con))
+                            using (SqlCommand Command = new SqlCommand(Cmd, Con))
                             {
                                 Command.Parameters.AddWithValue("@RespId", RespId);
                                 RespCount = (Int32)Command.ExecuteScalar();
@@ -327,17 +394,17 @@ namespace ECBNewWeb.Controllers
                                 {
                                     string Query = "Select IsNull(BookResposibilities.NextReceiptNo,0)as NextReceiptNo,IsNull(HandleBookReceipts.FirstReceiptNo,0) as FirstReceiptNo, " +
                                                     "HandleBookReceipts.LastReceiptNo " +
-                                                    "From HandleBookReceipts "+
-                                                    "Inner Join BookTypes "+
-                                                    "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId "+
-                                                    "Inner Join marketingrectype "+
-                                                    "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id "+
-                                                    "Inner Join MarketingLicenses "+
-                                                    "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id "+
-                                                    "Inner Join BookResposibilities "+
-                                                    "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId "+
-                                                    "Where dbo.BookResposibilities.DoneFlag = 0 "+
-                                                    "And marketingrectype.Active = 1 "+
+                                                    "From HandleBookReceipts " +
+                                                    "Inner Join BookTypes " +
+                                                    "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
+                                                    "Inner Join marketingrectype " +
+                                                    "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
+                                                    "Inner Join MarketingLicenses " +
+                                                    "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
+                                                    "Inner Join BookResposibilities " +
+                                                    "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+                                                    "Where dbo.BookResposibilities.DoneFlag = 0 " +
+                                                    "And marketingrectype.Active = 1 " +
                                                     "And BookResposibilities.RespId = @RespId ";
                                     using (SqlCommand Com = new SqlCommand(Query, Con))
                                     {
@@ -368,7 +435,7 @@ namespace ECBNewWeb.Controllers
                                         {
                                             UpdateCom.Parameters.AddWithValue("@RespId", RespId);
                                             UpdateCom.Parameters.AddWithValue("@RecIncrement", NextReceiptNo + 1);
-                                            if (NextReceiptNo+1 <= LastReceiptNo)
+                                            if (NextReceiptNo + 1 <= LastReceiptNo)
                                             {
                                                 UpdateRecordCount = UpdateCom.ExecuteNonQuery();
                                             }
@@ -379,9 +446,21 @@ namespace ECBNewWeb.Controllers
                         }
                     }
                 }
+                MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+                return RedirectToAction("AddDonations", Donation);
             }
-            MarkBookResponsibilityAsDone(NextReceiptNo,LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
-            return RedirectToAction("AddDonations", Donation);
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelState modelstate in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelstate.Errors)
+                    {
+                        TempData["ModelErrors"] = error.ErrorMessage;
+                    }
+                }
+                return RedirectToAction("AddDonations", Donation);
+            }
         }
         [HttpPost]
         public ActionResult CancelReceipt(DonationData Donation)
@@ -427,7 +506,7 @@ namespace ECBNewWeb.Controllers
                 if (RespId != 0)
                 {
                     CanceledReceipt DBCanceledReceipt = new CanceledReceipt();
-                    DBCanceledReceipt.ReceiptNo = Donation.RecNumber;
+                    DBCanceledReceipt.ReceiptNo = Convert.ToInt32(Donation.RecNumber);
                     DBCanceledReceipt.ResponsibilityId = RespId;
                     DBCanceledReceipt.Canceled = 1;
                     Market.CanceledReceipts.Add(DBCanceledReceipt);
@@ -500,7 +579,7 @@ namespace ECBNewWeb.Controllers
             return RedirectToAction("AddDonations", Donation);
         }
         [HttpPost]
-        public void MarkBookResponsibilityAsDone(int NextReceiptNo,int LastReceiptNo,int RecTypeId, int RespId,int UserId)
+        public void MarkBookResponsibilityAsDone(int NextReceiptNo,int LastReceiptNo,int? RecTypeId, int RespId,int UserId)
         {
             int CountRec = 0;
             int MaxRecId = 0;
