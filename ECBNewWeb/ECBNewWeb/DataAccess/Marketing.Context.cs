@@ -48,5 +48,7 @@ namespace ECBNewWeb.DataAccess
         public DbSet<marketingsite> marketingsites { get; set; }
         public DbSet<DonationPurpose> DonationPurposes { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<ChequeBank> ChequeBanks { get; set; }
+        public DbSet<ChequeInformation> ChequeInformations { get; set; }
     }
 }

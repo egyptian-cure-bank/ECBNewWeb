@@ -49,6 +49,27 @@
           <Property Name="government_id" Type="int" />
           <Property Name="center_name" Type="varchar" MaxLength="52" />
         </EntityType>
+        <EntityType Name="ChequeBanks">
+          <Key>
+            <PropertyRef Name="ChequeBankId" />
+          </Key>
+          <Property Name="ChequeBankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChequeBankName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="ChequeInformation">
+          <Key>
+            <PropertyRef Name="ChequeBankId" />
+            <PropertyRef Name="ChequeNo" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChequeBankId" Type="int" Nullable="false" />
+          <Property Name="ChequeNo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ChequeDate" Type="date" />
+          <Property Name="TimeStamp" Type="datetime" />
+        </EntityType>
         <EntityType Name="Currency">
           <Key>
             <PropertyRef Name="Id" />
@@ -227,6 +248,7 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           <Property Name="FinApprov" Type="varchar" MaxLength="1" />
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="DonationPurposeId" Type="int" />
+          <Property Name="ChequeInfoId" Type="int" />
         </EntityType>
         <EntityType Name="MarketingLicenses">
           <Key>
@@ -323,6 +345,8 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           <EntitySet Name="BookTypes" EntityType="Self.BookTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrencyCovnersionRates" EntityType="Self.CurrencyCovnersionRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
@@ -432,6 +456,7 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="DonationPurposeId" Type="Int32" />
           <NavigationProperty Name="marketingsite" Relationship="MarketingModel.FK_market_marketingsites" FromRole="market" ToRole="marketingsite" />
+          <Property Name="ChequeInfoId" Type="Int32" />
         </EntityType>
         <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="doners" EntityType="Self.doner" />
@@ -469,6 +494,8 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           </AssociationSet>
           <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
           <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
+          <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
+          <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -736,6 +763,27 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="importance" Type="Int32" />
           <Property Name="active" Type="Int16" />
         </EntityType>
+        <EntityType Name="ChequeBank">
+          <Key>
+            <PropertyRef Name="ChequeBankId" />
+          </Key>
+          <Property Name="ChequeBankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ChequeInformation">
+          <Key>
+            <PropertyRef Name="ChequeBankId" />
+            <PropertyRef Name="ChequeNo" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeBankId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeNo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeDate" Type="DateTime" Precision="0" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -773,6 +821,7 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <EntitySetMapping Name="markets">
             <EntityTypeMapping TypeName="MarketingModel.market">
               <MappingFragment StoreEntitySet="market">
+                <ScalarProperty Name="ChequeInfoId" ColumnName="ChequeInfoId" />
                 <ScalarProperty Name="DonationPurposeId" ColumnName="DonationPurposeId" />
                 <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -1032,6 +1081,28 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChequeBanks">
+            <EntityTypeMapping TypeName="MarketingModel.ChequeBank">
+              <MappingFragment StoreEntitySet="ChequeBanks">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChequeBankName" ColumnName="ChequeBankName" />
+                <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChequeInformations">
+            <EntityTypeMapping TypeName="MarketingModel.ChequeInformation">
+              <MappingFragment StoreEntitySet="ChequeInformation">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -31,6 +31,7 @@ namespace ECBNewWeb.DataAccess
         public string FinApprov { get; set; }
         public Nullable<int> ResponsibilityId { get; set; }
         public Nullable<int> DonationPurposeId { get; set; }
+        public Nullable<int> ChequeInfoId { get; set; }
     
         public virtual marketingsite marketingsite { get; set; }
     }
