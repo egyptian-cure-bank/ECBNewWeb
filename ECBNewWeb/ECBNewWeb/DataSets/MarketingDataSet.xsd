@@ -38,6 +38,7 @@
               <Mapping SourceColumn="Rates" DataSetColumn="Rates" />
               <Mapping SourceColumn="GrandTotal" DataSetColumn="GrandTotal" />
               <Mapping SourceColumn="Purpose" DataSetColumn="Purpose" />
+              <Mapping SourceColumn="Cheque" DataSetColumn="Cheque" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -69,7 +70,7 @@
   <xs:element name="MarketingDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="MarketingDataSet" msprop:Generator_UserDSName="MarketingDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="rptMarketPerformance" msprop:Generator_TableClassName="rptMarketPerformanceDataTable" msprop:Generator_TableVarName="tablerptMarketPerformance" msprop:Generator_TablePropName="rptMarketPerformance" msprop:Generator_RowDeletingName="rptMarketPerformanceRowDeleting" msprop:Generator_RowChangingName="rptMarketPerformanceRowChanging" msprop:Generator_RowEvHandlerName="rptMarketPerformanceRowChangeEventHandler" msprop:Generator_RowDeletedName="rptMarketPerformanceRowDeleted" msprop:Generator_UserTableName="rptMarketPerformance" msprop:Generator_RowChangedName="rptMarketPerformanceRowChanged" msprop:Generator_RowEvArgName="rptMarketPerformanceRowChangeEvent" msprop:Generator_RowClassName="rptMarketPerformanceRow">
+        <xs:element name="rptMarketPerformance" msprop:Generator_TableClassName="rptMarketPerformanceDataTable" msprop:Generator_TableVarName="tablerptMarketPerformance" msprop:Generator_RowChangedName="rptMarketPerformanceRowChanged" msprop:Generator_TablePropName="rptMarketPerformance" msprop:Generator_RowDeletingName="rptMarketPerformanceRowDeleting" msprop:Generator_RowChangingName="rptMarketPerformanceRowChanging" msprop:Generator_RowEvHandlerName="rptMarketPerformanceRowChangeEventHandler" msprop:Generator_RowDeletedName="rptMarketPerformanceRowDeleted" msprop:Generator_RowClassName="rptMarketPerformanceRow" msprop:Generator_UserTableName="rptMarketPerformance" msprop:Generator_RowEvArgName="rptMarketPerformanceRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="dat" msprop:Generator_ColumnVarNameInTable="columndat" msprop:Generator_ColumnPropNameInRow="dat" msprop:Generator_ColumnPropNameInTable="datColumn" msprop:Generator_UserColumnName="dat" type="xs:dateTime" minOccurs="0" />
@@ -149,10 +150,11 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="Cheque" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCheque" msprop:Generator_ColumnPropNameInRow="Cheque" msprop:Generator_ColumnPropNameInTable="ChequeColumn" msprop:Generator_UserColumnName="Cheque" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="rptMarketingGrouping" msprop:Generator_TableClassName="rptMarketingGroupingDataTable" msprop:Generator_TableVarName="tablerptMarketingGrouping" msprop:Generator_TablePropName="rptMarketingGrouping" msprop:Generator_RowDeletingName="rptMarketingGroupingRowDeleting" msprop:Generator_RowChangingName="rptMarketingGroupingRowChanging" msprop:Generator_RowEvHandlerName="rptMarketingGroupingRowChangeEventHandler" msprop:Generator_RowDeletedName="rptMarketingGroupingRowDeleted" msprop:Generator_UserTableName="rptMarketingGrouping" msprop:Generator_RowChangedName="rptMarketingGroupingRowChanged" msprop:Generator_RowEvArgName="rptMarketingGroupingRowChangeEvent" msprop:Generator_RowClassName="rptMarketingGroupingRow">
+        <xs:element name="rptMarketingGrouping" msprop:Generator_TableClassName="rptMarketingGroupingDataTable" msprop:Generator_TableVarName="tablerptMarketingGrouping" msprop:Generator_RowChangedName="rptMarketingGroupingRowChanged" msprop:Generator_TablePropName="rptMarketingGrouping" msprop:Generator_RowDeletingName="rptMarketingGroupingRowDeleting" msprop:Generator_RowChangingName="rptMarketingGroupingRowChanging" msprop:Generator_RowEvHandlerName="rptMarketingGroupingRowChangeEventHandler" msprop:Generator_RowDeletedName="rptMarketingGroupingRowDeleted" msprop:Generator_RowClassName="rptMarketingGroupingRow" msprop:Generator_UserTableName="rptMarketingGrouping" msprop:Generator_RowEvArgName="rptMarketingGroupingRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="amount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnamount" msprop:Generator_ColumnPropNameInRow="amount" msprop:Generator_ColumnPropNameInTable="amountColumn" msprop:Generator_UserColumnName="amount" type="xs:decimal" minOccurs="0" />

@@ -348,6 +348,8 @@ namespace ECBNewWeb.DataSets {
             
             private global::System.Data.DataColumn columnPurpose;
             
+            private global::System.Data.DataColumn columnCheque;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public rptMarketPerformanceDataTable() {
@@ -519,6 +521,14 @@ namespace ECBNewWeb.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ChequeColumn {
+                get {
+                    return this.columnCheque;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -571,7 +581,8 @@ namespace ECBNewWeb.DataSets {
                         string type1, 
                         decimal Rates, 
                         decimal GrandTotal, 
-                        string Purpose) {
+                        string Purpose, 
+                        decimal Cheque) {
                 rptMarketPerformanceRow rowrptMarketPerformanceRow = ((rptMarketPerformanceRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         dat,
@@ -590,7 +601,8 @@ namespace ECBNewWeb.DataSets {
                         type1,
                         Rates,
                         GrandTotal,
-                        Purpose};
+                        Purpose,
+                        Cheque};
                 rowrptMarketPerformanceRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowrptMarketPerformanceRow);
                 return rowrptMarketPerformanceRow;
@@ -630,6 +642,7 @@ namespace ECBNewWeb.DataSets {
                 this.columnRates = base.Columns["Rates"];
                 this.columnGrandTotal = base.Columns["GrandTotal"];
                 this.columnPurpose = base.Columns["Purpose"];
+                this.columnCheque = base.Columns["Cheque"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -669,6 +682,8 @@ namespace ECBNewWeb.DataSets {
                 base.Columns.Add(this.columnGrandTotal);
                 this.columnPurpose = new global::System.Data.DataColumn("Purpose", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPurpose);
+                this.columnCheque = new global::System.Data.DataColumn("Cheque", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCheque);
                 this.columncod.MaxLength = 10;
                 this.columnname.MaxLength = 86;
                 this.columnamount.ReadOnly = true;
@@ -686,6 +701,7 @@ namespace ECBNewWeb.DataSets {
                 this.columnRates.ReadOnly = true;
                 this.columnGrandTotal.ReadOnly = true;
                 this.columnPurpose.MaxLength = 100;
+                this.columnCheque.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1379,6 +1395,22 @@ namespace ECBNewWeb.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal Cheque {
+                get {
+                    try {
+                        return ((decimal)(this[this.tablerptMarketPerformance.ChequeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Cheque\' in table \'rptMarketPerformance\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerptMarketPerformance.ChequeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsdatNull() {
                 return this.IsNull(this.tablerptMarketPerformance.datColumn);
             }
@@ -1579,6 +1611,18 @@ namespace ECBNewWeb.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPurposeNull() {
                 this[this.tablerptMarketPerformance.PurposeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsChequeNull() {
+                return this.IsNull(this.tablerptMarketPerformance.ChequeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetChequeNull() {
+                this[this.tablerptMarketPerformance.ChequeColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1874,6 +1918,7 @@ namespace ECBNewWeb.DataSets.MarketingDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("Rates", "Rates");
             tableMapping.ColumnMappings.Add("GrandTotal", "GrandTotal");
             tableMapping.ColumnMappings.Add("Purpose", "Purpose");
+            tableMapping.ColumnMappings.Add("Cheque", "Cheque");
             this._adapter.TableMappings.Add(tableMapping);
         }
         

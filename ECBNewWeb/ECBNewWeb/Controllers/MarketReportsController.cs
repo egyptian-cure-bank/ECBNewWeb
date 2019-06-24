@@ -43,17 +43,18 @@ namespace ECBNewWeb.Controllers
             }
             string Cmd = "Select * From "+
                         "( "+
-                        "Select dat, no, name, Sum(amount)amount, currency, sum(cash) cash, employee, type, note, site, "+
+                        "Select dat, no, name, Sum(amount)amount, currency, sum(cash) cash,Sum(Cheque)as Cheque, employee, type, note, site, " +
                         "combID, Rates, GrandTotal, Purpose "+
                         "From "+
                         "( "+
-                        "Select dat, no, name, (amount) as amount, currency, (cash) as Cash, employee, type + '-' + Convert(NVARCHAR, BookNo) as type, note, site, "+
+                        "Select dat, no, name, (amount) as amount,Cheque, currency, (cash) as Cash, employee, type + '-' + Convert(NVARCHAR, BookNo) as type, note, site, " +
                         "combID, Isnull(Rate, 1) as Rates, Sum((amount * Isnull(Rate, 1)) + (cash * Isnull(Rate, 1)))Over(Partition by dat) as GrandTotal, Purpose "+
                         "From "+
                         "( "+
                         "SELECT dat, no, cod, doners.name,case when cash = 1 then amount else 0 end as amount, "+
                         "(currency + (case when cash = 1 then ' فيزا' when cash = 2 then ' نقدي' when cash = 3 then ' شيك' end)) as currency, "+
-                        "CASE WHEN cash = 2 or cash = 3 THEN amount else 0 END AS cash, "+
+                        "CASE WHEN cash = 2 THEN amount else 0 END AS cash, "+
+                        "Case When cash = 3 THEN amount else 0 End as Cheque, " +
                         "concat(login.FirstName, ' ', login.LastName) AS employee, "+
                         "marketingrectype.name AS TYPE, "+
                         "note, "+
@@ -88,7 +89,7 @@ namespace ECBNewWeb.Controllers
                         "First "+
                         "Group By dat, no, name, currency, employee, type, note, site, combID, Rates, GrandTotal, Purpose "+
                         "Union "+
-                        "Select CanceledReceipts.ActualDate, ReceiptNo as no,null as [name],0.00 amount,null currency,0.00 cash,login.FirstName + ' ' + login.LastName employee, "+
+                        "Select CanceledReceipts.ActualDate, ReceiptNo as no,null as [name],0.00 amount,null currency,0.00 cash,0.00 as Cheque,login.FirstName + ' ' + login.LastName employee, " +
                         "marketingrectype.[name] + '-' + Convert(NVARCHAR, BookNo) type,null note,null site,null combID,0.00 as Rates,0.00 GrandTotal,null Purpose "+
                         "FROM CanceledReceipts "+
                         "Inner Join BookResposibilities "+
@@ -108,7 +109,7 @@ namespace ECBNewWeb.Controllers
                         "And dbo.BookResposibilities.EmployeeId = @UserId " +
                         "And Convert(Date, dbo.CanceledReceipts.ActualDate) = @DateParam " +
                         ")TT "+
-                        "Order by type, Cash, no";
+                        "Order by type,no,Cash ";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
                 Conn.Open();
@@ -125,7 +126,7 @@ namespace ECBNewWeb.Controllers
                     Doc.SetDataSource(dt);
                     if (dt.Rows.Count > 0)
                     {
-                        string Tafkeet = dt.Rows[0][12].ToString();
+                        string Tafkeet = dt.Rows[0][13].ToString();
                         try
                         {
                             ToWord toWord = new ToWord(Convert.ToDecimal(Tafkeet), new CurrencyInfo(CurrencyInfo.Currencies.EGP));

@@ -55,8 +55,6 @@ namespace ECBNewWeb.Models
 
         [BankInfoChequeBankIdValidator("BankInfoChecked", ErrorMessage = "برجاء إختيار بنك")]
         public int ChequeBankId { get; set; }
-
-        [BankInfoChequeBankValidator("BankInfoChecked", ErrorMessage = "برجاء إختيار بنك")]
         public string ChequeBankName { get; set; }
         public IEnumerable<SelectListItem> MyChequeBanks { get; set; }
 
