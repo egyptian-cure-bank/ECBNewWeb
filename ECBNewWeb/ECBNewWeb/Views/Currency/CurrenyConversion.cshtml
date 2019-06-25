@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
 }
 
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
 <main class="page-content">
     <div class="container-fluid">
 
@@ -101,24 +105,23 @@
                                                 @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
                                                 {
                                                     <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
-                                                    <script>
-                                                         $('#myModal').modal('show');
-                                                    </script>
                                                 }
                                                 else
                                                 {
                                                     <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
-                                                    <script>
-                                                        $('#myModal').modal('show');
-                                                    </script>
                                                 }
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </div>
+                                        <script>
+                $('#myModal').modal('show');
+                                        </script>
                             }
                         }
 

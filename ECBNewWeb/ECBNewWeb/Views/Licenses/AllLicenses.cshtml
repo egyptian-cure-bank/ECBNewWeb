@@ -30,7 +30,7 @@
                                 <div class="m-portlet__head-tools">
                                     <ul class="m-portlet__nav">
                                         <li class="m-portlet__nav-item">
-                                            <a href="#" class="btn btn-accent m-btn  m-btn--pill m-btn--icon ">
+                                            <a href="/Licenses/AddLicenses" class="btn btn-accent m-btn  m-btn--pill m-btn--icon ">
                                                 <span>
                                                     <i class="la la-plus"></i>
                                                     <span>اضافة ترخيص جديد</span>
@@ -45,7 +45,7 @@
                             <div class="m-portlet__body">
 
 
-                                <table class="table table-striped  table-bordered   " id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                                <table class="table table-striped  table-bordered    " id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
                                     <thead>
 
                                         <tr>
@@ -112,6 +112,25 @@
             </div>
         </div>
     </main>
+
+<!-- Start Message When Edit -->
+@if (TempData["Msg"] != null)
+{
+                 if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                {
+                        <script>
+                        alert("تم الحفظ بنجاح");
+                        </script>
+                    }
+                    else
+                    {
+                        <script>
+                        alert("خطا اثناء الحفظ");
+                        </script>
+                    }
+}
+
+<!-- End Message When Edit -->
 
     <!--End Test Area-->
     <!-- Edit and Delete -->

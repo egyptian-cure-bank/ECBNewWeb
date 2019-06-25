@@ -1,0 +1,279 @@
+﻿@model ECBNewWeb.Models.BookResposibilityModel
+@{
+    ViewBag.Title = "HandleBookReceipts";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<main class="page-content">
+    <div class="container-fluid">
+
+
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--tab">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        تسليم الدفاتر
+                                    </h3> 
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        @using (Html.BeginForm("AddBookResponsibility", "BookResposibilities", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ " }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!--begin::Form-->
+
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="form-group m-form__group  col-md-3">
+                                        <label for="" class="">اسم الموظف</label>
+                                    @Html.DropDownListFor(x => x.EmployeeId, Model.MyEmployee as List<SelectListItem>, new { @class = "form-control m-input"  , @id = "empid" })
+                                    @Html.ValidationMessageFor(m => m.EmployeeId,"", new { @class = "text-danger" ,  })
+                                    </div>
+                                    <div class="form-group m-form__group  col-md-3">
+                                        <label for="" class="">نوع الدفتر</label>
+                                             @Html.DropDownListFor(x => x.RecTypeId, Model.MyRecTypes as List<SelectListItem>, new { @class = "form-control m-input", data_size = "10", @id = "recTypeList"  })
+                                    </div>
+                                    <div class="form-group m-form__group  col-md-3">
+                                        <label for="" class="">رقم الدفتر</label>
+                                        <select id="HandleBookReceiptId" class="form-control m-input " name="HandleBookReceiptId" data-val="true" data-val-number="The field EmployeeId must be a number." data-val-required="يجب اختيار رقم دفتر">
+                                        </select>
+                                        @Html.ValidationMessageFor(m => m.HandleBookReceiptId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">تاريخ التسليم</label>
+                                        @Html.TextBoxFor(m => m.ReceiveDate, new { @class = "form-control m-input", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.ReceiveDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">تاريخ التسوية</label>
+                                        @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control m-input", @type = "date", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.DeliveryDate, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">رقم اول ايصال</label>
+                                        @*<input type="text" class="form-control m-input" name="NextReceiptNo" placeholder="رقم اول ايصال" id="nextreceipt2" value="" disabled>*@
+                                        @Html.TextBoxFor(m => m.NextReceiptNo, new { @class = "form-control m-input" , @id= "nextreceipt2" , placeholder = "رقم اول ايصال"  , @readonly= "readonly" })
+                                      
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+
+                                        <label class="m-checkbox m-checkbox--state-success ">
+                                            <input type="checkbox"  name="DoneFlag" id="DoneFlag" value="1"  disabled > حالة الدفتر
+                                            <span></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group m-form__group col-md-6">
+                                        <div class="alert alert-danger test" role="alert" style="display:none">
+                                            <strong></strong> 
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-success m-btn--pill " id="btn_Save">حفظ</button>
+                                            <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+                            if (TempData["Msg"] != null)
+                            {
+                                <div class="modal  fade" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                                                {
+                                                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                                                }
+                                                else
+                                                {
+                                                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                                                }
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                $('#myModal').modal('show');
+                                </script>
+                            }
+
+                        }
+
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Portlet-->
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</main>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //عند اختيار الموظف تغير ارقام الدفاتر
+        $("#empid").change(function () { 
+            $("#recTypeList").change();
+        })
+
+        /////////////////
+        //Check number of book that employee receive
+        $("#recTypeList").change(function () {
+
+            var typeid = $("#recTypeList").val();
+            var typename = $("#recTypeList option:selected").text();
+            var eid = $("#empid").val();
+            $.ajax({
+                url: "/BookResposibilities/CountBookbyType/",
+                data: { Rectypeid: typeid, employeeid: eid },
+                datatype: "json",
+                success: function (reponse) {
+                    alert(reponse);
+                    if (reponse >= 3) {
+                        txt = "تم استلام الحد الاقصى من الدفاتر";
+                        $(".test").html(txt).css('display', 'block');
+                        $("#btn_Save").prop('disabled', true).addClass("btn-secondary m-btn m-btn--custom");
+                    }
+                    else {
+                        txt = "";
+                        $(".test").css('display', 'none');
+                        $("#btn_Save").prop('disabled', false).removeClass("btn-secondary m-btn m-btn--custom");
+                    }
+
+                }
+
+            })
+
+            $("#nextreceipt2").val('');
+        })
+
+        ///////////////////
+        
+        // get book number when book type change
+        $("#recTypeList").change(function () {
+            var typeid = $("#recTypeList").val();
+            var eid = $("#empid").val();
+            $.ajax({
+                url: "/BookResposibilities/PopulateBooks/",
+                data: { bookid: typeid, empid: eid },
+                datatype: "json",
+                success:function(reponse)
+                {
+                    var txt = "";
+                    txt += "<option value= ''>  </option>";
+                    for (var item in reponse) {
+                        txt += "<option value=" + reponse[item].Value + " >" + reponse[item].Text + "</option>";
+                    }
+
+                    $("#HandleBookReceiptId").html(txt);
+                }
+                
+
+            })
+
+            $("#nextreceipt2").val('');
+        })
+
+
+        $("#HandleBookReceiptId").change(function () {
+            debugger;
+            var bookno = $("#HandleBookReceiptId option:selected").text();
+            var handlebook = $("#HandleBookReceiptId").val();
+            var typeid = $("#recTypeList").val();
+            var eid = $("#empid").val();
+
+            $.ajax({
+                url: "/BookResposibilities/GetBooknumberAndEmployee/",
+                data: { Rectypeid: typeid, Bookno: bookno },
+                datatype: "json",
+                success: function (response) {
+                    debugger;
+                    if (response > 0)
+                    {
+                        $.ajax({
+                            url: "/BookResposibilities/PopulateFirstReceiptNumberEmployeeTwo/",
+                            data: { RecType: typeid, empid: eid,Handlebookreceiptid : handlebook   },
+                            datatype: "json",
+                            success: function (response) {
+                                var txt = "";
+                                $("#nextreceipt2").val(response);
+                                $("#nextreceipt2").text(response);
+                            }
+                        })
+                    }
+                    else
+                    {
+                        $.ajax({
+                            url: "/BookResposibilities/PopulateFirstReceiptNumber/",
+                            data: { Handlebookreceiptid: handlebook },
+                            datatype: "json",
+                            success: function (response) {
+                                var txt = "";
+                                $("#nextreceipt2").val(response);
+                                $("#nextreceipt2").text(response);
+                            }
+                        })
+                    }             
+                }
+
+            })
+        })
+
+
+
+
+    })
+</script>
+

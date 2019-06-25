@@ -24,9 +24,14 @@ namespace ECBNewWeb.Controllers
                     Currency CurrSaved = new Currency();
                     CurrSaved.CurrencyName = Curr.CurrName;
                     Entity.Currencies.Add(CurrSaved);
-                    Entity.SaveChanges();
+                    int rowAffected = Entity.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     ModelState.Clear();
                 }
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
             }
             return View();
         }
@@ -99,16 +104,14 @@ namespace ECBNewWeb.Controllers
                     ConvRateDB.Rate = CurrModel.ConversionRate;
                     ConvRateDB.Active = 1;
                     db.CurrencyCovnersionRates.Add(ConvRateDB);
-                    db.SaveChanges();
-                    ViewBag.Msg = "تم الحفظ بنجاح";
-                    TempData["Msg"] = "تم الحفظ بنجاح";
+                    int rowAffected = db.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     return RedirectToAction("CurrenyConversion", CurrModel);
                 }
             }
             else
             {
-                //ViewBag.Msg = "لم يتم الحفظ";
-                //TempData["Msg"] = "لم يتم الحفظ";
+                TempData["Msg"] = "لم يتم الحفظ";
                 foreach (ModelState modelstate in ViewData.ModelState.Values)
                 {
                     foreach (ModelError error in modelstate.Errors)

@@ -72,3 +72,21 @@ body {
     font-size: 1.0rem;
 }
 
+
+.m-body .m-content {
+     padding: 0  30px;
+}
+
+.dataTables_scrollBody {
+    height: 300px !important
+}
+
+.m-accordion__item-content > p 
+{
+    font-size:18px;
+}
+
+
+.m-radio, .m-checkbox {
+    padding-left: 30px;
+}

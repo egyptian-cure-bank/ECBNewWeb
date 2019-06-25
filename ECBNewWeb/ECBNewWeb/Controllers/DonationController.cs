@@ -139,7 +139,7 @@ namespace ECBNewWeb.Controllers
         private List<SelectListItem> PopulateReceipts()
         {
             List<SelectListItem> Items = new List<SelectListItem>();
-            string Cmd = "Select marketingrectype.id,Concat(marketingrectype.name,' - ',min(BookTypes.BookNo))as ReceiptType " +
+            string Cmd = "Select marketingrectype.id, (marketingrectype.name+' - '+convert(nvarchar,min(BookTypes.BookNo)))as ReceiptType " +
                         "From HandleBookReceipts " +
                         "Inner Join BookTypes " +
                         "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
@@ -357,7 +357,28 @@ namespace ECBNewWeb.Controllers
                                 }
                             }
                         }
-                        if (RespId != 0)
+                    }
+                    if (RespId != 0)
+                    {
+                        market DBDonation = new market();
+                        //get the receipt name from selected receipt id
+                        Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
+                        DBDonation.dat = Donation.RecDate;
+                        DBDonation.no = Donation.RecNumber;
+                        DBDonation.name = Donation.DonorId;
+                        DBDonation.amount = Donation.Amount;
+                        DBDonation.currency = Donation.CurrencyName;
+                        DBDonation.cash = Donation.PaymentId;
+                        DBDonation.employee = UserInfo.UserId;
+                        DBDonation.type = Donation.RecId;
+                        DBDonation.site = Donation.SiteId;
+                        DBDonation.ResponsibilityId = RespId;
+                        DBDonation.DonationPurposeId = Donation.PurpId;
+                        DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
+                        Market.markets.Add(DBDonation);
+                        int rowAffected =Market.SaveChanges();
+                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                        using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                         {
                             market DBDonation = new market();
                             ChequeInformation chequeBankInfo = new ChequeInformation();
@@ -466,6 +487,11 @@ namespace ECBNewWeb.Controllers
                     }
                     return RedirectToAction("AddDonations", Donation);
                 }
+
+                else
+                {
+                    TempData["Msg"] = "لم يتم الحفظ";
+                }
             }
             catch (DbEntityValidationException e)
             {
@@ -530,7 +556,8 @@ namespace ECBNewWeb.Controllers
                     DBCanceledReceipt.ResponsibilityId = RespId;
                     DBCanceledReceipt.Canceled = 1;
                     Market.CanceledReceipts.Add(DBCanceledReceipt);
-                    Market.SaveChanges();
+                    int rowAffected =Market.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                     {
                         Con.Open();

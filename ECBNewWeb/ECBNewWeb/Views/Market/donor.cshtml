@@ -65,7 +65,7 @@
                                         <td>@item.GovernmentName</td>
                                         <td>@item.CenterName</td>
                                         <td><button id="@item.Id" onclick="EditDonor(this.id)" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-edit"></i></button>
-                                            <button id="@item.Id" onclick="DeleteDonor(this.id)" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only"><i class="fa flaticon-delete"></i> </button>
+                                            @*<button id="@item.Id" onclick="DeleteDonor(this.id)" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only"><i class="fa flaticon-delete"></i> </button>*@
                                         </td>
                                         
                                     </tr>
@@ -89,6 +89,25 @@
     </div>
         </div>
 </main>
+
+<!-- Start Message When Edit -->
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+                        alert("تم الحفظ بنجاح");
+        </script>
+    }
+    else
+    {
+        <script>
+                        alert("خطا اثناء الحفظ");
+        </script>
+    }
+}
+
+<!-- End Message When Edit -->
 
 <!--End Test Area-->
 <!-- Edit and Delete -->
