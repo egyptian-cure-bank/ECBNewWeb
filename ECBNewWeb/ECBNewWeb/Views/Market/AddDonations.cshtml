@@ -22,7 +22,7 @@
         <h2>بيانات إيصال التبرع</h2>
         <p>إضافة تبرع</p>
         <hr>
-        @using (Html.BeginForm("SaveDonation", "Donation", FormMethod.Post,new { @id="saveDonationForm"}))
+        @using (Html.BeginForm("", "", FormMethod.Post,new { @id="saveDonationForm"}))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -87,20 +87,20 @@
                     @Html.DropDownListFor(x => x.KnowingId, Model.MyKnowingMethods as List<SelectListItem>, "--إختار وسيلة التعرف--", new { @class = "form-control", @id = "knowingMethod" })
                 </div>
             </div>
-            <div class="row" id="chequeInformation" hidden="hidden">
+            <div class="row" id="chequeInformation">
                 <div class="form-group col-md-3">
-                    <label for="" class="">بنك</label>
-                    @Html.DropDownListFor(x => x.ChequeBankId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "bankNames" })
+                    <label for="" class="" id="lblbankNames" hidden="hidden">بنك</label>
+                    @Html.DropDownListFor(x => x.ChequeBankId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "bankNames",@hidden="hidden"})
                     @Html.ValidationMessageFor(m => m.ChequeBankId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="" class="">رقم الشيك</label>
-                    @Html.TextBoxFor(m => m.ChequeNumber, new { @class = "form-control", @id = "chequeNumber", @Value = "" })
+                    <label for="" class="" id="lblchequeNumber" hidden="hidden">رقم الشيك</label>
+                    @Html.TextBoxFor(m => m.ChequeNumber, new { @class = "form-control", @id = "chequeNumber", @Value = "" ,@hidden="hidden"})
                     @Html.ValidationMessageFor(m => m.ChequeNumber, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="" class="">تاريخ الإستحقاق</label>
-                    @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @id = "chequeDate", @type = "date" })
+                    <label for="chequeDate" class="" id="lblchequeDate" hidden="hidden">تاريخ الإستحقاق</label>
+                    @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @id = "chequeDate", @type = "date", @hidden = "hidden" })
                     @Html.ValidationMessageFor(m => m.ChequeDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -129,6 +129,7 @@
         //get NextReceiptNumber When RecType changed
         $("#recType").val(-1);
         $("#currency").val(-1);
+        $('form').validate().settings.ignore = ':hidden';
         $("#recType").change(function () {
             var selectedvalue = $("#recType option:selected").val();
             $.ajax({
@@ -173,7 +174,12 @@
     $("#paymentmethod").change(function () {
         var selectedvalue = $("#paymentmethod option:selected").val();
         if (selectedvalue == 3) {
-            $('#chequeInformation').removeAttr('hidden');
+            $('#bankNames').removeAttr('hidden');
+            $('#chequeNumber').removeAttr('hidden');
+            $('#chequeDate').removeAttr('hidden');
+            $('#lblbankNames').removeAttr('hidden');
+            $('#lblchequeNumber').removeAttr('hidden');
+            $('#lblchequeDate').removeAttr('hidden');
             $.getJSON("/Donation/PopulateBankInfo", null, function (data) {
                 data = $.map(data, function (item, a) {
                     return "<option value=" + item.Value + ">" + item.Text + "</option>";
@@ -184,9 +190,15 @@
             });
         }
         else {
-            $('#chequeInformation').attr("hidden", "hidden")
+            $('#bankNames').attr("hidden", "hidden");
+            $('#chequeNumber').attr("hidden", "hidden");
+            $('#chequeDate').attr("hidden", "hidden");
+            $('#lblbankNames').attr("hidden", "hidden");
+            $('#lblchequeNumber').attr("hidden", "hidden");
+            $('#lblchequeDate').attr("hidden", "hidden");
             $("#bankNames").html(null);
-                $("#bankInfoChecked").val('false');
+            $("#bankInfoChecked").val('false');
+            $('form').validate().settings.ignore = ':hidden';
         }
     });
     var item = [];

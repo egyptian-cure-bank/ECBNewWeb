@@ -32,6 +32,7 @@
     <EntitySetMapping Name="markets">
       <EntityTypeMapping TypeName="MarketingModel.market">
         <MappingFragment StoreEntitySet="market">
+          <ScalarProperty Name="ChequeInfoId" ColumnName="ChequeInfoId" />
           <ScalarProperty Name="DonationPurposeId" ColumnName="DonationPurposeId" />
           <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
           <ScalarProperty Name="id" ColumnName="id" />
@@ -291,6 +292,28 @@
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChequeBanks">
+      <EntityTypeMapping TypeName="MarketingModel.ChequeBank">
+        <MappingFragment StoreEntitySet="ChequeBanks">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ChequeBankName" ColumnName="ChequeBankName" />
+          <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChequeInformations">
+      <EntityTypeMapping TypeName="MarketingModel.ChequeInformation">
+        <MappingFragment StoreEntitySet="ChequeInformation">
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+          <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+          <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

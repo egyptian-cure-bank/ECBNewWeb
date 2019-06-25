@@ -227,6 +227,12 @@
     <Compile Include="DataAccess\center.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\ChequeBank.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\ChequeInformation.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\Currency.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>

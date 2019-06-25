@@ -13,6 +13,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using Newtonsoft.Json;
+using System.Data.Entity.Validation;
 
 namespace ECBNewWeb.Controllers
 {
@@ -310,6 +311,7 @@ namespace ECBNewWeb.Controllers
                 return Json(DonorName, JsonRequestBehavior.AllowGet);
             }
         }
+
         [HttpPost]
         public ActionResult SaveDonation(DonationData Donation)
         {
@@ -320,124 +322,128 @@ namespace ECBNewWeb.Controllers
             int LastReceiptNo = 0;
             int RespCount = 0;
             int UpdateRecordCount = 0;
-            if (ModelState.IsValid)
+            try
             {
-                using (MarketEntities Market = new MarketEntities())
+
+                if (ModelState.IsValid)
                 {
-                    using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+                    using (MarketEntities Market = new MarketEntities())
                     {
-                        Conn.Open();
-                        string Cmd = "Select min(BookResposibilities.RespId)as RespId " +
-                                    "From HandleBookReceipts " +
-                                    "Inner Join BookTypes " +
-                                    "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
-                                    "Inner Join marketingrectype " +
-                                    "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
-                                    "Inner Join MarketingLicenses " +
-                                    "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
-                                    "Inner Join BookResposibilities " +
-                                    "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
-                                    "Where dbo.BookResposibilities.DoneFlag = 0 " +
-                                    "And marketingrectype.Active = 1 " +
-                                    "And dbo.BookResposibilities.EmployeeId = @UserId " +
-                                    "And dbo.marketingrectype.id = @RecTypeId ";
-                        using (SqlCommand Command = new SqlCommand(Cmd, Conn))
+                        using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                         {
-                            Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
-                            Command.Parameters.AddWithValue("@RecTypeId", Donation.RecId);
-                            SqlDataReader Reader = Command.ExecuteReader();
-                            if (Reader.Read())
+                            Conn.Open();
+                            string Cmd = "Select min(BookResposibilities.RespId)as RespId " +
+                                        "From HandleBookReceipts " +
+                                        "Inner Join BookTypes " +
+                                        "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
+                                        "Inner Join marketingrectype " +
+                                        "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
+                                        "Inner Join MarketingLicenses " +
+                                        "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
+                                        "Inner Join BookResposibilities " +
+                                        "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+                                        "Where dbo.BookResposibilities.DoneFlag = 0 " +
+                                        "And marketingrectype.Active = 1 " +
+                                        "And dbo.BookResposibilities.EmployeeId = @UserId " +
+                                        "And dbo.marketingrectype.id = @RecTypeId ";
+                            using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                             {
-                                RespId = Reader.GetInt32(0);
+                                Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                                Command.Parameters.AddWithValue("@RecTypeId", Donation.RecId);
+                                SqlDataReader Reader = Command.ExecuteReader();
+                                if (Reader.Read())
+                                {
+                                    RespId = Reader.GetInt32(0);
+                                }
                             }
                         }
-                    }
-                    if (RespId != 0)
-                    {
-                        market DBDonation = new market();
-                        ChequeInformation chequeBankInfo = new ChequeInformation();
-                        //get the receipt name from selected receipt id
-                        Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
-                        DBDonation.dat = Donation.RecDate;
-                        DBDonation.no = Convert.ToInt32(Donation.RecNumber);
-                        DBDonation.name = Donation.DonorId;
-                        DBDonation.amount = Donation.Amount;
-                        DBDonation.currency = Donation.CurrencyName;
-                        DBDonation.cash = Donation.PaymentId;
-                        DBDonation.employee = UserInfo.UserId;
-                        DBDonation.type = Donation.RecId;
-                        DBDonation.site = Donation.SiteId;
-                        DBDonation.ResponsibilityId = RespId;
-                        DBDonation.DonationPurposeId = Donation.PurpId;
-                        DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
-                        if (Donation.BankInfoChecked == "true")
+                        if (RespId != 0)
                         {
-                            chequeBankInfo.ChequeBankId = Donation.ChequeBankId;
-                            chequeBankInfo.ChequeNo = Donation.ChequeNumber;
-                            chequeBankInfo.ChequeDate = Donation.ChequeDate;
-                            Market.ChequeInformations.Add(chequeBankInfo);
-                            Market.SaveChanges();
-                            DBDonation.ChequeInfoId = chequeBankInfo.Id;
-                        }
-                        // ModelState.AddModelError(string.Empty, "برجاء إستكمال بيانات الشيك");
-                        Market.markets.Add(DBDonation);
-                        Market.SaveChanges();
-                        using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
-                        {
-                            Con.Open();
-                            string Cmd = "Select Count(market.ResponsibilityId) From market Where ResponsibilityId = @RespId ";
-                            using (SqlCommand Command = new SqlCommand(Cmd, Con))
+                            market DBDonation = new market();
+                            ChequeInformation chequeBankInfo = new ChequeInformation();
+                            //get the receipt name from selected receipt id
+                            Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
+                            DBDonation.dat = Donation.RecDate;
+                            DBDonation.no = Convert.ToInt32(Donation.RecNumber);
+                            DBDonation.name = Donation.DonorId;
+                            DBDonation.amount = Donation.Amount;
+                            DBDonation.currency = Donation.CurrencyName;
+                            DBDonation.cash = Donation.PaymentId;
+                            DBDonation.employee = UserInfo.UserId;
+                            DBDonation.type = Donation.RecId;
+                            DBDonation.site = Donation.SiteId;
+                            DBDonation.ResponsibilityId = RespId;
+                            DBDonation.DonationPurposeId = Donation.PurpId;
+                            DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
+                            if (Donation.BankInfoChecked == "true")
                             {
-                                Command.Parameters.AddWithValue("@RespId", RespId);
-                                RespCount = (Int32)Command.ExecuteScalar();
-                                if (RespCount > 0)
+                                chequeBankInfo.ChequeBankId = Donation.ChequeBankId;
+                                chequeBankInfo.ChequeNo = Donation.ChequeNumber;
+                                chequeBankInfo.ChequeDate = Donation.ChequeDate;
+                                Market.ChequeInformations.Add(chequeBankInfo);
+                                Market.SaveChanges();
+                                DBDonation.ChequeInfoId = chequeBankInfo.Id;
+                            }
+                            // ModelState.AddModelError(string.Empty, "برجاء إستكمال بيانات الشيك");
+                            Market.markets.Add(DBDonation);
+                            Market.SaveChanges();
+                            using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+                            {
+                                Con.Open();
+                                string Cmd = "Select Count(market.ResponsibilityId) From market Where ResponsibilityId = @RespId ";
+                                using (SqlCommand Command = new SqlCommand(Cmd, Con))
                                 {
-                                    string Query = "Select IsNull(BookResposibilities.NextReceiptNo,0)as NextReceiptNo,IsNull(HandleBookReceipts.FirstReceiptNo,0) as FirstReceiptNo, " +
-                                                    "HandleBookReceipts.LastReceiptNo " +
-                                                    "From HandleBookReceipts " +
-                                                    "Inner Join BookTypes " +
-                                                    "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
-                                                    "Inner Join marketingrectype " +
-                                                    "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
-                                                    "Inner Join MarketingLicenses " +
-                                                    "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
-                                                    "Inner Join BookResposibilities " +
-                                                    "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
-                                                    "Where dbo.BookResposibilities.DoneFlag = 0 " +
-                                                    "And marketingrectype.Active = 1 " +
-                                                    "And BookResposibilities.RespId = @RespId ";
-                                    using (SqlCommand Com = new SqlCommand(Query, Con))
+                                    Command.Parameters.AddWithValue("@RespId", RespId);
+                                    RespCount = (Int32)Command.ExecuteScalar();
+                                    if (RespCount > 0)
                                     {
-                                        Com.Parameters.AddWithValue("@RespId", RespId);
-                                        SqlDataReader Reader = Com.ExecuteReader();
-                                        if (Reader.Read())
+                                        string Query = "Select IsNull(BookResposibilities.NextReceiptNo,0)as NextReceiptNo,IsNull(HandleBookReceipts.FirstReceiptNo,0) as FirstReceiptNo, " +
+                                                        "HandleBookReceipts.LastReceiptNo " +
+                                                        "From HandleBookReceipts " +
+                                                        "Inner Join BookTypes " +
+                                                        "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
+                                                        "Inner Join marketingrectype " +
+                                                        "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
+                                                        "Inner Join MarketingLicenses " +
+                                                        "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
+                                                        "Inner Join BookResposibilities " +
+                                                        "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+                                                        "Where dbo.BookResposibilities.DoneFlag = 0 " +
+                                                        "And marketingrectype.Active = 1 " +
+                                                        "And BookResposibilities.RespId = @RespId ";
+                                        using (SqlCommand Com = new SqlCommand(Query, Con))
                                         {
-                                            NextReceiptNo = Reader.GetInt32(0);
-                                            FirstReceiptNo = Reader.GetInt32(1);
-                                            LastReceiptNo = Reader.GetInt32(2);
-                                        }
-                                        Reader.Close();
-                                    }
-                                    if (NextReceiptNo == 0)
-                                    {
-                                        string UpdateCommand = "Update BookResposibilities Set NextReceiptNo = @RecIncrement Where RespId = @RespId";
-                                        using (SqlCommand UpdateCom = new SqlCommand(UpdateCommand, Con))
-                                        {
-                                            UpdateCom.Parameters.AddWithValue("@RespId", RespId);
-                                            UpdateCom.Parameters.AddWithValue("@RecIncrement", FirstReceiptNo + 1);
-                                            UpdateRecordCount = UpdateCom.ExecuteNonQuery();
-                                        }
-                                    }
-                                    else if (NextReceiptNo > 0)
-                                    {
-                                        string UpdateCommand = "Update BookResposibilities Set NextReceiptNo = @RecIncrement Where RespId = @RespId";
-                                        using (SqlCommand UpdateCom = new SqlCommand(UpdateCommand, Con))
-                                        {
-                                            UpdateCom.Parameters.AddWithValue("@RespId", RespId);
-                                            UpdateCom.Parameters.AddWithValue("@RecIncrement", NextReceiptNo + 1);
-                                            if (NextReceiptNo + 1 <= LastReceiptNo)
+                                            Com.Parameters.AddWithValue("@RespId", RespId);
+                                            SqlDataReader Reader = Com.ExecuteReader();
+                                            if (Reader.Read())
                                             {
+                                                NextReceiptNo = Reader.GetInt32(0);
+                                                FirstReceiptNo = Reader.GetInt32(1);
+                                                LastReceiptNo = Reader.GetInt32(2);
+                                            }
+                                            Reader.Close();
+                                        }
+                                        if (NextReceiptNo == 0)
+                                        {
+                                            string UpdateCommand = "Update BookResposibilities Set NextReceiptNo = @RecIncrement Where RespId = @RespId";
+                                            using (SqlCommand UpdateCom = new SqlCommand(UpdateCommand, Con))
+                                            {
+                                                UpdateCom.Parameters.AddWithValue("@RespId", RespId);
+                                                UpdateCom.Parameters.AddWithValue("@RecIncrement", FirstReceiptNo + 1);
                                                 UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                            }
+                                        }
+                                        else if (NextReceiptNo > 0)
+                                        {
+                                            string UpdateCommand = "Update BookResposibilities Set NextReceiptNo = @RecIncrement Where RespId = @RespId";
+                                            using (SqlCommand UpdateCom = new SqlCommand(UpdateCommand, Con))
+                                            {
+                                                UpdateCom.Parameters.AddWithValue("@RespId", RespId);
+                                                UpdateCom.Parameters.AddWithValue("@RecIncrement", NextReceiptNo + 1);
+                                                if (NextReceiptNo + 1 <= LastReceiptNo)
+                                                {
+                                                    UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                                }
                                             }
                                         }
                                     }
@@ -445,21 +451,35 @@ namespace ECBNewWeb.Controllers
                             }
                         }
                     }
+                    MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+                    return RedirectToAction("AddDonations", Donation);
                 }
-                MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
-                return RedirectToAction("AddDonations", Donation);
-            }
-            else
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelState modelstate in ViewData.ModelState.Values)
+                else
                 {
-                    foreach (ModelError error in modelstate.Errors)
+                    var errors = ModelState.Values.SelectMany(v => v.Errors);
+                    foreach (ModelState modelstate in ViewData.ModelState.Values)
                     {
-                        TempData["ModelErrors"] = error.ErrorMessage;
+                        foreach (ModelError error in modelstate.Errors)
+                        {
+                            TempData["ModelErrors"] = error.ErrorMessage;
+                        }
+                    }
+                    return RedirectToAction("AddDonations", Donation);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
                     }
                 }
-                return RedirectToAction("AddDonations", Donation);
+                throw;
             }
         }
         [HttpPost]

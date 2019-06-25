@@ -50,6 +50,7 @@
     <Property Name="ResponsibilityId" Type="Int32" />
     <Property Name="DonationPurposeId" Type="Int32" />
     <NavigationProperty Name="marketingsite" Relationship="MarketingModel.FK_market_marketingsites" FromRole="market" ToRole="marketingsite" />
+    <Property Name="ChequeInfoId" Type="Int32" />
   </EntityType>
   <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="doners" EntityType="Self.doner" />
@@ -87,6 +88,8 @@
     </AssociationSet>
     <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
     <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
+    <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
+    <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
   </EntityContainer>
   <EntityType Name="center">
     <Key>
@@ -353,5 +356,25 @@
     <Property Name="userRole" Type="Int32" />
     <Property Name="importance" Type="Int32" />
     <Property Name="active" Type="Int16" />
+  </EntityType>
+  <EntityType Name="ChequeBank">
+    <Key>
+      <PropertyRef Name="ChequeBankId" />
+    </Key>
+    <Property Name="ChequeBankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChequeBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="Active" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ChequeInformation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChequeBankId" Type="Int32" Nullable="false" />
+    <Property Name="ChequeNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ChequeDate" Type="DateTime" Precision="0" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

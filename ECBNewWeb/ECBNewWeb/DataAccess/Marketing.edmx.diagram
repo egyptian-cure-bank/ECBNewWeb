@@ -32,7 +32,7 @@
         <EntityTypeShape EntityType="MarketingModel.DonationPurpose" Width="1.5" PointX="9.375" PointY="12.75" />
         <EntityTypeShape EntityType="MarketingModel.UserLogin" Width="1.5" PointX="6.375" PointY="14.125" />
         <EntityTypeShape EntityType="MarketingModel.ChequeBank" Width="1.5" PointX="12.375" PointY="10.75" />
-        <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="11.375" PointY="14" />
+        <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="11.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -53,15 +53,16 @@ namespace ECBNewWeb.Models
         //Cheque Bank Information
         public string BankInfoChecked { get; set; }
 
-        [BankInfoChequeBankIdValidator("BankInfoChecked", ErrorMessage = "برجاء إختيار بنك")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء إختيار بنك")]
         public int ChequeBankId { get; set; }
         public string ChequeBankName { get; set; }
         public IEnumerable<SelectListItem> MyChequeBanks { get; set; }
 
-        [BankInfoChequeNumberValidator("BankInfoChecked", ErrorMessage ="برجاء كتابة رقم الشيك")]
+        //[Remote("CheckChequeNumberValidation", "Donation", AdditionalFields = "BankInfoChecked", ErrorMessage = "برجاء كتابة رقم الشيك")]
+        [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة رقم الشيك")]
         public string ChequeNumber { get; set; }
-        
-        [BankInfoChequeBankDateValidator("BankInfoChecked", ErrorMessage = "برجاء إختيار تاريخ")]
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة تاريخ إستحقاق الشيك")]
         public DateTime? ChequeDate { get; set; }
     }
 }
