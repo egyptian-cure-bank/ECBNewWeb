@@ -59,8 +59,11 @@
           <Property Name="TimeStamp" Type="datetime" />
           <Property Name="Active" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ECB_Marketing.dbo.ChequeInformation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ChequeInformation">
           <Key>
+            <PropertyRef Name="Id" />
             <PropertyRef Name="ChequeBankId" />
             <PropertyRef Name="ChequeNo" />
           </Key>
@@ -346,7 +349,6 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrencyCovnersionRates" EntityType="Self.CurrencyCovnersionRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
@@ -365,6 +367,15 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeContact" EntityType="Self.TypeContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSites" EntityType="Self.UserSites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[ChequeInformation].[Id] AS [Id], 
+[ChequeInformation].[ChequeBankId] AS [ChequeBankId], 
+[ChequeInformation].[ChequeNo] AS [ChequeNo], 
+[ChequeInformation].[ChequeDate] AS [ChequeDate], 
+[ChequeInformation].[TimeStamp] AS [TimeStamp]
+FROM [dbo].[ChequeInformation] AS [ChequeInformation]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="login" EntityType="Self.login" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [login].[id] AS [id], 
@@ -775,6 +786,7 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
         </EntityType>
         <EntityType Name="ChequeInformation">
           <Key>
+            <PropertyRef Name="Id" />
             <PropertyRef Name="ChequeBankId" />
             <PropertyRef Name="ChequeNo" />
           </Key>
