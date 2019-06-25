@@ -132,7 +132,7 @@ namespace ECBNewWeb.Controllers
         private List<SelectListItem> PopulateReceipts()
         {
             List<SelectListItem> Items = new List<SelectListItem>();
-            string Cmd = "Select marketingrectype.id,Concat(marketingrectype.name,' - ',min(BookTypes.BookNo))as ReceiptType " +
+            string Cmd = "Select marketingrectype.id, (marketingrectype.name+' - '+convert(nvarchar,min(BookTypes.BookNo)))as ReceiptType " +
                         "From HandleBookReceipts " +
                         "Inner Join BookTypes " +
                         "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
@@ -315,7 +315,8 @@ namespace ECBNewWeb.Controllers
                         DBDonation.DonationPurposeId = Donation.PurpId;
                         DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
                         Market.markets.Add(DBDonation);
-                        Market.SaveChanges();
+                        int rowAffected =Market.SaveChanges();
+                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                         using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                         {
                             Con.Open();
@@ -380,6 +381,11 @@ namespace ECBNewWeb.Controllers
                         }
                     }
                 }
+
+                else
+                {
+                    TempData["Msg"] = "لم يتم الحفظ";
+                }
             }
             MarkBookResponsibilityAsDone(NextReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
             return RedirectToAction("AddDonations", Donation);
@@ -432,7 +438,8 @@ namespace ECBNewWeb.Controllers
                     DBCanceledReceipt.ResponsibilityId = RespId;
                     DBCanceledReceipt.Canceled = 1;
                     Market.CanceledReceipts.Add(DBCanceledReceipt);
-                    Market.SaveChanges();
+                    int rowAffected =Market.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                     {
                         Con.Open();

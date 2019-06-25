@@ -4,15 +4,9 @@
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
 }
 
-@section links {
     <link href="~/Content/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
     <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
-}
-
-
-
-
 
 <main class="page-content">
     <div class="container-fluid">
@@ -49,8 +43,7 @@
                         </div>
                         <div class="m-portlet__body">
 
-
-                            <table class="table table-striped  table-bordered table-hover  " id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                            <table class="table table-striped  table-bordered table-hover table-sm" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
                                 <thead>
 
                                     <tr>
@@ -71,7 +64,7 @@
                                     {
 
                                         <tr>
-                                            <td>@item.FullName</td>
+                                            <td>@item.FirstName @item.lastName</td>
                                             <td>
                                                 @item.ReceiptTypeName
                                             </td>
@@ -127,44 +120,9 @@
         </div>
     </div>
 </main>
-@if (TempData["Msg"] != null)
-    {
-<div class="modal  fade" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
-            </div>
-            <div class="modal-body">
+<!-- Start Message When Edit -->
 
-
-                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
-                {
-                    <script>
-                        alert("تم الحفظ بنجاح");
-                    </script>
-                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
-                }
-                else
-                {
-                    <script>
-                        alert("خطا اثناء الحفظ");
-                    </script>
-                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
-                }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-<script>
-                $('#myModal').modal('show');
-</script>
-    }
+<!-- End Message When Edit -->
 
 
 <!--End Test Area-->
@@ -173,8 +131,9 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title">تعديل تسليم الدفاتر </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"></h4>
+                
             </div>
             <div class="modal-body">
 
@@ -201,12 +160,12 @@
 <script>
 
     function EditBookResponsibility(id) {
-
+        
         $.get("@Url.Action("EditBookResponsibility", "BookResposibilities")/" + id,
         function (data) { $('.modal-body').html(data); })
         $('#myModalEdit').modal('show');
         $('#myModalEdit').on('hidden.bs.modal', function (e) {
-            $('.modal-body').html("hhh");
+            $('.modal-body').html();
         })
         
     }
@@ -234,5 +193,22 @@
             "scrollX": true,
         });
 </script>
+
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+        alert('test');
+        </script>
+    }
+    else
+    {
+        <script>
+                        alert("خطا اثناء الحفظ");
+        </script>
+    }
+
+}
 
 

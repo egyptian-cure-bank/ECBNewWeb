@@ -58,6 +58,7 @@
     <Property Name="id" Type="Int32" Nullable="false" />
     <Property Name="sitename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
+    <Property Name="Active" Type="Int32" />
   </EntityType>
   <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="doners" EntityType="Self.doner" />
@@ -92,6 +93,7 @@
     </AssociationSet>
     <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
     <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+    <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
     <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
     <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
   </EntityContainer>
@@ -136,6 +138,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Active" Type="Int32" />
   </EntityType>
   <EntityType Name="KnowingMethod">
     <Key>
@@ -240,7 +243,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="UserId" Type="Int32" />
     <Property Name="SiteId" Type="Int32" />
-    <Property Name="AssignDate" Type="DateTime" Precision="0" />
+    <Property Name="AssignDate" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Int32" />
   </EntityType>
   <Association Name="FK_centers_governments">
@@ -298,6 +301,31 @@
     <Property Name="ToDate" Type="DateTime" Precision="0" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Int32" />
+  </EntityType>
+  <EntityType Name="UserLogin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+    <Property Name="employee_id" Type="Int32" />
+    <Property Name="volunteer_id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="passChanged" Type="Int16" />
+    <Property Name="department" Type="Int32" />
+    <Property Name="FirstName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+    <Property Name="UserComments" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyID" Type="Int32" />
+    <Property Name="LastLoginTime" Type="DateTime" Precision="0" />
+    <Property Name="IsResetPasswordNeeded" Type="Int16" />
+    <Property Name="PasswordChangedOn" Type="DateTime" Precision="0" />
+    <Property Name="SecurityQuestionID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="SecurityAnswer" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="userRole" Type="Int32" />
+    <Property Name="importance" Type="Int32" />
+    <Property Name="active" Type="Int16" />
   </EntityType>
   <EntityType Name="CurrencyCovnersionRate">
     <Key>

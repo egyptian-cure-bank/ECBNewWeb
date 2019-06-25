@@ -292,6 +292,9 @@
     <Compile Include="DataAccess\TypeContact.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\UserLogin.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\UserRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>

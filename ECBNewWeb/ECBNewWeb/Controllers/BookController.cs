@@ -80,10 +80,15 @@ namespace ECBNewWeb.Controllers
                     HBookReceiptSave.LastReceiptNo = bookModel.LastReceiptNo;
                     HBookReceiptSave.Active = 1;
                     Market.HandleBookReceipts.Add(HBookReceiptSave);
-                    Market.SaveChanges();
+                    int rowAffected = Market.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     ModelState.Clear();
                     return RedirectToAction("AddBook", bookModel);
                 }
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
             }
             return RedirectToAction("AddBook",bookModel);
         }
@@ -137,20 +142,30 @@ namespace ECBNewWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             using (MarketEntities Market = new MarketEntities())
             {
-                var BookToUpdate = Market.BookTypes.Where(x=>x.BookTypeId==bookModel.BookTypeId).FirstOrDefault();
-                BookToUpdate.BookNo = bookModel.BookNo;
-                BookToUpdate.RecTypeId = bookModel.RecTypeId;
-                //------------------------------------//
-                var HBookToUpdate = Market.HandleBookReceipts.Where(x => x.BookTypeId == bookModel.BookTypeId).FirstOrDefault();
-                HBookToUpdate.FirstReceiptNo = bookModel.FirstReceiptNo;
-                HBookToUpdate.LastReceiptNo = bookModel.LastReceiptNo;
-                HBookToUpdate.Active = bookModel.IsActive ? 1 : 0;
-                TryUpdateModel(BookToUpdate);
-                Market.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    var BookToUpdate = Market.BookTypes.Where(x => x.BookTypeId == bookModel.BookTypeId).FirstOrDefault();
+                    BookToUpdate.BookNo = bookModel.BookNo;
+                    BookToUpdate.RecTypeId = bookModel.RecTypeId;
+                    //------------------------------------//
+                    var HBookToUpdate = Market.HandleBookReceipts.Where(x => x.BookTypeId == bookModel.BookTypeId).FirstOrDefault();
+                    HBookToUpdate.FirstReceiptNo = bookModel.FirstReceiptNo;
+                    HBookToUpdate.LastReceiptNo = bookModel.LastReceiptNo;
+                    HBookToUpdate.Active = bookModel.IsActive ? 1 : 0;
+                    TryUpdateModel(BookToUpdate);
+                    int rowAffected = Market.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                }
+                else
+                {
+                    TempData["Msg"] =  "لم يتم الحفظ";
+                }
+                
             }
-            return RedirectToAction("AllBooks");
+            return RedirectToAction("AllBooks" , TempData["Msg"]);
         }
 
         public ActionResult AddReceiptType()
@@ -168,9 +183,14 @@ namespace ECBNewWeb.Controllers
                     recTypeSave.name = RecModel.ReceiptTypeName;
                     recTypeSave.Active = 1;
                     Market.marketingrectypes.Add(recTypeSave);
-                    Market.SaveChanges();
+                    int rowAffected =Market.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     ModelState.Clear();
                 }
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
             }
             return View();
         }
@@ -192,9 +212,6 @@ namespace ECBNewWeb.Controllers
             }
             return Json(IsExists, JsonRequestBehavior.AllowGet);
         }
-        
-
-
 
     }
 }

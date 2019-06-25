@@ -92,6 +92,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Purpose" Type="nvarchar" MaxLength="100" />
     <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="doners">
     <Key>
@@ -173,6 +174,33 @@
     <Property Name="Name" Type="nvarchar" MaxLength="100" />
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="28" />
+    <Property Name="password" Type="varchar" MaxLength="28" />
+    <Property Name="employee_id" Type="int" />
+    <Property Name="volunteer_id" Type="varchar" MaxLength="1" />
+    <Property Name="passChanged" Type="smallint" />
+    <Property Name="department" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="19" />
+    <Property Name="MiddleName" Type="varchar" MaxLength="8" />
+    <Property Name="LastName" Type="varchar" MaxLength="19" />
+    <Property Name="UserComments" Type="varchar" MaxLength="1" />
+    <Property Name="CompanyID" Type="int" />
+    <Property Name="LastLoginTime" Type="datetime2" Precision="0" />
+    <Property Name="IsResetPasswordNeeded" Type="smallint" />
+    <Property Name="PasswordChangedOn" Type="datetime2" Precision="0" />
+    <Property Name="SecurityQuestionID" Type="varchar" MaxLength="4" />
+    <Property Name="SecurityAnswer" Type="varchar" MaxLength="6" />
+    <Property Name="userRole" Type="int" />
+    <Property Name="importance" Type="int" />
+    <Property Name="active" Type="smallint" />
+  </EntityType>
   <EntityType Name="market">
     <Key>
       <PropertyRef Name="id" />
@@ -220,6 +248,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="sitename" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="PaymentMethod">
     <Key>
@@ -245,7 +274,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" />
     <Property Name="SiteId" Type="int" />
-    <Property Name="AssignDate" Type="date" />
+    <Property Name="AssignDate" Type="datetime" />
     <Property Name="Active" Type="int" />
   </EntityType>
   <Association Name="FK_centers_governments">
@@ -307,6 +336,30 @@
     <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TypeContact" EntityType="Self.TypeContact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserSites" EntityType="Self.UserSites" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="login" EntityType="Self.login" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[login].[id] AS [id], 
+[login].[username] AS [username], 
+[login].[password] AS [password], 
+[login].[employee_id] AS [employee_id], 
+[login].[volunteer_id] AS [volunteer_id], 
+[login].[passChanged] AS [passChanged], 
+[login].[department] AS [department], 
+[login].[FirstName] AS [FirstName], 
+[login].[MiddleName] AS [MiddleName], 
+[login].[LastName] AS [LastName], 
+[login].[UserComments] AS [UserComments], 
+[login].[CompanyID] AS [CompanyID], 
+[login].[LastLoginTime] AS [LastLoginTime], 
+[login].[IsResetPasswordNeeded] AS [IsResetPasswordNeeded], 
+[login].[PasswordChangedOn] AS [PasswordChangedOn], 
+[login].[SecurityQuestionID] AS [SecurityQuestionID], 
+[login].[SecurityAnswer] AS [SecurityAnswer], 
+[login].[userRole] AS [userRole], 
+[login].[importance] AS [importance], 
+[login].[active] AS [active]
+FROM [dbo].[login] AS [login]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_centers_governments" Association="Self.FK_centers_governments">
       <End Role="governments" EntitySet="governments" />
       <End Role="centers" EntitySet="centers" />

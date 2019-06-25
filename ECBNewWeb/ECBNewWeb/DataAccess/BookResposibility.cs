@@ -11,15 +11,12 @@ namespace ECBNewWeb.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class BookResposibility
     {
         public int RespId { get; set; }
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<int> HandleBookReceiptId { get; set; }
-
-        [DataType(DataType.Date)]
         public Nullable<System.DateTime> ReceiveDate { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public Nullable<int> PartialBookIndicator { get; set; }

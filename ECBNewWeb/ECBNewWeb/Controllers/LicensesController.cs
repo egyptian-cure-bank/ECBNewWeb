@@ -35,7 +35,7 @@ namespace ECBNewWeb.Controllers
                     dblicense.CreatedDate = DateTime.Now;
                     Market.MarketingLicenses.Add(dblicense);
                     int rowAffected = Market.SaveChanges();
-                    TempData["Msg"] = "تم الحفظ بنجاح";
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                 }
                 else
                 {
@@ -92,14 +92,23 @@ namespace ECBNewWeb.Controllers
             }
             using (MarketEntities Market = new MarketEntities())
             {
-                var LicenseToUpdate = Market.MarketingLicenses.Find(model.Id);
-                LicenseToUpdate.LicenseName = model.LicenseName;
-                LicenseToUpdate.FromDate= model.FromDate;
-                LicenseToUpdate.ToDate = model.ToDate;
-                LicenseToUpdate.Active= model.Active ;
-                Market.SaveChanges();
+                if(ModelState.IsValid)
+                {
+                    var LicenseToUpdate = Market.MarketingLicenses.Find(model.Id);
+                    LicenseToUpdate.LicenseName = model.LicenseName;
+                    LicenseToUpdate.FromDate = model.FromDate;
+                    LicenseToUpdate.ToDate = model.ToDate;
+                    LicenseToUpdate.Active = model.Active;
+                    int rowAffected = Market.SaveChanges();
+                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                }
+                else
+                {
+                    TempData["Msg"] = "لم يتم الحفظ";
+                }
+                
             }
-            return RedirectToAction("AllLicenses");
+            return RedirectToAction("AllLicenses", TempData["Msg"]);
         }
     }
 }

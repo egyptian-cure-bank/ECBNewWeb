@@ -45,6 +45,7 @@ namespace ECBNewWeb.DataAccess
         public DbSet<UserSite> UserSites { get; set; }
         public DbSet<TypeContact> TypeContacts { get; set; }
         public DbSet<MarketingLicens> MarketingLicenses { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
         public DbSet<BookType> BookTypes { get; set; }
     }

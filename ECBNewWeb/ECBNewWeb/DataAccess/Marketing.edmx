@@ -97,6 +97,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Purpose" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="doners">
           <Key>
@@ -178,6 +179,33 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="28" />
+          <Property Name="password" Type="varchar" MaxLength="28" />
+          <Property Name="employee_id" Type="int" />
+          <Property Name="volunteer_id" Type="varchar" MaxLength="1" />
+          <Property Name="passChanged" Type="smallint" />
+          <Property Name="department" Type="int" />
+          <Property Name="FirstName" Type="varchar" MaxLength="19" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="8" />
+          <Property Name="LastName" Type="varchar" MaxLength="19" />
+          <Property Name="UserComments" Type="varchar" MaxLength="1" />
+          <Property Name="CompanyID" Type="int" />
+          <Property Name="LastLoginTime" Type="datetime2" Precision="0" />
+          <Property Name="IsResetPasswordNeeded" Type="smallint" />
+          <Property Name="PasswordChangedOn" Type="datetime2" Precision="0" />
+          <Property Name="SecurityQuestionID" Type="varchar" MaxLength="4" />
+          <Property Name="SecurityAnswer" Type="varchar" MaxLength="6" />
+          <Property Name="userRole" Type="int" />
+          <Property Name="importance" Type="int" />
+          <Property Name="active" Type="smallint" />
+        </EntityType>
         <EntityType Name="market">
           <Key>
             <PropertyRef Name="id" />
@@ -225,6 +253,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="sitename" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -250,7 +279,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" />
           <Property Name="SiteId" Type="int" />
-          <Property Name="AssignDate" Type="date" />
+          <Property Name="AssignDate" Type="datetime" />
           <Property Name="Active" Type="int" />
         </EntityType>
         <Association Name="FK_centers_governments">
@@ -312,6 +341,30 @@
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeContact" EntityType="Self.TypeContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSites" EntityType="Self.UserSites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[login].[id] AS [id], 
+[login].[username] AS [username], 
+[login].[password] AS [password], 
+[login].[employee_id] AS [employee_id], 
+[login].[volunteer_id] AS [volunteer_id], 
+[login].[passChanged] AS [passChanged], 
+[login].[department] AS [department], 
+[login].[FirstName] AS [FirstName], 
+[login].[MiddleName] AS [MiddleName], 
+[login].[LastName] AS [LastName], 
+[login].[UserComments] AS [UserComments], 
+[login].[CompanyID] AS [CompanyID], 
+[login].[LastLoginTime] AS [LastLoginTime], 
+[login].[IsResetPasswordNeeded] AS [IsResetPasswordNeeded], 
+[login].[PasswordChangedOn] AS [PasswordChangedOn], 
+[login].[SecurityQuestionID] AS [SecurityQuestionID], 
+[login].[SecurityAnswer] AS [SecurityAnswer], 
+[login].[userRole] AS [userRole], 
+[login].[importance] AS [importance], 
+[login].[active] AS [active]
+FROM [dbo].[login] AS [login]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_centers_governments" Association="Self.FK_centers_governments">
             <End Role="governments" EntitySet="governments" />
             <End Role="centers" EntitySet="centers" />
@@ -387,6 +440,7 @@
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="sitename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
+          <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="doners" EntityType="Self.doner" />
@@ -421,6 +475,7 @@
           </AssociationSet>
           <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
           <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+          <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
           <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
           <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
         </EntityContainer>
@@ -465,6 +520,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityType Name="KnowingMethod">
           <Key>
@@ -569,7 +625,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="SiteId" Type="Int32" />
-          <Property Name="AssignDate" Type="DateTime" Precision="0" />
+          <Property Name="AssignDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
         <Association Name="FK_centers_governments">
@@ -627,6 +683,31 @@
           <Property Name="ToDate" Type="DateTime" Precision="0" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="volunteer_id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="passChanged" Type="Int16" />
+          <Property Name="department" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="UserComments" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="0" />
+          <Property Name="IsResetPasswordNeeded" Type="Int16" />
+          <Property Name="PasswordChangedOn" Type="DateTime" Precision="0" />
+          <Property Name="SecurityQuestionID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="SecurityAnswer" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="userRole" Type="Int32" />
+          <Property Name="importance" Type="Int32" />
+          <Property Name="active" Type="Int16" />
         </EntityType>
         <EntityType Name="CurrencyCovnersionRate">
           <Key>
@@ -715,6 +796,7 @@
           <EntitySetMapping Name="marketingsites">
             <EntityTypeMapping TypeName="MarketingModel.marketingsite">
               <MappingFragment StoreEntitySet="marketingsites">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="sitename" ColumnName="sitename" />
               </MappingFragment>
@@ -758,6 +840,7 @@
           <EntitySetMapping Name="DonationPurposes">
             <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
               <MappingFragment StoreEntitySet="DonationPurpose">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Purpose" ColumnName="Purpose" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -899,6 +982,32 @@
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="LicenseName" ColumnName="LicenseName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="MarketingModel.UserLogin">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="importance" ColumnName="importance" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+                <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+                <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+                <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+                <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+                <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
