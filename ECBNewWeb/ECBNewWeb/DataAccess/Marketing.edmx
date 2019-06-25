@@ -38,7 +38,7 @@
           <Property Name="CanceledReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="ReceiptNo" Type="int" />
-          <Property Name="ActualDate" Type="datetime" />
+          <Property Name="ActualDate" Type="datetime" StoreGeneratedPattern="Computed" />
           <Property Name="Canceled" Type="int" />
         </EntityType>
         <EntityType Name="centers">
@@ -48,6 +48,26 @@
           <Property Name="center_id" Type="int" Nullable="false" />
           <Property Name="government_id" Type="int" />
           <Property Name="center_name" Type="varchar" MaxLength="52" />
+        </EntityType>
+        <EntityType Name="ChequeBanks">
+          <Key>
+            <PropertyRef Name="ChequeBankId" />
+          </Key>
+          <Property Name="ChequeBankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChequeBankName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="ChequeInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChequeBankId" Type="int" Nullable="false" />
+          <Property Name="ChequeNo" Type="nvarchar" MaxLength="150" />
+          <Property Name="ChequeDate" Type="date" />
+          <Property Name="TimeStamp" Type="datetime" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -180,7 +200,7 @@
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="login">
           <Key>
             <PropertyRef Name="id" />
@@ -227,6 +247,7 @@ warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a prima
           <Property Name="FinApprov" Type="varchar" MaxLength="1" />
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="DonationPurposeId" Type="int" />
+          <Property Name="ChequeInfoId" Type="int" />
         </EntityType>
         <EntityType Name="MarketingLicenses">
           <Key>
@@ -323,6 +344,8 @@ warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a prima
           <EntitySet Name="BookTypes" EntityType="Self.BookTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrencyCovnersionRates" EntityType="Self.CurrencyCovnersionRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
@@ -432,25 +455,15 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="DonationPurposeId" Type="Int32" />
           <NavigationProperty Name="marketingsite" Relationship="MarketingModel.FK_market_marketingsites" FromRole="market" ToRole="marketingsite" />
-        </EntityType>
-        <EntityType Name="marketingsite">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="sitename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
-          <Property Name="Active" Type="Int32" />
+          <Property Name="ChequeInfoId" Type="Int32" />
         </EntityType>
         <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="doners" EntityType="Self.doner" />
           <EntitySet Name="markets" EntityType="Self.market" />
-          <EntitySet Name="marketingsites" EntityType="Self.marketingsite" />
           <EntitySet Name="centers" EntityType="MarketingModel.center" />
           <EntitySet Name="governments" EntityType="MarketingModel.government" />
           <EntitySet Name="marketingrectypes" EntityType="MarketingModel.marketingrectype" />
           <EntitySet Name="Currencies" EntityType="MarketingModel.Currency" />
-          <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
           <EntitySet Name="KnowingMethods" EntityType="MarketingModel.KnowingMethod" />
           <EntitySet Name="PaymentMethods" EntityType="MarketingModel.PaymentMethod" />
           <EntitySet Name="BookResposibilities" EntityType="MarketingModel.BookResposibility" />
@@ -469,15 +482,19 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
             <End Role="center" EntitySet="centers" />
             <End Role="doner" EntitySet="doners" />
           </AssociationSet>
+          <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
+          <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+          <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
+          <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
+          <EntitySet Name="marketingsites" EntityType="MarketingModel.marketingsite" />
           <AssociationSet Name="FK_market_marketingsites" Association="MarketingModel.FK_market_marketingsites">
             <End Role="marketingsite" EntitySet="marketingsites" />
             <End Role="market" EntitySet="markets" />
           </AssociationSet>
-          <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
-          <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+          <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
           <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
-          <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
-          <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
+          <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
+          <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -512,15 +529,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
-        <EntityType Name="DonationPurpose">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityType Name="KnowingMethod">
           <Key>
@@ -560,7 +568,7 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="ReceiptNo" Type="Int32" />
           <Property Name="Canceled" Type="Int32" />
-          <Property Name="ActualDate" Type="DateTime" Precision="3" />
+          <Property Name="ActualDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -652,18 +660,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_market_marketingsites">
-          <End Type="MarketingModel.marketingsite" Role="marketingsite" Multiplicity="0..1" />
-          <End Type="MarketingModel.market" Role="market" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="marketingsite">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="market">
-              <PropertyRef Name="site" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TypeContact">
           <Key>
             <PropertyRef Name="Id" />
@@ -681,6 +677,63 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="LicenseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FromDate" Type="DateTime" Precision="0" />
           <Property Name="ToDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CurrencyCovnersionRate">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="SourceCurrency" />
+            <PropertyRef Name="TargetCurrency" />
+            <PropertyRef Name="FromDate" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceCurrency" Type="Int32" Nullable="false" />
+          <Property Name="TargetCurrency" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Precision="0" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BookType">
+          <Key>
+            <PropertyRef Name="BookNo" />
+            <PropertyRef Name="RecTypeId" />
+            <PropertyRef Name="LicenseId" />
+          </Key>
+          <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookNo" Type="Int32" Nullable="false" />
+          <Property Name="RecTypeId" Type="Int32" Nullable="false" />
+          <Property Name="LicenseId" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="marketingsite">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sitename" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
+        </EntityType>
+        <Association Name="FK_market_marketingsites">
+          <End Type="MarketingModel.marketingsite" Role="marketingsite" Multiplicity="0..1" />
+          <End Type="MarketingModel.market" Role="market" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marketingsite">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="market">
+              <PropertyRef Name="site" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DonationPurpose">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
@@ -709,32 +762,25 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="importance" Type="Int32" />
           <Property Name="active" Type="Int16" />
         </EntityType>
-        <EntityType Name="CurrencyCovnersionRate">
+        <EntityType Name="ChequeBank">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="SourceCurrency" />
-            <PropertyRef Name="TargetCurrency" />
-            <PropertyRef Name="FromDate" />
+            <PropertyRef Name="ChequeBankId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SourceCurrency" Type="Int32" Nullable="false" />
-          <Property Name="TargetCurrency" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ToDate" Type="DateTime" Precision="0" />
-          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ChequeBankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
-        <EntityType Name="BookType">
+        <EntityType Name="ChequeInformation">
           <Key>
-            <PropertyRef Name="BookNo" />
-            <PropertyRef Name="RecTypeId" />
-            <PropertyRef Name="LicenseId" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookNo" Type="Int32" Nullable="false" />
-          <Property Name="RecTypeId" Type="Int32" Nullable="false" />
-          <Property Name="LicenseId" Type="Int32" Nullable="false" />
-          <Property Name="Active" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeBankId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeDate" Type="DateTime" Precision="0" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -773,6 +819,7 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <EntitySetMapping Name="markets">
             <EntityTypeMapping TypeName="MarketingModel.market">
               <MappingFragment StoreEntitySet="market">
+                <ScalarProperty Name="ChequeInfoId" ColumnName="ChequeInfoId" />
                 <ScalarProperty Name="DonationPurposeId" ColumnName="DonationPurposeId" />
                 <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -790,15 +837,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
                 <ScalarProperty Name="combID" ColumnName="combID" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="FinApprov" ColumnName="FinApprov" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="marketingsites">
-            <EntityTypeMapping TypeName="MarketingModel.marketingsite">
-              <MappingFragment StoreEntitySet="marketingsites">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="sitename" ColumnName="sitename" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -833,16 +871,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
               <MappingFragment StoreEntitySet="Currency">
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DonationPurposes">
-            <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
-              <MappingFragment StoreEntitySet="DonationPurpose">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -985,6 +1013,49 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CurrencyCovnersionRates">
+            <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
+              <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
+                <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookTypes">
+            <EntityTypeMapping TypeName="MarketingModel.BookType">
+              <MappingFragment StoreEntitySet="BookTypes">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
+                <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
+                <ScalarProperty Name="BookNo" ColumnName="BookNo" />
+                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="marketingsites">
+            <EntityTypeMapping TypeName="MarketingModel.marketingsite">
+              <MappingFragment StoreEntitySet="marketingsites">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="sitename" ColumnName="sitename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DonationPurposes">
+            <EntityTypeMapping TypeName="MarketingModel.DonationPurpose">
+              <MappingFragment StoreEntitySet="DonationPurpose">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserLogins">
             <EntityTypeMapping TypeName="MarketingModel.UserLogin">
               <MappingFragment StoreEntitySet="login">
@@ -1011,27 +1082,25 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CurrencyCovnersionRates">
-            <EntityTypeMapping TypeName="MarketingModel.CurrencyCovnersionRate">
-              <MappingFragment StoreEntitySet="CurrencyCovnersionRates">
+          <EntitySetMapping Name="ChequeBanks">
+            <EntityTypeMapping TypeName="MarketingModel.ChequeBank">
+              <MappingFragment StoreEntitySet="ChequeBanks">
                 <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Rate" ColumnName="Rate" />
-                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
-                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-                <ScalarProperty Name="TargetCurrency" ColumnName="TargetCurrency" />
-                <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChequeBankName" ColumnName="ChequeBankName" />
+                <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BookTypes">
-            <EntityTypeMapping TypeName="MarketingModel.BookType">
-              <MappingFragment StoreEntitySet="BookTypes">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
-                <ScalarProperty Name="RecTypeId" ColumnName="RecTypeId" />
-                <ScalarProperty Name="BookNo" ColumnName="BookNo" />
-                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
+          <EntitySetMapping Name="ChequeInformations">
+            <EntityTypeMapping TypeName="MarketingModel.ChequeInformation">
+              <MappingFragment StoreEntitySet="ChequeInformation">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

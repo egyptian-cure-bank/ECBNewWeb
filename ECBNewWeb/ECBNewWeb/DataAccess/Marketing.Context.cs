@@ -27,12 +27,10 @@ namespace ECBNewWeb.DataAccess
     
         public DbSet<doner> doners { get; set; }
         public DbSet<market> markets { get; set; }
-        public DbSet<marketingsite> marketingsites { get; set; }
         public DbSet<center> centers { get; set; }
         public DbSet<government> governments { get; set; }
         public DbSet<marketingrectype> marketingrectypes { get; set; }
         public DbSet<Currency> Currencies { get; set; }
-        public DbSet<DonationPurpose> DonationPurposes { get; set; }
         public DbSet<KnowingMethod> KnowingMethods { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<BookResposibility> BookResposibilities { get; set; }
@@ -48,5 +46,10 @@ namespace ECBNewWeb.DataAccess
         public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
         public DbSet<BookType> BookTypes { get; set; }
+        public DbSet<marketingsite> marketingsites { get; set; }
+        public DbSet<DonationPurpose> DonationPurposes { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<ChequeBank> ChequeBanks { get; set; }
+        public DbSet<ChequeInformation> ChequeInformations { get; set; }
     }
 }

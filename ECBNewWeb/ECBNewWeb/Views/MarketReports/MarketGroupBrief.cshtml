@@ -1,0 +1,170 @@
+﻿@model ECBNewWeb.Models.MarketGroupBriefModel
+@{
+    ViewBag.Title = "MarketGroupBySiteBrief";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<main class="page-content">
+    <div class="container-fluid">
+
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--tab">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        تقارير المراجعة
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        @using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
+                        {
+                            @*@Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "لم يتم الحفظ", new { @class = "text-danger" })*@
+                        <!--begin::Form-->
+
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="" class="">إسم المحصل</label>
+                                        @Html.CheckBoxFor(x => x.UserNameCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "usrNameCheck" })
+                                        @Html.DropDownListFor(x => x.UserId, Model.MyUserList as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control m-input", @id = "userList" })
+                                    </div>
+                                    @*</div>
+                                        <div class="row">*@
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="" class="">الفترة من</label>
+                                        @Html.CheckBoxFor(x => x.DateCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "dateCheck" })
+                                        @Html.TextBoxFor(m => m.FromDate, new { @disabled = "disabled", @class = "form-control", @id = "fromDate", @type = "date" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="toDate" class="">إلى</label>
+                                        @Html.TextBoxFor(m => m.ToDate, new { @disabled = "disabled", @class = "form-control", @id = "toDate", @type = "date" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="" class="">إيصالات</label>
+                                        @Html.CheckBoxFor(x => x.RecTypeCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "recTypeCheck" })
+                                        @Html.DropDownListFor(x => x.RecTypeId, new SelectList(string.Empty, "Value", "Text"), new { @disabled = "disabled", @class = "form-control m-input", @id = "recTypesList" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="" class="">المواقع</label>
+                                        @Html.CheckBoxFor(x => x.SiteCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "siteCheck" })
+                                        @Html.DropDownListFor(x => x.SiteId, Model.MySites as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control m-input", @id = "siteList" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">البرنامج</label>
+                                        @Html.CheckBoxFor(x => x.PurposeCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "purposeCheck" })
+                                        @Html.DropDownListFor(x => x.DonationPurposeId, Model.MyDonationPurpose as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control m-input", @id = "purposeList" })
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions">
+                                        <button type="submit" formaction="RunMarketGroupBriefCash" class="btn btn-success m-btn--pill">إجمالي نقدي</button>
+                                        <button type="submit" formaction="RunMarketGroupBriefVisa" class="btn btn-dark  m-btn--pill">إجمالي فيزا</button>
+                                        <button type="submit" formaction="RunMarketGroupBriefCheque" class="btn btn-accent  m-btn--pill">إجمالي شيك</button>
+                                        <button type="submit" formaction="RunMarketGroupAll" class="btn btn-danger  m-btn--pill">الإجماليات</button>
+                                    </div>
+                                    <div class="m-form__actions">
+                                        <button type="submit" formaction="RunMarketAdminDetails" class="btn btn-accent btn-outline-accent  m-btn--pill">التفاصيل</button>
+                                        <button type="submit" formaction="" class="btn btn-success btn-outline-danger m-btn--pill">التراخيص</button>
+                                        <hr />
+                                    </div>
+                                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
+                                </div>
+                            </div>
+                        <!--end::Form-->
+                        }
+                    </div>
+                    <!--end::Portlet-->
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+<!--Scripts-->
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/fontawesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--End Scripts-->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("/MarketReports/PopulateRecTypes", { UserId: null }, function (data) {
+            data = $.map(data, function (item, a) {
+                return "<option value=" + item.Value + ">" + item.Text + "</option>";
+            });
+            $("#recTypesList").html(data);
+        });
+    })
+    $("#usrNameCheck").change(function () {
+        if (this.checked) {
+            $("#userList").removeAttr("disabled");
+            @*@Model.UserNameCheck = true*@
+        }
+        else {
+            $("#userList").attr("disabled", "diabled");
+            @*@Model.UserNameCheck = false*@
+        }
+    })
+    $("#dateCheck").change(function(){
+        if (this.checked) {
+            $("#fromDate").removeAttr("disabled");
+            $("#toDate").removeAttr("disabled");
+            @*@Model.DateCheck = true*@
+        }
+        else {
+            $("#fromDate").attr("disabled", "diabled");
+            $("#toDate").attr("disabled", "diabled");
+            @*@Model.DateCheck = false*@
+        }
+    })
+    $("#recTypeCheck").change(function () {
+        if (this.checked) {
+            $("#recTypesList").removeAttr("disabled");
+    }
+        else {
+            $("#recTypesList").attr("disabled", "diabled");
+    }
+    })
+    $("#siteCheck").change(function () {
+        if (this.checked) {
+            $("#siteList").removeAttr("disabled");
+        }
+        else {
+            $("#siteList").attr("disabled", "diabled");
+        }
+    })
+    $("#purposeCheck").change(function () {
+        if (this.checked) {
+            $("#purposeList").removeAttr("disabled");
+        }
+        else {
+            $("#purposeList").attr("disabled", "diabled");
+        }
+    })
+
+
+    $("#userList").change(function () {
+        var data = [];
+        var selectedvalue = $("#userList option:selected").val();
+        $.getJSON("/MarketReports/PopulateRecTypes", { UserId: selectedvalue }, function (data) {
+            data = $.map(data, function (item, a) {
+                return "<option value=" + item.Value + ">" + item.Text + "</option>";
+            });
+            $("#recTypesList").html(data);
+        });
+    });
+</script>

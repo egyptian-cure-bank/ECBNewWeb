@@ -11,6 +11,10 @@
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <script src="//code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!--End Scripts-->
 <!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
 <main class="page-content">
@@ -18,8 +22,10 @@
         <h2>بيانات إيصال التبرع</h2>
         <p>إضافة تبرع</p>
         <hr>
-        @using (Html.BeginForm("SaveDonation", "Donation", FormMethod.Post))
+        @using (Html.BeginForm("", "", FormMethod.Post,new { @id="saveDonationForm"}))
         {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="" class="">اسم المحصل</label>
@@ -30,91 +36,83 @@
                 <div class="form-group col-md-3">
                     <label for="" class="">اسم المتبرع</label>
                     @Html.TextBoxFor(m => m.DonorName, new { @class = "form-control", @id = "donors" })
+                    @Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })
 
                     @*Related Donor Id stored in the below hidden field*@
                     @Html.TextAreaFor(m => m.DonorId, new { @id = "donorId", @hidden = true })
+                    @Html.TextAreaFor(m=>m.BankInfoChecked,new { @id = "bankInfoChecked", @hidden = true })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الموقع</label>
                     @Html.DropDownListFor(x => x.SiteId, Model.MySites as List<SelectListItem>, new { @class = "form-control", @id = "sites" })
+                    @Html.ValidationMessageFor(x => x.SiteId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">نوع الإيصال</label>
-                    @Html.DropDownListFor(x => x.RecId, Model.MyReceipts as List<SelectListItem>, "--إختار إيصال--", new { @class = "form-control", @id = "recType" })
+                    @Html.DropDownListFor(x => x.RecId, Model.MyReceipts as List<SelectListItem>, new { @class = "form-control", @id = "recType" })
+                    @Html.ValidationMessageFor(m => m.RecId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">تاريخ الإيصال</label>
                     @Html.TextBoxFor(m => m.RecDate, new { @class = "form-control", @id = "recDate", @type = "date" })
+                    @Html.ValidationMessageFor(m => m.RecDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">المبلغ</label>
                     @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @id = "amount", @Value = "", @type = "number" })
+                    @Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">رقم الإيصال</label>
-                    @Html.TextBoxFor(m => m.RecNumber, new { @class = "form-control", @id = "recNumber", @Value = "" })
+                    @Html.TextBoxFor(m => m.RecNumber, new { @class = "form-control", @id = "recNumber", @readonly="true" })
+                    @Html.ValidationMessageFor(m => m.RecNumber, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">العملة</label>
-                    @Html.DropDownListFor(x => x.CurrencyName, Model.MyCurrency as List<SelectListItem>, "--إختار عملة--", new { @class = "form-control", @id = "currency" })
+                    @Html.DropDownListFor(x => x.CurrencyName, Model.MyCurrency as List<SelectListItem>, new { @class = "form-control", @id = "currency" })
+                    @Html.ValidationMessageFor(m => m.CurrencyName, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الغرض</label>
-                    @Html.DropDownListFor(x => x.PurpId, Model.MyPurposes as List<SelectListItem>, "--إختار غرض--", new { @class = "form-control", @id = "purpose" })
+                    @Html.DropDownListFor(x => x.PurpId, Model.MyPurposes as List<SelectListItem>, new { @class = "form-control", @id = "purpose" })
+                    @Html.ValidationMessageFor(m => m.PurpId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">طريقة الدفع</label>
                     @Html.DropDownListFor(x => x.PaymentId, Model.MyPayments as List<SelectListItem>, new { @class = "form-control", @id = "paymentmethod" })
+                    @Html.ValidationMessageFor(m => m.PaymentId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">وسيلة التعرف</label>
                     @Html.DropDownListFor(x => x.KnowingId, Model.MyKnowingMethods as List<SelectListItem>, "--إختار وسيلة التعرف--", new { @class = "form-control", @id = "knowingMethod" })
                 </div>
-
-
+            </div>
+            <div class="row" id="chequeInformation">
+                <div class="form-group col-md-3">
+                    <label for="" class="" id="lblbankNames" hidden="hidden">بنك</label>
+                    @Html.DropDownListFor(x => x.ChequeBankId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "bankNames",@hidden="hidden"})
+                    @Html.ValidationMessageFor(m => m.ChequeBankId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="" id="lblchequeNumber" hidden="hidden">رقم الشيك</label>
+                    @Html.TextBoxFor(m => m.ChequeNumber, new { @class = "form-control", @id = "chequeNumber", @Value = "" ,@hidden="hidden"})
+                    @Html.ValidationMessageFor(m => m.ChequeNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="chequeDate" class="" id="lblchequeDate" hidden="hidden">تاريخ الإستحقاق</label>
+                    @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @id = "chequeDate", @type = "date", @hidden = "hidden" })
+                    @Html.ValidationMessageFor(m => m.ChequeDate, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
                 <div class="m-demo__preview  m-demo__preview--btn">
                 <button class="btn m-btn--pill btn-success  col-md-1 form-group" formaction="SaveDonation" type="submit">حفظ</button>
                 <button class="btn btn-danger m-btn--pill col-md-1 form-group" formaction="CancelReceipt" type="submit">الغاء</button>
                 </div>
+                <h4 class="text-danger">@TempData["ModelErrors"]</h4>
             </div>
-
-                        if (TempData["Msg"] != null)
-                        {
-                            <div class="modal  fade" id="myModal">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
-                                        </div>
-                                        <div class="modal-body">
-                                            @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
-                                            {
-                                                <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
-                                            }
-                                            else
-                                            {
-                                                <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
-                                            }
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <script>
-                $('#myModal').modal('show');
-                            </script>
-                        }
-
-
-
             <hr>
- }
+}
         <div id="loadingIndicator" class="submit-progress d-none">
             <i class="fa fa-2x fa-spinner fa-spin"></i>
             <label>Please Wait....</label>
@@ -129,6 +127,9 @@
         //Select Default Value For Paymentmethod DropDownList
         $("#paymentmethod").val(-1);
         //get NextReceiptNumber When RecType changed
+        $("#recType").val(-1);
+        $("#currency").val(-1);
+        $('form').validate().settings.ignore = ':hidden';
         $("#recType").change(function () {
             var selectedvalue = $("#recType option:selected").val();
             $.ajax({
@@ -139,7 +140,7 @@
                 success: function (response) {
                     var RecNo = $.parseJSON(response);
                     if (RecNo[0].NextReceiptNo != null && RecNo[0].NextReceiptNo != 0) {
-                        if (RecNo[0].LastSavedRecNo == RecNo[0].NextReceiptNo && RecNo[0].LastSavedRecNo == RecNo[0].LastReceiptNo || RecNo[0].LastCanceledReceiptNo == RecNo[0].LastReceiptNo) {
+                        if ((RecNo[0].LastSavedRecNo == RecNo[0].NextReceiptNo && RecNo[0].LastSavedRecNo == RecNo[0].LastReceiptNo) || RecNo[0].LastCanceledReceiptNo == RecNo[0].LastReceiptNo) {
                             $("#recNumber").val("يجب تسليم هذا الدفتر");
                         }
                         else {
@@ -167,8 +168,39 @@
                     console.log(response);
                 }
             });
+        });
     });
- });
+    //Show Hidden Div When User Choose cheque as payment method only
+    $("#paymentmethod").change(function () {
+        var selectedvalue = $("#paymentmethod option:selected").val();
+        if (selectedvalue == 3) {
+            $('#bankNames').removeAttr('hidden');
+            $('#chequeNumber').removeAttr('hidden');
+            $('#chequeDate').removeAttr('hidden');
+            $('#lblbankNames').removeAttr('hidden');
+            $('#lblchequeNumber').removeAttr('hidden');
+            $('#lblchequeDate').removeAttr('hidden');
+            $.getJSON("/Donation/PopulateBankInfo", null, function (data) {
+                data = $.map(data, function (item, a) {
+                    return "<option value=" + item.Value + ">" + item.Text + "</option>";
+                });
+                $("#bankNames").html(data);
+                $("#bankNames").val(-1);
+                $("#bankInfoChecked").val('true');
+            });
+        }
+        else {
+            $('#bankNames').attr("hidden", "hidden");
+            $('#chequeNumber').attr("hidden", "hidden");
+            $('#chequeDate').attr("hidden", "hidden");
+            $('#lblbankNames').attr("hidden", "hidden");
+            $('#lblchequeNumber').attr("hidden", "hidden");
+            $('#lblchequeDate').attr("hidden", "hidden");
+            $("#bankNames").html(null);
+            $("#bankInfoChecked").val('false');
+            $('form').validate().settings.ignore = ':hidden';
+        }
+    });
     var item = [];
     $("#donors").autocomplete({
         source: function (request, response) {

@@ -33,7 +33,7 @@
     <Property Name="CanceledReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ResponsibilityId" Type="int" />
     <Property Name="ReceiptNo" Type="int" />
-    <Property Name="ActualDate" Type="datetime" />
+    <Property Name="ActualDate" Type="datetime" StoreGeneratedPattern="Computed" />
     <Property Name="Canceled" Type="int" />
   </EntityType>
   <EntityType Name="centers">
@@ -43,6 +43,26 @@
     <Property Name="center_id" Type="int" Nullable="false" />
     <Property Name="government_id" Type="int" />
     <Property Name="center_name" Type="varchar" MaxLength="52" />
+  </EntityType>
+  <EntityType Name="ChequeBanks">
+    <Key>
+      <PropertyRef Name="ChequeBankId" />
+    </Key>
+    <Property Name="ChequeBankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChequeBankName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="Active" Type="int" />
+  </EntityType>
+  <EntityType Name="ChequeInformation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChequeBankId" Type="int" Nullable="false" />
+    <Property Name="ChequeNo" Type="nvarchar" MaxLength="150" />
+    <Property Name="ChequeDate" Type="date" />
+    <Property Name="TimeStamp" Type="datetime" />
   </EntityType>
   <EntityType Name="Currency">
     <Key>
@@ -175,7 +195,7 @@
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="login">
     <Key>
       <PropertyRef Name="id" />
@@ -222,6 +242,7 @@ warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a prima
     <Property Name="FinApprov" Type="varchar" MaxLength="1" />
     <Property Name="ResponsibilityId" Type="int" />
     <Property Name="DonationPurposeId" Type="int" />
+    <Property Name="ChequeInfoId" Type="int" />
   </EntityType>
   <EntityType Name="MarketingLicenses">
     <Key>
@@ -318,6 +339,8 @@ warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a prima
     <EntitySet Name="BookTypes" EntityType="Self.BookTypes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CurrencyCovnersionRates" EntityType="Self.CurrencyCovnersionRates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />

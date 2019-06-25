@@ -50,25 +50,15 @@
     <Property Name="ResponsibilityId" Type="Int32" />
     <Property Name="DonationPurposeId" Type="Int32" />
     <NavigationProperty Name="marketingsite" Relationship="MarketingModel.FK_market_marketingsites" FromRole="market" ToRole="marketingsite" />
-  </EntityType>
-  <EntityType Name="marketingsite">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="sitename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
-    <Property Name="Active" Type="Int32" />
+    <Property Name="ChequeInfoId" Type="Int32" />
   </EntityType>
   <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="doners" EntityType="Self.doner" />
     <EntitySet Name="markets" EntityType="Self.market" />
-    <EntitySet Name="marketingsites" EntityType="Self.marketingsite" />
     <EntitySet Name="centers" EntityType="MarketingModel.center" />
     <EntitySet Name="governments" EntityType="MarketingModel.government" />
     <EntitySet Name="marketingrectypes" EntityType="MarketingModel.marketingrectype" />
     <EntitySet Name="Currencies" EntityType="MarketingModel.Currency" />
-    <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
     <EntitySet Name="KnowingMethods" EntityType="MarketingModel.KnowingMethod" />
     <EntitySet Name="PaymentMethods" EntityType="MarketingModel.PaymentMethod" />
     <EntitySet Name="BookResposibilities" EntityType="MarketingModel.BookResposibility" />
@@ -87,15 +77,19 @@
       <End Role="center" EntitySet="centers" />
       <End Role="doner" EntitySet="doners" />
     </AssociationSet>
+    <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
+    <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+    <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
+    <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
+    <EntitySet Name="marketingsites" EntityType="MarketingModel.marketingsite" />
     <AssociationSet Name="FK_market_marketingsites" Association="MarketingModel.FK_market_marketingsites">
       <End Role="marketingsite" EntitySet="marketingsites" />
       <End Role="market" EntitySet="markets" />
     </AssociationSet>
-    <EntitySet Name="TypeContacts" EntityType="MarketingModel.TypeContact" />
-    <EntitySet Name="MarketingLicenses" EntityType="MarketingModel.MarketingLicens" />
+    <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
     <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
-    <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
-    <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
+    <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
+    <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
   </EntityContainer>
   <EntityType Name="center">
     <Key>
@@ -130,15 +124,6 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-  </EntityType>
-  <EntityType Name="DonationPurpose">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-    <Property Name="Active" Type="Int32" />
   </EntityType>
   <EntityType Name="KnowingMethod">
     <Key>
@@ -178,7 +163,7 @@
     <Property Name="ResponsibilityId" Type="Int32" />
     <Property Name="ReceiptNo" Type="Int32" />
     <Property Name="Canceled" Type="Int32" />
-    <Property Name="ActualDate" Type="DateTime" Precision="3" />
+    <Property Name="ActualDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
   </EntityType>
   <EntityType Name="Department">
     <Key>
@@ -270,18 +255,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_market_marketingsites">
-    <End Type="MarketingModel.marketingsite" Role="marketingsite" Multiplicity="0..1" />
-    <End Type="MarketingModel.market" Role="market" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="marketingsite">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="market">
-        <PropertyRef Name="site" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="TypeContact">
     <Key>
       <PropertyRef Name="Id" />
@@ -299,6 +272,63 @@
     <Property Name="LicenseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="FromDate" Type="DateTime" Precision="0" />
     <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Active" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CurrencyCovnersionRate">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="SourceCurrency" />
+      <PropertyRef Name="TargetCurrency" />
+      <PropertyRef Name="FromDate" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SourceCurrency" Type="Int32" Nullable="false" />
+    <Property Name="TargetCurrency" Type="Int32" Nullable="false" />
+    <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Active" Type="Int32" />
+  </EntityType>
+  <EntityType Name="BookType">
+    <Key>
+      <PropertyRef Name="BookNo" />
+      <PropertyRef Name="RecTypeId" />
+      <PropertyRef Name="LicenseId" />
+    </Key>
+    <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookNo" Type="Int32" Nullable="false" />
+    <Property Name="RecTypeId" Type="Int32" Nullable="false" />
+    <Property Name="LicenseId" Type="Int32" Nullable="false" />
+    <Property Name="Active" Type="Int32" />
+  </EntityType>
+  <EntityType Name="marketingsite">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sitename" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Int32" />
+    <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
+  </EntityType>
+  <Association Name="FK_market_marketingsites">
+    <End Type="MarketingModel.marketingsite" Role="marketingsite" Multiplicity="0..1" />
+    <End Type="MarketingModel.market" Role="market" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="marketingsite">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="market">
+        <PropertyRef Name="site" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DonationPurpose">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Int32" />
   </EntityType>
@@ -327,31 +357,24 @@
     <Property Name="importance" Type="Int32" />
     <Property Name="active" Type="Int16" />
   </EntityType>
-  <EntityType Name="CurrencyCovnersionRate">
+  <EntityType Name="ChequeBank">
     <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="SourceCurrency" />
-      <PropertyRef Name="TargetCurrency" />
-      <PropertyRef Name="FromDate" />
+      <PropertyRef Name="ChequeBankId" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="SourceCurrency" Type="Int32" Nullable="false" />
-    <Property Name="TargetCurrency" Type="Int32" Nullable="false" />
-    <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="ToDate" Type="DateTime" Precision="0" />
-    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ChequeBankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChequeBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Int32" />
   </EntityType>
-  <EntityType Name="BookType">
+  <EntityType Name="ChequeInformation">
     <Key>
-      <PropertyRef Name="BookNo" />
-      <PropertyRef Name="RecTypeId" />
-      <PropertyRef Name="LicenseId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="BookTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BookNo" Type="Int32" Nullable="false" />
-    <Property Name="RecTypeId" Type="Int32" Nullable="false" />
-    <Property Name="LicenseId" Type="Int32" Nullable="false" />
-    <Property Name="Active" Type="Int32" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChequeBankId" Type="Int32" Nullable="false" />
+    <Property Name="ChequeNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ChequeDate" Type="DateTime" Precision="0" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

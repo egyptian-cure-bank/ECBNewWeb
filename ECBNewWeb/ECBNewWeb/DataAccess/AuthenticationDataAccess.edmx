@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AuthenticationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AuthenticationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccessLevels">
           <Key>
             <PropertyRef Name="Id" />
@@ -286,8 +286,7 @@
             <End Role="UserRoles" EntitySet="UserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AuthenticationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -319,35 +318,7 @@
           <Property Name="AccessLevel" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccessLevel1" Relationship="Self.FK__Grants__AccessLe__265233F6" FromRole="Grants" ToRole="AccessLevels" />
           <NavigationProperty Name="ActionMethod" Relationship="Self.FK__Grants__ActionMe__6BF08837" FromRole="Grants" ToRole="ActionMethods" />
-          <NavigationProperty Name="LogIn" Relationship="Self.FK__Grants__UserId__2746582F" FromRole="Grants" ToRole="LogIn" />
-        </EntityType>
-        <EntityType Name="LogIn">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="employee_id" Type="Int32" />
-          <Property Name="volunteer_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="passChanged" Type="Int32" />
-          <Property Name="department" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserComments" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyID" Type="Int32" />
-          <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
-          <Property Name="IsResetPasswordNeeded" Type="Boolean" />
-          <Property Name="PasswordChangedOn" Type="DateTime" Precision="3" />
-          <Property Name="SecurityQuestionID" Type="Int32" />
-          <Property Name="SecurityAnswer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="userRole" Type="Int32" />
-          <Property Name="importance" Type="Int32" />
-          <Property Name="active" Type="Boolean" />
-          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Grants" Relationship="Self.FK__Grants__UserId__2746582F" FromRole="LogIn" ToRole="Grants" />
-          <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_Users2" FromRole="LogIn" ToRole="UserRoles" />
+          <NavigationProperty Name="LogIn" Relationship="AuthenticationModel.FK__Grants__UserId__2746582F" FromRole="Grant" ToRole="LogIn" />
         </EntityType>
         <EntityType Name="ParentFacility">
           <Key>
@@ -413,8 +384,8 @@
           <Property Name="UserRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="LogIn" Relationship="Self.FK_UserRoles_Users2" FromRole="UserRoles" ToRole="LogIn" />
           <NavigationProperty Name="Role" Relationship="Self.FK_UserRoles_Roles" FromRole="UserRoles" ToRole="Roles" />
+          <NavigationProperty Name="LogIn" Relationship="AuthenticationModel.FK_UserRoles_Users2" FromRole="UserRole" ToRole="LogIn" />
         </EntityType>
         <Association Name="FK__Grants__AccessLe__265233F6">
           <End Role="AccessLevels" Type="Self.AccessLevel" Multiplicity="1" />
@@ -437,32 +408,6 @@
             </Principal>
             <Dependent Role="Grants">
               <PropertyRef Name="ActionMethodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Grants__UserId__2746582F">
-          <End Role="LogIn" Type="Self.LogIn" Multiplicity="1" />
-          <End Role="Grants" Type="Self.Grant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LogIn">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Grants">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRoles_Users2">
-          <End Role="LogIn" Type="Self.LogIn" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LogIn">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="UserRoles">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -544,7 +489,6 @@
           <EntitySet Name="AccessLevels" EntityType="Self.AccessLevel" />
           <EntitySet Name="ActionMethods" EntityType="Self.ActionMethod" />
           <EntitySet Name="Grants" EntityType="Self.Grant" />
-          <EntitySet Name="LogIns" EntityType="Self.LogIn" />
           <EntitySet Name="ParentFacilities" EntityType="Self.ParentFacility" />
           <EntitySet Name="ParentFacilityRoles" EntityType="Self.ParentFacilityRole" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
@@ -558,14 +502,6 @@
           <AssociationSet Name="FK__Grants__ActionMe__6BF08837" Association="Self.FK__Grants__ActionMe__6BF08837">
             <End Role="ActionMethods" EntitySet="ActionMethods" />
             <End Role="Grants" EntitySet="Grants" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Grants__UserId__2746582F" Association="Self.FK__Grants__UserId__2746582F">
-            <End Role="LogIn" EntitySet="LogIns" />
-            <End Role="Grants" EntitySet="Grants" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRoles_Users2" Association="Self.FK_UserRoles_Users2">
-            <End Role="LogIn" EntitySet="LogIns" />
-            <End Role="UserRoles" EntitySet="UserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK__Facilitie__Paren__1650D657" Association="Self.FK__Facilitie__Paren__1650D657">
             <End Role="ParentFacilities" EntitySet="ParentFacilities" />
@@ -591,7 +527,70 @@
             <End Role="SubFacilities" EntitySet="SubFacilities" />
             <End Role="SubFacilityRoles" EntitySet="SubFacilityRoles" />
           </AssociationSet>
+          <EntitySet Name="LogIns" EntityType="AuthenticationModel.LogIn" />
+          <AssociationSet Name="FK__Grants__UserId__2746582F" Association="AuthenticationModel.FK__Grants__UserId__2746582F">
+            <End Role="LogIn" EntitySet="LogIns" />
+            <End Role="Grant" EntitySet="Grants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Users2" Association="AuthenticationModel.FK_UserRoles_Users2">
+            <End Role="LogIn" EntitySet="LogIns" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="LogIn">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="volunteer_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="passChanged" Type="Int32" />
+          <Property Name="department" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserComments" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
+          <Property Name="IsResetPasswordNeeded" Type="Boolean" />
+          <Property Name="PasswordChangedOn" Type="DateTime" Precision="3" />
+          <Property Name="SecurityQuestionID" Type="Int32" />
+          <Property Name="SecurityAnswer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userRole" Type="Int32" />
+          <Property Name="importance" Type="Int32" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Grants" Relationship="AuthenticationModel.FK__Grants__UserId__2746582F" FromRole="LogIn" ToRole="Grant" />
+          <NavigationProperty Name="UserRoles" Relationship="AuthenticationModel.FK_UserRoles_Users2" FromRole="LogIn" ToRole="UserRole" />
+        </EntityType>
+        <Association Name="FK__Grants__UserId__2746582F">
+          <End Type="AuthenticationModel.LogIn" Role="LogIn" Multiplicity="1" />
+          <End Type="AuthenticationModel.Grant" Role="Grant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogIn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Grant">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Users2">
+          <End Type="AuthenticationModel.LogIn" Role="LogIn" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AuthenticationModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogIn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -621,33 +620,6 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ActionMethodId" ColumnName="ActionMethodId" />
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LogIns">
-            <EntityTypeMapping TypeName="AuthenticationModel.LogIn">
-              <MappingFragment StoreEntitySet="LogIn">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-                <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
-                <ScalarProperty Name="passChanged" ColumnName="passChanged" />
-                <ScalarProperty Name="department" ColumnName="department" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-                <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
-                <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
-                <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
-                <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-                <ScalarProperty Name="userRole" ColumnName="userRole" />
-                <ScalarProperty Name="importance" ColumnName="importance" />
-                <ScalarProperty Name="active" ColumnName="active" />
-                <ScalarProperty Name="title" ColumnName="title" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -708,6 +680,33 @@
                 <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogIns">
+            <EntityTypeMapping TypeName="AuthenticationModel.LogIn">
+              <MappingFragment StoreEntitySet="LogIn">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="importance" ColumnName="importance" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+                <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+                <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+                <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+                <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+                <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
