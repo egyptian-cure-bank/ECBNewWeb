@@ -324,7 +324,6 @@ namespace ECBNewWeb.Controllers
             int UpdateRecordCount = 0;
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     using (MarketEntities Market = new MarketEntities())
@@ -357,59 +356,40 @@ namespace ECBNewWeb.Controllers
                                 }
                             }
                         }
-                    }
-                    if (RespId != 0)
-                    {
-                        market DBDonation = new market();
-                        //get the receipt name from selected receipt id
-                        Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
-                        DBDonation.dat = Donation.RecDate;
-                        DBDonation.no = Donation.RecNumber;
-                        DBDonation.name = Donation.DonorId;
-                        DBDonation.amount = Donation.Amount;
-                        DBDonation.currency = Donation.CurrencyName;
-                        DBDonation.cash = Donation.PaymentId;
-                        DBDonation.employee = UserInfo.UserId;
-                        DBDonation.type = Donation.RecId;
-                        DBDonation.site = Donation.SiteId;
-                        DBDonation.ResponsibilityId = RespId;
-                        DBDonation.DonationPurposeId = Donation.PurpId;
-                        DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
-                        Market.markets.Add(DBDonation);
-                        int rowAffected =Market.SaveChanges();
-                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
-                        using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+                        if (RespId != 0)
                         {
-                            market DBDonation = new market();
-                            ChequeInformation chequeBankInfo = new ChequeInformation();
-                            //get the receipt name from selected receipt id
-                            Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
-                            DBDonation.dat = Donation.RecDate;
-                            DBDonation.no = Convert.ToInt32(Donation.RecNumber);
-                            DBDonation.name = Donation.DonorId;
-                            DBDonation.amount = Donation.Amount;
-                            DBDonation.currency = Donation.CurrencyName;
-                            DBDonation.cash = Donation.PaymentId;
-                            DBDonation.employee = UserInfo.UserId;
-                            DBDonation.type = Donation.RecId;
-                            DBDonation.site = Donation.SiteId;
-                            DBDonation.ResponsibilityId = RespId;
-                            DBDonation.DonationPurposeId = Donation.PurpId;
-                            DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
-                            if (Donation.BankInfoChecked == "true")
-                            {
-                                chequeBankInfo.ChequeBankId = Donation.ChequeBankId;
-                                chequeBankInfo.ChequeNo = Donation.ChequeNumber;
-                                chequeBankInfo.ChequeDate = Donation.ChequeDate;
-                                Market.ChequeInformations.Add(chequeBankInfo);
-                                Market.SaveChanges();
-                                DBDonation.ChequeInfoId = chequeBankInfo.Id;
-                            }
-                            // ModelState.AddModelError(string.Empty, "برجاء إستكمال بيانات الشيك");
-                            Market.markets.Add(DBDonation);
-                            Market.SaveChanges();
                             using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                             {
+                                market DBDonation = new market();
+                                ChequeInformation chequeBankInfo = new ChequeInformation();
+                                //get the receipt name from selected receipt id
+                                Donation.RecName = Market.marketingrectypes.Where(x => x.id == Donation.RecId).Select(y => y.name).FirstOrDefault();
+                                DBDonation.dat = Donation.RecDate;
+                                DBDonation.no = Convert.ToInt32(Donation.RecNumber);
+                                DBDonation.name = Donation.DonorId;
+                                DBDonation.amount = Donation.Amount;
+                                DBDonation.currency = Donation.CurrencyName;
+                                DBDonation.cash = Donation.PaymentId;
+                                DBDonation.employee = UserInfo.UserId;
+                                DBDonation.type = Donation.RecId;
+                                DBDonation.site = Donation.SiteId;
+                                DBDonation.ResponsibilityId = RespId;
+                                DBDonation.DonationPurposeId = Donation.PurpId;
+                                DBDonation.combID = Donation.RecNumber.ToString() + Donation.RecName;
+                                if (Donation.BankInfoChecked == "true")
+                                {
+                                    chequeBankInfo.ChequeBankId = Donation.ChequeBankId;
+                                    chequeBankInfo.ChequeNo = Donation.ChequeNumber;
+                                    chequeBankInfo.ChequeDate = Donation.ChequeDate;
+                                    Market.ChequeInformations.Add(chequeBankInfo);
+                                    Market.SaveChanges();
+                                    DBDonation.ChequeInfoId = chequeBankInfo.Id;
+                                }
+                                // ModelState.AddModelError(string.Empty, "برجاء إستكمال بيانات الشيك");
+                                Market.markets.Add(DBDonation);
+                                Market.SaveChanges();
+                                int rowAffected = Market.SaveChanges();
+                                TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                                 Con.Open();
                                 string Cmd = "Select Count(market.ResponsibilityId) From market Where ResponsibilityId = @RespId ";
                                 using (SqlCommand Command = new SqlCommand(Cmd, Con))
@@ -471,9 +451,9 @@ namespace ECBNewWeb.Controllers
                                 }
                             }
                         }
+                        MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+                        return RedirectToAction("AddDonations", Donation);
                     }
-                    MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
-                    return RedirectToAction("AddDonations", Donation);
                 }
                 else
                 {
@@ -486,11 +466,6 @@ namespace ECBNewWeb.Controllers
                         }
                     }
                     return RedirectToAction("AddDonations", Donation);
-                }
-
-                else
-                {
-                    TempData["Msg"] = "لم يتم الحفظ";
                 }
             }
             catch (DbEntityValidationException e)
