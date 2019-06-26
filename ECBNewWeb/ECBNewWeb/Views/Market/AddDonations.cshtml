@@ -22,7 +22,7 @@
         <h2>بيانات إيصال التبرع</h2>
         <p>إضافة تبرع</p>
         <hr>
-        @using (Html.BeginForm("", "", FormMethod.Post,new { @id="saveDonationForm"}))
+        @using (Html.BeginForm("CancelReceipt", "Donation", FormMethod.Post, new { @id = "saveDonationForm" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -40,7 +40,7 @@
 
                     @*Related Donor Id stored in the below hidden field*@
                     @Html.TextAreaFor(m => m.DonorId, new { @id = "donorId", @hidden = true })
-                    @Html.TextAreaFor(m=>m.BankInfoChecked,new { @id = "bankInfoChecked", @hidden = true })
+                    @Html.TextAreaFor(m => m.BankInfoChecked, new { @id = "bankInfoChecked", @hidden = true })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الموقع</label>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">رقم الإيصال</label>
-                    @Html.TextBoxFor(m => m.RecNumber, new { @class = "form-control", @id = "recNumber", @readonly="true" })
+                    @Html.TextBoxFor(m => m.RecNumber, new { @class = "form-control", @id = "recNumber", @readonly = "true" })
                     @Html.ValidationMessageFor(m => m.RecNumber, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
@@ -90,24 +90,24 @@
             <div class="row" id="chequeInformation">
                 <div class="form-group col-md-3">
                     <label for="" class="" id="lblbankNames" hidden="hidden">بنك</label>
-                    @Html.DropDownListFor(x => x.ChequeBankId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "bankNames",@hidden="hidden"})
+                    @Html.DropDownListFor(x => x.ChequeBankId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "bankNames", @hidden = "hidden" })
                     @Html.ValidationMessageFor(m => m.ChequeBankId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="" id="lblchequeNumber" hidden="hidden">رقم الشيك</label>
-                    @Html.TextBoxFor(m => m.ChequeNumber, new { @class = "form-control", @id = "chequeNumber", @Value = "" ,@hidden="hidden"})
+                    @Html.TextBoxFor(m => m.ChequeNumber, new { @class = "form-control", @id = "chequeNumber", @Value = "", @hidden = "hidden" })
                     @Html.ValidationMessageFor(m => m.ChequeNumber, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-3">
                     <label for="chequeDate" class="" id="lblchequeDate" hidden="hidden">تاريخ الإستحقاق</label>
-                    @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @id = "chequeDate", @type = "date", @hidden = "hidden" })
+                    @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @id = "chequeDate", @type = "date",@hidden="hidden"})
                     @Html.ValidationMessageFor(m => m.ChequeDate, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
                 <div class="m-demo__preview  m-demo__preview--btn">
                 <button class="btn m-btn--pill btn-success  col-md-1 form-group" formaction="SaveDonation" type="submit">حفظ</button>
-                <button class="btn btn-danger m-btn--pill col-md-1 form-group" formaction="CancelReceipt" type="submit">الغاء</button>
+                <button class="btn btn-danger m-btn--pill col-md-1 form-group" formaction='@Url.Action("CancelReceipt")' type="submit" formnovalidate="formnovalidate">الغاء</button>
                 </div>
                 <h4 class="text-danger">@TempData["ModelErrors"]</h4>
             </div>
@@ -129,9 +129,12 @@
         //get NextReceiptNumber When RecType changed
         $("#recType").val(-1);
         $("#currency").val(-1);
-        $('form').validate().settings.ignore = ':hidden';
+
         $("#recType").change(function () {
             var selectedvalue = $("#recType option:selected").val();
+            if (selectedvalue == "-1" ) {
+                $("#recNumber").val("");
+            }
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("GetNextReceiptNoFromRecType", "Donation")',
@@ -172,8 +175,8 @@
     });
     //Show Hidden Div When User Choose cheque as payment method only
     $("#paymentmethod").change(function () {
-        var selectedvalue = $("#paymentmethod option:selected").val();
-        if (selectedvalue == 3) {
+        var paymentMethodSelectedValue = $("#paymentmethod option:selected").val();
+        if (paymentMethodSelectedValue == 3) {
             $('#bankNames').removeAttr('hidden');
             $('#chequeNumber').removeAttr('hidden');
             $('#chequeDate').removeAttr('hidden');
@@ -198,7 +201,6 @@
             $('#lblchequeDate').attr("hidden", "hidden");
             $("#bankNames").html(null);
             $("#bankInfoChecked").val('false');
-            $('form').validate().settings.ignore = ':hidden';
         }
     });
     var item = [];
