@@ -1,0 +1,118 @@
+﻿@model ECBNewWeb.Models.UserSiteModel
+@{
+    ViewBag.Title = "AddUserToSite";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<main class="page-content">
+    <div class="container-fluid">
+
+
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--tab">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        تسجيل المواقع للمستخدمين
+                                    </h3>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        @using (Html.BeginForm( "AddUserToSite", "UserSite", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ " }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!--begin::Form-->
+
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="form-group m-form__group  col-md-3">
+                                        <label for="" class="">اسم الموظف</label>
+                                        @Html.DropDownListFor(x => x.UserId, Model.myEmployee as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" })
+                                         @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger", })
+                                    </div>
+                                    <div class="form-group m-form__group  col-md-3">
+                                        <label for="" class="">الموقع</label>
+                                        @Html.DropDownListFor(x => x.SiteId, Model.mySites as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" })
+                                        @Html.ValidationMessageFor(m => m.SiteId, "", new { @class = "text-danger", })
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-success m-btn--pill " id="btn_Save">حفظ</button>
+                                            <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            if (TempData["Msg"] != null)
+                            {
+                                <div class="modal  fade" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                                                {
+                                                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                                                }
+                                                else
+                                                {
+                                                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                                                }
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                $('#myModal').modal('show');
+                                </script>
+                            }
+
+                        }
+
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Portlet-->
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</main>
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

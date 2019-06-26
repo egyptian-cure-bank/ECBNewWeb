@@ -1,0 +1,62 @@
+﻿@model ECBNewWeb.Models.UserSiteModel
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                تعديل ترخيص
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("EditUserSites", "UserSite", FormMethod.Post))
+                {
+                    
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group m-form__group  col-md-3">
+                                <label for="" class="">اسم الموظف</label>
+                                @Html.DropDownListFor(x => x.UserId, Model.myEmployee as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" , @disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger", })
+                                @Html.HiddenFor(m => m.UserId)
+                            </div>
+                            <div class="form-group m-form__group  col-md-3">
+                                <label for="" class="">الموقع</label>
+                                @Html.DropDownListFor(x => x.SiteId, Model.mySites as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" })
+                                @Html.ValidationMessageFor(m => m.SiteId, "", new { @class = "text-danger", })
+                            </div>
+                        </div>
+                        <br />
+
+                    </div>
+
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
