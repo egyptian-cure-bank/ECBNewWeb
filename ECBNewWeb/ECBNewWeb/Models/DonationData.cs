@@ -63,6 +63,6 @@ namespace ECBNewWeb.Models
         public string ChequeNumber { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة تاريخ إستحقاق الشيك")]
-        public DateTime? ChequeDate { get; set; }
+        public DateTime ChequeDate { get; set; }
     }
 }
