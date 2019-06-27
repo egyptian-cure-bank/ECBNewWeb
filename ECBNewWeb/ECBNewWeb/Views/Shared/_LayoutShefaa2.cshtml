@@ -124,7 +124,7 @@
                             <h4 class="m-menu__section-text">عام</h4>
                             <i class="m-menu__section-icon flaticon-more-v2"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu  @(ViewContext.RouteData.Values["Controller"].ToString() == "Donor" || ViewContext.RouteData.Values["Controller"].ToString() == "Donation" || ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" || ViewContext.RouteData.Values["Controller"].ToString() == "Book" || ViewContext.RouteData.Values["Controller"].ToString() == "Currency" || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" ? "m-menu__item--open" : "") " aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <li class="m-menu__item  m-menu__item--submenu  @(ViewContext.RouteData.Values["Controller"].ToString() == "Donor" || ViewContext.RouteData.Values["Controller"].ToString() == "Donation" || ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" || ViewContext.RouteData.Values["Controller"].ToString() == "Book" || ViewContext.RouteData.Values["Controller"].ToString() == "Currency" || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" || ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ? "m-menu__item--open" : "") " aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-web"></i>
                                 <span class="m-menu__link-text">التسويق</span>
@@ -154,7 +154,34 @@
                                             </i><span class="m-menu__link-text">المتبرعين</span>
                                         </a>
                                     </li>
-                                    
+                                    <li class="m-menu__item  m-menu__item--submenu @( ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                                        <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">المشرفين</span><i class="m-menu__ver-arrow la la-angle-right"></i>
+                                        </a>
+                                        <div class="m-menu__submenu ">
+                                            <span class="m-menu__arrow"></span>
+                                            <ul class="m-menu__subnav">
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddUserToSite" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("AddUserToSite", "UserSite")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            اضافة مستخدمين المواقع
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AllUserSites" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("AllUserSites", "UserSite")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            مستخدمين المواقع
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </li>
                                     <li class="m-menu__item  m-menu__item--submenu @( ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" ? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                                         <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">التراخيص</span><i class="m-menu__ver-arrow la la-angle-right"></i>
