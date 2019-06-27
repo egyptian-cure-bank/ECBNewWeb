@@ -186,6 +186,7 @@
 <script src="~/Scripts/jquery.min.js"></script>
 <script src="~/Scripts/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
 <script>
 
         $('#m_table_1').DataTable({
@@ -199,13 +200,28 @@
     if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
     {
         <script>
-        alert('test');
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+               
+            });
+            
         </script>
     }
     else
     {
         <script>
-                        alert("خطا اثناء الحفظ");
+            $(function (e) {
+                swal({
+                    title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
         </script>
     }
 

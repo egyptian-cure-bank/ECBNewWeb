@@ -45,7 +45,7 @@
                         <div class="m-portlet__body">
 
 
-                            <table class="table table-striped  table-bordered    " id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                            <table class="table table-striped  table-bordered  table-sm" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
                                 <thead>
 
                                     <tr>
@@ -96,21 +96,7 @@
 </main>
 
 <!-- Start Message When Edit -->
-@if (TempData["Msg"] != null)
-{
-    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
-    {
-        <script>
-                        alert("تم الحفظ بنجاح");
-        </script>
-    }
-    else
-    {
-        <script>
-                        alert("خطا اثناء الحفظ");
-        </script>
-    }
-}
+
 
 <!-- End Message When Edit -->
 <!--End Test Area-->
@@ -176,6 +162,7 @@
 <script src="~/Scripts/jquery.min.js"></script>
 <script src="~/Scripts/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
 <script>
 
         $('#m_table_1').DataTable({
@@ -184,5 +171,34 @@
         });
 </script>
 
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
 
+            });
+
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+}
 
