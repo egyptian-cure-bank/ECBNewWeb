@@ -52,6 +52,7 @@
                                         <th>اسم الموظف</th>
                                         <th>الموقع</th>
                                         <th>التاريخ</th>
+                                        <th>الحالة</th>
                                         <th></th>
                                     </tr>
 
@@ -67,6 +68,25 @@
                                             </td>
                                             <td>
                                                 @item.AssignDate
+                                            </td>
+                                            <td>
+                                                @if (item.Active == 1)
+                                                {
+                                                    <label class="m-checkbox m-checkbox--single  m-checkbox--state-success ">
+                                                        <input type="checkbox" name="DoneFlag" id="DoneFlag" checked disabled value="@item.Active">
+                                                        <span></span>
+                                                    </label>
+
+                                                }
+                                                else
+                                                {
+                                                    <label class="m-checkbox m-checkbox--single  m-checkbox--state-danger ">
+                                                        <input type="checkbox" name="DoneFlag" id="DoneFlag" disabled value="@item.Active">
+                                                        <span></span>
+                                                    </label>
+                                                }
+
+
                                             </td>
                                             <td>
                                                 <button id="" onclick="EditUserSite(@item.Id)" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-edit"></i></button>
@@ -104,10 +124,16 @@
                         alert("تم الحفظ بنجاح");
         </script>
     }
+    else if (TempData["Msg"].ToString() == "لا يمكن تعديل هذا الموظف")
+    {
+        <script>
+            alert("لا يمكن تعديل هذا الموظف");
+        </script>
+    }
     else
     {
         <script>
-                        alert("خطا اثناء الحفظ");
+            alert("خطأ أثناء الحفظ");
         </script>
     }
 }

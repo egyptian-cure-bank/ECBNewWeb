@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using ECBNewWeb.DataAccess;
 using ECBNewWeb.Models;
 using System.Net;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace ECBNewWeb.Controllers
 {
@@ -24,15 +26,16 @@ namespace ECBNewWeb.Controllers
         [HttpPost]
         public ActionResult AddUserToSite(UserSiteModel usermodel)
         {
-            UserSite update = new UserSite();
+            UserSite Add = new UserSite();
             if(ModelState.IsValid)
             {
                 using (MarketEntities db = new MarketEntities())
                 {
-                    update.UserId = usermodel.UserId;
-                    update.SiteId = usermodel.SiteId;
-                    update.AssignDate = DateTime.Now;
-                    db.UserSites.Add(update);
+                    Add.UserId = usermodel.UserId;
+                    Add.SiteId = usermodel.SiteId;
+                    Add.AssignDate = DateTime.Now;
+                    Add.Active = 1;
+                    db.UserSites.Add(Add);
                     int rowAffected =db.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                 }
@@ -60,7 +63,8 @@ namespace ECBNewWeb.Controllers
                                             Lastname = e.LastName,
                                             SiteId = u.SiteId,
                                             Sitename = s.sitename,
-                                            AssignDate = u.AssignDate                                     
+                                            AssignDate = u.AssignDate,
+                                            Active = u.Active                               
                                         }).ToList<UserSiteModel>();
             return View(list);
         }
@@ -80,7 +84,8 @@ namespace ECBNewWeb.Controllers
                            Firstname = e.FirstName,
                            Lastname = e.LastName,
                            SiteId = u.SiteId,
-                           Sitename = s.sitename
+                           Sitename = s.sitename,
+                           Active = u.Active
                        }).FirstOrDefault<UserSiteModel>();
             }
             model.myEmployee = emp();
@@ -100,12 +105,19 @@ namespace ECBNewWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     var modelToUpdate = Market.UserSites.Find(model.Id);
-                    modelToUpdate.SiteId = model.SiteId;
-                    modelToUpdate.UserId = model.UserId;
-                    modelToUpdate.AssignDate = DateTime.Now;
-                    TryUpdateModel(modelToUpdate);
-                    int rowAffected = Market.SaveChanges();
-                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    int MaxId = Market.UserSites.Where(x => model.UserId == x.UserId).Select(i => i.Id).Max();
+                    if (MaxId==model.Id)
+                    {
+                        modelToUpdate.Active = model.Active;
+                        TryUpdateModel(modelToUpdate);
+                        int rowAffected = Market.SaveChanges();
+                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "لا يمكن تعديل هذا الموظف";
+                        var errors = ModelState.Values.SelectMany(v => v.Errors);
+                    }
                 }
                 else
                 {
@@ -116,20 +128,50 @@ namespace ECBNewWeb.Controllers
             return RedirectToAction("AllUserSites", TempData["Msg"]);
         }
 
-        public ActionResult IsUserAvailble(int userid)
+        public ActionResult IsUserAvailble(int userid,int SiteId)
         {
-            using (MarketEntities db = new MarketEntities())
+            bool IsExists = true;
+            int Result =0;
+            DateTime CurrenctDate = DateTime.Now.Date;
+            string Cmd = "Select IsNull(Max(Id),0) From UserSites Where UserId = @UserId And SiteId = @SiteId";
+            using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
-                try
+                Conn.Open();
+                using (SqlCommand Com = new SqlCommand(Cmd,Conn))
                 {
-                    var tag = db.UserSites.Single(m => m.UserId == userid);
-                    return Json(false, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception)
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    Com.Parameters.AddWithValue("@UserId", userid);
+                    Com.Parameters.AddWithValue("@SiteId", SiteId);
+                    Result = (Int32)Com.ExecuteScalar();
+                    if (Result > 0)
+                    {
+                        IsExists = false;
+                    }
                 }
             }
+            return Json(IsExists, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult IsSiteAvailble(int userid,int SiteId)
+        {
+            bool IsExists = true;
+            int Result = 0;
+            DateTime CurrenctDate = DateTime.Now.Date;
+            string Cmd = "Select IsNull(Max(Id),0) From UserSites Where UserId = @UserId And SiteId = @SiteId";
+            using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+            {
+                Conn.Open();
+                using (SqlCommand Com = new SqlCommand(Cmd, Conn))
+                {
+                    Com.Parameters.AddWithValue("@UserId", userid);
+                    Com.Parameters.AddWithValue("@SiteId", SiteId);
+                    Result = (Int32)Com.ExecuteScalar();
+                    if (Result > 0)
+                    {
+                        IsExists = false;
+                    }
+                }
+            }
+            return Json(IsExists, JsonRequestBehavior.AllowGet);
         }
 
         public List<SelectListItem> sites()

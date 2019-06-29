@@ -115,24 +115,23 @@ namespace ECBNewWeb.Controllers
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
-                List<DonationData> MySite = (from S in db.marketingsites
-                                             select new DonationData() { SiteId = S.id, SiteName = S.sitename }).ToList<DonationData>();
+                DonationData MySite = (from S in db.marketingsites
+                                             join U in db.UserSites
+                                             on S.id equals U.SiteId
+                                             where U.UserId == UserInfo.UserId
+                                             select new DonationData() { SiteId = S.id, SiteName = S.sitename,MaxAssignDate = U.AssignDate }).OrderByDescending(order=>order.MaxAssignDate).First();
                 SelectListItem DisabledItem = new SelectListItem()
                 {
                     Text = "",
                     Value = "-1"
                 };
                 Items.Add(DisabledItem);
-                foreach (DonationData S in MySite)
+                SelectListItem selectList = new SelectListItem()
                 {
-                    SelectListItem selectList = new SelectListItem()
-                    {
-                        Text = S.SiteName,
-                        Value = S.SiteId.ToString()
-                    };
-                    Items.Add(selectList);
-
-                }
+                    Text = MySite.SiteName,
+                    Value = MySite.SiteId.ToString()
+                };
+                Items.Add(selectList);
             }
             return Items;
         }

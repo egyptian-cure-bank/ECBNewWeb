@@ -64,5 +64,6 @@ namespace ECBNewWeb.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة تاريخ إستحقاق الشيك")]
         public DateTime ChequeDate { get; set; }
+        public DateTime? MaxAssignDate { get; set; }
     }
 }
