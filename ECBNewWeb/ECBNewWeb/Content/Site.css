@@ -241,3 +241,4 @@ textarea {
     background-color: lightgray;
     opacity: .5;
   }
+.ui-autocomplete { z-index:2147483647; }

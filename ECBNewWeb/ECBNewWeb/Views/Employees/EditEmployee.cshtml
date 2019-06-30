@@ -1,0 +1,148 @@
+﻿@model ECBNewWeb.Models.EmployeeModel
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                تعديل موظف
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("EditEmployee", "Employees", FormMethod.Post,new {@id="empEditForm" }))
+                {
+
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.EmployeeId)
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label for="" class="">اسم الأول</label>
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "firstName" })
+                                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">الإسم الثاني</label>
+                                @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control", @id = "middlename" })
+                                @Html.ValidationMessageFor(x => x.MiddleName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">لقب العائلة</label>
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @id = "lastName" })
+                                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">الإدارة</label>
+                                @Html.DropDownListFor(x => x.DepartmentId, Model.MyDepartments as List<SelectListItem>, new { @class = "form-control", @id = "departmentList" })
+                                @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">المدير المباشر</label>
+                                @Html.DropDownListFor(x => x.ParentEmployeeId, Model.MyParentEmployees as List<SelectListItem>, new { @class = "form-control", @id = "parentEmpList" })
+                                @*@Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmp" })*@
+
+                                @*Related parentEmpID Id stored in the below hidden field*@
+                                @*@Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmpId", @hidden = true })*@
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">الرقم القومي</label>
+                                @Html.TextBoxFor(m => m.NationalId, new { @class = "form-control", @id = "nathionalId", @type = "number" })
+                                @Html.ValidationMessageFor(m => m.NationalId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">رقم الهاتف</label>
+                                @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @id = "mobileNumber" })
+                                @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">البريد الإليكتروني</label>
+                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", @id = "emailAddress" })
+                                @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">اللقب</label>
+                                @Html.TextBoxFor(m => m.NickName, new { @class = "form-control", @id = "nathionalId" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group m-form__group col-md-8">
+                                <label class="m-checkbox m-checkbox--single  m-checkbox--state-success ">
+                                    @Html.CheckBoxFor(m => m.IsActive, new { @name = "حالة الموظف" })الحالة
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+    });
+    @*var item = [];
+    $("#parentEmp").autocomplete({
+        source: function (request, response) {
+            if ($("#parentEmp").val() != null) {
+                $.ajax({
+                    url: '@Url.Action("AutoCompleteParentEmployee","Employees")',
+                    type: "GET",
+                    data: { prefix: $("#parentEmp").val() },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        //$("#donors").html(''),
+                        response($.map(data, function (item) {
+                            alert(item.FullName);
+                            return {
+                                label: item.FullName,
+                                value: item.EmployeeId
+                            }
+                        }));
+                    }
+                });
+            }
+        },
+        select: function (event, ui) {
+            this.value = ui.item.label;
+            $("#parentEmpId").val(ui.item.value);
+            return false;
+        },
+        search: function (event, ui) {
+            $(".submit-progress").removeClass("d-none");
+        },
+        response: function (event, ui) {
+            $(".submit-progress").addClass("d-none");
+        }
+    });*@
+</script>
+

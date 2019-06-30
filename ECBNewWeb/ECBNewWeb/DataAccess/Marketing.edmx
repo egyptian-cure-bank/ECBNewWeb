@@ -166,7 +166,7 @@
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="DepartmentId" Type="int" />
           <Property Name="ParentEmployeeId" Type="int" />
-          <Property Name="NationalId" Type="varchar" MaxLength="100" />
+          <Property Name="NationalId" Type="float" />
           <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="100" />
           <Property Name="NickName" Type="varchar" MaxLength="50" />
@@ -471,7 +471,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <EntitySet Name="Departments" EntityType="MarketingModel.Department" />
           <EntitySet Name="DonationFrequencies" EntityType="MarketingModel.DonationFrequency" />
           <EntitySet Name="DonorOfs" EntityType="MarketingModel.DonorOf" />
-          <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
           <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
           <EntitySet Name="UserSites" EntityType="MarketingModel.UserSite" />
           <AssociationSet Name="FK_centers_governments" Association="MarketingModel.FK_centers_governments">
@@ -495,6 +494,7 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
           <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
           <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
+          <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -596,24 +596,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="EmployeeId" />
-          </Key>
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="ParentEmployeeId" Type="Int32" />
-          <Property Name="NationalId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Active" Type="Int32" />
-          <Property Name="EmployeeNo" Type="Int32" />
         </EntityType>
         <EntityType Name="HandleBookReceipt">
           <Key>
@@ -782,6 +764,24 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="ChequeDate" Type="DateTime" Precision="0" />
           <Property Name="TimeStamp" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeNo" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="ParentEmployeeId" Type="Int32" />
+          <Property Name="NationalId" Type="Double" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -949,25 +949,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="MarketingModel.Employee">
-              <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="NickName" ColumnName="NickName" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
-                <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HandleBookReceipts">
             <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
               <MappingFragment StoreEntitySet="HandleBookReceipts">
@@ -1101,6 +1082,25 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
                 <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
                 <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MarketingModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,159 @@
+﻿@model ECBNewWeb.Models.EmployeeModel
+@{
+    ViewBag.Title = "Add Employee";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+<!--Scripts-->
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/fontawesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<!--End Scripts-->
+<!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
+<main class="page-content">
+    <div class="container-fluid">
+        <h2>بيانات الموظف</h2>
+        <p>إضافة موظف</p>
+        <hr>
+        @using (Html.BeginForm("SaveEmployee", "Employees", FormMethod.Post, new { @id = "saveEmployeeForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="" class="">اسم الأول</label>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "firstName" })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">الإسم الثاني</label>
+                    @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control", @id = "middlename" })
+                    @Html.ValidationMessageFor(x => x.MiddleName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">لقب العائلة</label>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @id = "lastName" })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">الإدارة</label>
+                    @Html.DropDownListFor(x => x.DepartmentId, Model.MyDepartments as List<SelectListItem>, new { @class = "form-control", @id = "departmentList" })
+                    @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">المدير المباشر</label>
+                    @*@Html.DropDownListFor(x => x.ParentEmployeeId, Model.MyparentEmployee as List<SelectListItem>, new { @class = "form-control", @id = "parentEmpList" })*@
+                    @Html.TextBoxFor(m => m.ParentEmployeeName, new { @class = "form-control", @id = "parentEmp" })
+
+                    @*Related parentEmpID Id stored in the below hidden field*@
+                    @Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmpId", @hidden = true })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">الرقم القومي</label>
+                    @Html.TextBoxFor(m => m.NationalId, new { @class = "form-control", @id = "nathionalId",@type="number" })
+                    @Html.ValidationMessageFor(m => m.NationalId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">رقم الهاتف</label>
+                    @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @id = "mobileNumber" })
+                    @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">البريد الإليكتروني</label>
+                    @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", @id = "emailAddress" })
+                    @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">اللقب</label>
+                    @Html.TextBoxFor(m => m.NickName, new { @class = "form-control", @id = "nathionalId" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
+                    <div class="m-demo__preview  m-demo__preview--btn">
+                        <button class="btn m-btn--pill btn-success  col-md-1 form-group" type="submit">حفظ</button>
+                        <button class="btn btn-danger m-btn--pill col-md-1 form-group" type="reset">الغاء</button>
+                    </div>
+                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
+                </div>
+            </div>
+            <hr>
+            if (TempData["Msg"] != null)
+            {
+                <div class="modal  fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                            </div>
+                            <div class="modal-body">
+                                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                                {
+                                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                                }
+                                else
+                                {
+                                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                                <script>
+                $('#myModal').modal('show');
+                                </script>
+            }
+        }
+        <div id="loadingIndicator" class="submit-progress d-none">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+            <label>Please Wait....</label>
+        </div>
+    </div>
+</main>
+<script>
+    var item = [];
+    $("#parentEmp").autocomplete({
+        source: function (request, response) {
+            if ($("#parentEmp").val() != null) {
+                $.ajax({
+                    url: '@Url.Action("AutoCompleteParentEmployee")',
+                    type: "GET",
+                    data: { prefix: $("#parentEmp").val() },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        //$("#donors").html(''),
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.FullName,
+                                value: item.EmployeeId
+                            }
+                        }));
+                    }
+                });
+            }
+        },
+        select: function (event, ui) {
+            this.value = ui.item.label;
+            $("#parentEmpId").val(ui.item.value);
+            return false;
+        },
+        search: function (event, ui) {
+            $(".submit-progress").removeClass("d-none");
+        },
+        response: function (event, ui) {
+            $(".submit-progress").addClass("d-none");
+        }
+    });
+</script>
