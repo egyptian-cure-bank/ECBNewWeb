@@ -38,7 +38,6 @@ namespace ECBNewWeb.DataAccess
         public DbSet<Department> Departments { get; set; }
         public DbSet<DonationFrequency> DonationFrequencies { get; set; }
         public DbSet<DonorOf> DonorOfs { get; set; }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
         public DbSet<UserSite> UserSites { get; set; }
         public DbSet<TypeContact> TypeContacts { get; set; }
@@ -50,5 +49,6 @@ namespace ECBNewWeb.DataAccess
         public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<ChequeBank> ChequeBanks { get; set; }
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

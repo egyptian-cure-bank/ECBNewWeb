@@ -164,6 +164,7 @@
     <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DonationController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -677,6 +678,7 @@
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="Scripts\fontawesome.js" />
     <Content Include="Scripts\fontawesome.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.nanoscroller.js" />
@@ -890,6 +892,9 @@
     <Content Include="Views\UserSite\AddUserToSite.cshtml" />
     <Content Include="Views\UserSite\AllUserSites.cshtml" />
     <Content Include="Views\UserSite\EditUserSites.cshtml" />
+    <Content Include="Views\Employees\AddEmployee.cshtml" />
+    <Content Include="Views\Employees\AllEmployees.cshtml" />
+    <Content Include="Views\Employees\EditEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

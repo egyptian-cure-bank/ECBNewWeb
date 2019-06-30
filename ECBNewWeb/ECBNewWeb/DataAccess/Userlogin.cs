@@ -21,7 +21,6 @@ namespace ECBNewWeb.DataAccess
         public string volunteer_id { get; set; }
         public Nullable<short> passChanged { get; set; }
         public Nullable<int> department { get; set; }
-        
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
