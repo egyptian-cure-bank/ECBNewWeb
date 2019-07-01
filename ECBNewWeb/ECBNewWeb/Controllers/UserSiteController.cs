@@ -8,14 +8,22 @@ using ECBNewWeb.Models;
 using System.Net;
 using System.Data.SqlClient;
 using System.Configuration;
+using ECBNewWeb.CustomAuthentication;
+using System.Web.Security;
 
 namespace ECBNewWeb.Controllers
 {
     public class UserSiteController : Controller
     {
+        private CustomMembershipUser UserInfo;
         // GET: UserSite
         public ActionResult AddUserToSite()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
             UserSiteModel userModel = new UserSiteModel();
             userModel.myEmployee = emp();
             userModel.mySites = sites();
@@ -210,8 +218,10 @@ namespace ECBNewWeb.Controllers
             using (MarketEntities db = new MarketEntities())
             {
                 List<LoginViewModel> MyEmployee = (from e in db.UserLogins
-                                                       where e.department == 4
-                                                   select new LoginViewModel() { UserId = e.id, FullName = e.FirstName + " " + e.LastName }).ToList<LoginViewModel>();
+                                                   join m in db.Employees
+                                                   on e.employee_id equals m.EmployeeId
+                                                   where e.active == 1 && m.Active == 1 && m.ParentEmployeeId == UserInfo.EmployeeId 
+                                                   select new LoginViewModel() { UserId = e.id, FullName = m.FirstName + " "+m.MiddleName+" " + m.LastName }).ToList<LoginViewModel>();
                 SelectListItem DisabledList = new SelectListItem()
                 {
                     Text = " ",

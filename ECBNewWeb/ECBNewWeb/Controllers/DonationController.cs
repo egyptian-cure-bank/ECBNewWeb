@@ -27,7 +27,7 @@ namespace ECBNewWeb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
-                Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = UserInfo.FirstName+" "+UserInfo.MiddleName+" "+UserInfo.LastName;
             }
             DonationData _DonationData = new DonationData();
             _DonationData.MySites = PopulateSites();
@@ -119,6 +119,7 @@ namespace ECBNewWeb.Controllers
                                              join U in db.UserSites
                                              on S.id equals U.SiteId
                                              where U.UserId == UserInfo.UserId
+                                             && U.Active == 1
                                              select new DonationData() { SiteId = S.id, SiteName = S.sitename,MaxAssignDate = U.AssignDate }).OrderByDescending(order=>order.MaxAssignDate).First();
                 SelectListItem DisabledItem = new SelectListItem()
                 {

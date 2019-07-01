@@ -36,8 +36,7 @@
                                         <span class="user-name">
                                             إسم المحصل :
                                             @{ var UserSession = Session["CurrentUser"] as ECBNewWeb.CustomAuthentication.CustomMembershipUser;
-                                                <strong>@UserSession.FirstName</strong>
-                                                <strong>@UserSession.LastName</strong>
+                                                <strong>@Session["CurrentUser"]</strong>
                                             }
                                         </span>
                                     </div>
@@ -49,7 +48,11 @@
                                             <label for="" class="">تاريخ الحافظة</label>
                                             @Html.TextBox("Date",Request["Date"],new { @class = "form-control", @id = "dateParameter", @required="true", @type = "date"})
                                     </div>
-
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="" class="">الموقع</label>
+                                        <input type="text" class="form-control" id="siteName" name="SiteName" value="@Session["SiteName"]" disabled/>
+                                        <input type="text" class="form-control" id="siteId" name="SiteId" value="@Session["SiteId"]" hidden="hidden" readonly" />
+                                    </div>
                                 </div>
 
 

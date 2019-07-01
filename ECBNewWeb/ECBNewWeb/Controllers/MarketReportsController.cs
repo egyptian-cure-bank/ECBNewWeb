@@ -29,8 +29,19 @@ namespace ECBNewWeb.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, true);
-                Session["CurrentUser"] = Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = UserInfo.FirstName + " " + UserInfo.MiddleName + " " + UserInfo.LastName;
+            }
+            using (MarketEntities db = new MarketEntities())
+            {
+                var MySite = (from S in db.marketingsites
+                              join U in db.UserSites
+                              on S.id equals U.SiteId
+                              where U.UserId == UserInfo.UserId
+                              && U.Active == 1
+                              select new { U.SiteId,S.sitename }).FirstOrDefault();
+                Session["SiteName"] = MySite.sitename;
+                Session["SiteId"] = MySite.SiteId.ToString();
             }
             return View();
         }
@@ -79,7 +90,7 @@ namespace ECBNewWeb.Controllers
                         "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId "+
                         "Inner Join BookTypes "+
                         "On dbo.BookTypes.BookTypeId = HandleBookReceipts.BookTypeId "+
-                        "Where market.site = 1 "+
+                        "Where market.site = @SiteId "+
                         "And employee = @UserId " +
                         "And market.dat = @DateParam " +
                         ")T "+
@@ -105,7 +116,7 @@ namespace ECBNewWeb.Controllers
                         "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId "+ 
                         "Inner Join marketingrectype "+
                         "On marketingrectype.id = BookTypes.RecTypeId "+
-                        "Where dbo.UserSites.SiteId = 1 "+
+                        "Where dbo.UserSites.SiteId = @SiteId "+
                         "And dbo.BookResposibilities.EmployeeId = @UserId " +
                         "And Convert(Date, dbo.CanceledReceipts.ActualDate) = @DateParam " +
                         ")TT "+
@@ -115,6 +126,7 @@ namespace ECBNewWeb.Controllers
                 Conn.Open();
                 using (SqlCommand Com = new SqlCommand(Cmd, Conn))
                 {
+                    Com.Parameters.AddWithValue("@SiteId", Convert.ToInt32(form["SiteId"].ToString()));
                     Com.Parameters.AddWithValue("@UserId", UserInfo.UserId);
                     Com.Parameters.AddWithValue("@DateParam",Convert.ToDateTime(form["Date"].ToString()));
                     //List<Models.DonationData> DonationTable = new List<Models.DonationData>();

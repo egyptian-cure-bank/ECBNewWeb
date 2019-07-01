@@ -7,14 +7,22 @@ using ECBNewWeb.Models;
 using ECBNewWeb.DataAccess;
 using System.Net;
 using System.Data;
+using ECBNewWeb.CustomAuthentication;
+using System.Web.Security;
 
 namespace ECBNewWeb.Controllers
 {
     public class BookResposibilitiesController : Controller
     {
+        private CustomMembershipUser UserInfo;
         // GET: BookResposibilities
         public ActionResult AddBookResponsibility()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = UserInfo.FirstName + " " + UserInfo.MiddleName + " " + UserInfo.LastName;
+            }
             BookResposibilityModel _BookResposibilityModel = new BookResposibilityModel();
             _BookResposibilityModel.MyEmployee = emp();
             _BookResposibilityModel.MyRecTypes = PopulateRecTypes();
@@ -220,8 +228,10 @@ namespace ECBNewWeb.Controllers
             using (MarketEntities db = new MarketEntities())
             {
                 List<LoginViewModel> MyEmployee = (from e in db.UserLogins
-                                                   //where e.department == 4
-                                                  select new LoginViewModel() { UserId = e.id, FullName = e.FirstName + " " + e.LastName }).ToList<LoginViewModel>();
+                                                    join m in db.Employees
+                                                    on e.employee_id equals m.EmployeeId
+                                                    where e.active == 1 && m.Active == 1 && m.ParentEmployeeId == UserInfo.EmployeeId
+                                                    select new LoginViewModel() { UserId = e.id, FullName = m.FirstName + " " + m.MiddleName + " " + m.LastName }).ToList<LoginViewModel>();
                 SelectListItem DisabledList = new SelectListItem()
                 {
                     Text = " ",
