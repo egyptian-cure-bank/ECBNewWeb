@@ -35,9 +35,14 @@ namespace ECBNewWeb.CustomAuthentication
                             where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
                             && string.Compare(sos, us.password, StringComparison.OrdinalIgnoreCase) == 0
                             && us.active == true
-                            select us).FirstOrDefault();
-
-                return (user != null) ? true : false;
+                            select new { us }).FirstOrDefault();
+                using (MarketEntities dbMarket = new MarketEntities())
+                {
+                    var AllInfo = (from e in dbMarket.Employees
+                                   where e.EmployeeId == user.us.employee_id
+                                   select new { user.us.id,user.us.userRole,user.us.username,user.us.department,user.us.employee_id, e }).FirstOrDefault();
+                    return (user != null) ? true : false;
+                }
             }
         }
 
@@ -66,19 +71,26 @@ namespace ECBNewWeb.CustomAuthentication
         /// <returns></returns>
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            using (AuthenticationEntities dbContext = new AuthenticationEntities())
+            using (MarketEntities dbMarket = new MarketEntities())
             {
-                var user = (from us in dbContext.LogIns
-                            where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
-                            select us).FirstOrDefault();
-
-                if (user == null)
+                Employee Emp ;
+                using (AuthenticationEntities dbContext = new AuthenticationEntities())
                 {
-                    return null;
-                }
-                var selectedUser = new CustomMembershipUser(user);
+                    var user = (from us in dbContext.LogIns
+                                where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
+                                select us).FirstOrDefault();
 
-                return selectedUser;
+                    if (user == null)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        Emp = dbMarket.Employees.Where(x => x.EmployeeId == user.employee_id).FirstOrDefault();
+                    }
+                    var selectedUser = new CustomMembershipUser(user,Emp);
+                    return selectedUser;
+                }
             }
         }
 
