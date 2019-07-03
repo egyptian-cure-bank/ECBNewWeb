@@ -60,38 +60,58 @@ namespace ECBNewWeb.Controllers
 
         }
         [HttpPost]
-        public ActionResult SaveBook(BookModel bookModel)
+        public ActionResult SaveBook(int RecTypeId, int NumberofReceipts , int NumberOfBookRequests)
         {
+            int rowAffected = 0;
             if (ModelState.IsValid)
             {
                 using (MarketEntities Market = new MarketEntities())
                 {
-                    BookType BookTypeSave = new BookType();
-                    BookTypeSave.BookNo = bookModel.BookNo;
-                    BookTypeSave.RecTypeId = bookModel.RecTypeId;
-                    BookTypeSave.LicenseId = GLobalLicenseId;
-                    BookTypeSave.Active = 1;
-                    Market.BookTypes.Add(BookTypeSave);
-                    Market.SaveChanges();
-                    //save values to handlebookreceipts table
-                    HandleBookReceipt HBookReceiptSave = new HandleBookReceipt();
-                    HBookReceiptSave.BookTypeId = BookTypeSave.BookTypeId;
-                    HBookReceiptSave.FirstReceiptNo = bookModel.FirstReceiptNo;
-                    HBookReceiptSave.LastReceiptNo = bookModel.LastReceiptNo;
-                    HBookReceiptSave.Active = 1;
-                    Market.HandleBookReceipts.Add(HBookReceiptSave);
-                    int rowAffected = Market.SaveChanges();
-                    TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
-                    ModelState.Clear();
-                    return RedirectToAction("AddBook", bookModel);
+                    // LB  = last Book number of type (active)
+                    var LB = (from b in Market.BookTypes
+                              where b.RecTypeId == RecTypeId && b.LicenseId == 1
+                              orderby b.BookNo descending
+                              select  b.BookNo ).FirstOrDefault();
+                    // if (LB > 0 ) LB = LB + 1 else(LB = 0 Or Null) LB = 1;
+                    LB = LB > 0 ? LB + 1 : 1;
+                    for (int i = 1; i <= NumberOfBookRequests; i++)
+                    {
+                        var BookTypeSave = new BookType()
+                        {
+                            BookNo = LB,
+                            RecTypeId = RecTypeId,
+                            LicenseId = GLobalLicenseId,
+                            Active = 1
+                        };
+                         Market.BookTypes.Add(BookTypeSave);
+                        rowAffected = Market.SaveChanges();
+                        //save values to handlebookreceipts table
+                        var HBookReceiptSave = new HandleBookReceipt()
+                        {
+                            BookTypeId = BookTypeSave.BookTypeId,
+                            FirstReceiptNo = ((LB - 1) * NumberofReceipts) + 1,
+                            LastReceiptNo = LB * NumberofReceipts,
+                            Active = 1
+                        };
+
+                        Market.HandleBookReceipts.Add(HBookReceiptSave);
+                        rowAffected = Market.SaveChanges();
+                        LB++;
+                    }
                 }
-            }
+                TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                ModelState.Clear();
+                return RedirectToAction("AddBook");
+                }
+            
             else
             {
                 TempData["Msg"] = "لم يتم الحفظ";
             }
-            return RedirectToAction("AddBook",bookModel);
+            return RedirectToAction("AddBook");
         }
+
+
         public ActionResult AllBooks()
         {
             List<BookModel> ListOfBooks = null;
