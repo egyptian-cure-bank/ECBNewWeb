@@ -10,9 +10,11 @@ namespace ECBNewWeb.Models
 {
     public class DonationData
     {
+
+        public int id { get; set; }
         //Sites
         [Range(0,9999999999,ErrorMessage ="برجاء إختيار موقع")]
-        public int SiteId { get; set; }
+        public int ? SiteId { get; set; }
         public string SiteName { get; set; }
         public IEnumerable<SelectListItem> MySites { get; set; }
         //Receipts
@@ -22,6 +24,7 @@ namespace ECBNewWeb.Models
         public IEnumerable<SelectListItem> MyReceipts { get; set; }
         //[Range(1, 9999999999999999, ErrorMessage = "Error In Receipt Number")]
         public string RecNumber { get; set; }
+        public int no { get; set; }
         //Currency
         public int? CurrencyId { get; set; }
         [Required(AllowEmptyStrings =false, ErrorMessage = "برجاء إختيار عملة")]
@@ -49,7 +52,7 @@ namespace ECBNewWeb.Models
         public DateTime RecDate { get; set; }
         [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة مبلغ")]
         [Range(1,9999999999999,ErrorMessage ="القيمة يجب ان تكون اكبر من الصفر")]
-        public decimal Amount { get; set; }
+        public decimal ? Amount { get; set; }
         //Cheque Bank Information
         public string BankInfoChecked { get; set; }
 
@@ -65,5 +68,11 @@ namespace ECBNewWeb.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة تاريخ إستحقاق الشيك")]
         public DateTime ChequeDate { get; set; }
         public DateTime? MaxAssignDate { get; set; }
+
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+
+
     }
 }
