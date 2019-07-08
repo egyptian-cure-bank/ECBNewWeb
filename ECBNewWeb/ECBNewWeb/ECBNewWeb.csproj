@@ -231,6 +231,9 @@
     <Compile Include="DataAccess\BookRequest.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\BookRequestDetail.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\BookResposibility.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
@@ -335,9 +338,6 @@
     </Compile>
     <Compile Include="DataAccess\SubFacilityRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccess\sysdiagram.cs">
-      <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\TypeContact.cs">
       <DependentUpon>Marketing.tt</DependentUpon>

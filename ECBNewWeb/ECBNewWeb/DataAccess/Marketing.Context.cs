@@ -25,36 +25,36 @@ namespace ECBNewWeb.DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<doner> doners { get; set; }
-        public DbSet<center> centers { get; set; }
-        public DbSet<government> governments { get; set; }
-        public DbSet<marketingrectype> marketingrectypes { get; set; }
-        public DbSet<Currency> Currencies { get; set; }
-        public DbSet<KnowingMethod> KnowingMethods { get; set; }
-        public DbSet<PaymentMethod> PaymentMethods { get; set; }
-        public DbSet<BookResposibility> BookResposibilities { get; set; }
-        public DbSet<CanceledReceipt> CanceledReceipts { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<DonationFrequency> DonationFrequencies { get; set; }
-        public DbSet<DonorOf> DonorOfs { get; set; }
-        public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
-        public DbSet<UserSite> UserSites { get; set; }
-        public DbSet<TypeContact> TypeContacts { get; set; }
-        public DbSet<MarketingLicens> MarketingLicenses { get; set; }
-        public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
-        public DbSet<BookType> BookTypes { get; set; }
-        public DbSet<marketingsite> marketingsites { get; set; }
-        public DbSet<DonationPurpose> DonationPurposes { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<ApproveReceipt> ApproveReceipts { get; set; }
         public DbSet<bankDeposit> bankDeposits { get; set; }
         public DbSet<Bank> Banks { get; set; }
-        public DbSet<cashDeposit> cashDeposits { get; set; }
+        public DbSet<BookRequestDetail> BookRequestDetails { get; set; }
         public DbSet<BookRequest> BookRequests { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
-        public DbSet<market> markets { get; set; }
+        public DbSet<BookResposibility> BookResposibilities { get; set; }
+        public DbSet<BookType> BookTypes { get; set; }
+        public DbSet<CanceledReceipt> CanceledReceipts { get; set; }
+        public DbSet<cashDeposit> cashDeposits { get; set; }
+        public DbSet<center> centers { get; set; }
         public DbSet<ChequeBank> ChequeBanks { get; set; }
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<CurrencyCovnersionRate> CurrencyCovnersionRates { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<DonationFrequency> DonationFrequencies { get; set; }
+        public DbSet<DonationPurpose> DonationPurposes { get; set; }
+        public DbSet<doner> doners { get; set; }
+        public DbSet<DonorOf> DonorOfs { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<government> governments { get; set; }
+        public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
+        public DbSet<KnowingMethod> KnowingMethods { get; set; }
+        public DbSet<market> markets { get; set; }
+        public DbSet<MarketingLicens> MarketingLicenses { get; set; }
+        public DbSet<marketingrectype> marketingrectypes { get; set; }
+        public DbSet<marketingsite> marketingsites { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<TypeContact> TypeContacts { get; set; }
+        public DbSet<UserSite> UserSites { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
     }
 }

@@ -14,9 +14,11 @@ namespace ECBNewWeb.DataAccess
     
     public partial class BookRequest
     {
-        public int id { get; set; }
-        public Nullable<int> employeeFK { get; set; }
-        public Nullable<int> bookTypefk { get; set; }
-        public Nullable<int> numberrequests { get; set; }
+        public int RequestId { get; set; }
+        public long RequestNo { get; set; }
+        public int EmployeeId { get; set; }
+        public Nullable<System.DateTime> RequestDate { get; set; }
+        public Nullable<System.DateTime> TimeStamp { get; set; }
+        public Nullable<int> Active { get; set; }
     }
 }

@@ -12,12 +12,14 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class BookRequestDetail
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Id { get; set; }
+        public Nullable<long> RequestNo { get; set; }
+        public Nullable<int> ReceiptTypeId { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public Nullable<int> SupervisorApproval { get; set; }
+        public Nullable<int> FinanceApproval { get; set; }
+        public Nullable<int> EmployeeReceive { get; set; }
     }
 }
