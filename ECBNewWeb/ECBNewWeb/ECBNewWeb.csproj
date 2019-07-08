@@ -160,6 +160,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApproveReceiptController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -203,6 +204,9 @@
     <Compile Include="DataAccess\ActionMethod.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\ApproveReceipt.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\AuthenticationDataAccess.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -218,6 +222,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AuthenticationDataAccess.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\Bank.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\bankDeposit.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\BookRequest.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\BookResposibility.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
@@ -225,6 +238,9 @@
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\CanceledReceipt.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\cashDeposit.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\center.cs">
@@ -320,6 +336,9 @@
     <Compile Include="DataAccess\SubFacilityRole.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\sysdiagram.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\TypeContact.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
@@ -341,8 +360,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApproveReceiptModel.cs" />
+    <Compile Include="Models\bankDepositModel.cs" />
+    <Compile Include="Models\BanksModel.cs" />
     <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\BookResposibilityModel.cs" />
+    <Compile Include="Models\cashDepositModel.cs" />
     <Compile Include="Models\Center.cs" />
     <Compile Include="Models\ConversionRateModel.cs" />
     <Compile Include="Models\CurrencyModel.cs" />
@@ -411,9 +434,11 @@
     <Content Include="Content\assets\app\js\dashboard.js" />
     <Content Include="Content\assets\app\media\img\flags\020-flag.svg" />
     <Content Include="Content\assets\app\media\img\users\user4.jpg" />
+    <Content Include="Content\assets\demo\default\base\dataTables.select.min.js" />
     <Content Include="Content\assets\demo\default\base\layout_custome_style.css" />
     <Content Include="Content\assets\demo\default\base\script.js" />
     <Content Include="Content\assets\demo\default\base\scripts.bundle.js" />
+    <Content Include="Content\assets\demo\default\base\select.dataTables.min.css" />
     <Content Include="Content\assets\demo\default\base\style.bundle.css" />
     <Content Include="Content\assets\demo\default\base\style.bundle.rtl.css" />
     <Content Include="Content\assets\demo\default\custom\components\base\blockui.js" />
@@ -895,6 +920,7 @@
     <Content Include="Views\Employees\AddEmployee.cshtml" />
     <Content Include="Views\Employees\AllEmployees.cshtml" />
     <Content Include="Views\Employees\EditEmployee.cshtml" />
+    <Content Include="Views\ApproveReceipt\addApproveReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
