@@ -149,17 +149,17 @@ namespace ECBNewWeb.Controllers
                         "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
                         "Inner Join BookResposibilities " +
                         "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
-                        "Where dbo.BookResposibilities.DoneFlag = 0 " +
-                        "And marketingrectype.Active = 1 " +
-                        "And BookTypes.Active = 1 " +
-                        "And dbo.BookResposibilities.EmployeeId = @UserId " +
+                        //"Where dbo.BookResposibilities.DoneFlag = 0 " +
+                        //"And marketingrectype.Active = 1 " +
+                        //"And BookTypes.Active = 1 " +
+                        //"And dbo.BookResposibilities.EmployeeId = @UserId " +
                         "Group by marketingrectype.name,marketingrectype.id";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
                 Conn.Open();
                 using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                 {
-                    Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                    //Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
                     SqlDataReader Reader = Command.ExecuteReader();
                     SelectListItem DisabledItem = new SelectListItem()
                     {
@@ -188,18 +188,14 @@ namespace ECBNewWeb.Controllers
             {
                 List<DonationData> MyCurr = (from S in db.Currencies
                                              select new DonationData() { CurrencyId = S.Id, CurrencyName = S.CurrencyName }).ToList<DonationData>();
-                //SelectListItem DisabledItem = new SelectListItem()
-                //{
-                //    Text = "",
-                //    Value = "-1"
-                //};
-                //Items.Add(DisabledItem);
+                
                 foreach (DonationData C in MyCurr)
                 {
                     SelectListItem selectList = new SelectListItem()
                     {
                         Text = C.CurrencyName,
-                        Value = C.CurrencyName
+                        Value = C.CurrencyName,
+                        Selected = true
                     };
                     Items.Add(selectList);
                 }
