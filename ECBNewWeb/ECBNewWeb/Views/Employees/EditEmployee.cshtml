@@ -53,6 +53,12 @@
                                 @*@Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmpId", @hidden = true })*@
                             </div>
                             <div class="form-group col-md-3">
+                                <label for="" class="">الوظيفة</label>
+                                @*<select id="JobList" name="job" class="form-control m-input" data-val-required="يجب اختيار وظيفة" required data-msg-required="يجب اختيار وظيفة "></select>*@
+                                @Html.DropDownListFor(x => x.job, ViewBag.joblist as List<SelectListItem>, new { @class = "form-control m-input", @id = "JobList", @data_val_required = "يجب اختيار وظيفة" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="job" data-valmsg-replace="true"></span>
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label for="" class="">الرقم القومي</label>
                                 @Html.TextBoxFor(m => m.NationalId, new { @class = "form-control", @id = "nathionalId", @type = "number" })
                                 @Html.ValidationMessageFor(m => m.NationalId, "", new { @class = "text-danger" })
@@ -106,9 +112,29 @@
 </div>
 
 <script type="text/javascript">
+
     $(document).ready(function () {
-        
+        //get employee
+
+        //get jobs by department
+        $('#departmentList').change(function () {
+            var departmentID = $(this).val();
+            $.ajax({
+                url: "/Employees/GetJobList/",
+                data: { deptid: departmentID },
+                datatype: "JSON",
+                success: function (respone) {
+                    var txt = "";
+                    for (var item in respone) {
+                        txt += '<option value= ' + respone[item].Value + '>' + respone[item].Text + '</option>';
+                    }
+                    $('#JobList').html(txt);
+                }
+            })
+        });
     });
+
+
     @*var item = [];
     $("#parentEmp").autocomplete({
         source: function (request, response) {
