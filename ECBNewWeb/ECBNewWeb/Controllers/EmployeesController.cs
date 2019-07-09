@@ -115,6 +115,53 @@ namespace ECBNewWeb.Controllers
             }
             
         }
+        public List<SelectListItem> GetJob(int deptid)
+        {
+            List<SelectListItem> Jobs = new List<SelectListItem>();
+            if (deptid == 1)
+            {
+                Jobs = new List<SelectListItem>()
+                {   new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
+                    new SelectListItem() { Text="مشرف موقع" , Value = "مشرف موقع"},
+                    new SelectListItem() { Text = "مساعد مشرف" , Value = "مساعد مشرف"}
+                };
+            }
+            else if (deptid == 2)
+            {
+                Jobs = new List<SelectListItem>()
+                {
+                    new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
+                    new SelectListItem() { Text="مبرمج" , Value = "مبرمج"},
+                    new SelectListItem() { Text = "مساعد مبرمج" , Value = "مساعد مبرمج"}
+                };
+            }
+            return Jobs;
+        }
+        // get job by department Json
+        public JsonResult GetJobList(int deptid)
+        {
+            List<SelectListItem> Jobs = new List<SelectListItem>();
+            if (deptid == 1)
+            {
+                Jobs = new List<SelectListItem>()
+                {   new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
+                    new SelectListItem() { Text="مشرف موقع" , Value = "مشرف موقع"},
+                    new SelectListItem() { Text = "مساعد مشرف" , Value = "مساعد مشرف"}
+                };
+            }
+            else if(deptid == 2)
+                {
+                Jobs = new List<SelectListItem>()
+                {
+                    new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
+                    new SelectListItem() { Text="مبرمج" , Value = "مبرمج"},
+                    new SelectListItem() { Text = "مساعد مبرمج" , Value = "مساعد مبرمج"}
+                };
+            }
+            
+            return Json(Jobs, JsonRequestBehavior.AllowGet);
+                
+        }
         //Remote Validation Function
         public ActionResult NationalIdValidation(double nationalID)
         {
@@ -142,6 +189,7 @@ namespace ECBNewWeb.Controllers
                     EmployeeToSave.MobileNumber = EmpModel.MobileNumber;
                     EmployeeToSave.EmailAddress = EmpModel.EmailAddress;
                     EmployeeToSave.NickName = EmpModel.NickName;
+                    EmployeeToSave.job = EmpModel.job;
                     EmployeeToSave.Active = 1;
                     Market.Employees.Add(EmployeeToSave);
                     int rowAffected = Market.SaveChanges();
@@ -163,6 +211,7 @@ namespace ECBNewWeb.Controllers
                 return RedirectToAction("AddEmployee", EmpModel);
             }
         }
+
         public ActionResult EditEmployee(int id)
         {
             EmployeeModel model = new EmployeeModel();
@@ -188,11 +237,14 @@ namespace ECBNewWeb.Controllers
                              MobileNumber = e.MobileNumber,
                              EmailAddress = e.EmailAddress,
                              NickName = e.NickName,
-                             Active = e.Active
+                             Active = e.Active,
+                             job = e.job
+                             
                          }).FirstOrDefault<EmployeeModel>();
             }
             model.MyDepartments = PopulateDepartments();
             model.MyParentEmployees = PopulateParentEmp();
+            ViewBag.joblist = GetJob(model.DepartmentId);
             return PartialView(model);
         }
         [HttpPost]
@@ -217,6 +269,7 @@ namespace ECBNewWeb.Controllers
                     modelToUpdate.EmailAddress = model.EmailAddress;
                     modelToUpdate.NickName = model.NickName;
                     modelToUpdate.Active = model.Active;
+                    modelToUpdate.job = model.job;
                     TryUpdateModel(modelToUpdate);
                     int rowAffected = Market.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";

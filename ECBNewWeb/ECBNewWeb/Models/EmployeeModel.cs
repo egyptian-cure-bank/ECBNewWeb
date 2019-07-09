@@ -52,5 +52,6 @@ namespace ECBNewWeb.Models
         public Nullable<int> EmployeeNo { get; set; }
 
         public string FullName { get; set; }
+        public string job { get; set; }
     }
 }
