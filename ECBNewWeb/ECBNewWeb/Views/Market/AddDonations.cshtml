@@ -71,11 +71,13 @@
                     <label for="" class="">العملة</label>
                     @Html.DropDownListFor(x => x.CurrencyName, Model.MyCurrency as List<SelectListItem>, new { @class = "form-control", @id = "currency" })
                     @Html.ValidationMessageFor(m => m.CurrencyName, "", new { @class = "text-danger" })
+
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الغرض</label>
                     @Html.DropDownListFor(x => x.PurpId, Model.MyPurposes as List<SelectListItem>, new { @class = "form-control", @id = "purpose" })
                     @Html.ValidationMessageFor(m => m.PurpId, "", new { @class = "text-danger" })
+                   
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">طريقة الدفع</label>
@@ -128,7 +130,7 @@
         $("#paymentmethod").val(-1);
         //get NextReceiptNumber When RecType changed
         $("#recType").val(-1);
-        $("#currency").val(-1);
+        $("#currency").val("جنيه مصري");
 
         $("#recType").change(function () {
             var selectedvalue = $("#recType option:selected").val();
@@ -238,4 +240,71 @@
             $(".submit-progress").addClass("d-none");
         }
     });
+
+
+    ///  script Rectype Change 
+    $('#recType').change(function () {
+        debugger;
+        var recTypeValue = $('#recType').val();
+         
+        if (recTypeValue == 6) //10 داوو مرضاكم 
+        {
+            $('#amount').val('10').attr('readonly', true);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', true);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', true);
+
+        }
+        else if (recTypeValue == 7) // 50 داوو مرضاكم 
+        {
+            $('#amount').val('50').attr('readonly', true);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', true);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', true);
+        }
+        else if (recTypeValue == 8) // 100 داوو مرضاكم 
+        {
+            $('#amount').val('100').attr('readonly', true);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', true);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', true);
+        }
+        else if (recTypeValue == 9) // 10 زيارة مريض
+        {
+            $('#amount').val('10').attr('readonly', true);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', true);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', true);
+        }
+        else if (recTypeValue == 10) // 50 زيارة مريض 
+        {
+            $('#amount').val('50').attr('readonly', true);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', true);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', true);
+        }
+        else if (recTypeValue == 11) // 100 زيارة مريض 
+        {
+            $('#amount').val('100').attr('readonly', true);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', true);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', true);
+        }
+        else
+        {
+            $('#amount').attr('readonly', false);;
+            $('#purpose').val('4');
+            $('#purpose option:not(:selected)').attr('disabled', false);
+            $('#currency').val('جنيه مصري');
+            $('#currency option:not(:selected)').attr('disabled', false);
+        }
+    });
+
+
 </script>
