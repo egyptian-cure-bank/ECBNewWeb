@@ -9,6 +9,10 @@
     <link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 }
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+
 <main class="page-content">
     <div class="container-fluid">
         <div class="m-content">
@@ -156,16 +160,19 @@
         </div>
     </div>
 </div>
-@*<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/jquery-ui-1.12.1.js"></script>*@
-<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-@*<script src="~/Scripts/jquery.min.js"></script>*@
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
 <script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
 
+
+
 <script type="text/javascript">
+   
     function EditUserSite(id) {
         $.get("@Url.Action("EditEmployee", "Employees")/" + id,
         function (data) { $('.modal-body').append(data); })
@@ -173,11 +180,13 @@
         $('#myModalEdit').on('hidden.bs.modal', function (e) {
             $('.modal-body').html("");
         })
+
     }
 </script>
 
 
 <script>
+
         $('#m_table_1').DataTable({
             "scrollY": 200,
             "scrollX": true,
