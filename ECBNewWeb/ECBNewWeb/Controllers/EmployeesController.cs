@@ -90,6 +90,7 @@ namespace ECBNewWeb.Controllers
                     Value = "-1"
                 };
                 Items.Add(DisabledItem);
+
                 foreach (EmployeeModel item in MyParentEmp)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -115,6 +116,7 @@ namespace ECBNewWeb.Controllers
             }
             
         }
+
         public List<SelectListItem> GetJob(int deptid)
         {
             List<SelectListItem> Jobs = new List<SelectListItem>();
@@ -211,7 +213,7 @@ namespace ECBNewWeb.Controllers
                 return RedirectToAction("AddEmployee", EmpModel);
             }
         }
-
+        [HttpGet]
         public ActionResult EditEmployee(int id)
         {
             EmployeeModel model = new EmployeeModel();
@@ -232,7 +234,7 @@ namespace ECBNewWeb.Controllers
                              LastName = e.LastName,
                              DepartmentId = d.DepartmentId,
                              ParentEmployeeName = (parentemp.FirstName + " " + parentemp.MiddleName + " " + parentemp.LastName) ?? String.Empty,
-                             ParentEmployeeId = parentemp.ParentEmployeeId,
+                             ParentEmployeeId = e.ParentEmployeeId,
                              NationalId = e.NationalId,
                              MobileNumber = e.MobileNumber,
                              EmailAddress = e.EmailAddress,
@@ -243,7 +245,7 @@ namespace ECBNewWeb.Controllers
                          }).FirstOrDefault<EmployeeModel>();
             }
             model.MyDepartments = PopulateDepartments();
-            model.MyParentEmployees = PopulateParentEmp();
+            ViewBag.MyParentEmployees = PopulateParentEmp();
             ViewBag.joblist = GetJob(model.DepartmentId);
             return PartialView(model);
         }
