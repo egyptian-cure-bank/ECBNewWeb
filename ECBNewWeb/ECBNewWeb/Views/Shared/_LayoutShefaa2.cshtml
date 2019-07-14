@@ -123,7 +123,7 @@
                             <h4 class="m-menu__section-text">عام</h4>
                             <i class="m-menu__section-icon flaticon-more-v2"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu  @(ViewContext.RouteData.Values["Controller"].ToString() == "Donor" || ViewContext.RouteData.Values["Controller"].ToString() == "Donation" || ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" || ViewContext.RouteData.Values["Controller"].ToString() == "Book" || ViewContext.RouteData.Values["Controller"].ToString() == "Currency" || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" || ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ? "m-menu__item--open" : "") " aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <li class="m-menu__item  m-menu__item--submenu  @(ViewContext.RouteData.Values["Controller"].ToString() == "Donor" || ViewContext.RouteData.Values["Controller"].ToString() == "Donation" || ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" || ViewContext.RouteData.Values["Controller"].ToString() == "Book" || ViewContext.RouteData.Values["Controller"].ToString() == "Currency" || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" ||ViewContext.RouteData.Values["Controller"].ToString() == "Employees" ||ViewContext.RouteData.Values["Controller"].ToString() == "MarketReports" || ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ? "m-menu__item--open" : "") " aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-web"></i>
                                 <span class="m-menu__link-text">التسويق</span>
@@ -240,7 +240,7 @@
 
                                     <li class="m-menu__item  m-menu__item--submenu @( ViewContext.RouteData.Values["Controller"].ToString() == "Book"  || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" ? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                                         <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">الدفاتر</span><i class="m-menu__ver-arrow la la-angle-right"></i>
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">المالية</span><i class="m-menu__ver-arrow la la-angle-right"></i>
                                         </a>
                                         <div class="m-menu__submenu ">
                                             <span class="m-menu__arrow"></span>
@@ -271,6 +271,14 @@
                                                     </a>
                                                 </li>
 
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "BookRequests" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("BookRequests", "FinanceBookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            طلبات الصرف
+                                                        </span>
+                                                    </a>
+                                                </li>
                                                 <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddBookResponsibility" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("AddBookResponsibility", "BookResposibilities")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
@@ -323,14 +331,14 @@
                                         </div>
                                     </li>
 
-                                    <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                                    <li class="m-menu__item  m-menu__item--submenu @( ViewContext.RouteData.Values["Controller"].ToString() == "MarketReports" ? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                                         <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">التقارير</span><i class="m-menu__ver-arrow la la-angle-right"></i>
                                         </a>
                                         <div class="m-menu__submenu ">
                                             <span class="m-menu__arrow"></span>
                                             <ul class="m-menu__subnav">
-                                                <li class="m-menu__item " aria-haspopup="true">
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "MarketPerformance" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("MarketPerformance", "MarketReports")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
                                                         <span class="m-menu__link-text">
@@ -338,7 +346,7 @@
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li class="m-menu__item " aria-haspopup="true">
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "MarketGroupBrief" ? "m-menu__item--active" : "")" aria-haspopup="true">
                                                     <a href="@Url.Action("MarketGroupBrief", "MarketReports")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                             <span></span>

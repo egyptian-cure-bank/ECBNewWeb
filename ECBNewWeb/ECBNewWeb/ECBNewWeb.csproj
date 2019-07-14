@@ -166,6 +166,7 @@
     <Compile Include="Controllers\DonationController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FinanceBookRequestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DonorController.cs" />
@@ -217,6 +218,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AuthenticationDataAccess.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\BookRequest.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\BookRequestDetail.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\BookResposibility.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
@@ -342,6 +349,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookRequestModel.cs" />
     <Compile Include="Models\BookResposibilityModel.cs" />
     <Compile Include="Models\Center.cs" />
     <Compile Include="Models\ConversionRateModel.cs" />
@@ -411,9 +419,11 @@
     <Content Include="Content\assets\app\js\dashboard.js" />
     <Content Include="Content\assets\app\media\img\flags\020-flag.svg" />
     <Content Include="Content\assets\app\media\img\users\user4.jpg" />
+    <Content Include="Content\assets\demo\default\base\dataTables.select.min.js" />
     <Content Include="Content\assets\demo\default\base\layout_custome_style.css" />
     <Content Include="Content\assets\demo\default\base\script.js" />
     <Content Include="Content\assets\demo\default\base\scripts.bundle.js" />
+    <Content Include="Content\assets\demo\default\base\select.dataTables.min.css" />
     <Content Include="Content\assets\demo\default\base\style.bundle.css" />
     <Content Include="Content\assets\demo\default\base\style.bundle.rtl.css" />
     <Content Include="Content\assets\demo\default\custom\components\base\blockui.js" />
@@ -564,6 +574,7 @@
     <Content Include="Content\chosen.min.css" />
     <Content Include="Content\code.css" />
     <Content Include="Content\css\all.css" />
+    <Content Include="Content\css\bootstrap-glyphicons.min.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\code.css" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -668,6 +679,7 @@
     <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\chosen.proto.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
+    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -681,6 +693,7 @@
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.nanoscroller.js" />
     <Content Include="Scripts\jquery.scrollex.min.js" />
     <Content Include="Scripts\jquery.scrolly.min.js" />
@@ -895,6 +908,7 @@
     <Content Include="Views\Employees\AddEmployee.cshtml" />
     <Content Include="Views\Employees\AllEmployees.cshtml" />
     <Content Include="Views\Employees\EditEmployee.cshtml" />
+    <Content Include="Views\FinanceBookRequests\BookRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
