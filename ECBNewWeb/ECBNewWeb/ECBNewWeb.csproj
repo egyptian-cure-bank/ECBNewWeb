@@ -160,6 +160,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApproveReceiptController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -204,6 +205,9 @@
     <Compile Include="DataAccess\ActionMethod.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\ApproveReceipt.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\AuthenticationDataAccess.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -219,6 +223,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AuthenticationDataAccess.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\Bank.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\bankDeposit.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\BookRequest.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
@@ -232,6 +242,9 @@
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\CanceledReceipt.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\cashDeposit.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\center.cs">
@@ -348,9 +361,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApproveReceiptModel.cs" />
+    <Compile Include="Models\bankDepositModel.cs" />
+    <Compile Include="Models\BanksModel.cs" />
     <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\BookRequestModel.cs" />
     <Compile Include="Models\BookResposibilityModel.cs" />
+    <Compile Include="Models\cashDepositModel.cs" />
     <Compile Include="Models\Center.cs" />
     <Compile Include="Models\ConversionRateModel.cs" />
     <Compile Include="Models\CurrencyModel.cs" />
@@ -909,6 +926,7 @@
     <Content Include="Views\Employees\AllEmployees.cshtml" />
     <Content Include="Views\Employees\EditEmployee.cshtml" />
     <Content Include="Views\FinanceBookRequests\BookRequests.cshtml" />
+    <Content Include="Views\ApproveReceipt\addApproveReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

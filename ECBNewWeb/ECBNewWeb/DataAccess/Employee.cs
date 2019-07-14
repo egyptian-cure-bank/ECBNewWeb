@@ -27,5 +27,6 @@ namespace ECBNewWeb.DataAccess
         public string NickName { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> Active { get; set; }
+        public string job { get; set; }
     }
 }

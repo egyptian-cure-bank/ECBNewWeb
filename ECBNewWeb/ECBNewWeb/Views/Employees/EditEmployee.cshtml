@@ -1,4 +1,5 @@
 ﻿@model ECBNewWeb.Models.EmployeeModel
+
 <div class="">
     <div class="row">
         <div class="col-md-12">
@@ -46,11 +47,20 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="" class="">المدير المباشر</label>
-                                @Html.DropDownListFor(x => x.ParentEmployeeId, Model.MyParentEmployees as List<SelectListItem>, new { @class = "form-control", @id = "parentEmpList" })
-                                @*@Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmp" })*@
+                                @*@Html.DropDownListFor(x => x.ParentEmployeeId, ViewBag.MyParentEmployees as List<SelectListItem>, new { @class = "form-control", @id = "parentEmpList" })*@
+                                @Html.TextBoxFor(m => m.ParentEmployeeName, new { @class = "form-control", @id = "parentEmp" })
+
+                                @*Related parentEmpID Id stored in the below hidden field*@
+                                @Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmpId", @hidden = true })
 
                                 @*Related parentEmpID Id stored in the below hidden field*@
                                 @*@Html.TextBoxFor(m => m.ParentEmployeeId, new { @class = "form-control", @id = "parentEmpId", @hidden = true })*@
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="">الوظيفة</label>
+                                @*<select id="JobList" name="job" class="form-control m-input" data-val-required="يجب اختيار وظيفة" required data-msg-required="يجب اختيار وظيفة "></select>*@
+                                @Html.DropDownListFor(x => x.job, ViewBag.joblist as List<SelectListItem>, new { @class = "form-control m-input", @id = "JobList", @data_val_required = "يجب اختيار وظيفة" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="job" data-valmsg-replace="true"></span>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="" class="">الرقم القومي</label>
@@ -105,44 +115,74 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        
-    });
-    @*var item = [];
-    $("#parentEmp").autocomplete({
-        source: function (request, response) {
-            if ($("#parentEmp").val() != null) {
-                $.ajax({
-                    url: '@Url.Action("AutoCompleteParentEmployee","Employees")',
-                    type: "GET",
-                    data: { prefix: $("#parentEmp").val() },
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (data) {
-                        //$("#donors").html(''),
-                        response($.map(data, function (item) {
-                            alert(item.FullName);
-                            return {
-                                label: item.FullName,
-                                value: item.EmployeeId
-                            }
-                        }));
-                    }
-                });
+
+<script>
+    $.noConflict();
+        var item = [];
+        $("#parentEmp").autocomplete({
+            source: function (request, response) {
+                if ($("#parentEmp").val() != null) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteParentEmployee")',
+                        type: "GET",
+                        data: { prefix: $("#parentEmp").val() },
+                        contentType: "application/json",
+                        dataType: "json",
+                        //appendTo: "#myModalEdit",
+                        success: function (data) {
+                            //$("#donors").html(''),
+                            
+                            response($.map(data, function (item) {
+                                debugger;
+                                return {
+                                    
+                                    label: item.FullName,
+                                    value: item.EmployeeId
+                                }
+                            }));
+                        }
+                    });
+                }
+            },
+            select: function (event, ui) {
+                this.value = ui.item.label;
+
+                $("#parentEmpId").val(ui.item.value);
+                return false;
+            },
+            search: function (event, ui) {
+
+                $(".submit-progress").removeClass("d-none");
+            },
+            response: function (event, ui) {
+
+                $(".submit-progress").addClass("d-none");
             }
-        },
-        select: function (event, ui) {
-            this.value = ui.item.label;
-            $("#parentEmpId").val(ui.item.value);
-            return false;
-        },
-        search: function (event, ui) {
-            $(".submit-progress").removeClass("d-none");
-        },
-        response: function (event, ui) {
-            $(".submit-progress").addClass("d-none");
-        }
-    });*@
+        });
+
+
+
+    
+
+    /////
+    // fill job by department
+    $('#departmentList').change(function () {
+        debugger;
+        var departmentID = $(this).val();
+        $.ajax({
+            url: "/Employees/GetJobList/",
+            data: { deptid: departmentID },
+            datatype: "JSON",
+            success: function (respone) {
+                debugger;
+                var txt = "";
+                for (var item in respone) {
+                    txt += '<option value= ' + respone[item].Value + '>' + respone[item].Text + '</option>';
+                }
+                $('#JobList').html(txt);
+            }
+        })
+    });
+
 </script>
 

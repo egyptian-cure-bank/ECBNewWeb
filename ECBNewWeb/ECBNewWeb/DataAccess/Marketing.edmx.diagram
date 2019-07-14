@@ -4,37 +4,41 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c347c114ab864c6c9ffbea543e191e6c" Name="Diagram1" ZoomLevel="70">
-        <EntityTypeShape EntityType="MarketingModel.doner" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketingModel.market" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketingModel.center" Width="1.5" PointX="4.75" PointY="2.25" />
-        <EntityTypeShape EntityType="MarketingModel.government" Width="1.5" PointX="0.75" PointY="6.125" />
-        <EntityTypeShape EntityType="MarketingModel.marketingrectype" Width="1.5" PointX="2.75" PointY="4.875" />
-        <EntityTypeShape EntityType="MarketingModel.Currency" Width="1.5" PointX="4.75" PointY="4.625" />
-        <EntityTypeShape EntityType="MarketingModel.KnowingMethod" Width="1.5" PointX="4.75" PointY="6.375" />
-        <EntityTypeShape EntityType="MarketingModel.PaymentMethod" Width="1.5" PointX="0.625" PointY="8" />
-        <EntityTypeShape EntityType="MarketingModel.BookResposibility" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="MarketingModel.CanceledReceipt" Width="1.5" PointX="7.75" PointY="7.75" />
-        <EntityTypeShape EntityType="MarketingModel.Department" Width="1.5" PointX="0.75" PointY="9.75" />
-        <EntityTypeShape EntityType="MarketingModel.DonationFrequency" Width="1.5" PointX="2.75" PointY="9.75" />
-        <EntityTypeShape EntityType="MarketingModel.DonorOf" Width="1.5" PointX="9.75" PointY="3.75" />
-        <EntityTypeShape EntityType="MarketingModel.HandleBookReceipt" Width="1.5" PointX="9.75" PointY="6.75" />
-        <EntityTypeShape EntityType="MarketingModel.UserSite" Width="1.5" PointX="9.75" PointY="9.75" />
+      <Diagram DiagramId="c347c114ab864c6c9ffbea543e191e6c" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="MarketingModel.ApproveReceipt" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="MarketingModel.bankDeposit" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MarketingModel.Bank" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookRequestDetail" Width="1.5" PointX="7.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookRequest" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookResposibility" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookType" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MarketingModel.CanceledReceipt" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MarketingModel.cashDeposit" Width="1.5" PointX="4.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MarketingModel.center" Width="1.5" PointX="3" PointY="2.875" />
+        <EntityTypeShape EntityType="MarketingModel.ChequeBank" Width="1.5" PointX="6.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="11.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MarketingModel.Currency" Width="1.5" PointX="11.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MarketingModel.CurrencyCovnersionRate" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MarketingModel.Department" Width="1.5" PointX="11.75" PointY="12.75" />
+        <EntityTypeShape EntityType="MarketingModel.DonationFrequency" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.DonationPurpose" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.doner" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="MarketingModel.DonorOf" Width="1.5" PointX="13.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MarketingModel.Employee" Width="1.5" PointX="4.75" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.government" Width="1.5" PointX="0.75" PointY="3" />
+        <EntityTypeShape EntityType="MarketingModel.HandleBookReceipt" Width="1.5" PointX="6.75" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.KnowingMethod" Width="1.5" PointX="13.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MarketingModel.market" Width="1.5" PointX="10" PointY="1" />
+        <EntityTypeShape EntityType="MarketingModel.MarketingLicens" Width="1.5" PointX="8.75" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.marketingrectype" Width="1.5" PointX="13.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MarketingModel.marketingsite" Width="1.5" PointX="7.75" PointY="2.5" />
+        <EntityTypeShape EntityType="MarketingModel.PaymentMethod" Width="1.5" PointX="13.75" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.TypeContact" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MarketingModel.UserSite" Width="1.5" PointX="15.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MarketingModel.UserLogin" Width="1.5" PointX="15.75" PointY="6.75" />
         <AssociationConnector Association="MarketingModel.FK_centers_governments" />
         <AssociationConnector Association="MarketingModel.FK_doners_centers" />
-        <EntityTypeShape EntityType="MarketingModel.TypeContact" Width="1.5" PointX="12.375" PointY="0.75" />
-        <EntityTypeShape EntityType="MarketingModel.MarketingLicens" Width="1.5" PointX="0.75" PointY="13" />
-        <EntityTypeShape EntityType="MarketingModel.UserLogin" Width="1.5" PointX="7.375" PointY="12.75" />
-        <EntityTypeShape EntityType="MarketingModel.CurrencyCovnersionRate" Width="1.5" PointX="12.375" PointY="6.75" />
-        <EntityTypeShape EntityType="MarketingModel.BookType" Width="1.5" PointX="12.375" PointY="3.75" />
-        <EntityTypeShape EntityType="MarketingModel.marketingsite" Width="1.5" PointX="0.75" PointY="16.125" />
         <AssociationConnector Association="MarketingModel.FK_market_marketingsites" />
-        <EntityTypeShape EntityType="MarketingModel.DonationPurpose" Width="1.5" PointX="9.375" PointY="12.75" />
-        <EntityTypeShape EntityType="MarketingModel.ChequeBank" Width="1.5" PointX="12.375" PointY="10.75" />
-        <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="11.375" PointY="13.75" />
-        <EntityTypeShape EntityType="MarketingModel.Employee" Width="1.5" PointX="3.375" PointY="12.75" />
-        <EntityTypeShape EntityType="MarketingModel.BookRequestDetail" Width="1.5" PointX="13.375" PointY="13.75" />
-        <EntityTypeShape EntityType="MarketingModel.BookRequest" Width="1.5" PointX="14.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
