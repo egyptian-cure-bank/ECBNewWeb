@@ -83,7 +83,11 @@ namespace ECBNewWeb.Controllers
         [HttpGet]
         public ActionResult EditBookResponsibility(int id)
         {
-            
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
             ViewBag.myEmployee = emp();          
             ViewBag.myRecTypes = PopulateRecTypes();
             BookResposibilityModel bookresposibility = new BookResposibilityModel();

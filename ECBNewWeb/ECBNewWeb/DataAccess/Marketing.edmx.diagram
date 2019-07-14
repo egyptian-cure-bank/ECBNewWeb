@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c347c114ab864c6c9ffbea543e191e6c" Name="Diagram1" ZoomLevel="71">
+      <Diagram DiagramId="c347c114ab864c6c9ffbea543e191e6c" Name="Diagram1" ZoomLevel="70">
         <EntityTypeShape EntityType="MarketingModel.doner" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketingModel.market" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketingModel.center" Width="1.5" PointX="4.75" PointY="2.25" />
@@ -33,6 +33,8 @@
         <EntityTypeShape EntityType="MarketingModel.ChequeBank" Width="1.5" PointX="12.375" PointY="10.75" />
         <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="11.375" PointY="13.75" />
         <EntityTypeShape EntityType="MarketingModel.Employee" Width="1.5" PointX="3.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookRequestDetail" Width="1.5" PointX="13.375" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookRequest" Width="1.5" PointX="14.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

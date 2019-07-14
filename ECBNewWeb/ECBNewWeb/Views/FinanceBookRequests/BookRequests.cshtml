@@ -1,0 +1,340 @@
+﻿@model ECBNewWeb.Models.BookRequestModel
+
+@{
+    ViewBag.Title = "BookRequests";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<link href="~/Content/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+<link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+<script src="~/Content/assets/demo/default/base/dataTables.select.min.js"></script>
+
+<main class="page-content">
+    <div class="container-fluid">
+        <h2>طلبات الصرف</h2>
+        <hr>
+        @using (Html.BeginForm("ApproveBookRequest", "FinanceBookRequests", FormMethod.Post, new { @id = "approveBookRequest" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="" class="">رقم طلب الصرف</label>
+                    @Html.DropDownListFor(m => m.RequestNo, Model.MyRequests, new {@size = 6, @class = "form-control", @id = "requests" })
+                    @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5">
+                        <label for="" class="">إسم المشرف</label>
+                        @Html.TextBoxFor(m => m.SupervisorName, new { @class = "form-control", @id = "supervisorName",@disabled="disabled" })
+                        @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="" class="">إسم الموظف</label>
+                        @Html.TextBoxFor(m => m.FullEmployeeName, new { @class = "form-control", @id = "fullEmployeeName", @disabled = "disabled" })
+                        @*Hidden EmployeeId*@
+                        @Html.TextBoxFor(m=>m.EmployeeId,new{@id="employeeId",@hidden="hidden" })
+                        @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="" class="">الموقع</label>
+                        @Html.TextBoxFor(m => m.SiteName, new { @class = "form-control", @id = "siteName",@disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="row">
+                    <table class="table table-striped table-bordered table-hover table-sm" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                        <thead>
+                            <tr>
+                                <th>تسليم</th>
+                                <th>كود الدفتر</th>
+                                <th>نوع الدفتر</th>
+                                <th>عدد الدفاتر</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr></tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="row">
+                    <table class="table table-striped table-bordered table-hover table-sm" id="m_table_2" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                        <thead>
+                            <tr>
+                                <th>كود</th>
+                                <th>رقم الدفتر</th>
+                                <th>نوع الدفتر</th>
+                                <th>رقم أول إيصال</th>
+                                <th>رقم آخر إيصال</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr></tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="m-demo" data-code-preview="true" data-code-html="true">
+                    <div class="m-demo__preview  m-demo__preview--btn">
+                        <button class="btn m-btn--pill btn-success  col-md-3 form-group" id="btnApprove">تسليم</button>
+                        <button class="btn btn-danger m-btn--pill col-md-3 form-group" type="reset">الغاء</button>
+                    </div>
+                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
+                </div>
+            </div>
+            <hr>
+            if (TempData["Msg"] != null)
+            {
+                <div class="modal  fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <a href="" class="close" data-dissmiss="modal">&times;</a> <!--Close btn-->
+                            </div>
+                            <div class="modal-body">
+                                @if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+                                {
+                                    <h3 class="badge badge-success " style="font-size:150%">تم الحفظ بنجاح</h3>
+                                }
+                                else
+                                {
+                                    <h3 class="badge badge-danger" style="font-size:150%">خطا اثناء الحفظ</h3>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+    $('#myModal').modal('show');
+                </script>
+            }
+        }
+        <div id="loadingIndicator" class="submit-progress d-none">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+            <label>Please Wait....</label>
+        </div>
+    </div>
+</main>
+<script type="text/javascript">
+    var table;
+    $(document).ready(function () {
+        //table first open page
+        $.noConflict();
+        var HandleBookReceiptId = 0;
+        $("#btnApprove").click(function (e) {
+            var ReqNo = $("#requests option:selected").text();
+            var selectedrows = table.rows({ selected: true }).data();
+            var mytabledata = table2.rows().data();
+            selectedrows.each(function (rowValue, RowIndex) {
+                mytabledata.each(function (value, index) {
+                    //alert(rowValue['RecTypeId']);
+                    $.ajax(
+                      {
+                          type: "POST",
+                          url: "/FinanceBookRequests/ApproveBookRequest",
+                          data: {
+                              EmployeeId: $("#employeeId").val(),
+                              HandleBookReceiptId: value['BookReceiptId'],
+                              RequestNo: ReqNo,
+                              RecTypeId:rowValue['RecTypeId']
+                          },
+                          success: function () {
+                          }
+
+                      });
+                });
+            });
+        });
+        table = $('#m_table_1').DataTable({
+            "scrollY": 200,
+            "scrollX": true,
+            "searching": false,
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox text-center',
+                targets: 0,
+            },
+            { "className": "dt-center", "targets": [1, 2, 3] },
+            { targets: 1, visible: false }
+            ],
+            "language": {
+                "emptyTable": "لاتوجد بيانات"
+            }
+        });
+        $('#m_table_2').DataTable({
+            "scrollY": 200,
+            "scrollX": true,
+            "searching": false,
+            columnDefs: [
+                { "className": "dt-center", "targets": [0, 1, 2, 3] },
+                { targets: 0, visible: false }
+            ],
+            "language": {
+                "emptyTable": "لاتوجد بيانات"
+            }
+        });
+        $("#btnApprove").click(function (e) {
+    
+            $.ajax(
+            {
+                type: "POST", 
+                url: "FinanceBookRequests/ApproveBookRequest",
+                data: { 
+                    EmployeeId: $("#employeeId").val(),
+                    HandleBookReceiptId: $("#txtAddress").val(),
+                    Address: $("#txtcity").val()
+                }
+
+            });
+
+        });
+    });
+    $("#requests").change(function () {
+        //$.noConflict();
+        var ReqNo = $("#requests option:selected").text();
+        $.getJSON("/FinanceBookRequests/GetRequestDetails/", { RequestNo: ReqNo }, function (data) {
+            data = $.map(data, function (item, a) {
+                return item;
+            });
+            $("#supervisorName").val(data[0].SupervisorName);
+            $("#fullEmployeeName").val(data[0].FullEmployeeName);
+            $("#employeeId").val(data[0].EmployeeId);
+            $("#siteName").val(data[0].SiteName);
+        });
+        $("#m_table_1").dataTable().fnDestroy();
+
+        table = $('#m_table_1').DataTable({
+
+            ////
+            "scrollY": 200,
+            "scrollX": true,
+            "searching": false,
+            ajax: {
+                url: '/FinanceBookRequests/GetRequestDetails/',
+                data: { RequestNo: ReqNo },
+                dataSrc: ''
+            },
+            columns: [
+                { "defaultContent": "" },
+                { data: "RecTypeId" },
+                { data: "BookTypeName" },
+                { data: "Amount" }
+            ],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox text-center',
+                targets: 0,
+            },
+            { "className": "dt-center", "targets": [1, 2, 3] },
+            {targets:1, visible:false}
+            ],
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+            order: [[1, 'asc']],
+            "language": {
+                "emptyTable": "لاتوجد بيانات"
+            }
+
+            /////////
+        });
+    });
+    var BookTypeIds = [];
+    var Amounts = [];
+    $('#m_table_1').on('click', 'tr', function () {
+        var currentRow;
+        var mydata;
+        $(this).toggleClass('selected');
+        if ($(this).hasClass('selected')) {
+            currentRow = $(this).closest("tr");
+            mydata = table.row(currentRow).data();
+            BookTypeIds.push(mydata['RecTypeId']);
+            Amounts.push(mydata['Amount']);
+            PopulateTable2(BookTypeIds, Amounts);
+        }
+        else {
+            currentRow = $(this).closest("tr");
+            //check if nothing checked
+            if (!table.row('.selected').count()) {
+                BookTypeIds = [];
+                Amounts = [];
+                PopulateTable2(BookTypeIds, Amounts);
+            }
+            else {
+                mydata = table.row(currentRow).data();
+                for (var i = 0; i < BookTypeIds.length; i++) {
+                    if (BookTypeIds[i] == mydata['RecTypeId']) {
+                        BookTypeIds.splice(i, 1);
+                    }
+                }
+                for (var i = 0; i < Amounts.length; i++) {
+                    if (Amounts[i] == mydata['Amount']) {
+                        //alert(Amounts[i]);
+                        Amounts.splice(i, 1);
+                    }
+                }
+                PopulateTable2(BookTypeIds, Amounts);
+            }
+
+        }    
+    });
+    var PopulateTable2 = function (BooktypIdArray,AmountArray) {
+        $("#m_table_2").dataTable().fnDestroy();
+        table2 = $('#m_table_2').DataTable({
+            "scrollY": 200,
+            "scrollX": true,
+            "searching": false,
+            "ordering": false,
+            ajax: {
+                url: '/FinanceBookRequests/GetRequestMetaData/',
+                data: {RecTypeId:BooktypIdArray,Amount:AmountArray},
+                traditional: true,
+                dataSrc: function (data) {
+                    data = $.parseJSON(data);
+                    return data;
+                }
+            },
+            columns: [
+                { data: "BookReceiptId" },
+                { data: "BookNo" },
+                { data: "name" },
+                { data: "FirstReceiptNo" },
+                { data: "LastReceiptNo" }
+            ],
+            columnDefs: [
+            { "className": "dt-center", "targets": [1, 2, 3, 4] },
+            { targets: 0, visible: false }
+            ],
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+            order: [[2, 'asc']],
+            "language": {
+                "emptyTable": "لاتوجد بيانات"
+            }
+
+        });
+
+    }
+</script>

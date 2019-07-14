@@ -12,14 +12,14 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class HandleBookReceipt
+    public partial class BookRequestDetail
     {
-        public int BookReceiptId { get; set; }
-        public Nullable<int> BookTypeId { get; set; }
-        public Nullable<int> FirstReceiptNo { get; set; }
-        public Nullable<int> LastReceiptNo { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> Active { get; set; }
-        public Nullable<int> ParentBookReceiptId { get; set; }
+        public int Id { get; set; }
+        public Nullable<long> RequestNo { get; set; }
+        public Nullable<int> ReceiptTypeId { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public Nullable<int> SupervisorApproval { get; set; }
+        public Nullable<int> FinanceApproval { get; set; }
+        public Nullable<int> EmployeeReceive { get; set; }
     }
 }

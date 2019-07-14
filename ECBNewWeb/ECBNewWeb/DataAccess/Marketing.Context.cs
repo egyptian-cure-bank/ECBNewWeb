@@ -50,5 +50,7 @@ namespace ECBNewWeb.DataAccess
         public DbSet<ChequeBank> ChequeBanks { get; set; }
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<BookRequestDetail> BookRequestDetails { get; set; }
+        public DbSet<BookRequest> BookRequests { get; set; }
     }
 }
