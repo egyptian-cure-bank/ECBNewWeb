@@ -5,6 +5,31 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MarketingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApproveReceipt">
+          <Key>
+            <PropertyRef Name="approveReceiptId" />
+          </Key>
+          <Property Name="approveReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marketId" Type="int" />
+          <Property Name="approveDate" Type="datetime" />
+          <Property Name="depositType" Type="int" />
+        </EntityType>
+        <EntityType Name="bankDeposit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+          <Property Name="date" Type="date" />
+          <Property Name="ApproveReceiptFK" Type="int" />
+        </EntityType>
+        <EntityType Name="Banks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="BookRequestDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -63,6 +88,15 @@
           <Property Name="ReceiptNo" Type="int" />
           <Property Name="ActualDate" Type="datetime" StoreGeneratedPattern="Computed" />
           <Property Name="Canceled" Type="int" />
+        </EntityType>
+        <EntityType Name="cashDeposit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="receiptVoucher" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+          <Property Name="ApproveReceiptFK" Type="int" />
         </EntityType>
         <EntityType Name="centers">
           <Key>
@@ -188,6 +222,7 @@
           <Property Name="MiddleName" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="job" Type="nvarchar" MaxLength="50" />
           <Property Name="ParentEmployeeId" Type="int" />
           <Property Name="NationalId" Type="float" />
           <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
@@ -364,11 +399,15 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="MarketingModelStoreContainer">
+          <EntitySet Name="ApproveReceipt" EntityType="Self.ApproveReceipt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bankDeposit" EntityType="Self.bankDeposit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Banks" EntityType="Self.Banks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookRequestDetails" EntityType="Self.BookRequestDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookRequests" EntityType="Self.BookRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookResposibilities" EntityType="Self.BookResposibilities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookTypes" EntityType="Self.BookTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cashDeposit" EntityType="Self.cashDeposit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
@@ -519,10 +558,14 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
           <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
           <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
-          <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
-          <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
           <EntitySet Name="BookRequestDetails" EntityType="MarketingModel.BookRequestDetail" />
           <EntitySet Name="BookRequests" EntityType="MarketingModel.BookRequest" />
+          <EntitySet Name="ApproveReceipts" EntityType="MarketingModel.ApproveReceipt" />
+          <EntitySet Name="bankDeposits" EntityType="MarketingModel.bankDeposit" />
+          <EntitySet Name="Banks" EntityType="MarketingModel.Bank" />
+          <EntitySet Name="cashDeposits" EntityType="MarketingModel.cashDeposit" />
+          <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
+          <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -783,34 +826,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="TimeStamp" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
-        <EntityType Name="ChequeInformation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ChequeBankId" Type="Int32" Nullable="false" />
-          <Property Name="ChequeNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ChequeDate" Type="DateTime" Precision="0" />
-          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="EmployeeId" />
-          </Key>
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmployeeNo" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="ParentEmployeeId" Type="Int32" />
-          <Property Name="NationalId" Type="Double" />
-          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Active" Type="Int32" />
-        </EntityType>
         <EntityType Name="BookRequestDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -832,6 +847,69 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="RequestDate" Type="DateTime" Precision="3" />
           <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ApproveReceipt">
+          <Key>
+            <PropertyRef Name="approveReceiptId" />
+          </Key>
+          <Property Name="approveReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marketId" Type="Int32" />
+          <Property Name="approveDate" Type="DateTime" Precision="3" />
+          <Property Name="depositType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="bankDeposit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="ApproveReceiptFK" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="cashDeposit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="receiptVoucher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="ApproveReceiptFK" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ChequeInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeBankId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeDate" Type="DateTime" Precision="0" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeNo" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="job" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentEmployeeId" Type="Int32" />
+          <Property Name="NationalId" Type="Double" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
       </Schema>
@@ -1127,36 +1205,6 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ChequeInformations">
-            <EntityTypeMapping TypeName="MarketingModel.ChequeInformation">
-              <MappingFragment StoreEntitySet="ChequeInformation">
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
-                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
-                <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="MarketingModel.Employee">
-              <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="NickName" ColumnName="NickName" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
-                <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BookRequestDetails">
             <EntityTypeMapping TypeName="MarketingModel.BookRequestDetail">
               <MappingFragment StoreEntitySet="BookRequestDetails">
@@ -1179,6 +1227,75 @@ FROM [dbo].[login] AS [login]</DefiningQuery>
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApproveReceipts">
+            <EntityTypeMapping TypeName="MarketingModel.ApproveReceipt">
+              <MappingFragment StoreEntitySet="ApproveReceipt">
+                <ScalarProperty Name="depositType" ColumnName="depositType" />
+                <ScalarProperty Name="approveDate" ColumnName="approveDate" />
+                <ScalarProperty Name="marketId" ColumnName="marketId" />
+                <ScalarProperty Name="approveReceiptId" ColumnName="approveReceiptId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bankDeposits">
+            <EntityTypeMapping TypeName="MarketingModel.bankDeposit">
+              <MappingFragment StoreEntitySet="bankDeposit">
+                <ScalarProperty Name="ApproveReceiptFK" ColumnName="ApproveReceiptFK" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="MarketingModel.Bank">
+              <MappingFragment StoreEntitySet="Banks">
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cashDeposits">
+            <EntityTypeMapping TypeName="MarketingModel.cashDeposit">
+              <MappingFragment StoreEntitySet="cashDeposit">
+                <ScalarProperty Name="ApproveReceiptFK" ColumnName="ApproveReceiptFK" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="receiptVoucher" ColumnName="receiptVoucher" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChequeInformations">
+            <EntityTypeMapping TypeName="MarketingModel.ChequeInformation">
+              <MappingFragment StoreEntitySet="ChequeInformation">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MarketingModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
+                <ScalarProperty Name="job" ColumnName="job" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

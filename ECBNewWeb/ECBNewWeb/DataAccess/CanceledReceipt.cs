@@ -17,7 +17,7 @@ namespace ECBNewWeb.DataAccess
         public int CanceledReceiptId { get; set; }
         public Nullable<int> ResponsibilityId { get; set; }
         public Nullable<int> ReceiptNo { get; set; }
-        public Nullable<System.DateTime> ActualDate { get; set; }
         public Nullable<int> Canceled { get; set; }
+        public Nullable<System.DateTime> ActualDate { get; set; }
     }
 }

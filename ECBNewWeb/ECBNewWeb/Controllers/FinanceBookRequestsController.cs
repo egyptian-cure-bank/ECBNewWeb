@@ -37,8 +37,8 @@ namespace ECBNewWeb.Controllers
                 List<BookRequestModel> MyRequests = (from S in db.BookRequests
                                                      join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
                                                where S.Active == 1 && D.FinanceApproval != 1
-                                               && S.EmployeeId == UserInfo.EmployeeId
-                                               select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo }).OrderByDescending(order => order.RequestNo).ToList<BookRequestModel>();
+                                               //&& S.EmployeeId == UserInfo.EmployeeId
+                                               select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo }).OrderByDescending(order => order.RequestNo).Distinct().ToList<BookRequestModel>();
                 foreach (BookRequestModel item in MyRequests)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -145,19 +145,15 @@ namespace ECBNewWeb.Controllers
                         Com.Parameters.AddWithValue("@ReceiveDate", DateTime.Now.Date);
                         InsertedRows += Com.ExecuteNonQuery();
                     }
-                    if (Model.RecTypeId != 0 || Model.RecTypeId != null)
+                    using (SqlCommand ComUpdate = new SqlCommand(UpdateCmd, Conn))
                     {
-
-                        using (SqlCommand ComUpdate = new SqlCommand(UpdateCmd, Conn))
-                        {
-                            ComUpdate.Parameters.AddWithValue("@RequestNo", Model.RequestNo);
-                            ComUpdate.Parameters.AddWithValue("@RecTypeId", Model.RecTypeId);
-                            UpdatedRows += ComUpdate.ExecuteNonQuery();
-                        }
+                        ComUpdate.Parameters.AddWithValue("@RequestNo", Model.RequestNo);
+                        ComUpdate.Parameters.AddWithValue("@RecTypeId", Model.RecTypeId);
+                        UpdatedRows += ComUpdate.ExecuteNonQuery();
                     }
                 }
             }
-            if (InsertedRows > 0 && UpdatedRows > 0)
+            if (InsertedRows > 0 || UpdatedRows > 0)
             {
                 TempData["Msg"] = "تم الحفظ بنجاح";
             }

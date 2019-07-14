@@ -149,17 +149,17 @@ namespace ECBNewWeb.Controllers
                         "On dbo.BookTypes.LicenseId = dbo.MarketingLicenses.Id " +
                         "Inner Join BookResposibilities " +
                         "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
-                        //"Where dbo.BookResposibilities.DoneFlag = 0 " +
-                        //"And marketingrectype.Active = 1 " +
-                        //"And BookTypes.Active = 1 " +
-                        //"And dbo.BookResposibilities.EmployeeId = @UserId " +
+                        "Where dbo.BookResposibilities.DoneFlag = 0 " +
+                        "And marketingrectype.Active = 1 " +
+                        "And BookTypes.Active = 1 " +
+                        "And dbo.BookResposibilities.EmployeeId = @EmployeeId " +
                         "Group by marketingrectype.name,marketingrectype.id";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
                 Conn.Open();
                 using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                 {
-                    //Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                    Command.Parameters.AddWithValue("@EmployeeId", UserInfo.EmployeeId);
                     SqlDataReader Reader = Command.ExecuteReader();
                     SelectListItem DisabledItem = new SelectListItem()
                     {
