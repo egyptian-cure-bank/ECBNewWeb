@@ -14,6 +14,7 @@ namespace ECBNewWeb.Models
         public int SupervisorId { get; set; }
         public string SupervisorName { get; set; }
         public int EmployeeId { get; set; }
+        public int? EmployeeNo { get; set; }
         public string FullEmployeeName { get; set; }
         public int SiteId { get; set; }
         public string SiteName { get; set; }
