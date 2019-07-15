@@ -20,6 +20,6 @@ namespace ECBNewWeb.DataAccess
     
         public virtual AccessLevel AccessLevel1 { get; set; }
         public virtual ActionMethod ActionMethod { get; set; }
-        public virtual LogIn LogIn { get; set; }
+        public virtual login login { get; set; }
     }
 }

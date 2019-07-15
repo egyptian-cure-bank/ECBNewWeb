@@ -293,7 +293,7 @@
     <Compile Include="DataAccess\KnowingMethod.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\LogIn.cs">
+    <Compile Include="DataAccess\login.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\market.cs">

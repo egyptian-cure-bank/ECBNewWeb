@@ -37,14 +37,14 @@ namespace ECBNewWeb.CustomAuthentication
 
             using (AuthenticationEntities dbContext = new AuthenticationEntities())
             {
-                var selectedUser = (from us in dbContext.LogIns/*.Include("UserRoles")*/
+                var selectedUser = (from us in dbContext.logins/*.Include("UserRoles")*/
                                     where string.Compare(us.username, username, StringComparison.OrdinalIgnoreCase) == 0
                                     select us).FirstOrDefault();
 
 
                 if (selectedUser != null)
                 {
-                    var currentRoleId = (dbContext.UserRoles.Where(x => x.LogIn.id == selectedUser.id).Select(s => s.RoleID).ToList());
+                    var currentRoleId = (dbContext.UserRoles.Where(x => x.login.id == selectedUser.id).Select(s => s.RoleID).ToList());
                     userRoles = dbContext.Roles.Where(x => currentRoleId.Contains(x.RoleID)).Select(x => x.RoleName).ToList();
                 }
 

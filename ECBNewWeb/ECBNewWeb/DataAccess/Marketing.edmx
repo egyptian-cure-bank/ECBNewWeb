@@ -258,8 +258,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="login">
           <Key>
             <PropertyRef Name="id" />
@@ -422,6 +420,7 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           <EntitySet Name="governments" EntityType="Self.governments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HandleBookReceipts" EntityType="Self.HandleBookReceipts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KnowingMethod" EntityType="Self.KnowingMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="market" EntityType="Self.market" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketingLicenses" EntityType="Self.MarketingLicenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="marketingrectype" EntityType="Self.marketingrectype" Schema="dbo" store:Type="Tables" />
@@ -429,30 +428,6 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeContact" EntityType="Self.TypeContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSites" EntityType="Self.UserSites" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="login" EntityType="Self.login" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[login].[id] AS [id], 
-[login].[username] AS [username], 
-[login].[password] AS [password], 
-[login].[employee_id] AS [employee_id], 
-[login].[volunteer_id] AS [volunteer_id], 
-[login].[passChanged] AS [passChanged], 
-[login].[department] AS [department], 
-[login].[FirstName] AS [FirstName], 
-[login].[MiddleName] AS [MiddleName], 
-[login].[LastName] AS [LastName], 
-[login].[UserComments] AS [UserComments], 
-[login].[CompanyID] AS [CompanyID], 
-[login].[LastLoginTime] AS [LastLoginTime], 
-[login].[IsResetPasswordNeeded] AS [IsResetPasswordNeeded], 
-[login].[PasswordChangedOn] AS [PasswordChangedOn], 
-[login].[SecurityQuestionID] AS [SecurityQuestionID], 
-[login].[SecurityAnswer] AS [SecurityAnswer], 
-[login].[userRole] AS [userRole], 
-[login].[importance] AS [importance], 
-[login].[active] AS [active]
-FROM [dbo].[login] AS [login]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_centers_governments" Association="Self.FK_centers_governments">
             <End Role="governments" EntitySet="governments" />
             <End Role="centers" EntitySet="centers" />

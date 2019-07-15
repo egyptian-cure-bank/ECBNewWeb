@@ -31,10 +31,10 @@ namespace ECBNewWeb.CustomAuthentication
 
             using (AuthenticationEntities dbContext = new AuthenticationEntities())
             {
-                var user = (from us in dbContext.LogIns
+                var user = (from us in dbContext.logins
                             where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
                             && string.Compare(sos, us.password, StringComparison.OrdinalIgnoreCase) == 0
-                            && us.active == true
+                            && us.active == 1
                             select new { us }).FirstOrDefault();
                 using (MarketEntities dbMarket = new MarketEntities())
                 {
@@ -76,7 +76,7 @@ namespace ECBNewWeb.CustomAuthentication
                 Employee Emp ;
                 using (AuthenticationEntities dbContext = new AuthenticationEntities())
                 {
-                    var user = (from us in dbContext.LogIns
+                    var user = (from us in dbContext.logins
                                 where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
                                 select us).FirstOrDefault();
 

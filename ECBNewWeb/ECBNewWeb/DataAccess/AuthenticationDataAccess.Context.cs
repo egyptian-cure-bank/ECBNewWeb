@@ -34,6 +34,6 @@ namespace ECBNewWeb.DataAccess
         public DbSet<SubFacility> SubFacilities { get; set; }
         public DbSet<SubFacilityRole> SubFacilityRoles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<LogIn> LogIns { get; set; }
+        public DbSet<login> logins { get; set; }
     }
 }
