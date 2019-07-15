@@ -1,7 +1,6 @@
 ﻿@model ECBNewWeb.Models.BookRequestModel
-
 @{
-    ViewBag.Title = "BookRequests";
+    ViewBag.Title = "SupervisorApproveBookRequest";
     Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
 }
 
@@ -22,34 +21,34 @@
 
 <main class="page-content">
     <div class="container-fluid">
-        <h2>طلبات الصرف</h2>
+        <h2>طلبات الصرف-المشرفين</h2>
         <hr>
-        @using (Html.BeginForm("ApproveBookRequest", "FinanceBookRequests", FormMethod.Post, new { @id = "approveBookRequest" }))
+        @using (Html.BeginForm("ApproveBookRequest", "SupervisorBookRequests", FormMethod.Post, new { @id = "approveBookRequest" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="" class="">رقم طلب الصرف</label>
-                    @Html.DropDownListFor(m => m.RequestNo, Model.MyRequests, new {@size = 6, @class = "form-control", @id = "requests" })
+                    @Html.DropDownListFor(m => m.RequestNo, Model.MyRequests, new { @size = 6, @class = "form-control", @id = "requests" })
                     @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="" class="">إسم المشرف</label>
-                        @Html.TextBoxFor(m => m.SupervisorName, new { @class = "form-control", @id = "supervisorName",@disabled="disabled" })
+                        @Html.TextBoxFor(m => m.SupervisorName, new { @class = "form-control", @id = "supervisorName", @disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-5">
                         <label for="" class="">إسم الموظف</label>
                         @Html.TextBoxFor(m => m.FullEmployeeName, new { @class = "form-control", @id = "fullEmployeeName", @disabled = "disabled" })
                         @*Hidden EmployeeId*@
-                        @Html.TextBoxFor(m=>m.EmployeeId,new{@id="employeeId",@hidden="hidden" })
+                        @Html.TextBoxFor(m => m.EmployeeId, new { @id = "employeeId", @hidden = "hidden" })
                         @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-5">
                         <label for="" class="">الموقع</label>
-                        @Html.TextBoxFor(m => m.SiteName, new { @class = "form-control", @id = "siteName",@disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.SiteName, new { @class = "form-control", @id = "siteName", @disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -92,7 +91,7 @@
             <div class="row">
                 <div class="m-demo" data-code-preview="true" data-code-html="true">
                     <div class="m-demo__preview  m-demo__preview--btn">
-                        <button class="btn m-btn--pill btn-success  col-md-3 form-group" id="btnApprove">تسليم</button>
+                        <button class="btn m-btn--pill btn-success  col-md-3 form-group" id="btnApprove">موافقة</button>
                         <button class="btn btn-danger m-btn--pill col-md-3 form-group" type="reset">الغاء</button>
                     </div>
                     <h4 class="text-danger">@TempData["ModelErrors"]</h4>
@@ -124,7 +123,7 @@
                     </div>
                 </div>
                 <script>
-    $('#myModal').modal('show');
+                    $('#myModal').modal('show');
                 </script>
             }
         }
@@ -133,35 +132,29 @@
             <label>Please Wait....</label>
         </div>
     </div>
-</main>
+    </main>
+
 <script type="text/javascript">
-    var table;
     $(document).ready(function () {
-        //table first open page
         $.noConflict();
-        var HandleBookReceiptId = 0;
         $("#btnApprove").click(function (e) {
             var ReqId = $("#requests option:selected").val();
             var selectedrows = table.rows({ selected: true }).data();
             var mytabledata = table2.rows().data();
             selectedrows.each(function (rowValue, RowIndex) {
-                mytabledata.each(function (value, index) {
-                    //alert(rowValue['RecTypeId']);
-                    $.ajax(
-                      {
-                          type: "POST",
-                          url: "/FinanceBookRequests/ApproveBookRequest",
-                          data: {
-                              EmployeeId: $("#employeeId").val(),
-                              HandleBookReceiptId: value['BookReceiptId'],
-                              RequestId: ReqId,
-                              RecTypeId:rowValue['RecTypeId']
-                          },
-                          success: function () {
-                          }
+                //alert(rowValue['RecTypeId']);
+                $.ajax(
+                  {
+                      type: "POST",
+                      url: "/SupervisorBookRequests/ApproveBookRequest",
+                      data: {
+                          RequestId: ReqId,
+                          RecTypeId: rowValue['RecTypeId']
+                      },
+                      success: function () {
+                      }
 
-                      });
-                });
+                  });
             });
         });
         table = $('#m_table_1').DataTable({
@@ -194,9 +187,8 @@
         });
     });
     $("#requests").change(function () {
-        //$.noConflict();
         var ReqId = $("#requests option:selected").val();
-        $.getJSON("/FinanceBookRequests/GetRequestDetails/", { RequestId: ReqId }, function (data) {
+        $.getJSON("/SupervisorBookRequests/GetRequestDetails/", { RequestId: ReqId }, function (data) {
             data = $.map(data, function (item, a) {
                 return item;
             });
@@ -214,7 +206,7 @@
             "scrollX": true,
             "searching": false,
             ajax: {
-                url: '/FinanceBookRequests/GetRequestDetails/',
+                url: '/SupervisorBookRequests/GetRequestDetails/',
                 data: { RequestId: ReqId },
                 dataSrc: ''
             },
@@ -230,7 +222,7 @@
                 targets: 0,
             },
             { "className": "dt-center", "targets": [1, 2, 3] },
-            {targets:1, visible:false}
+            { targets: 1, visible: false }
             ],
             select: {
                 style: 'multi',
@@ -244,7 +236,7 @@
             /////////
         });
     });
-    var BookTypeIds = [];
+       var RecTypeIds = [];
     var Amounts = [];
     $('#m_table_1').on('click', 'tr', function () {
         var currentRow;
@@ -253,23 +245,23 @@
         if ($(this).hasClass('selected')) {
             currentRow = $(this).closest("tr");
             mydata = table.row(currentRow).data();
-            BookTypeIds.push(mydata['RecTypeId']);
+            RecTypeIds.push(mydata['RecTypeId']);
             Amounts.push(mydata['Amount']);
-            PopulateTable2(BookTypeIds, Amounts);
+            PopulateTable2(RecTypeIds, Amounts);
         }
         else {
             currentRow = $(this).closest("tr");
             //check if nothing checked
             if (!table.row('.selected').count()) {
-                BookTypeIds = [];
+                RecTypeIds = [];
                 Amounts = [];
-                PopulateTable2(BookTypeIds, Amounts);
+                PopulateTable2(RecTypeIds, Amounts);
             }
             else {
                 mydata = table.row(currentRow).data();
-                for (var i = 0; i < BookTypeIds.length; i++) {
-                    if (BookTypeIds[i] == mydata['RecTypeId']) {
-                        BookTypeIds.splice(i, 1);
+                for (var i = 0; i < RecTypeIds.length; i++) {
+                    if (RecTypeIds[i] == mydata['RecTypeId']) {
+                        RecTypeIds.splice(i, 1);
                     }
                 }
                 for (var i = 0; i < Amounts.length; i++) {
@@ -278,12 +270,12 @@
                         Amounts.splice(i, 1);
                     }
                 }
-                PopulateTable2(BookTypeIds, Amounts);
+                PopulateTable2(RecTypeIds, Amounts);
             }
 
         }    
     });
-    var PopulateTable2 = function (BooktypIdArray,AmountArray) {
+    var PopulateTable2 = function (RectypIdArray, AmountArray) {
         $("#m_table_2").dataTable().fnDestroy();
         table2 = $('#m_table_2').DataTable({
             "scrollY": 200,
@@ -291,8 +283,8 @@
             "searching": false,
             "ordering": false,
             ajax: {
-                url: '/FinanceBookRequests/GetRequestMetaData/',
-                data: {RecTypeId:BooktypIdArray,Amount:AmountArray},
+                url: '/SupervisorBookRequests/GetRequestMetaData/',
+                data: { RecTypeId: RectypIdArray, Amount: AmountArray },
                 traditional: true,
                 dataSrc: function (data) {
                     data = $.parseJSON(data);

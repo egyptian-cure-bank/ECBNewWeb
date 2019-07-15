@@ -173,6 +173,7 @@
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\MarketReportsController.cs" />
+    <Compile Include="Controllers\SupervisorBookRequestsController.cs" />
     <Compile Include="Controllers\UserSiteController.cs" />
     <Compile Include="CrystalReports\Marketing\rptMarketingAdminDetails2.cs">
       <AutoGen>True</AutoGen>
@@ -927,6 +928,7 @@
     <Content Include="Views\Employees\EditEmployee.cshtml" />
     <Content Include="Views\FinanceBookRequests\BookRequests.cshtml" />
     <Content Include="Views\ApproveReceipt\addApproveReceipt.cshtml" />
+    <Content Include="Views\SupervisorBookRequests\SupervisorApproveBookRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
