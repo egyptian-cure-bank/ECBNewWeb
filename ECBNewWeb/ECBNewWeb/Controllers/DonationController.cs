@@ -92,7 +92,7 @@ namespace ECBNewWeb.Controllers
                         "Where dbo.BookTypes.RecTypeId = @RecTypeId "+
                         "And marketingrectype.Active = 1 "+
                         "And BookResp.DoneFlag = 0 "+
-                        "And BookResp.EmployeeId = @UserId ";
+                        "And BookResp.EmployeeId = @EmployeeId ";
             string JsonString = null;
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -100,7 +100,7 @@ namespace ECBNewWeb.Controllers
                 using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                 {
                     Command.Parameters.AddWithValue("@RecTypeId", RecTypeId);
-                    Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                    Command.Parameters.AddWithValue("@EmployeeId", UserInfo.EmployeeId);
                     SqlDataAdapter adapt = new SqlDataAdapter(Command);
                     adapt.Fill(dt);
                     JsonSerializerSettings SerSettings = new JsonSerializerSettings();
@@ -317,6 +317,7 @@ namespace ECBNewWeb.Controllers
             int FirstReceiptNo = 0;
             int LastReceiptNo = 0;
             int RespCount = 0;
+            int rowAffected = 0;
             int UpdateRecordCount = 0;
             try
             {
@@ -345,11 +346,11 @@ namespace ECBNewWeb.Controllers
                                         "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
                                         "Where dbo.BookResposibilities.DoneFlag = 0 " +
                                         "And marketingrectype.Active = 1 " +
-                                        "And dbo.BookResposibilities.EmployeeId = @UserId " +
+                                        "And dbo.BookResposibilities.EmployeeId = @EmployeeId " +
                                         "And dbo.marketingrectype.id = @RecTypeId ";
                             using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                             {
-                                Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                                Command.Parameters.AddWithValue("@EmployeeId", UserInfo.EmployeeId);
                                 Command.Parameters.AddWithValue("@RecTypeId", Donation.RecId);
                                 SqlDataReader Reader = Command.ExecuteReader();
                                 if (Reader.Read())
@@ -372,7 +373,7 @@ namespace ECBNewWeb.Controllers
                                 DBDonation.amount = Donation.Amount;
                                 DBDonation.currency = Donation.CurrencyName;
                                 DBDonation.cash = Donation.PaymentId;
-                                DBDonation.employee = UserInfo.UserId;
+                                DBDonation.employee = UserInfo.EmployeeId;
                                 DBDonation.type = Donation.RecId;
                                 DBDonation.site = Donation.SiteId;
                                 DBDonation.ResponsibilityId = RespId;
@@ -389,9 +390,8 @@ namespace ECBNewWeb.Controllers
                                 }
                                 // ModelState.AddModelError(string.Empty, "برجاء إستكمال بيانات الشيك");
                                 Market.markets.Add(DBDonation);
-                                Market.SaveChanges();
-                                int rowAffected = Market.SaveChanges();
-                                TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                                //Market.SaveChanges();
+                                rowAffected += Market.SaveChanges();
                                 Con.Open();
                                 string Cmd = "Select Count(market.ResponsibilityId) From market Where ResponsibilityId = @RespId ";
                                 using (SqlCommand Command = new SqlCommand(Cmd, Con))
@@ -453,7 +453,15 @@ namespace ECBNewWeb.Controllers
                                 }
                             }
                         }
-                        MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+                        MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.EmployeeId);
+                        if (rowAffected > 0 && UpdateRecordCount > 0)
+                        {
+                            TempData["Msg"] = "تم الحفظ بنجاح";
+                        }
+                        else
+                        {
+                            TempData["Msg"] = "لم يتم الحفظ";
+                        }
                         return RedirectToAction("AddDonations", Donation);
                     }
                 }
@@ -494,6 +502,7 @@ namespace ECBNewWeb.Controllers
             int FirstReceiptNo = 0;
             int LastReceiptNo = 0;
             int CanceledRecIdCount = 0;
+            int rowAffected = 0;
             int UpdateRecordCount = 0;
             if (!string.IsNullOrWhiteSpace(Donation.RecNumber))
             {
@@ -515,11 +524,11 @@ namespace ECBNewWeb.Controllers
                                     "on dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
                                     "Where dbo.BookResposibilities.DoneFlag = 0 " +
                                     "And marketingrectype.Active = 1 " +
-                                    "And dbo.BookResposibilities.EmployeeId = @UserId " +
+                                    "And dbo.BookResposibilities.EmployeeId = @EmployeeId " +
                                     "And dbo.marketingrectype.id = @RecTypeId ";
                         using (SqlCommand Command = new SqlCommand(Cmd, Conn))
                         {
-                            Command.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                            Command.Parameters.AddWithValue("@EmployeeId", UserInfo.EmployeeId);
                             Command.Parameters.AddWithValue("@RecTypeId", Donation.RecId);
                             SqlDataReader Reader = Command.ExecuteReader();
                             if (Reader.Read())
@@ -535,8 +544,7 @@ namespace ECBNewWeb.Controllers
                         DBCanceledReceipt.ResponsibilityId = RespId;
                         DBCanceledReceipt.Canceled = 1;
                         Market.CanceledReceipts.Add(DBCanceledReceipt);
-                        int rowAffected = Market.SaveChanges();
-                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                        rowAffected = Market.SaveChanges();
                         using (SqlConnection Con = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                         {
                             Con.Open();
@@ -580,7 +588,7 @@ namespace ECBNewWeb.Controllers
                                         {
                                             UpdateCom.Parameters.AddWithValue("@RespId", RespId);
                                             UpdateCom.Parameters.AddWithValue("@RecIncrement", FirstReceiptNo + 1);
-                                            UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                            UpdateRecordCount += UpdateCom.ExecuteNonQuery();
                                         }
                                     }
                                     else if (NextReceiptNo > 0)
@@ -592,7 +600,7 @@ namespace ECBNewWeb.Controllers
                                             UpdateCom.Parameters.AddWithValue("@RecIncrement", NextReceiptNo + 1);
                                             if (NextReceiptNo + 1 <= LastReceiptNo)
                                             {
-                                                UpdateRecordCount = UpdateCom.ExecuteNonQuery();
+                                                UpdateRecordCount += UpdateCom.ExecuteNonQuery();
                                             }
                                         }
                                     }
@@ -601,7 +609,15 @@ namespace ECBNewWeb.Controllers
                         }
                     }
                 }
-                MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.UserId);
+                MarkBookResponsibilityAsDone(NextReceiptNo, LastReceiptNo, Donation.RecId, RespId, UserInfo.EmployeeId);
+                if (rowAffected >0 && UpdateRecordCount >0)
+                {
+                    TempData["Msg"] = "تم إلغاء الإيصال بنجاح";
+                }
+                else
+                {
+                    TempData["Msg"] = "لم يتم الحفظ";
+                }
                 return RedirectToAction("AddDonations", Donation);
             }
             else
@@ -613,7 +629,7 @@ namespace ECBNewWeb.Controllers
 
         }
         [HttpPost]
-        public void MarkBookResponsibilityAsDone(int NextReceiptNo,int LastReceiptNo,int? RecTypeId, int RespId,int UserId)
+        public void MarkBookResponsibilityAsDone(int NextReceiptNo,int LastReceiptNo,int? RecTypeId, int RespId,int? EmployeeId)
         {
             int CountRec = 0;
             int MaxRecId = 0;
@@ -659,11 +675,11 @@ namespace ECBNewWeb.Controllers
                         "Where dbo.BookTypes.RecTypeId = @RecTypeId " +
                         "And marketingrectype.Active = 1 " +
                         "And BookResp.DoneFlag = 0 " +
-                        "And BookResp.EmployeeId = @UserId ";
+                        "And BookResp.EmployeeId = @EmployeeId ";
                 using (SqlCommand ComV2 = new SqlCommand(Cmd,Conn))
                 {
                     ComV2.Parameters.AddWithValue("@RecTypeId", RecTypeId);
-                    ComV2.Parameters.AddWithValue("@UserId", UserId);
+                    ComV2.Parameters.AddWithValue("@EmployeeId", EmployeeId);
                     LastSavedRecNo = (Int32)ComV2.ExecuteScalar();
                     if (LastSavedRecNo == LastReceiptNo)
                     {

@@ -162,28 +162,14 @@
 </div>
 
 <script>
-
-    function EditBookResponsibility(id) {
-        
+    function EditBookResponsibility(id) {        
         $.get("@Url.Action("EditBookResponsibility", "BookResposibilities")/" + id,
         function (data) { $('.modal-body').html(data); })
         $('#myModalEdit').modal('show');
         $('#myModalEdit').on('hidden.bs.modal', function (e) {
             $('.modal-body').html();
         })
-        
     }
-
-    function DeleteLicenses(id) {
-
-        $.get("@Url.Action("Delete", "Donor")/" + id,
-        function (data) { $('.modal-body').html(data); })
-        $('#myModalDelete').modal('show');
-        $('#myModalDelete').on('hidden.bs.modal', function (e) {
-            $('.modal-body').html("");
-        })
-    }
-
 </script>
 
 
@@ -193,10 +179,10 @@
 <script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
 <script>
 
-        $('#m_table_1').DataTable({
-            "scrollY": 200,
-            "scrollX": true,
-        });
+    $('#m_table_1').DataTable({
+        "scrollY": 200,
+        "scrollX": true,
+    });
 </script>
 
 @if (TempData["Msg"] != null)
@@ -227,7 +213,6 @@
             });
         </script>
     }
-
 }
 
 
