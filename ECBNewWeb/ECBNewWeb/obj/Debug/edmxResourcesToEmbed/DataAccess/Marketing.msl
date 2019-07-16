@@ -162,28 +162,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Employees">
-      <EntityTypeMapping TypeName="MarketingModel.Employee">
-        <MappingFragment StoreEntitySet="Employees">
-          <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="NickName" ColumnName="NickName" />
-          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-          <ScalarProperty Name="NationalId" ColumnName="NationalId" />
-          <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
-          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="HandleBookReceipts">
       <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
         <MappingFragment StoreEntitySet="HandleBookReceipts">
+          <ScalarProperty Name="ParentBookReceiptId" ColumnName="ParentBookReceiptId" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
@@ -306,6 +288,69 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="BookRequestDetails">
+      <EntityTypeMapping TypeName="MarketingModel.BookRequestDetail">
+        <MappingFragment StoreEntitySet="BookRequestDetails">
+          <ScalarProperty Name="EmployeeReceive" ColumnName="EmployeeReceive" />
+          <ScalarProperty Name="FinanceApproval" ColumnName="FinanceApproval" />
+          <ScalarProperty Name="SupervisorApproval" ColumnName="SupervisorApproval" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="ReceiptTypeId" ColumnName="ReceiptTypeId" />
+          <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookRequests">
+      <EntityTypeMapping TypeName="MarketingModel.BookRequest">
+        <MappingFragment StoreEntitySet="BookRequests">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
+          <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ApproveReceipts">
+      <EntityTypeMapping TypeName="MarketingModel.ApproveReceipt">
+        <MappingFragment StoreEntitySet="ApproveReceipt">
+          <ScalarProperty Name="depositType" ColumnName="depositType" />
+          <ScalarProperty Name="approveDate" ColumnName="approveDate" />
+          <ScalarProperty Name="marketId" ColumnName="marketId" />
+          <ScalarProperty Name="approveReceiptId" ColumnName="approveReceiptId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="bankDeposits">
+      <EntityTypeMapping TypeName="MarketingModel.bankDeposit">
+        <MappingFragment StoreEntitySet="bankDeposit">
+          <ScalarProperty Name="ApproveReceiptFK" ColumnName="ApproveReceiptFK" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Banks">
+      <EntityTypeMapping TypeName="MarketingModel.Bank">
+        <MappingFragment StoreEntitySet="Banks">
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cashDeposits">
+      <EntityTypeMapping TypeName="MarketingModel.cashDeposit">
+        <MappingFragment StoreEntitySet="cashDeposit">
+          <ScalarProperty Name="ApproveReceiptFK" ColumnName="ApproveReceiptFK" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="receiptVoucher" ColumnName="receiptVoucher" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ChequeInformations">
       <EntityTypeMapping TypeName="MarketingModel.ChequeInformation">
         <MappingFragment StoreEntitySet="ChequeInformation">
@@ -314,6 +359,26 @@
           <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
           <ScalarProperty Name="ChequeBankId" ColumnName="ChequeBankId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="MarketingModel.Employee">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="NickName" ColumnName="NickName" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+          <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
+          <ScalarProperty Name="job" ColumnName="job" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
