@@ -60,7 +60,7 @@ namespace ECBNewWeb.Controllers
         {
             MarketEntities db = new MarketEntities() ;
             List<BookResposibilityModel> list = (from b in db.BookResposibilities
-                                                 join e in db.UserLogins on b.EmployeeId equals e.id 
+                                                 join e in db.Employees on b.EmployeeId equals e.EmployeeId 
                                                  join h in db.HandleBookReceipts on b.HandleBookReceiptId equals h.BookReceiptId
                                                  join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
                                                  join Re in db.marketingrectypes on t.RecTypeId equals Re.id
@@ -68,6 +68,7 @@ namespace ECBNewWeb.Controllers
                                                  {
                                                      RespId = b.RespId,
                                                      FirstName = e.FirstName ,
+                                                     MiddleName = e.MiddleName,
                                                      lastName = e.LastName,
                                                      BookNo = t.BookNo,
                                                      ReceiptTypeName = Re.name,                  

@@ -35,6 +35,7 @@ namespace ECBNewWeb.Models
         public string FullName { get; set; }
         public string ReceiptTypeName { get; set; }
         public string FirstName { get; set; }
+        public string MiddleName { get; set; }
 
         public string lastName { get; set; }
 
