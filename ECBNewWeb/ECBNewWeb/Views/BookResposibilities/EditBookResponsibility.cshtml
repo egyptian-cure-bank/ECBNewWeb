@@ -23,6 +23,11 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.RespId)
+                    @Html.HiddenFor(x => x.ParentAvailable, new { @id = "parentAvailable" })
+                    @Html.HiddenFor(m => m.FirstReceiptNo)
+                    @Html.HiddenFor(m => m.LastReceiptNo)
+                    @Html.HiddenFor(m => m.BookTypeId)
+                    @Html.HiddenFor(m => m.RecTypeId,new {@id="recTypeId" })
                         <!--begin::Form-->
 
                     <div class="m-portlet__body">
@@ -31,19 +36,18 @@
                                 <label for="" class="">اسم الموظف</label>
                                 @*@Html.DropDownListFor(x => x.EmployeeId, Model.MyEmployee as List<SelectListItem>, new { @class = "form-control m-input", @id = "Employeelist" })
                                 @Html.DropDownListFor(x => x.EmployeeId, Model.MyEmployee as List<SelectListItem>, new { @class = "form-control m-input", @id = "centers" })*@
-                                @Html.DropDownListFor(x => x.EmployeeId, ViewBag.myEmployee as List<SelectListItem>, new { @class = "form-control  m-input", @id = "empid"  , @disabled = "disabled"  })
+                                @Html.TextBoxFor(x => x.FullName, new { @class = "form-control  m-input", @id = "empid"  , @disabled = "disabled"  })
                                 @Html.ValidationMessageFor(m => m.EmployeeId, "", new { @class = "text-danger" })
                                 @Html.HiddenFor(model => model.EmployeeId)
                             </div>
                             <div class="form-group m-form__group  col-md-3">
                                 <label for="" class="">نوع الدفتر</label>
-                                @Html.DropDownListFor(x => x.RecTypeId, ViewBag.myRecTypes as List<SelectListItem>, new { @class = "form-control m-input", @id = "recTypeList", @disabled = "disabled" })
+                                @Html.TextBoxFor(x => x.ReceiptTypeName, new { @class = "form-control m-input", @id = "recType", @disabled = "disabled" })
                                 @Html.HiddenFor(model => model.RecTypeId)
                             </div>
                             <div class="form-group m-form__group  col-md-3">
                                 <label for="" class="">رقم الدفتر</label>
-                                @*<select id="bookno" class="form-control m-input" name="BookReceiptId"></select>*@
-                                @Html.DropDownListFor(x => x.HandleBookReceiptId, ViewBag.myhandle as List<SelectListItem>, new { @class = "form-control m-input", @id = "bookno", @disabled = "disabled" })
+                                @Html.TextBoxFor(x => x.BookNo,new { @class = "form-control m-input", @id = "bookno", @disabled = "disabled" })
                                 @Html.HiddenFor(model => model.HandleBookReceiptId)
 
                             </div>
@@ -62,8 +66,7 @@
 
                             <div class="form-group m-form__group col-md-3">
                                 <label for="">رقم اول ايصال</label>
-                                @*<input type="text" class="form-control m-input" name="NextReceiptNo" placeholder="رقم اول ايصال" id="nextreceipt2" value="" disabled>*@
-                                @Html.TextBoxFor(m => m.NextReceiptNo, new { @class = "form-control m-input", @id = "nextreceipt2", placeholder = "رقم اول ايصال", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.NextReceiptNo, new { @class = "form-control m-input", @id = "nextReceiptNo", placeholder = "رقم اول ايصال", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(m => m.NextReceiptNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -76,24 +79,6 @@
                                         <input type="checkbox" name="DoneFlag" id="DoneFlag" checked disabled value="@Model.DoneFlag"> حالة الدفتر
                                         <span></span>
                                     </label>
-                                    if (Model.PartialBookIndicator != null)
-                                    {
-                                        <label class="m-checkbox m-checkbox--solid  m-checkbox--state-success">
-                                            <input type="checkbox" name="cb_otheremployee" id="openaddemp" value="true" checked > تسليم لموظف اخر
-                                           
-                                            <span></span>
-
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        <label class="m-checkbox m-checkbox--solid  m-checkbox--state-success">
-                                            <input type="checkbox" name="cb_otheremployee" id="openaddemp" value="true"  > تسليم لموظف اخر
-                                            <span></span>
-                                        </label>
-                                    }
-
-
                                 }
                                 else
                                 {
@@ -105,31 +90,7 @@
 
                             </div>
                         </div>
-                        <div class="row" id="div_Content" style="display:none">
-                            <div class="form-group m-form__group  col-md-3">
-                                <label for="" class="">اسم الموظف الاخر</label>
-                                @Html.DropDownListFor(x => x.EmployeeId2, ViewBag.Employee2 as List<SelectListItem>, new { @class = "form-control  m-input", @id = "ddl_otheremp" })
-                                @Html.ValidationMessageFor(m => m.EmployeeId2, "", new { @class = "text-danger" , @id = "spanother" })
-                                @Html.HiddenFor(model => model.RespId2)
-                            </div>
-
-                            <div class="form-group m-form__group col-md-3">
-                                <label for="">تاريخ التسليم</label>
-                                @Html.TextBoxFor(m => m.ReceiveDate2, "{0:yyyy-MM-dd}", new { @class = "form-control m-input", type = "date" , @id= "date_receive"   })
-                               @* <input type="date" class="form-control m-input" id="date_receive" name="ReceiveDate2" />*@
-                                @Html.ValidationMessageFor(m => m.ReceiveDate2, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group m-form__group col-md-3">
-                                <label for="">تاريخ التسوية</label>
-                                @Html.TextBoxFor(m => m.DeliveryDate2, "{0:yyyy-MM-dd}", new { @class = "form-control m-input", type = "date" , @id= "date_delivery" })
-                                @*<input type="date" class="form-control m-input" id="date_delivery" name="DeliveryDate2" />*@
-                                @Html.ValidationMessageFor(m => m.DeliveryDate2, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
-
-
+                    <br />
                     </div>
 
                             <div class="m-portlet__foot m-portlet__foot--fit">
@@ -170,97 +131,39 @@
 
 
     $(document).ready(function () {
-        
-
-        // get book number
-        $("#recTypeList").change(function () {
-            var typeid = $("#recTypeList").val();
-            $.ajax({
-                url: "/BookResposibilities/PopulateBooks/",
-                data: { bookid: typeid },
-                datatype: "json",
-                success:function(reponse)
-                {
-                    var txt = "";
-                    for (var item in reponse) {
-                        txt += "<option value=" + reponse[item].Value + " >" + reponse[item].Text + "</option>";
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetNextReceiptNoFromRecType", "BookResposibilities")',
+            dataType: 'json',
+            data: { RecTypeId: $("#recTypeId").val() },
+            success: function (response) {
+                var RecNo = $.parseJSON(response);
+                if (RecNo[0].NextReceiptNo != null && RecNo[0].NextReceiptNo != 0) {
+                    if ((RecNo[0].LastSavedRecNo == RecNo[0].NextReceiptNo && RecNo[0].LastSavedRecNo == RecNo[0].LastReceiptNo) || RecNo[0].LastCanceledReceiptNo == RecNo[0].LastReceiptNo) {
+                        $("#parentAvailable").val(false);
                     }
-
-                    $("#bookno").html(txt);
+                    else {
+                        $("#parentAvailable").val(true);
+                    }
                 }
-            })
-            $("#nextreceipt2").val('');
-        })
-
-        // Next Receipt number
-        $("#bookno").change(function () {
-            var typeid = $("#bookno").val();
-            $.ajax({
-                url: "/BookResposibilities/PopulateFirstReceiptNumber/",
-                data: { Handlebookreceiptid: typeid },
-                datatype: "json",
-                success: function (response) {
-                    var txt = "";
-                    $("#nextreceipt2").val(response);
-                    $("#nextreceipt2").text(response);
-                }
-
-
-            })
-        })
-
-
-        $('#openaddemp').on("change" , function () {
-            if ($(this).is(":checked")) {
-               
-                //var eid = $("#empid").val();
-                //$.ajax({
-                //    url: "/BookResposibilities/otheremp/",
-                //    data: { parentemp: eid },
-                //    datatype: "json",
-                //    success: function (reponse) {
-                        
-                //        var txt = "";
-                //        txt += "<option value= ''>  </option>";
-                //        for (var item in reponse) {
-
-                //            txt += "<option value=" + reponse[item].Value + " >" + reponse[item].Text + "</option>";
-                //        }
-
-                //        $("#ddl_otheremp").html(txt);
-                //    }
-                //})
-                $("#div_Content").css('display', 'flex');
-
+            },
+            error: function (response) {
+                console.log(response);
             }
-            else
-            {
-                $("#div_Content").css('display', 'none');
-            }
-            
         });
-
-        ///////////
         $("#save").click(function () {
             if ($("#openaddemp").is(':checked')) {
-                
+
                 var empdata = $("#ddl_otheremp").val();
-                var receivedate =  $("#date_receive").val();
-                if(empdata == "")
-                {
+                var receivedate = $("#date_receive").val();
+                if (empdata == "") {
                     $("#ddl_otheremp").attr("required", "true").attr("data-msg-required", "يجب اختيار الموظف");
                 }
-                else if (receivedate == "")
-                {
+                else if (receivedate == "") {
                     $("#date_receive").attr("required", "true").attr("data-msg-required", "يجب اختيار تاريخ التسليم");
                 }
 
             }
         });
-
-    })
+    });
 </script>
-
-
-@*<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
