@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="" class="">رقم طلب الصرف</label>
-                    @Html.DropDownListFor(m => m.RequestNo, Model.MyRequests, new {@size = 6, @class = "form-control", @id = "requests" })
+                    @Html.DropDownListFor(m => m.RequestId, Model.MyRequests, new {@size = 6, @class = "form-control", @id = "requests" })
                     @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
                 </div>
                 <div class="row">
@@ -56,7 +56,7 @@
             </div>
             <div class="m-portlet__body">
                 <div class="row">
-                    <table class="table table-striped table-bordered table-hover table-sm" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                    <table class="table table-striped  table-bordered table-hover table-sm" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
                         <thead>
                             <tr>
                                 <th>تسليم</th>
@@ -92,8 +92,8 @@
             <div class="row">
                 <div class="m-demo" data-code-preview="true" data-code-html="true">
                     <div class="m-demo__preview  m-demo__preview--btn">
-                        <button class="btn m-btn--pill btn-success  col-md-3 form-group" id="btnApprove">تسليم</button>
-                        <button class="btn btn-danger m-btn--pill col-md-3 form-group" type="reset">الغاء</button>
+                        <button class="btn btn-success m-btn--pill" id="btnApprove">تسليم</button>
+                        <button class="btn btn-danger  m-btn--pill" type="reset">الغاء</button>
                     </div>
                     <h4 class="text-danger">@TempData["ModelErrors"]</h4>
                 </div>
@@ -136,33 +136,39 @@
 </main>
 <script type="text/javascript">
     var table;
+    var table2;
     $(document).ready(function () {
         //table first open page
         $.noConflict();
-        var HandleBookReceiptId = 0;
+        var HandleBookReceiptIds = [];
+        var RecTypeIds = [];
         $("#btnApprove").click(function (e) {
             var ReqId = $("#requests option:selected").val();
             var selectedrows = table.rows({ selected: true }).data();
             var mytabledata = table2.rows().data();
-            selectedrows.each(function (rowValue, RowIndex) {
-                mytabledata.each(function (value, index) {
-                    //alert(rowValue['RecTypeId']);
-                    $.ajax(
-                      {
-                          type: "POST",
-                          url: "/FinanceBookRequests/ApproveBookRequest",
-                          data: {
-                              EmployeeId: $("#employeeId").val(),
-                              HandleBookReceiptId: value['BookReceiptId'],
-                              RequestId: ReqId,
-                              RecTypeId:rowValue['RecTypeId']
-                          },
-                          success: function () {
-                          }
-
-                      });
-                });
+            selectedrows.each(function (selectedRowValue, selectedRowIndex) {
+                RecTypeIds.push(selectedRowValue['RecTypeId']);
             });
+            mytabledata.each(function (value, index) {
+                HandleBookReceiptIds.push(value['BookReceiptId']);
+            });
+            $.ajax(
+              {
+                  type: "POST",
+                  url: "/FinanceBookRequests/ApproveBookRequest",
+                  data: {
+                      EmployeeId: $("#employeeId").val(),
+                      HandleBookReceiptId: HandleBookReceiptIds,
+                      RequestId: ReqId,
+                      RecTypeId: RecTypeIds
+                  },
+                  success: function () {
+
+                  },
+                  error: function (req,err) {
+                      console.log(err);
+                  }
+              });
         });
         table = $('#m_table_1').DataTable({
             "scrollY": 200,
@@ -180,7 +186,7 @@
                 "emptyTable": "لاتوجد بيانات"
             }
         });
-        $('#m_table_2').DataTable({
+        table2 = $('#m_table_2').DataTable({
             "scrollY": 200,
             "scrollX": true,
             "searching": false,
@@ -195,6 +201,8 @@
     });
     $("#requests").change(function () {
         //$.noConflict();
+        Amounts = [];
+        BookTypeIds = [];
         var ReqId = $("#requests option:selected").val();
         $.getJSON("/FinanceBookRequests/GetRequestDetails/", { RequestId: ReqId }, function (data) {
             data = $.map(data, function (item, a) {
@@ -206,7 +214,6 @@
             $("#siteName").val(data[0].SiteName);
         });
         $("#m_table_1").dataTable().fnDestroy();
-
         table = $('#m_table_1').DataTable({
 
             ////
@@ -243,6 +250,8 @@
 
             /////////
         });
+        //for clearing table2 after requests changed
+        PopulateTable2(null, 1);
     });
     var BookTypeIds = [];
     var Amounts = [];

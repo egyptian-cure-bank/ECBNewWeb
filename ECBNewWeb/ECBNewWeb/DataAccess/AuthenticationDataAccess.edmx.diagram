@@ -5,27 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="43fa71dddff543beb49962a37478c28d" Name="Diagram1" ZoomLevel="62">
-        <EntityTypeShape EntityType="AuthenticationModel.AccessLevel" Width="1.5" PointX="6.375" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.ActionMethod" Width="1.5" PointX="6.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.Grant" Width="1.5" PointX="3.25" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.ParentFacility" Width="1.5" PointX="4.375" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.ParentFacilityRole" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.Role" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.SubFacility" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.SubFacilityRole" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuthenticationModel.UserRole" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
-        <AssociationConnector Association="AuthenticationModel.FK__Grants__AccessLe__265233F6" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK__Grants__ActionMe__6BF08837" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK__Facilitie__Paren__1650D657" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK__FacilityR__Paren__12804573" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK__FacilityR__RoleI__137469AC" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK__SubFacili__RoleI__1EE61C58" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Roles" ManuallyRouted="false" />
-        <AssociationConnector Association="AuthenticationModel.FK__SubFacili__SubFa__1DF1F81F" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AuthenticationModel.login" Width="1.5" PointX="0.75" PointY="11.375" />
+        <EntityTypeShape EntityType="AuthenticationModel.login" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="AuthenticationModel.AccessLevel" Width="1.5" PointX="3.5" PointY="14.875" />
+        <EntityTypeShape EntityType="AuthenticationModel.ActionMethod" Width="1.5" PointX="3.5" PointY="17.25" />
+        <EntityTypeShape EntityType="AuthenticationModel.Grant" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AuthenticationModel.ParentFacility" Width="1.5" PointX="3.375" PointY="3.5" />
+        <EntityTypeShape EntityType="AuthenticationModel.ParentFacilityRole" Width="1.5" PointX="5.625" PointY="7.625" />
+        <EntityTypeShape EntityType="AuthenticationModel.Role" Width="1.5" PointX="3.375" PointY="7.375" />
+        <EntityTypeShape EntityType="AuthenticationModel.SubFacility" Width="1.5" PointX="3.375" PointY="11.375" />
+        <EntityTypeShape EntityType="AuthenticationModel.SubFacilityRole" Width="1.5" PointX="5.625" PointY="10.625" />
+        <EntityTypeShape EntityType="AuthenticationModel.UserRole" Width="1.5" PointX="5.625" PointY="4.125" />
+        <AssociationConnector Association="AuthenticationModel.FK__Grants__AccessLe__6BAEFA67" />
+        <AssociationConnector Association="AuthenticationModel.FK__Grants__ActionMe__6CA31EA0" />
         <AssociationConnector Association="AuthenticationModel.FK__Grants__UserId__6D9742D9" />
         <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Users2" />
-      </Diagram>
+        <AssociationConnector Association="AuthenticationModel.FK__ParentFac__Paren__6E8B6712" />
+        <AssociationConnector Association="AuthenticationModel.FK__SubFacili__Paren__7073AF84" />
+        <AssociationConnector Association="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B" />
+        <AssociationConnector Association="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" />
+        <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Roles" />
+        <AssociationConnector Association="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

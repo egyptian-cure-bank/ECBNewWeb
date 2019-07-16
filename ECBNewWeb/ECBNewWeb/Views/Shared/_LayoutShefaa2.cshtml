@@ -213,6 +213,14 @@
                                                         </span>
                                                     </a>
                                                 </li>
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "PrintRequests" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("PrintRequests", "PrintBookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            طباعة طلبات الصرف
+                                                        </span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
@@ -303,6 +311,14 @@
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
                                                         <span class="m-menu__link-text">
                                                             طلبات الصرف
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "PrintRequests" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("PrintRequests", "PrintBookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            طباعة طلبات الصرف
                                                         </span>
                                                     </a>
                                                 </li>
