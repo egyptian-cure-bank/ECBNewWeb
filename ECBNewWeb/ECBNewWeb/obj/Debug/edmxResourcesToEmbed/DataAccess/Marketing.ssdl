@@ -1,5 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="MarketingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ApproveReceipt">
+    <Key>
+      <PropertyRef Name="approveReceiptId" />
+    </Key>
+    <Property Name="approveReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="marketId" Type="int" />
+    <Property Name="approveDate" Type="datetime" />
+    <Property Name="depositType" Type="int" />
+  </EntityType>
+  <EntityType Name="bankDeposit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+    <Property Name="date" Type="date" />
+    <Property Name="ApproveReceiptFK" Type="int" />
+  </EntityType>
+  <EntityType Name="Banks">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="BookRequestDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestNo" Type="bigint" />
+    <Property Name="ReceiptTypeId" Type="int" />
+    <Property Name="Amount" Type="int" />
+    <Property Name="SupervisorApproval" Type="int" />
+    <Property Name="FinanceApproval" Type="int" />
+    <Property Name="EmployeeReceive" Type="int" />
+  </EntityType>
+  <EntityType Name="BookRequests">
+    <Key>
+      <PropertyRef Name="RequestNo" />
+    </Key>
+    <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestNo" Type="bigint" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="false" />
+    <Property Name="RequestDate" Type="datetime" />
+    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="Active" Type="int" />
+  </EntityType>
   <EntityType Name="BookResposibilities">
     <Key>
       <PropertyRef Name="RespId" />
@@ -35,6 +83,15 @@
     <Property Name="ReceiptNo" Type="int" />
     <Property Name="ActualDate" Type="datetime" StoreGeneratedPattern="Computed" />
     <Property Name="Canceled" Type="int" />
+  </EntityType>
+  <EntityType Name="cashDeposit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="receiptVoucher" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="date" />
+    <Property Name="ApproveReceiptFK" Type="int" />
   </EntityType>
   <EntityType Name="centers">
     <Key>
@@ -160,8 +217,9 @@
     <Property Name="MiddleName" Type="varchar" MaxLength="50" />
     <Property Name="LastName" Type="varchar" MaxLength="50" />
     <Property Name="DepartmentId" Type="int" />
+    <Property Name="job" Type="nvarchar" MaxLength="50" />
     <Property Name="ParentEmployeeId" Type="int" />
-    <Property Name="NationalId" Type="varchar" MaxLength="100" />
+    <Property Name="NationalId" Type="float" />
     <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
     <Property Name="EmailAddress" Type="varchar" MaxLength="100" />
     <Property Name="NickName" Type="varchar" MaxLength="50" />
@@ -183,6 +241,7 @@
     <Property Name="BookTypeId" Type="int" />
     <Property Name="FirstReceiptNo" Type="int" />
     <Property Name="LastReceiptNo" Type="int" />
+    <Property Name="ParentBookReceiptId" Type="int" />
     <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
     <Property Name="Active" Type="int" />
   </EntityType>
@@ -194,8 +253,6 @@
     <Property Name="Name" Type="nvarchar" MaxLength="100" />
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="login">
     <Key>
       <PropertyRef Name="id" />
@@ -335,9 +392,15 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="MarketingModelStoreContainer">
+    <EntitySet Name="ApproveReceipt" EntityType="Self.ApproveReceipt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="bankDeposit" EntityType="Self.bankDeposit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Banks" EntityType="Self.Banks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookRequestDetails" EntityType="Self.BookRequestDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookRequests" EntityType="Self.BookRequests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookResposibilities" EntityType="Self.BookResposibilities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookTypes" EntityType="Self.BookTypes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cashDeposit" EntityType="Self.cashDeposit" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
@@ -352,6 +415,7 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
     <EntitySet Name="governments" EntityType="Self.governments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HandleBookReceipts" EntityType="Self.HandleBookReceipts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KnowingMethod" EntityType="Self.KnowingMethod" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="market" EntityType="Self.market" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarketingLicenses" EntityType="Self.MarketingLicenses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="marketingrectype" EntityType="Self.marketingrectype" Schema="dbo" store:Type="Tables" />
@@ -359,30 +423,6 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
     <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TypeContact" EntityType="Self.TypeContact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserSites" EntityType="Self.UserSites" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="login" EntityType="Self.login" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-[login].[id] AS [id], 
-[login].[username] AS [username], 
-[login].[password] AS [password], 
-[login].[employee_id] AS [employee_id], 
-[login].[volunteer_id] AS [volunteer_id], 
-[login].[passChanged] AS [passChanged], 
-[login].[department] AS [department], 
-[login].[FirstName] AS [FirstName], 
-[login].[MiddleName] AS [MiddleName], 
-[login].[LastName] AS [LastName], 
-[login].[UserComments] AS [UserComments], 
-[login].[CompanyID] AS [CompanyID], 
-[login].[LastLoginTime] AS [LastLoginTime], 
-[login].[IsResetPasswordNeeded] AS [IsResetPasswordNeeded], 
-[login].[PasswordChangedOn] AS [PasswordChangedOn], 
-[login].[SecurityQuestionID] AS [SecurityQuestionID], 
-[login].[SecurityAnswer] AS [SecurityAnswer], 
-[login].[userRole] AS [userRole], 
-[login].[importance] AS [importance], 
-[login].[active] AS [active]
-FROM [dbo].[login] AS [login]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_centers_governments" Association="Self.FK_centers_governments">
       <End Role="governments" EntitySet="governments" />
       <End Role="centers" EntitySet="centers" />
