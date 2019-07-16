@@ -18,7 +18,7 @@ namespace ECBNewWeb.DataAccess
         public int UserID { get; set; }
         public int RoleID { get; set; }
     
-        public virtual Role Role { get; set; }
         public virtual login login { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

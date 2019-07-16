@@ -79,17 +79,6 @@ namespace ECBNewWeb.Controllers
             DataTable dt = new DataTable();
             SqlDataAdapter adapt = null;
             string JsonString = null;
-            //string Cmd = "Select BookNo,HandleBookReceipts.BookReceiptId,BookTypes.RecTypeId,marketingrectype.[name],HandleBookReceipts.FirstReceiptNo,HandleBookReceipts.LastReceiptNo " +
-            //            "FROM BookTypes " +
-            //            "Inner Join HandleBookReceipts " +
-            //            "On BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-            //            "Inner Join marketingrectype "+
-            //            "On BookTypes.RecTypeId = marketingrectype.id "+
-            //            "Where Not Exists(Select 1 From BookResposibilities Where dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId) " +
-            //            "And BookTypes.RecTypeId = @BookTypeId " +
-            //            "Order By marketingrectype.[name] " +
-            //            "OFFSET 0 Rows " +
-            //            "Fetch First @Amount Rows only";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
                 Conn.Open();
@@ -107,7 +96,7 @@ namespace ECBNewWeb.Controllers
                             "On BookTypes.RecTypeId = marketingrectype.id " +
                             "Where Not Exists(Select 1 From BookResposibilities Where dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId) " +
                             "And BookTypes.RecTypeId = " + RecTypeId[i] +
-                            " Order By marketingrectype.[name] " +
+                            " Order By BookTypes.BookNo " +
                             "OFFSET 0 Rows " +
                             "Fetch First " + Amount[i] + " Rows only";
                             //Command.Parameters["@BookTypeId"].Value = BookTypeId[i];
@@ -125,38 +114,45 @@ namespace ECBNewWeb.Controllers
 
         }
         [HttpPost]
-        public ActionResult ApproveBookRequest(BookRequestModel Model)
+        public ActionResult ApproveBookRequest(int EmployeeId,int[] HandleBookReceiptId, int RequestId,int[] RecTypeId)
         {
             TempData["Msg"] = "";
             int InsertedRows = 0;
             int UpdatedRows = 0;
-            string Cmd = "Insert Into BookResposibilities "+
-                        "(EmployeeId, HandleBookReceiptId, ReceiveDate, DoneFlag)Values(@EmployeeId, @HandleBookReceiptId, @ReceiveDate, 0)";
-
-            string UpdateCmd = "Update BookRequestDetails Set FinanceApproval = 1 Where RequestNo = (Select RequestNo From BookRequests " +
-                                "Where RequestId = @RequestId) " +
-                                "And ReceiptTypeId = @RecTypeId";
-            if (Model.HandleBookReceiptId != 0)
+            using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
-                using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+                Conn.Open();
+                using (SqlCommand Com = new SqlCommand("", Conn))
                 {
-                    Conn.Open();
-                    using (SqlCommand Com = new SqlCommand(Cmd, Conn))
+                    if (HandleBookReceiptId != null)
                     {
-                        Com.Parameters.AddWithValue("@EmployeeId", Model.EmployeeId);
-                        Com.Parameters.AddWithValue("@HandleBookReceiptId", Model.HandleBookReceiptId);
-                        Com.Parameters.AddWithValue("@ReceiveDate", DateTime.Now.Date);
-                        InsertedRows += Com.ExecuteNonQuery();
+                        for (int i = 0; i < HandleBookReceiptId.Length; i++)
+                        {
+                            if (HandleBookReceiptId[i] != 0)
+                            {
+                                Com.CommandText = "Insert Into BookResposibilities " +
+                                                    "(EmployeeId, HandleBookReceiptId, ReceiveDate, DoneFlag)Values(" + EmployeeId + "," + HandleBookReceiptId[i] + ",'" + DateTime.Now.Date + "', 0)";
+
+                                InsertedRows += Com.ExecuteNonQuery();
+                            }
+                        }
                     }
-                    using (SqlCommand ComUpdate = new SqlCommand(UpdateCmd, Conn))
+                }
+                using (SqlCommand ComUpdate = new SqlCommand("", Conn))
+                {
+                    if (RecTypeId != null)
                     {
-                        ComUpdate.Parameters.AddWithValue("@RequestId", Model.RequestId);
-                        ComUpdate.Parameters.AddWithValue("@RecTypeId", Model.RecTypeId);
-                        UpdatedRows += ComUpdate.ExecuteNonQuery();
+                        for (int i = 0; i < RecTypeId.Length; i++)
+                        {
+                            ComUpdate.CommandText = "Update BookRequestDetails Set FinanceApproval = 1 Where RequestNo = (Select RequestNo From BookRequests " +
+                                    "Where RequestId = " + RequestId + ") " +
+                                    "And ReceiptTypeId = " + RecTypeId[i];
+                            UpdatedRows += ComUpdate.ExecuteNonQuery();
+                        }
                     }
                 }
             }
-            if (InsertedRows > 0 || UpdatedRows > 0)
+            if (InsertedRows >= 0 || UpdatedRows >= 0)
             {
                 TempData["Msg"] = "تم الحفظ بنجاح";
             }
@@ -164,7 +160,7 @@ namespace ECBNewWeb.Controllers
             {
                 TempData["Msg"] = "لم يتم الحفظ";
             }
-            return RedirectToAction("BookRequests", TempData["Msg"]);
+            return RedirectToAction("BookRequests");
         }
         private void MarkRequestAsApproved(long RequestNo, int RecTypeId)
         {

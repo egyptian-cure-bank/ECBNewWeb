@@ -16,8 +16,8 @@ namespace ECBNewWeb.DataAccess
     {
         public ParentFacility()
         {
-            this.SubFacilities = new HashSet<SubFacility>();
             this.ParentFacilityRoles = new HashSet<ParentFacilityRole>();
+            this.SubFacilities = new HashSet<SubFacility>();
         }
     
         public int ParentId { get; set; }
@@ -25,7 +25,7 @@ namespace ECBNewWeb.DataAccess
         public string ParentFacilityEnglishName { get; set; }
         public string ClassNames { get; set; }
     
-        public virtual ICollection<SubFacility> SubFacilities { get; set; }
         public virtual ICollection<ParentFacilityRole> ParentFacilityRoles { get; set; }
+        public virtual ICollection<SubFacility> SubFacilities { get; set; }
     }
 }
