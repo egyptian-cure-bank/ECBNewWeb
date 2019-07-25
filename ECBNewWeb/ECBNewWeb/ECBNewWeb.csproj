@@ -162,6 +162,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApproveReceiptController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BookRequestsController.cs" />
     <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DonationController.cs" />
@@ -365,7 +366,9 @@
     <Compile Include="Models\bankDepositModel.cs" />
     <Compile Include="Models\BanksModel.cs" />
     <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookRequestDetailModel.cs" />
     <Compile Include="Models\BookRequestModel.cs" />
+    <Compile Include="Models\BookRequestsModel.cs" />
     <Compile Include="Models\BookResposibilityModel.cs" />
     <Compile Include="Models\cashDepositModel.cs" />
     <Compile Include="Models\Center.cs" />
@@ -378,6 +381,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MarketGroupBriefModel.cs" />
     <Compile Include="Models\MarketingLicensesModel.cs" />
+    <Compile Include="Models\marketingrectypeModel.cs" />
     <Compile Include="Models\MarketSitesModel.cs" />
     <Compile Include="Models\ReceiptTypeModel.cs" />
     <Compile Include="Models\UserSiteModel.cs" />
@@ -927,6 +931,10 @@
     <Content Include="Views\Employees\EditEmployee.cshtml" />
     <Content Include="Views\FinanceBookRequests\BookRequests.cshtml" />
     <Content Include="Views\ApproveReceipt\addApproveReceipt.cshtml" />
+    <Content Include="Views\BookRequests\AddBookRequest.cshtml" />
+    <Content Include="Views\BookRequests\EditBookrequest.cshtml" />
+    <Content Include="Views\BookRequests\DeleteBookRequest.cshtml" />
+    <Content Include="Views\BookRequests\AddNewTypeBookRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

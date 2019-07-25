@@ -27,33 +27,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="LogIns">
-      <EntityTypeMapping TypeName="AuthenticationModel.LogIn">
-        <MappingFragment StoreEntitySet="LogIn">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
-          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
-          <ScalarProperty Name="department" ColumnName="department" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
-          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
-          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
-          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
-          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-          <ScalarProperty Name="userRole" ColumnName="userRole" />
-          <ScalarProperty Name="importance" ColumnName="importance" />
-          <ScalarProperty Name="active" ColumnName="active" />
-          <ScalarProperty Name="title" ColumnName="title" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ParentFacilities">
       <EntityTypeMapping TypeName="AuthenticationModel.ParentFacility">
         <MappingFragment StoreEntitySet="ParentFacilities">
@@ -111,6 +84,33 @@
           <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogIns">
+      <EntityTypeMapping TypeName="AuthenticationModel.LogIn">
+        <MappingFragment StoreEntitySet="LogIn">
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="importance" ColumnName="importance" />
+          <ScalarProperty Name="userRole" ColumnName="userRole" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

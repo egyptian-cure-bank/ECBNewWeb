@@ -1,0 +1,108 @@
+﻿@model ECBNewWeb.Models.BookRequestDetailModel
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+                @*<div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    تعديل طلب الدفتر
+                                </h3>
+                            </div>
+                        </div>
+                    </div>*@
+
+                @using (Html.BeginForm("AddNewTypeBookRequest", "BookRequests", FormMethod.Post , htmlAttributes: new { @id = "myForm" }))
+                {
+                    @Html.HiddenFor(x => x.RequestNo)
+
+                        <!--begin::Form-->
+                    @*@Html.HiddenFor(d => d.RequestId)*@
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">نوع الايصال</label>
+                                @Html.DropDownListFor(x => x.ReceiptTypeId, ViewBag.rectypelist as List<SelectListItem>, new { @class = "form-control m-input", @id = "rectypeNew" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">العدد المطلوب </label>
+                                @*@Html.TextBoxFor(m => m.Amount, new { @class = "form-control m-input", @type = "number", @placeholder = "عدد الدفاتر المطلوبة", @id = "amount" })*@
+                                <input type="number" class="form-control m-input" placeholder="عدد الدفاتر" name="Amount" required data-msg-required="يجب ادخال عدد الدفاتر" min="1" max="" data-msg-min="اقل عدد 1" data-msg-max="" id="amountNew">
+                                <span class="m-form__help" id="spanhelp"></span>
+                                <br />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Amount" data-valmsg-replace="true"></span>
+                                @*@Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })*@
+                                @*<select id="govern" class="form-control m-input"></select>*@
+                            </div>
+                        </div>
+                        <br />
+                        <hr />
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    
+    $('#rectypeNew').change(function () {
+        var typeid = $('#rectypeNew option:selected').val();
+        var requestid = @Model.RequestNo;
+        $.ajax({
+            url: "/BookRequests/BookCountAvailable/",
+            data: { requestNo: requestid },
+            datatype: "json",
+            success: function (reponse) {
+                debugger;
+                var listBook ;
+                var maxnumber = 0;
+                for (var i in reponse) {
+                    listBook =  reponse[i].id;
+                    if(listBook == typeid)
+                    {
+                        maxnumber = reponse[i].recTypeCount
+                    }
+                }
+                
+                $('#amountNew').attr({
+                    'max' : maxnumber ,
+                    'data-msg-max' : 'اقصى عدد من الدفاتر ' + maxnumber
+                });
+                $('#spanhelp').html('اقصى عدد من الدفاتر ' + maxnumber);
+
+                var test = $('#amountNew').attr('max'); 
+            }
+
+        })
+
+
+    });
+
+    
+</script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

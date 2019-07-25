@@ -1,5 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="MarketingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ApproveReceipt">
+    <Key>
+      <PropertyRef Name="approveReceiptId" />
+    </Key>
+    <Property Name="approveReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="marketId" Type="int" />
+    <Property Name="approveDate" Type="datetime" />
+    <Property Name="depositType" Type="int" />
+  </EntityType>
+  <EntityType Name="bankDeposit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+    <Property Name="date" Type="date" />
+    <Property Name="ApproveReceiptFK" Type="int" />
+  </EntityType>
+  <EntityType Name="Banks">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="BookRequestDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestNo" Type="bigint" />
+    <Property Name="ReceiptTypeId" Type="int" />
+    <Property Name="Amount" Type="int" />
+    <Property Name="SupervisorApproval" Type="int" />
+    <Property Name="FinanceApproval" Type="int" />
+    <Property Name="EmployeeReceive" Type="int" />
+  </EntityType>
+  <EntityType Name="BookRequests">
+    <Key>
+      <PropertyRef Name="RequestNo" />
+    </Key>
+    <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestNo" Type="bigint" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="false" />
+    <Property Name="RequestDate" Type="datetime" />
+    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="Active" Type="int" />
+  </EntityType>
   <EntityType Name="BookResposibilities">
     <Key>
       <PropertyRef Name="RespId" />
@@ -35,6 +83,15 @@
     <Property Name="ReceiptNo" Type="int" />
     <Property Name="ActualDate" Type="datetime" StoreGeneratedPattern="Computed" />
     <Property Name="Canceled" Type="int" />
+  </EntityType>
+  <EntityType Name="cashDeposit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="receiptVoucher" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="date" />
+    <Property Name="ApproveReceiptFK" Type="int" />
   </EntityType>
   <EntityType Name="centers">
     <Key>
@@ -161,12 +218,13 @@
     <Property Name="LastName" Type="varchar" MaxLength="50" />
     <Property Name="DepartmentId" Type="int" />
     <Property Name="ParentEmployeeId" Type="int" />
-    <Property Name="NationalId" Type="varchar" MaxLength="100" />
+    <Property Name="NationalId" Type="float" />
     <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
     <Property Name="EmailAddress" Type="varchar" MaxLength="100" />
     <Property Name="NickName" Type="varchar" MaxLength="50" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="Active" Type="int" />
+    <Property Name="job" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="governments">
     <Key>
@@ -183,7 +241,7 @@
     <Property Name="BookTypeId" Type="int" />
     <Property Name="FirstReceiptNo" Type="int" />
     <Property Name="LastReceiptNo" Type="int" />
-    <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
+    <Property Name="CreatedDate" Type="datetime" />
     <Property Name="Active" Type="int" />
   </EntityType>
   <EntityType Name="KnowingMethod">
@@ -195,7 +253,7 @@
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'bankhel_marketing.dbo.login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="login">
     <Key>
       <PropertyRef Name="id" />
@@ -335,9 +393,15 @@ warning 6002: The table/view 'ECB_Marketing.dbo.login' does not have a primary k
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="MarketingModelStoreContainer">
+    <EntitySet Name="ApproveReceipt" EntityType="Self.ApproveReceipt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="bankDeposit" EntityType="Self.bankDeposit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Banks" EntityType="Self.Banks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookRequestDetails" EntityType="Self.BookRequestDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookRequests" EntityType="Self.BookRequests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookResposibilities" EntityType="Self.BookResposibilities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookTypes" EntityType="Self.BookTypes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CanceledReceipts" EntityType="Self.CanceledReceipts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cashDeposit" EntityType="Self.cashDeposit" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="centers" EntityType="Self.centers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChequeBanks" EntityType="Self.ChequeBanks" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChequeInformation" EntityType="Self.ChequeInformation" Schema="dbo" store:Type="Tables" />
