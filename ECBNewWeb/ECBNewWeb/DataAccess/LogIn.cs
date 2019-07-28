@@ -12,9 +12,9 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class LogIn
+    public partial class login
     {
-        public LogIn()
+        public login()
         {
             this.Grants = new HashSet<Grant>();
             this.UserRoles = new HashSet<UserRole>();
@@ -25,7 +25,7 @@ namespace ECBNewWeb.DataAccess
         public string password { get; set; }
         public Nullable<int> employee_id { get; set; }
         public string volunteer_id { get; set; }
-        public Nullable<int> passChanged { get; set; }
+        public Nullable<short> passChanged { get; set; }
         public Nullable<int> department { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -33,14 +33,13 @@ namespace ECBNewWeb.DataAccess
         public string UserComments { get; set; }
         public Nullable<int> CompanyID { get; set; }
         public Nullable<System.DateTime> LastLoginTime { get; set; }
-        public Nullable<bool> IsResetPasswordNeeded { get; set; }
+        public Nullable<short> IsResetPasswordNeeded { get; set; }
         public Nullable<System.DateTime> PasswordChangedOn { get; set; }
-        public Nullable<int> SecurityQuestionID { get; set; }
+        public string SecurityQuestionID { get; set; }
         public string SecurityAnswer { get; set; }
         public Nullable<int> userRole { get; set; }
         public Nullable<int> importance { get; set; }
-        public Nullable<bool> active { get; set; }
-        public string title { get; set; }
+        public Nullable<short> active { get; set; }
     
         public virtual ICollection<Grant> Grants { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }

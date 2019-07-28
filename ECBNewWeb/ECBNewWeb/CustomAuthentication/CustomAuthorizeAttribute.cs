@@ -30,7 +30,7 @@ namespace ECBNewWeb.CustomAuthentication
             string CurrentController = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
             string UserNames = string.Join("", httpContext.User.Identity.Name.ToString());
             AuthenticationEntities db = new AuthenticationEntities();
-            var UserId = db.LogIns.Where(u => u.username == UserNames).Select(u => u.id).FirstOrDefault();
+            var UserId = db.logins.Where(u => u.username == UserNames).Select(u => u.id).FirstOrDefault();
             var AllAccessLevels = (from acc in db.AccessLevels
                                    join g in db.Grants on acc.Id equals g.AccessLevel
                                    join f in db.ActionMethods on g.ActionMethodId equals f.Id

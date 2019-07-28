@@ -34,7 +34,7 @@
         <AssociationConnector Association="MarketingModel.FK_doners_centers" />
         <EntityTypeShape EntityType="MarketingModel.BookRequestDetail" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="MarketingModel.BookRequest" Width="1.5" PointX="2.75" PointY="5.75" />
-        <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="6.875" PointY="6.75" />
         <EntityTypeShape EntityType="MarketingModel.Employee" Width="1.5" PointX="0.75" PointY="16.75" />
         <EntityTypeShape EntityType="MarketingModel.HandleBookReceipt" Width="1.5" PointX="7.375" PointY="6.75" />
         <EntityTypeShape EntityType="MarketingModel.market" Width="1.5" PointX="10" PointY="1" />

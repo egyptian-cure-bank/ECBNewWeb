@@ -1,96 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="AuthenticationModelStoreContainer" CdmEntityContainer="AuthenticationEntities">
-    <EntitySetMapping Name="AccessLevels">
-      <EntityTypeMapping TypeName="AuthenticationModel.AccessLevel">
-        <MappingFragment StoreEntitySet="AccessLevels">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AccessLevel1" ColumnName="AccessLevel" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ActionMethods">
-      <EntityTypeMapping TypeName="AuthenticationModel.ActionMethod">
-        <MappingFragment StoreEntitySet="ActionMethods">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ActionMethodName" ColumnName="ActionMethodName" />
-          <ScalarProperty Name="Controller" ColumnName="Controller" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Grants">
-      <EntityTypeMapping TypeName="AuthenticationModel.Grant">
-        <MappingFragment StoreEntitySet="Grants">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ActionMethodId" ColumnName="ActionMethodId" />
-          <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParentFacilities">
-      <EntityTypeMapping TypeName="AuthenticationModel.ParentFacility">
-        <MappingFragment StoreEntitySet="ParentFacilities">
-          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-          <ScalarProperty Name="ParentFacilityArabicName" ColumnName="ParentFacilityArabicName" />
-          <ScalarProperty Name="ParentFacilityEnglishName" ColumnName="ParentFacilityEnglishName" />
-          <ScalarProperty Name="ClassNames" ColumnName="ClassNames" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParentFacilityRoles">
-      <EntityTypeMapping TypeName="AuthenticationModel.ParentFacilityRole">
-        <MappingFragment StoreEntitySet="ParentFacilityRoles">
-          <ScalarProperty Name="FacilityRoleId" ColumnName="FacilityRoleId" />
-          <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="AuthenticationModel.Role">
-        <MappingFragment StoreEntitySet="Roles">
-          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-          <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
-          <ScalarProperty Name="Comments" ColumnName="Comments" />
-          <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SubFacilities">
-      <EntityTypeMapping TypeName="AuthenticationModel.SubFacility">
-        <MappingFragment StoreEntitySet="SubFacilities">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="FacilityEnglishName" ColumnName="FacilityEnglishName" />
-          <ScalarProperty Name="FacilityArabicName" ColumnName="FacilityArabicName" />
-          <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
-          <ScalarProperty Name="URL" ColumnName="URL" />
-          <ScalarProperty Name="CssClasses" ColumnName="CssClasses" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SubFacilityRoles">
-      <EntityTypeMapping TypeName="AuthenticationModel.SubFacilityRole">
-        <MappingFragment StoreEntitySet="SubFacilityRoles">
-          <ScalarProperty Name="SubFacilityRoleId" ColumnName="SubFacilityRoleId" />
-          <ScalarProperty Name="SubFacilityId" ColumnName="SubFacilityId" />
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="UserRoles">
-      <EntityTypeMapping TypeName="AuthenticationModel.UserRole">
-        <MappingFragment StoreEntitySet="UserRoles">
-          <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LogIns">
-      <EntityTypeMapping TypeName="AuthenticationModel.LogIn">
-        <MappingFragment StoreEntitySet="LogIn">
-          <ScalarProperty Name="title" ColumnName="title" />
+    <EntitySetMapping Name="logins">
+      <EntityTypeMapping TypeName="AuthenticationModel.login">
+        <MappingFragment StoreEntitySet="login">
           <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="importance" ColumnName="importance" />
           <ScalarProperty Name="userRole" ColumnName="userRole" />
@@ -111,6 +24,92 @@
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccessLevels">
+      <EntityTypeMapping TypeName="AuthenticationModel.AccessLevel">
+        <MappingFragment StoreEntitySet="AccessLevels">
+          <ScalarProperty Name="AccessLevel1" ColumnName="AccessLevel" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActionMethods">
+      <EntityTypeMapping TypeName="AuthenticationModel.ActionMethod">
+        <MappingFragment StoreEntitySet="ActionMethods">
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="ActionMethodName" ColumnName="ActionMethodName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Grants">
+      <EntityTypeMapping TypeName="AuthenticationModel.Grant">
+        <MappingFragment StoreEntitySet="Grants">
+          <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+          <ScalarProperty Name="ActionMethodId" ColumnName="ActionMethodId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ParentFacilities">
+      <EntityTypeMapping TypeName="AuthenticationModel.ParentFacility">
+        <MappingFragment StoreEntitySet="ParentFacilities">
+          <ScalarProperty Name="ClassNames" ColumnName="ClassNames" />
+          <ScalarProperty Name="ParentFacilityEnglishName" ColumnName="ParentFacilityEnglishName" />
+          <ScalarProperty Name="ParentFacilityArabicName" ColumnName="ParentFacilityArabicName" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ParentFacilityRoles">
+      <EntityTypeMapping TypeName="AuthenticationModel.ParentFacilityRole">
+        <MappingFragment StoreEntitySet="ParentFacilityRoles">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
+          <ScalarProperty Name="FacilityRoleId" ColumnName="FacilityRoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="AuthenticationModel.Role">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubFacilities">
+      <EntityTypeMapping TypeName="AuthenticationModel.SubFacility">
+        <MappingFragment StoreEntitySet="SubFacilities">
+          <ScalarProperty Name="CssClasses" ColumnName="CssClasses" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
+          <ScalarProperty Name="FacilityArabicName" ColumnName="FacilityArabicName" />
+          <ScalarProperty Name="FacilityEnglishName" ColumnName="FacilityEnglishName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubFacilityRoles">
+      <EntityTypeMapping TypeName="AuthenticationModel.SubFacilityRole">
+        <MappingFragment StoreEntitySet="SubFacilityRoles">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="SubFacilityId" ColumnName="SubFacilityId" />
+          <ScalarProperty Name="SubFacilityRoleId" ColumnName="SubFacilityRoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRoles">
+      <EntityTypeMapping TypeName="AuthenticationModel.UserRole">
+        <MappingFragment StoreEntitySet="UserRoles">
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -324,3 +324,47 @@
 
 
 </script>
+
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+        </script>
+    }
+    else if (TempData["Msg"].ToString() == "تم إلغاء الإيصال بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم إلغاء الإيصال بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+}

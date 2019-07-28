@@ -132,11 +132,11 @@
                         //appendTo: "#myModalEdit",
                         success: function (data) {
                             //$("#donors").html(''),
-                            
+
                             response($.map(data, function (item) {
-                                debugger;
+                                //debugger;
                                 return {
-                                    
+
                                     label: item.FullName,
                                     value: item.EmployeeId
                                 }
@@ -163,7 +163,7 @@
 
 
 
-    
+
 
     /////
     // fill job by department
@@ -186,4 +186,3 @@
     });
 
 </script>
-

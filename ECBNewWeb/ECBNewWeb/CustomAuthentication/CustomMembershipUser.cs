@@ -24,7 +24,7 @@ namespace ECBNewWeb.CustomAuthentication
 
         #endregion
 
-        public CustomMembershipUser(LogIn user,Employee employee) : base("CustomMembership", user.username, user.id, string.Empty, string.Empty, string.Empty, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now)
+        public CustomMembershipUser(login user,Employee employee) : base("CustomMembership", user.username, user.id, string.Empty, string.Empty, string.Empty, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now)
         {
             UserId = user.id;
             UsrName = user.username;

@@ -28,8 +28,33 @@
     <Property Name="DonationFreqId" Type="Int32" />
     <NavigationProperty Name="center" Relationship="MarketingModel.FK_doners_centers" FromRole="doner" ToRole="center" />
   </EntityType>
+  <EntityType Name="market">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dat" Type="DateTime" Precision="0" />
+    <Property Name="no" Type="Int32" Nullable="false" />
+    <Property Name="cod" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="name" Type="Int32" />
+    <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="currency" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+    <Property Name="cash" Type="Int32" />
+    <Property Name="employee" Type="Int32" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="false" />
+    <Property Name="site" Type="Int32" />
+    <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
+    <Property Name="timestamp" Type="DateTime" Precision="7" />
+    <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="ResponsibilityId" Type="Int32" />
+    <Property Name="DonationPurposeId" Type="Int32" />
+    <NavigationProperty Name="marketingsite" Relationship="MarketingModel.FK_market_marketingsites" FromRole="market" ToRole="marketingsite" />
+    <Property Name="ChequeInfoId" Type="Int32" />
+  </EntityType>
   <EntityContainer Name="MarketEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="doners" EntityType="Self.doner" />
+    <EntitySet Name="markets" EntityType="Self.market" />
     <EntitySet Name="centers" EntityType="MarketingModel.center" />
     <EntitySet Name="governments" EntityType="MarketingModel.government" />
     <EntitySet Name="marketingrectypes" EntityType="MarketingModel.marketingrectype" />
@@ -41,6 +66,7 @@
     <EntitySet Name="Departments" EntityType="MarketingModel.Department" />
     <EntitySet Name="DonationFrequencies" EntityType="MarketingModel.DonationFrequency" />
     <EntitySet Name="DonorOfs" EntityType="MarketingModel.DonorOf" />
+    <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
     <EntitySet Name="UserSites" EntityType="MarketingModel.UserSite" />
     <AssociationSet Name="FK_centers_governments" Association="MarketingModel.FK_centers_governments">
       <End Role="government" EntitySet="governments" />
@@ -55,6 +81,10 @@
     <EntitySet Name="CurrencyCovnersionRates" EntityType="MarketingModel.CurrencyCovnersionRate" />
     <EntitySet Name="BookTypes" EntityType="MarketingModel.BookType" />
     <EntitySet Name="marketingsites" EntityType="MarketingModel.marketingsite" />
+    <AssociationSet Name="FK_market_marketingsites" Association="MarketingModel.FK_market_marketingsites">
+      <End Role="marketingsite" EntitySet="marketingsites" />
+      <End Role="market" EntitySet="markets" />
+    </AssociationSet>
     <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
     <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
     <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
@@ -66,12 +96,6 @@
     <EntitySet Name="cashDeposits" EntityType="MarketingModel.cashDeposit" />
     <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
     <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
-    <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
-    <EntitySet Name="markets" EntityType="MarketingModel.market" />
-    <AssociationSet Name="FK_market_marketingsites" Association="MarketingModel.FK_market_marketingsites">
-      <End Role="marketingsite" EntitySet="marketingsites" />
-      <End Role="market" EntitySet="markets" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="center">
     <Key>
@@ -174,6 +198,18 @@
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Int32" />
   </EntityType>
+  <EntityType Name="HandleBookReceipt">
+    <Key>
+      <PropertyRef Name="BookReceiptId" />
+    </Key>
+    <Property Name="BookReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookTypeId" Type="Int32" />
+    <Property Name="FirstReceiptNo" Type="Int32" />
+    <Property Name="LastReceiptNo" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Active" Type="Int32" />
+    <Property Name="ParentBookReceiptId" Type="Int32" />
+  </EntityType>
   <EntityType Name="UserSite">
     <Key>
       <PropertyRef Name="Id" />
@@ -264,6 +300,18 @@
     <Property Name="Active" Type="Int32" />
     <NavigationProperty Name="markets" Relationship="MarketingModel.FK_market_marketingsites" FromRole="marketingsite" ToRole="market" />
   </EntityType>
+  <Association Name="FK_market_marketingsites">
+    <End Type="MarketingModel.marketingsite" Role="marketingsite" Multiplicity="0..1" />
+    <End Type="MarketingModel.market" Role="market" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="marketingsite">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="market">
+        <PropertyRef Name="site" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityType Name="DonationPurpose">
     <Key>
       <PropertyRef Name="Id" />
@@ -385,6 +433,7 @@
     <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="DepartmentId" Type="Int32" />
+    <Property Name="job" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ParentEmployeeId" Type="Int32" />
     <Property Name="NationalId" Type="Double" />
     <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -392,53 +441,5 @@
     <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Int32" />
-    <Property Name="job" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="HandleBookReceipt">
-    <Key>
-      <PropertyRef Name="BookReceiptId" />
-    </Key>
-    <Property Name="BookReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BookTypeId" Type="Int32" />
-    <Property Name="FirstReceiptNo" Type="Int32" />
-    <Property Name="LastReceiptNo" Type="Int32" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-    <Property Name="Active" Type="Int32" />
-  </EntityType>
-  <EntityType Name="market">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="dat" Type="DateTime" Precision="0" />
-    <Property Name="no" Type="Int32" Nullable="false" />
-    <Property Name="cod" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="name" Type="Int32" />
-    <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="currency" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
-    <Property Name="cash" Type="Int32" />
-    <Property Name="employee" Type="Int32" />
-    <Property Name="type" Type="Int32" />
-    <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="false" />
-    <Property Name="site" Type="Int32" />
-    <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
-    <Property Name="timestamp" Type="DateTime" Precision="7" />
-    <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-    <Property Name="ResponsibilityId" Type="Int32" />
-    <Property Name="DonationPurposeId" Type="Int32" />
-    <Property Name="ChequeInfoId" Type="Int32" />
-    <NavigationProperty Name="marketingsite" Relationship="MarketingModel.FK_market_marketingsites" FromRole="market" ToRole="marketingsite" />
-  </EntityType>
-  <Association Name="FK_market_marketingsites">
-    <End Type="MarketingModel.marketingsite" Role="marketingsite" Multiplicity="0..1" />
-    <End Type="MarketingModel.market" Role="market" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="marketingsite">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="market">
-        <PropertyRef Name="site" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

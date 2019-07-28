@@ -29,6 +29,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="markets">
+      <EntityTypeMapping TypeName="MarketingModel.market">
+        <MappingFragment StoreEntitySet="market">
+          <ScalarProperty Name="ChequeInfoId" ColumnName="ChequeInfoId" />
+          <ScalarProperty Name="DonationPurposeId" ColumnName="DonationPurposeId" />
+          <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="dat" ColumnName="dat" />
+          <ScalarProperty Name="no" ColumnName="no" />
+          <ScalarProperty Name="cod" ColumnName="cod" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="cash" ColumnName="cash" />
+          <ScalarProperty Name="employee" ColumnName="employee" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="site" ColumnName="site" />
+          <ScalarProperty Name="combID" ColumnName="combID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="FinApprov" ColumnName="FinApprov" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="centers">
       <EntityTypeMapping TypeName="MarketingModel.center">
         <MappingFragment StoreEntitySet="centers">
@@ -135,6 +159,19 @@
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HandleBookReceipts">
+      <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
+        <MappingFragment StoreEntitySet="HandleBookReceipts">
+          <ScalarProperty Name="ParentBookReceiptId" ColumnName="ParentBookReceiptId" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
+          <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
+          <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
+          <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -328,7 +365,6 @@
     <EntitySetMapping Name="Employees">
       <EntityTypeMapping TypeName="MarketingModel.Employee">
         <MappingFragment StoreEntitySet="Employees">
-          <ScalarProperty Name="job" ColumnName="job" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="NickName" ColumnName="NickName" />
@@ -336,48 +372,13 @@
           <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
           <ScalarProperty Name="NationalId" ColumnName="NationalId" />
           <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
+          <ScalarProperty Name="job" ColumnName="job" />
           <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
           <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="HandleBookReceipts">
-      <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
-        <MappingFragment StoreEntitySet="HandleBookReceipts">
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
-          <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
-          <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
-          <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="markets">
-      <EntityTypeMapping TypeName="MarketingModel.market">
-        <MappingFragment StoreEntitySet="market">
-          <ScalarProperty Name="ChequeInfoId" ColumnName="ChequeInfoId" />
-          <ScalarProperty Name="DonationPurposeId" ColumnName="DonationPurposeId" />
-          <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
-          <ScalarProperty Name="FinApprov" ColumnName="FinApprov" />
-          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
-          <ScalarProperty Name="combID" ColumnName="combID" />
-          <ScalarProperty Name="site" ColumnName="site" />
-          <ScalarProperty Name="note" ColumnName="note" />
-          <ScalarProperty Name="type" ColumnName="type" />
-          <ScalarProperty Name="employee" ColumnName="employee" />
-          <ScalarProperty Name="cash" ColumnName="cash" />
-          <ScalarProperty Name="currency" ColumnName="currency" />
-          <ScalarProperty Name="amount" ColumnName="amount" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="cod" ColumnName="cod" />
-          <ScalarProperty Name="no" ColumnName="no" />
-          <ScalarProperty Name="dat" ColumnName="dat" />
-          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

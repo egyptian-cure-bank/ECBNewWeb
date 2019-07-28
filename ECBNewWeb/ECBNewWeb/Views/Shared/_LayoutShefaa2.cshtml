@@ -123,7 +123,7 @@
                             <h4 class="m-menu__section-text">عام</h4>
                             <i class="m-menu__section-icon flaticon-more-v2"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu  @(ViewContext.RouteData.Values["Controller"].ToString() == "Donor" || ViewContext.RouteData.Values["Controller"].ToString() == "Donation" || ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" || ViewContext.RouteData.Values["Controller"].ToString() == "Book" || ViewContext.RouteData.Values["Controller"].ToString() == "Currency" || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" ||ViewContext.RouteData.Values["Controller"].ToString() == "Employees" ||ViewContext.RouteData.Values["Controller"].ToString() == "MarketReports" || ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" || ViewContext.RouteData.Values["Controller"].ToString() == "BookRequests" || ViewContext.RouteData.Values["Controller"].ToString() == "ApproveReceipt" ? "m-menu__item--open" : "") " aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <li class="m-menu__item  m-menu__item--submenu  @(ViewContext.RouteData.Values["Controller"].ToString() == "Donor" || ViewContext.RouteData.Values["Controller"].ToString() == "Donation" || ViewContext.RouteData.Values["Controller"].ToString() == "Licenses" || ViewContext.RouteData.Values["Controller"].ToString() == "Book" || ViewContext.RouteData.Values["Controller"].ToString() == "Currency" || ViewContext.RouteData.Values["Controller"].ToString() == "BookResposibilities" ||ViewContext.RouteData.Values["Controller"].ToString() == "Employees" ||ViewContext.RouteData.Values["Controller"].ToString() == "MarketReports" || ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ||ViewContext.RouteData.Values["Controller"].ToString() == "SupervisorBookRequests" ? "m-menu__item--open" : "") " aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-web"></i>
                                 <span class="m-menu__link-text">التسويق</span>
@@ -190,7 +190,7 @@
                                             </i><span class="m-menu__link-text">المتبرعين</span>
                                         </a>
                                     </li>
-                                    <li class="m-menu__item  m-menu__item--submenu @( ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                                    <li class="m-menu__item  m-menu__item--submenu @( ViewContext.RouteData.Values["Controller"].ToString() == "UserSite" ? "m-menu__item--open" : (ViewContext.RouteData.Values["Controller"].ToString() == "SupervisorBookRequests") ? "m-menu__item--open": "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                                         <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">المشرفين</span><i class="m-menu__ver-arrow la la-angle-right"></i>
                                         </a>
@@ -214,7 +214,22 @@
                                                         </span>
                                                     </a>
                                                 </li>
-
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "SupervisorApproveBookRequest" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("SupervisorApproveBookRequest", "SupervisorBookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                             طلبات الصرف-المشرفين
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "PrintRequests" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("PrintRequests", "PrintBookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            طباعة طلبات الصرف
+                                                        </span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
@@ -305,6 +320,14 @@
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
                                                         <span class="m-menu__link-text">
                                                             طلبات الصرف
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "PrintRequests" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("PrintRequests", "PrintBookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            طباعة طلبات الصرف
                                                         </span>
                                                     </a>
                                                 </li>
@@ -684,7 +707,7 @@
             <!--BEGIN: Right Aside-->
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="">
-                    
+
                     @RenderBody()
                 </div>
 

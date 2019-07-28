@@ -9,6 +9,9 @@ using System.Net;
 using System.Data;
 using ECBNewWeb.CustomAuthentication;
 using System.Web.Security;
+using System.Data.SqlClient;
+using System.Configuration;
+using Newtonsoft.Json;
 
 namespace ECBNewWeb.Controllers
 {
@@ -60,7 +63,7 @@ namespace ECBNewWeb.Controllers
         {
             MarketEntities db = new MarketEntities() ;
             List<BookResposibilityModel> list = (from b in db.BookResposibilities
-                                                 join e in db.UserLogins on b.EmployeeId equals e.id 
+                                                 join e in db.Employees on b.EmployeeId equals e.EmployeeId 
                                                  join h in db.HandleBookReceipts on b.HandleBookReceiptId equals h.BookReceiptId
                                                  join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
                                                  join Re in db.marketingrectypes on t.RecTypeId equals Re.id
@@ -68,6 +71,7 @@ namespace ECBNewWeb.Controllers
                                                  {
                                                      RespId = b.RespId,
                                                      FirstName = e.FirstName ,
+                                                     MiddleName = e.MiddleName,
                                                      lastName = e.LastName,
                                                      BookNo = t.BookNo,
                                                      ReceiptTypeName = Re.name,                  
@@ -88,133 +92,79 @@ namespace ECBNewWeb.Controllers
                 UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
                 Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
             }
-            ViewBag.myEmployee = emp();          
-            ViewBag.myRecTypes = PopulateRecTypes();
             BookResposibilityModel bookresposibility = new BookResposibilityModel();
             MarketEntities db = new MarketEntities();
             var getBookResposiblilty =  db.BookResposibilities.Find(id);
-            if(getBookResposiblilty.PartialBookIndicator == 1)
-            {
-                bookresposibility = (from b1 in db.BookResposibilities
-                                     join b2 in db.BookResposibilities on b1.EmployeeId equals b2.ParentEmployeeId
-                                     join e in db.UserLogins on b1.EmployeeId equals e.id
-                                     join h in db.HandleBookReceipts on b1.HandleBookReceiptId equals h.BookReceiptId
-                                     join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
-                                     join Re in db.marketingrectypes on t.RecTypeId equals Re.id
-                                     where b1.PartialBookIndicator == 1 && b1.RespId == id
-                                     select new BookResposibilityModel
-                                     {
-                                         RespId = b1.RespId,
-                                         FullName = e.FirstName,
-                                         EmployeeId = e.id,
-                                         BookNo = t.BookNo,
-                                         ReceiptTypeName = Re.name,
-                                         DeliveryDate = b1.DeliveryDate,
-                                         ReceiveDate = b1.ReceiveDate,
-                                         NextReceiptNo = b1.NextReceiptNo,
-                                         DoneFlag = b1.DoneFlag,
-                                         RecTypeId = t.RecTypeId,
-                                         HandleBookReceiptId = b1.HandleBookReceiptId,
-                                         BookReceiptId = h.BookReceiptId,
-                                         ////////////////////
-                                         PartialBookIndicator = b1.PartialBookIndicator,
-                                         RespId2 = b2.RespId,
-                                         EmployeeId2 = b2.EmployeeId,
-                                         ReceiveDate2 = b2.ReceiveDate,
-                                         DeliveryDate2 = b2.DeliveryDate,
+            bookresposibility = (from b1 in db.BookResposibilities
+                                 join e in db.Employees on b1.EmployeeId equals e.EmployeeId
+                                 join h in db.HandleBookReceipts on b1.HandleBookReceiptId equals h.BookReceiptId
+                                 join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
+                                 join Re in db.marketingrectypes on t.RecTypeId equals Re.id
+                                 where b1.RespId == id
+                                 select new BookResposibilityModel
+                                 {
+                                     RespId = b1.RespId,
+                                     FullName = e.FirstName + " " + e.MiddleName + " " + e.LastName,
+                                     EmployeeId = e.EmployeeId,
+                                     BookNo = t.BookNo,
+                                     BookTypeId = h.BookTypeId,
+                                     ReceiptTypeName = Re.name,
+                                     DeliveryDate = b1.DeliveryDate,
+                                     ReceiveDate = b1.ReceiveDate,
+                                     NextReceiptNo = b1.NextReceiptNo,
+                                     DoneFlag = b1.DoneFlag,
+                                     RecTypeId = t.RecTypeId,
+                                     HandleBookReceiptId = b1.HandleBookReceiptId,
+                                     FirstReceiptNo = h.FirstReceiptNo,
+                                     LastReceiptNo = h.LastReceiptNo,
+                                     BookReceiptId = h.BookReceiptId
+                                 }).FirstOrDefault();
 
-                                     }).FirstOrDefault();
-            } 
-            else
-            {
-                bookresposibility = (from b in db.BookResposibilities
-                                     join e in db.UserLogins on b.EmployeeId equals e.id
-                                     join h in db.HandleBookReceipts on b.HandleBookReceiptId equals h.BookReceiptId
-                                     join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
-                                     join Re in db.marketingrectypes on t.RecTypeId equals Re.id
-                                     where b.RespId == id
-                                     select new BookResposibilityModel()
-                                     {
-                                         RespId = b.RespId,
-                                         FullName = e.FirstName,
-                                         EmployeeId = e.id,
-                                         BookNo = t.BookNo,
-                                         ReceiptTypeName = Re.name,
-                                         DeliveryDate = b.DeliveryDate,
-                                         ReceiveDate = b.ReceiveDate,
-                                         NextReceiptNo = b.NextReceiptNo,
-                                         DoneFlag = b.DoneFlag,
-                                         RecTypeId = t.RecTypeId,
-                                         HandleBookReceiptId = b.HandleBookReceiptId,
-                                         BookReceiptId = h.BookReceiptId
-
-                                     }).FirstOrDefault();
-            }
-            ViewBag.Employee2 = empexecptid(bookresposibility.EmployeeId);
-            ViewBag.myhandle = PopulateHandlebook(bookresposibility.RecTypeId);
             return PartialView(bookresposibility);
         }
         [HttpPost]
-        public ActionResult EditBookResponsibility(BookResposibilityModel bookModel , bool cb_otheremployee = false  )
+        public ActionResult EditBookResponsibility(BookResposibilityModel bookModel)
         {
             if (bookModel.RespId == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            HandleBookReceipt HbookReceipt = new HandleBookReceipt();
             BookResposibility bookRespToUpdate = new BookResposibility();
-            BookResposibility bookRespToUpdate2 = new BookResposibility();
-            BookResposibility bookresp2update = new BookResposibility();
             using (MarketEntities db = new MarketEntities())
             { 
                 if (ModelState.IsValid)
                 {
                     int rowAffected = 0;
-                    if(cb_otheremployee == true)
+                    int insertedRows = 0;
+                    if (bookModel.RespId > 0)
                     {
-                        if(bookModel.RespId2 > 0)
+                        if (bookModel.NextReceiptNo == null)
                         {
-                            //update
-                            int respid =  bookModel.RespId2;
-                            bookresp2update = db.BookResposibilities.Where(x => x.RespId == respid).FirstOrDefault();
-                            bookresp2update.EmployeeId = bookModel.EmployeeId2;
-                            bookresp2update.ReceiveDate = bookModel.ReceiveDate2;
-                            bookresp2update.DeliveryDate = bookModel.DeliveryDate2;
-                            bookresp2update.DoneFlag = bookModel.DeliveryDate2 == null ? 0 : 1;
-                            rowAffected = db.SaveChanges();
-
+                            
+                            HbookReceipt.BookTypeId = bookModel.BookTypeId;
+                            HbookReceipt.FirstReceiptNo = bookModel.FirstReceiptNo;
+                            HbookReceipt.LastReceiptNo = bookModel.LastReceiptNo;
+                            HbookReceipt.ParentBookReceiptId = bookModel.HandleBookReceiptId;
+                            HbookReceipt.Active = 1;
+                            db.HandleBookReceipts.Add(HbookReceipt);
+                            insertedRows = db.SaveChanges();
                         }
-                        else
+                        else if(bookModel.ParentAvailable)
                         {
-                            //insert 
-                            bookRespToUpdate.ReceiveDate = bookModel.ReceiveDate2;
-                            bookRespToUpdate.DeliveryDate = bookModel.DeliveryDate2;
-                            bookRespToUpdate.HandleBookReceiptId = bookModel.HandleBookReceiptId;
-                            bookRespToUpdate.EmployeeId = bookModel.EmployeeId2;
-                            bookRespToUpdate.ParentEmployeeId = bookModel.EmployeeId;
-                            bookRespToUpdate.DoneFlag = bookModel.DeliveryDate2 == null ? 0 : 1;
-                            bookRespToUpdate.NextReceiptNo = bookModel.NextReceiptNo;
-                            db.BookResposibilities.Add(bookRespToUpdate);
-                            rowAffected = db.SaveChanges();
-                            // update
-                            bookRespToUpdate2 = db.BookResposibilities.Find(bookModel.RespId);
-                            bookRespToUpdate2.PartialBookIndicator = 1;
-                            rowAffected = db.SaveChanges();
+                            HbookReceipt.BookTypeId = bookModel.BookTypeId;
+                            HbookReceipt.FirstReceiptNo = bookModel.NextReceiptNo;
+                            HbookReceipt.LastReceiptNo = bookModel.LastReceiptNo;
+                            HbookReceipt.ParentBookReceiptId = bookModel.HandleBookReceiptId;
+                            HbookReceipt.Active = 1;
+                            db.HandleBookReceipts.Add(HbookReceipt);
+                            insertedRows = db.SaveChanges();
                         }
-                        
-
-                    }
-                    else
-                    {
                         //update
-                        bookRespToUpdate = db.BookResposibilities.Find(bookModel.RespId);
-                        bookRespToUpdate.HandleBookReceiptId = bookModel.HandleBookReceiptId;
-                        bookRespToUpdate.EmployeeId = bookModel.EmployeeId;
-                        bookRespToUpdate.ReceiveDate = bookModel.ReceiveDate;
+                        bookRespToUpdate = db.BookResposibilities.Where(x => x.RespId == bookModel.RespId).FirstOrDefault();
                         bookRespToUpdate.DeliveryDate = bookModel.DeliveryDate;
-                        bookRespToUpdate.DoneFlag = bookModel.DeliveryDate == null ? 0 : 1;
-                        bookRespToUpdate.NextReceiptNo = bookModel.NextReceiptNo;
-                        TryUpdateModel(bookRespToUpdate);
-                         rowAffected = db.SaveChanges();
+                        bookRespToUpdate.DoneFlag = 1;
+                        rowAffected = db.SaveChanges();
                     }
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                 }
@@ -225,6 +175,47 @@ namespace ECBNewWeb.Controllers
             }
             return RedirectToAction("AllBookResponsibility" , TempData["Msg"]);
         }
+        public JsonResult GetNextReceiptNoFromRecType(int RecTypeId)
+        {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+            DataTable dt = new DataTable();
+            string Cmd = "Select min(BookResp.HandleBookReceiptId)as HBookRecId, " +
+                        "min(BookResp.NextReceiptNo) as NextReceiptNo, " +
+                        "(Select Max(market.no) " +
+                        "From market " +
+                        "Where market.ResponsibilityId = min(BookResp.RespId))as LastSavedRecNo, " +
+                        "Max(CanceledReceipts.ReceiptNo) as LastCanceledReceiptNo, " +
+                        "Min(HandleBookReceipts.LastReceiptNo) as LastReceiptNo " +
+                        "From HandleBookReceipts " +
+                        "Inner Join BookTypes " +
+                        "on dbo.BookTypes.BookTypeId = dbo.HandleBookReceipts.BookTypeId " +
+                        "Inner Join marketingrectype " +
+                        "On dbo.BookTypes.RecTypeId = dbo.marketingrectype.id " +
+                        "Inner Join BookResposibilities BookResp " +
+                        "on BookResp.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId " +
+                        "Left Join CanceledReceipts " +
+                        "On BookResp.RespId = dbo.CanceledReceipts.ResponsibilityId " +
+                        "Where dbo.BookTypes.RecTypeId = @RecTypeId " +
+                        "And marketingrectype.Active = 1 " +
+                        "And BookResp.DoneFlag = 0 " +
+                        "And BookResp.EmployeeId = @EmployeeId ";
+            string JsonString = null;
+            using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+            {
+                Conn.Open();
+                using (SqlCommand Command = new SqlCommand(Cmd, Conn))
+                {
+                    Command.Parameters.AddWithValue("@RecTypeId", RecTypeId);
+                    Command.Parameters.AddWithValue("@EmployeeId", UserInfo.EmployeeId);
+                    SqlDataAdapter adapt = new SqlDataAdapter(Command);
+                    adapt.Fill(dt);
+                    JsonSerializerSettings SerSettings = new JsonSerializerSettings();
+                    SerSettings.Culture = System.Globalization.CultureInfo.InstalledUICulture;
+                    JsonString = JsonConvert.SerializeObject(dt, SerSettings);
+                }
+            }
+            return Json(JsonString, JsonRequestBehavior.AllowGet);
+        }
         // get employee
         public List<SelectListItem> emp()
         {
@@ -234,15 +225,8 @@ namespace ECBNewWeb.Controllers
                 List<LoginViewModel> MyEmployee = (from e in db.UserLogins
                                                     join m in db.Employees
                                                     on e.employee_id equals m.EmployeeId
-                                                    where e.active == 1 && m.Active == 1 && m.ParentEmployeeId == UserInfo.EmployeeId
+                                                    where e.active == 1 && m.Active == 1
                                                     select new LoginViewModel() { UserId = e.id, FullName = m.FirstName + " " + m.MiddleName + " " + m.LastName }).ToList<LoginViewModel>();
-                SelectListItem DisabledList = new SelectListItem()
-                {
-                    Text = " ",
-                    Value = " -1",
-                    Selected = true
-                };
-                Items.Add(DisabledList);
                 foreach (LoginViewModel employee in MyEmployee)
                 {
                     SelectListItem selectList = new SelectListItem()

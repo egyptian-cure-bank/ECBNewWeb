@@ -1,0 +1,59 @@
+﻿@model ECBNewWeb.Models.BookRequestModel
+@{
+    ViewBag.Title = "PrintBookRequests";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+
+<main class="page-content">
+    <div class="container-fluid">
+        <h2>طباعة طلبات الصرف</h2>
+        <hr>
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "approveBookRequest" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="" class="">رقم طلب الصرف</label>
+                    @Html.DropDownListFor(m => m.RequestId, Model.MyRequests, new { @size = 6, @class = "form-control", @id = "requests" })
+                    @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="m-demo" data-code-preview="true" data-code-html="true">
+                    <div class="m-demo__preview  m-demo__preview--btn">
+                        <button class="btn m-btn--pill" formaction="PrintReport" id="btnPrint" disabled>طباعة</button>
+                    </div>
+                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
+                </div>
+            </div>
+            <hr>
+        }
+        <div id="loadingIndicator" class="submit-progress d-none">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+            <label>Please Wait....</label>
+        </div>
+    </div>
+</main>
+
+<link href="~/Content/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+<link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+<script src="~/Content/assets/demo/default/base/dataTables.select.min.js"></script>
+
+<script>
+    $("#requests").change(function () {
+        $("#btnPrint").removeAttr("disabled");
+    })
+</script>
