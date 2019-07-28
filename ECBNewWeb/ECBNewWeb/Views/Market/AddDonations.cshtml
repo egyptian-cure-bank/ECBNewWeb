@@ -11,10 +11,13 @@
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <script src="//code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.min.js"></script>
 <script src="~/Scripts/popper.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
 <!--End Scripts-->
 <!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
 <main class="page-content">
@@ -22,10 +25,12 @@
         <h2>بيانات إيصال التبرع</h2>
         <p>إضافة تبرع</p>
         <hr>
+        
         @using (Html.BeginForm("CancelReceipt", "Donation", FormMethod.Post, new { @id = "saveDonationForm" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="" class="">اسم المحصل</label>
@@ -106,13 +111,24 @@
                     @Html.ValidationMessageFor(m => m.ChequeDate, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
-                <div class="m-demo__preview  m-demo__preview--btn">
-                <button class="btn m-btn--pill btn-success  col-md-1 form-group" formaction="SaveDonation" type="submit">حفظ</button>
-                <button class="btn btn-danger m-btn--pill col-md-1 form-group" formaction='@Url.Action("CancelReceipt")' type="submit" formnovalidate="formnovalidate">الغاء</button>
+            <div class="row" >
+                <div class="col-md-10">
+                    <button class="btn m-btn--pill btn-success " formaction="SaveDonation" type="submit">حفظ</button>
+                    
+                </div>
+                <div class="col-md-2">
+                    
+                    <button class="btn btn-danger m-btn m-btn--icon m-btn--pill " formaction='@Url.Action("CancelReceipt")' type="submit" formnovalidate="formnovalidate" >
+                        <span>
+                            <i class="fa flaticon-cancel"></i>
+                            <span> إلغاء إيصال </span>
+
+                        </span>
+                    </button>
                 </div>
                 <h4 class="text-danger">@TempData["ModelErrors"]</h4>
             </div>
+            
             <hr>
 }
         <div id="loadingIndicator" class="submit-progress d-none">

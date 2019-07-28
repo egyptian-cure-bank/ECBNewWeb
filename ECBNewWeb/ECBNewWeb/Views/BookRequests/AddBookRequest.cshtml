@@ -1,0 +1,557 @@
+﻿@model ECBNewWeb.Models.BookRequestDetailModel
+@{
+    ViewBag.Title = "AddBookRequest";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+<style>
+    .m-btn--icon 
+    {
+        padding:3px 3px;
+    }
+</style>
+@*<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>*@
+<main class="page-content">
+    <div class="container-fluid">
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-7">
+                    <!--begin::Portlet 1-->
+                    <div class="m-portlet">
+                       <!--begin::Header-->
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        تسجيل طلب دفتر
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                       <!--end::Header-->
+
+                        <!--begin::form-->
+                        @using (Html.BeginForm("AddBookRequest", "BookRequests", FormMethod.Post, htmlAttributes: new { @id = "myForm", @class = "m-form m-form--label-align-right" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        
+            
+                            <!--begin::body-->
+                            <div class="m-portlet__body">
+                                <div class="form-group m-form__group row">
+                                    <div class="m-form__group form-group col-md-5">
+                                        <label class="">اسم الموظف</label>
+                                        @Html.DropDownListFor(x => x.EmployeeId, ViewBag.emplist as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="m-form__group form-group col-md-5">
+                                        <label class="">نوع الدفتر</label>
+                                        @Html.DropDownListFor(x => x.ReceiptTypeId, ViewBag.rectypelist as List<SelectListItem>, new { @class = "form-control m-input", @id = "rectype" })
+                                    </div>
+
+                                    <div class="m-form__group form-group col-md-5">
+                                        <label class="">عدد الدفاتر المطلوب</label>
+                                        <input type="number" class="form-control m-input" placeholder="عدد الدفاتر"  id="amount"  >
+                                        <span class="m-form__help" id="spanhelpAdd"></span>
+                                    </div>
+                                </div>
+
+                                <div class="m-form__group form-group row">
+                                    @*<label class="col-lg-2 col-form-label"></label>*@
+                                    <div class="col-lg-3">
+                                        @if (ViewBag.Bookrequest != null)
+                                        {
+                                            <button type="button" class="btn btn-secondary m-btn--pill " id="add" disabled>أضافة</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-accent m-btn--pill " id="add">أضافة</button>
+                                        }
+ 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert alert-danger test" role="alert" style="display:none">
+                                            <strong></strong>
+                                        </div>
+
+                                    </div>
+  
+                                </div>
+                                <div class="row">
+                                    <table class="table  table-bordered table-hover order-list " id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع الدفتر</th>
+                                                <th>عدد المطلوب</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--end::body-->
+                            <!--begin::footer-->
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions m-form__actions">
+                                    <div class="row">
+                                       
+                                        <div class="col-md-6">
+                                            @if (ViewBag.Bookrequest != null)
+                                            {
+                                                
+                                                <div class="alert alert-warning" role="alert">
+                                                    <strong>تنـبية !</strong> لا يمكنك إضافة طلب  اخر لحين الرد فى الطلب المقدم .
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-success m-btn--pill " id="submit">حفظ</button>
+                                            }
+
+                                            @*<button type="button" class="btn btn-danger m-btn--pill" id="reset">مسح</button>*@ 
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" class="form-control m-input" readonly id="numberofrows" name="NumberOfBookRequests" required min="1" data-msg-min="اقل عدد 1">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="alert alert-danger mustselect" role="alert" style="display:none">
+                                                <strong></strong>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::footer-->
+                        }
+                        <!--end::from-->
+                    </div>
+                    <!--end::Portlet 1-->
+                </div>
+                <div class="col-md-5"->
+                    <div class="m-portlet">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        اعداد الدفاتر المستلمة
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table   table-hover " id="m_table_3" role="grid" aria-describedby="m_table_1_info" @*style="width: 974px;"*@>
+                                        <thead>
+                                            <tr>
+                                                <th>نوع الدفتر</th>
+                                                <th>العدد المستلم</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.AllbookReceiveList)
+                                            {
+                                                <tr>
+
+                                                    <td>@item.name</td>
+                                                    <td>@item.recTypeCount</td>
+                                                    
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @if (ViewBag.Bookrequest != null)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--begin::Portlet 2-->
+                        <div class="m-portlet">
+                            <div class="m-portlet__head">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-title">
+                                        <span class="m-portlet__head-icon m--hide">
+                                            <i class="la la-gear"></i>
+                                        </span>
+                                        <h3 class="m-portlet__head-text">
+                                            تعديل طلب دفاتر
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">رقم الطلب</label>
+                                        @Html.TextBoxFor(m => m.RequestNo, new { @Value = ViewBag.Bookrequest.RequestNo, @class = "form-control m-input", @placeholder = "", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">كود الموظف</label>
+                                        @Html.TextBoxFor(m => m.EmployeeId, new { @Value = ViewBag.Bookrequest.EmployeeId, @class = "form-control m-input", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.EmployeeId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group m-form__group col-md-3">
+                                        <label for="">تاريخ الطلب</label>
+                                        @Html.TextBoxFor(m => m.RequestDate, new { @Value = ViewBag.Bookrequest.RequestDate.ToString(), @class = "form-control m-input", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.RequestDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table   table-hover " id="m_table_1" role="grid" aria-describedby="m_table_1_info" @*style="width: 974px;"*@>
+                                            <thead>
+                                                <tr>
+                                                    <th>نوع الدفتر</th>
+                                                    <th>العدد المطلوب</th>
+                                                    <th>
+                                                        <button id="" onclick="AddNewTypeBookRequest(@ViewBag.Bookrequest.RequestNo)" class="btn btn-outline-success m-btn m-btn--icon">
+                                                            <span>
+                                                                <i class="fa flaticon-plus"></i>
+                                                                <span>اضافة نوع دفتر جديد</span>
+                                                            </span>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.AllBookRequest)
+                                                {
+                                                    <tr>
+
+                                                        <td>@item.bookTypeName</td>
+                                                        <td>@item.Amount</td>
+                                                        <td>
+                                                            <button id="" onclick="EditBookRequest(@item.Id)" class="btn btn-outline-accent m-btn m-btn--icon">
+                                                                <span><i class="fa flaticon-edit"></i><span>تعديل</span></span> 
+                                                            </button>
+                                                            <button id="" onclick="DeleteBookRequest(@item.Id)" class="btn btn-outline-danger m-btn m-btn--icon">
+                                                                <span><i class="fa flaticon-delete"></i> <span>حذف</span></span>
+                                                            
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--end::Portlet 2-->
+
+                    </div>
+                </div>
+            }
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--begin::Portlet 2-->
+                        <div class="m-portlet">
+                            <div class="m-portlet__head">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-title">
+                                        <span class="m-portlet__head-icon m--hide">
+                                            <i class="la la-gear"></i>
+                                        </span>
+                                        <h3 class="m-portlet__head-text">
+                                            متابعة طلبات الدفاتر
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table  table-hover " id="m_table_2" role="grid" aria-describedby="m_table_1_info" @*style="width: 974px;"*@>
+                                            <thead>
+                                                <tr>
+                                                    <th>نوع الدفتر</th>
+                                                    <th>العدد المطلوب</th>
+                                                    <th>تاريخ الطلب</th>
+                                                    <th>حالة المشرف</th>
+                                                    <th>حالة المالية</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.AllBookRequest)
+                                                {
+                                                    <tr>
+                                                        <td>@item.bookTypeName</td>
+                                                        <td>@item.Amount</td>
+                                                        <td>@item.RequestDate.ToString()</td>
+                                                        @if (@item.SupervisorApproval == 0)
+                                                        {
+                                                            <td><span class="m-badge m-badge--brand m-badge--wide">فى الانتظار</span></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><span class="m-badge  m-badge--success m-badge--wide">تمت الموافقة</span></td>
+                                                        }
+                                                        @if (@item.FinanceApproval == 0)
+                                                        {
+                                                            <td><span class="m-badge m-badge--brand m-badge--wide">فى الانتظار</span></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><span class="m-badge  m-badge--success m-badge--wide">تمت الموافقة</span></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Portlet 2-->
+
+                    </div>
+                </div>
+        
+
+
+        </div>
+    </div>
+</main>
+
+<!--Start :: Add New Type Book Request Model -->
+@if (ViewBag.Bookrequest != null)
+{
+    <div id="myModalAddNew" class="modal fade  " style="text-align:center"    >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>اضافة نوع دفتر جديد للطلب رقم : @ViewBag.Bookrequest.RequestNo</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!--End :: Add New Type Book Request Model -->
+
+<!--Add :: Edit Book Request Model ( Edit Number)-->
+<div id="myModalEdit" class="modal fade  " style="text-align:center">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">تعديل طلب دفتر</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--End :: Edit Book Request Model ( Edit Number) -->
+
+<!--Start :: Delete Book Request Model -->
+<div id="myModalDelete" class="modal fade " style="text-align:center">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>حذف</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--End :: Delete Book Request Model -->
+
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+    var max = 0;
+    $('#rectype').change(function () {
+        var typeid = $("#rectype option:selected").val();
+        $.ajax({
+            url: "/BookRequests/BookCountAvailableFirstAdd/",
+            datatype: "json",
+            success: function (reponse) {
+                
+                var listBook;
+                var maxnumber = 0;
+                for (var i in reponse) {
+                    listBook = reponse[i].id;
+                    if (listBook == typeid) {
+                        maxnumber = reponse[i].recTypeCount
+                    }
+                }
+
+                $('#amount').attr({
+                    'max': maxnumber,
+                    'data-msg-max': 'اقصى عدد من الدفاتر ' + maxnumber
+                });
+                $('#spanhelpAdd').html('اقصى عدد من الدفاتر ' + maxnumber);
+                debugger;
+                 max = $('#amount').attr('max');
+            }
+
+        })
+
+    });
+
+
+
+
+    // ADD Click
+    $('#add').click(function () {
+        var rectypevalue = $('#rectype').val();
+        var bookamount = $('#amount').val();
+        if (rectypevalue == -1 || bookamount <= 0 || bookamount > max )
+        {
+            return
+        }
+        var bookrectypeId = $("#rectype option:selected").val();
+        var bookrecTypeName = $("#rectype option:selected").text();
+        var bookamount = $("#amount").val();
+        var markup = "<tr id=" + bookrectypeId + " ><td  name='test' > <select style='border:none;' class='form-control m-input' name='receiptTypeId'><option value='" + bookrectypeId + "' >" + bookrecTypeName + " </option> </select></td><td><input style='border:none;padding:7px;' name='arr_Amount[]' type='text' readonly value='" + bookamount + "' /> </td><td><a href='#' class='ibtnDel btn btn-outline-danger m-btn m-btn--icon btn-sm'><span><span>حذف</span><i class='la la-warning'></i></span></a> </td></tr>";
+        $("table#m_table_1 tbody").append(markup);
+        $("#rectype option[value=" + bookrectypeId + "]").attr('disabled', 'disabled');
+        $('#rectype').val(-1);
+        $('#amount').val('');
+        var rowCount = $('#m_table_1 tbody tr').length
+        $('#numberofrows').val(rowCount);
+        txt = "";
+        $(".mustselect").html(txt).css('display', 'none');
+    })
+
+    // DELETE CLICK
+    $("table.order-list").on("click", ".ibtnDel", function (event) {
+        var bookrectypeid = $(this).closest("tr").attr('id');
+        $(this).closest("tr").remove();
+        $("#rectype option[value=" + bookrectypeid + "]").removeAttr('disabled');
+        var rowCount = $('#m_table_1 tbody tr').length
+        $('#numberofrows').val(rowCount);
+    });
+
+
+    // Save Click
+    $('#submit').click(function () {
+        var rowCount = $('#m_table_1 tbody tr').length
+        if(rowCount < 1 )
+        {
+            txt = "لا يوجد دفاتر محددة";
+            $(".mustselect").html(txt).css('display', 'block');
+        }
+        else
+        {
+            txt = "";
+            $(".mustselect").html(txt).css('display', 'none');
+        }
+    })
+
+    //open Add New Type Model
+    function AddNewTypeBookRequest(id) {
+        $.get("@Url.Action("AddNewTypeBookRequest", "BookRequests")/" + id ,
+        function (data) { $('.modal-body').html(data); })
+        $('#myModalAddNew').modal('show');
+        $('#myModalAddNew').on('hidden.bs.modal', function (e) {
+            $('.modal-body').html("");
+        })
+    }
+    //
+    // open Edit From Model
+    function EditBookRequest(id) {
+
+        $.get("@Url.Action("EditBookrequest", "BookRequests")/" + id,
+        function (data) { $('.modal-body').html(data); })
+        $('#myModalEdit').modal('show');
+        $('#myModalEdit').on('hidden.bs.modal', function (e) {
+            $('.modal-body').html("");
+        })
+    }
+
+
+    // open delete Form Model
+    function DeleteBookRequest(id) {
+
+        $.get("@Url.Action("DeleteBookrequest", "BookRequests")/" + id,
+        function (data) { $('.modal-body').html(data); })
+        $('#myModalDelete').modal('show');
+        $('#myModalDelete').on('hidden.bs.modal', function (e) {
+            $('.modal-body').html("");
+        })
+    }
+
+  
+
+
+
+</script>
+
+
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+
+}
+
+

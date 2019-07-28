@@ -115,6 +115,7 @@
     </div>
 </div>
 
+@*<script src="~/Scripts/jquery.min.js"></script>*@
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <script>
     //$.noConflict();
@@ -131,11 +132,11 @@
                         //appendTo: "#myModalEdit",
                         success: function (data) {
                             //$("#donors").html(''),
-                            
+
                             response($.map(data, function (item) {
                                 //debugger;
                                 return {
-                                    
+
                                     label: item.FullName,
                                     value: item.EmployeeId
                                 }
@@ -162,7 +163,7 @@
 
 
 
-    
+
 
     /////
     // fill job by department
@@ -185,4 +186,3 @@
     });
 
 </script>
-

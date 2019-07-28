@@ -20,7 +20,6 @@ namespace ECBNewWeb.DataAccess
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public Nullable<int> DepartmentId { get; set; }
-        public string job { get; set; }
         public Nullable<int> ParentEmployeeId { get; set; }
         public Nullable<double> NationalId { get; set; }
         public string MobileNumber { get; set; }
@@ -28,5 +27,6 @@ namespace ECBNewWeb.DataAccess
         public string NickName { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> Active { get; set; }
+        public string job { get; set; }
     }
 }
