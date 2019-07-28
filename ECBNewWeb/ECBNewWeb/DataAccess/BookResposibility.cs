@@ -23,5 +23,6 @@ namespace ECBNewWeb.DataAccess
         public Nullable<int> ParentEmployeeId { get; set; }
         public Nullable<int> NextReceiptNo { get; set; }
         public Nullable<int> DoneFlag { get; set; }
+        public Nullable<long> RequestNo { get; set; }
     }
 }

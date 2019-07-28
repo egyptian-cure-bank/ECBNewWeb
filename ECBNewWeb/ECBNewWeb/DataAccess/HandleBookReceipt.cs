@@ -18,6 +18,7 @@ namespace ECBNewWeb.DataAccess
         public Nullable<int> BookTypeId { get; set; }
         public Nullable<int> FirstReceiptNo { get; set; }
         public Nullable<int> LastReceiptNo { get; set; }
+        public Nullable<int> ParentBookReceiptId { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> Active { get; set; }
     }

@@ -26,6 +26,7 @@ namespace ECBNewWeb.DataAccess
         }
     
         public DbSet<doner> doners { get; set; }
+        public DbSet<market> markets { get; set; }
         public DbSet<center> centers { get; set; }
         public DbSet<government> governments { get; set; }
         public DbSet<marketingrectype> marketingrectypes { get; set; }
@@ -55,6 +56,5 @@ namespace ECBNewWeb.DataAccess
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
-        public DbSet<market> markets { get; set; }
     }
 }

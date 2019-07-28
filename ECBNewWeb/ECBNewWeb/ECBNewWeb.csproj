@@ -174,11 +174,19 @@
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\MarketReportsController.cs" />
+    <Compile Include="Controllers\PrintBookRequestsController.cs" />
+    <Compile Include="Controllers\SupervisorBookRequestsController.cs" />
     <Compile Include="Controllers\UserSiteController.cs" />
     <Compile Include="CrystalReports\Marketing\rptMarketingAdminDetails2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptMarketingAdminDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\Marketing\rptMarketingBookRequest1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMarketingBookRequest.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CrystalReports\Marketing\rptMarketingBrief2.cs">
@@ -935,6 +943,8 @@
     <Content Include="Views\BookRequests\EditBookrequest.cshtml" />
     <Content Include="Views\BookRequests\DeleteBookRequest.cshtml" />
     <Content Include="Views\BookRequests\AddNewTypeBookRequest.cshtml" />
+    <Content Include="Views\PrintBookRequests\PrintRequests.cshtml" />
+    <Content Include="Views\SupervisorBookRequests\SupervisorApproveBookRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -954,6 +964,10 @@
     <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingAdminDetails.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptMarketingAdminDetails2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBookRequest.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMarketingBookRequest1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBrief.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
