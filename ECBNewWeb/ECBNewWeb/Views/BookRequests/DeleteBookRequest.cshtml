@@ -1,0 +1,65 @@
+﻿@model ECBNewWeb.Models.BookRequestDetailModel
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+                <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    هل انتا متاكد من حذف الدفتر الآتى من طلب الصرف ؟
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                @using (Html.BeginForm("DeleteBookRequestPost", "BookRequests", FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.RequestNo)
+                        <!--begin::Form-->
+                    @*@Html.HiddenFor(d => d.RequestId)*@
+                    <div class="m-portlet__body">
+                        <div class="row center">
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">نوع الايصال</label>
+                                @Html.DropDownListFor(x => x.ReceiptTypeId, ViewBag.rectypelist as List<SelectListItem>, new { @class = "form-control m-input", @id = "", @disabled = "disabled" })
+                                @Html.HiddenFor(x => x.ReceiptTypeId)
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">العدد المطلوب </label>
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control m-input", @type = "number", @placeholder = "عدد الدفاتر المطلوبة", @id = "amount" , @disabled = "disabled" })
+                                @Html.HiddenFor(x => x.Amount)
+                                @*<span class="m-form__help">اقصى عدد من الدفاتر (3)</span>*@
+                                @*@Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })*@
+                                @*<select id="govern" class="form-control m-input"></select>*@
+                            </div>
+                        </div>
+                        <br />
+                        <hr />
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="" class="btn btn-success m-btn--pill " type="submit">
+                                نعم
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+

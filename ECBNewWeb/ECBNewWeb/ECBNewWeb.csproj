@@ -163,6 +163,7 @@
     <Compile Include="Controllers\ApproveReceiptController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\BookDeliveryRequestsController.cs" />
+    <Compile Include="Controllers\BookRequestsController.cs" />
     <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DonationController.cs" />
@@ -321,7 +322,7 @@
     <Compile Include="DataAccess\KnowingMethod.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\login.cs">
+    <Compile Include="DataAccess\LogIn.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\market.cs">
@@ -395,7 +396,9 @@
     <Compile Include="Models\BanksModel.cs" />
     <Compile Include="Models\BookDeliveryModel.cs" />
     <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookRequestDetailModel.cs" />
     <Compile Include="Models\BookRequestModel.cs" />
+    <Compile Include="Models\BookRequestsModel.cs" />
     <Compile Include="Models\BookResposibilityModel.cs" />
     <Compile Include="Models\cashDepositModel.cs" />
     <Compile Include="Models\Center.cs" />
@@ -408,6 +411,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MarketGroupBriefModel.cs" />
     <Compile Include="Models\MarketingLicensesModel.cs" />
+    <Compile Include="Models\marketingrectypeModel.cs" />
     <Compile Include="Models\MarketSitesModel.cs" />
     <Compile Include="Models\ReceiptTypeModel.cs" />
     <Compile Include="Models\UserSiteModel.cs" />
@@ -957,15 +961,20 @@
     <Content Include="Views\Employees\EditEmployee.cshtml" />
     <Content Include="Views\FinanceBookRequests\BookRequests.cshtml" />
     <Content Include="Views\ApproveReceipt\addApproveReceipt.cshtml" />
-    <Content Include="Views\SupervisorBookRequests\SupervisorApproveBookRequest.cshtml" />
+    <Content Include="Views\BookRequests\AddBookRequest.cshtml" />
+    <Content Include="Views\BookRequests\EditBookrequest.cshtml" />
+    <Content Include="Views\BookRequests\DeleteBookRequest.cshtml" />
+    <Content Include="Views\BookRequests\AddNewTypeBookRequest.cshtml" />
     <Content Include="Views\PrintBookRequests\PrintRequests.cshtml" />
     <Content Include="Views\BookDeliveryRequests\CreateBookDeliveryRequests.cshtml" />
     <Content Include="Views\BookDeliveryRequests\AllBookDeliveryRequests.cshtml" />
     <Content Include="Views\SupervisorBookDelivery\SupervisorBookDeliveryApprove.cshtml" />
+    <Content Include="Views\SupervisorBookRequests\SupervisorApproveBookRequest.cshtml" />
     <Content Include="Views\PrintBookDelivery\PrintDeliveryRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Donation\" />
     <Folder Include="Views\ReceiptType\" />
   </ItemGroup>
   <ItemGroup>
@@ -988,7 +997,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBookRequest.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptMarketingBookRequest.cs</LastGenOutput>
+      <LastGenOutput>rptMarketingBookRequest1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBrief.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

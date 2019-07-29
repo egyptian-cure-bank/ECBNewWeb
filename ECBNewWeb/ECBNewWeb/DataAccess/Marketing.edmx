@@ -66,6 +66,7 @@
           <Property Name="ParentEmployeeId" Type="int" />
           <Property Name="NextReceiptNo" Type="int" />
           <Property Name="DoneFlag" Type="int" />
+          <Property Name="RequestNo" Type="bigint" />
         </EntityType>
         <EntityType Name="BookTypes">
           <Key>
@@ -247,7 +248,7 @@
           <Property Name="FirstReceiptNo" Type="int" />
           <Property Name="LastReceiptNo" Type="int" />
           <Property Name="ParentBookReceiptId" Type="int" />
-          <Property Name="CreatedDate" Type="datetime" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="KnowingMethod">
@@ -511,7 +512,6 @@
           <EntitySet Name="Departments" EntityType="MarketingModel.Department" />
           <EntitySet Name="DonationFrequencies" EntityType="MarketingModel.DonationFrequency" />
           <EntitySet Name="DonorOfs" EntityType="MarketingModel.DonorOf" />
-          <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
           <EntitySet Name="UserSites" EntityType="MarketingModel.UserSite" />
           <AssociationSet Name="FK_centers_governments" Association="MarketingModel.FK_centers_governments">
             <End Role="government" EntitySet="governments" />
@@ -541,6 +541,7 @@
           <EntitySet Name="cashDeposits" EntityType="MarketingModel.cashDeposit" />
           <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
           <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
+          <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -605,6 +606,7 @@
           <Property Name="ParentEmployeeId" Type="Int32" />
           <Property Name="NextReceiptNo" Type="Int32" />
           <Property Name="DoneFlag" Type="Int32" />
+          <Property Name="RequestNo" Type="Int64" />
         </EntityType>
         <EntityType Name="CanceledReceipt">
           <Key>
@@ -642,18 +644,6 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
-        </EntityType>
-        <EntityType Name="HandleBookReceipt">
-          <Key>
-            <PropertyRef Name="BookReceiptId" />
-          </Key>
-          <Property Name="BookReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookTypeId" Type="Int32" />
-          <Property Name="FirstReceiptNo" Type="Int32" />
-          <Property Name="LastReceiptNo" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="Active" Type="Int32" />
-          <Property Name="ParentBookReceiptId" Type="Int32" />
         </EntityType>
         <EntityType Name="UserSite">
           <Key>
@@ -887,6 +877,18 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
+        <EntityType Name="HandleBookReceipt">
+          <Key>
+            <PropertyRef Name="BookReceiptId" />
+          </Key>
+          <Property Name="BookReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookTypeId" Type="Int32" />
+          <Property Name="FirstReceiptNo" Type="Int32" />
+          <Property Name="LastReceiptNo" Type="Int32" />
+          <Property Name="ParentBookReceiptId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1001,6 +1003,7 @@
           <EntitySetMapping Name="BookResposibilities">
             <EntityTypeMapping TypeName="MarketingModel.BookResposibility">
               <MappingFragment StoreEntitySet="BookResposibilities">
+                <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
                 <ScalarProperty Name="DoneFlag" ColumnName="DoneFlag" />
                 <ScalarProperty Name="NextReceiptNo" ColumnName="NextReceiptNo" />
                 <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
@@ -1051,19 +1054,6 @@
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HandleBookReceipts">
-            <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
-              <MappingFragment StoreEntitySet="HandleBookReceipts">
-                <ScalarProperty Name="ParentBookReceiptId" ColumnName="ParentBookReceiptId" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
-                <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
-                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
-                <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1271,6 +1261,19 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HandleBookReceipts">
+            <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
+              <MappingFragment StoreEntitySet="HandleBookReceipts">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ParentBookReceiptId" ColumnName="ParentBookReceiptId" />
+                <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
+                <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
+                <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
+                <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

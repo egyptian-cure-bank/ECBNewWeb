@@ -124,7 +124,7 @@
     </div>
 </main>
 <!-- Start Message When Edit -->
-@if (TempData["Msg"] != null)
+@*@if (TempData["Msg"] != null)
 {
     if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
     {
@@ -144,7 +144,7 @@
             alert("خطأ أثناء الحفظ");
         </script>
     }
-}
+}*@
 <!-- End Message When Edit -->
 <!--End Test Area-->
 <!-- Edit and Delete -->
@@ -186,12 +186,10 @@
 
 
 <script>
-
         $('#m_table_1').DataTable({
             "scrollY": 200,
             "scrollX": true,
         });
-
 </script>
 
 @if (TempData["Msg"] != null)
