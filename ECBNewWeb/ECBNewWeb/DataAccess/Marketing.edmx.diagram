@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="c347c114ab864c6c9ffbea543e191e6c" Name="Diagram1" ZoomLevel="67">
         <EntityTypeShape EntityType="MarketingModel.ApproveReceipt" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="MarketingModel.bankDeposit" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MarketingModel.bankDeposit" Width="1.5" PointX="2.75" PointY="8.125" />
         <EntityTypeShape EntityType="MarketingModel.Bank" Width="1.5" PointX="4.75" PointY="7.75" />
         <EntityTypeShape EntityType="MarketingModel.BookResposibility" Width="1.5" PointX="9.75" PointY="9.75" />
         <EntityTypeShape EntityType="MarketingModel.BookType" Width="1.5" PointX="0.75" PointY="10.75" />
@@ -36,10 +36,12 @@
         <EntityTypeShape EntityType="MarketingModel.BookRequest" Width="1.5" PointX="2.75" PointY="5.75" />
         <EntityTypeShape EntityType="MarketingModel.ChequeInformation" Width="1.5" PointX="6.875" PointY="6.75" />
         <EntityTypeShape EntityType="MarketingModel.Employee" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookDeliveryRequestDetail" Width="1.5" PointX="3.375" PointY="16.75" />
+        <EntityTypeShape EntityType="MarketingModel.BookDeliveryRequest" Width="1.5" PointX="9.375" PointY="6.75" />
         <EntityTypeShape EntityType="MarketingModel.market" Width="1.5" PointX="10" PointY="1" />
         <AssociationConnector Association="MarketingModel.FK_market_marketingsites" />
         <EntityTypeShape EntityType="MarketingModel.HandleBookReceipt" Width="1.5" PointX="5.375" PointY="13.75" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -131,7 +131,7 @@ namespace ECBNewWeb.Controllers
                             if (HandleBookReceiptId[i] != 0)
                             {
                                 Com.CommandText = "Insert Into BookResposibilities " +
-                                                    "(EmployeeId, HandleBookReceiptId, ReceiveDate, DoneFlag)Values(" + EmployeeId + "," + HandleBookReceiptId[i] + ",'" + DateTime.Now.Date + "', 0)";
+                                                    "(EmployeeId, HandleBookReceiptId, ReceiveDate, DoneFlag,RequestNo)Values(" + EmployeeId + "," + HandleBookReceiptId[i] + ",'" + DateTime.Now.Date + "', 0,(Select Distinct RequestNo From BookRequests Where RequestId ="+RequestId+"))";
 
                                 InsertedRows += Com.ExecuteNonQuery();
                             }

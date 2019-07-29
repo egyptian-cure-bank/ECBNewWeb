@@ -162,6 +162,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApproveReceiptController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BookDeliveryRequestsController.cs" />
     <Compile Include="Controllers\BookRequestsController.cs" />
     <Compile Include="Controllers\BookResposibilitiesController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -174,7 +175,9 @@
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\MarketReportsController.cs" />
+    <Compile Include="Controllers\PrintBookDeliveryController.cs" />
     <Compile Include="Controllers\PrintBookRequestsController.cs" />
+    <Compile Include="Controllers\SupervisorBookDeliveryController.cs" />
     <Compile Include="Controllers\SupervisorBookRequestsController.cs" />
     <Compile Include="Controllers\UserSiteController.cs" />
     <Compile Include="CrystalReports\Marketing\rptMarketingAdminDetails2.cs">
@@ -183,7 +186,13 @@
       <DependentUpon>rptMarketingAdminDetails.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CrystalReports\Marketing\rptMarketingBookRequest1.cs">
+    <Compile Include="CrystalReports\Marketing\rptMarketingBookDelivery.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMarketingBookDelivery.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\Marketing\rptMarketingBookRequest.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptMarketingBookRequest.rpt</DependentUpon>
@@ -193,6 +202,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptMarketingBrief.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\Marketing\rptMarketingReceiveBook.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMarketingReceiveBook.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CrystalReports\Marketing\rptMyMarketPerformance2.cs">
@@ -236,6 +251,12 @@
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\bankDeposit.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\BookDeliveryRequest.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\BookDeliveryRequestDetail.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\BookRequest.cs">
@@ -373,6 +394,7 @@
     <Compile Include="Models\ApproveReceiptModel.cs" />
     <Compile Include="Models\bankDepositModel.cs" />
     <Compile Include="Models\BanksModel.cs" />
+    <Compile Include="Models\BookDeliveryModel.cs" />
     <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\BookRequestDetailModel.cs" />
     <Compile Include="Models\BookRequestModel.cs" />
@@ -944,7 +966,11 @@
     <Content Include="Views\BookRequests\DeleteBookRequest.cshtml" />
     <Content Include="Views\BookRequests\AddNewTypeBookRequest.cshtml" />
     <Content Include="Views\PrintBookRequests\PrintRequests.cshtml" />
+    <Content Include="Views\BookDeliveryRequests\CreateBookDeliveryRequests.cshtml" />
+    <Content Include="Views\BookDeliveryRequests\AllBookDeliveryRequests.cshtml" />
+    <Content Include="Views\SupervisorBookDelivery\SupervisorBookDeliveryApprove.cshtml" />
     <Content Include="Views\SupervisorBookRequests\SupervisorApproveBookRequest.cshtml" />
+    <Content Include="Views\PrintBookDelivery\PrintDeliveryRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -965,6 +991,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptMarketingAdminDetails2.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBookDelivery.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMarketingBookDelivery.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBookRequest.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptMarketingBookRequest1.cs</LastGenOutput>
@@ -972,6 +1002,10 @@
     <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingBrief.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptMarketingBrief2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\Marketing\rptMarketingReceiveBook.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMarketingReceiveBook.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CrystalReports\Marketing\rptMyMarketPerformance.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

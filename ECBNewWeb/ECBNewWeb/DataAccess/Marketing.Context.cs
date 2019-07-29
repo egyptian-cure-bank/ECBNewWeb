@@ -55,6 +55,11 @@ namespace ECBNewWeb.DataAccess
         public DbSet<cashDeposit> cashDeposits { get; set; }
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
         public DbSet<Employee> Employees { get; set; }
+<<<<<<< HEAD
+        public DbSet<BookDeliveryRequestDetail> BookDeliveryRequestDetails { get; set; }
+        public DbSet<BookDeliveryRequest> BookDeliveryRequests { get; set; }
+=======
         public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
+>>>>>>> master
     }
 }
