@@ -109,5 +109,72 @@ namespace ECBNewWeb.Controllers
             }
             return RedirectToAction("PrintRequests");
         }
+        public ActionResult PrintReceiveReport(FormCollection form)
+        {
+            string Cmd = "Select Distinct BookRequests.EmployeeId, BookRequests.RequestDate ,BookResposibilities.ReceiveDate, BookRequests.RequestNo,  "+
+                            "Employees.FirstName + ' ' + Employees.MiddleName + ' ' + Employees.LastName As EmpFullName, Departments.DepartmentName,marketingsites.sitename,  "+
+                            "marketingrectype.[name]As RecType, Count(BookResposibilities.RespId)As Amount, "+
+                            "Min(BookTypes.BookNo)FromBook, Max(BookTypes.BookNo)ToBook, Min(HandleBookReceipts.FirstReceiptNo) as FromReceipt, Max(HandleBookReceipts.LastReceiptNo) as ToReceipt, "+
+                            "(Select Max(market.no) "+
+                            "From market "+
+                            "Where market.ResponsibilityId = min(BookResposibilities.RespId)) as LastSavedRecNo, Max(CanceledReceipts.ReceiptNo) as LastCanceledReceiptNo "+
+                            "From BookRequests "+
+                            "Inner Join BookResposibilities "+
+                            "On BookRequests.RequestNo = BookResposibilities.RequestNo "+
+                            "Inner Join HandleBookReceipts "+
+                            "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId "+
+                            "Left Join HandleBookReceipts ParentReceipt "+
+                            "On ParentReceipt.ParentBookReceiptId = HandleBookReceipts.BookReceiptId "+
+                            "Inner Join BookTypes "+
+                            "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId "+
+                            "Left Join CanceledReceipts "+
+                            "On BookResposibilities.RespId = CanceledReceipts.ResponsibilityId "+
+                            "Inner Join marketingrectype "+
+                            "On BookTypes.RecTypeId = marketingrectype.id "+
+                            "Inner Join Employees "+
+                            "On BookRequests.EmployeeId = Employees.EmployeeId "+
+                            "Inner Join Departments "+
+                            "On Employees.DepartmentId = Departments.DepartmentId "+
+                            "Inner Join[login] "+
+                            "On[login].employee_id = Employees.EmployeeId "+
+                            "Inner Join UserSites "+
+                            "On[login].id = UserSites.UserId "+
+                            "Inner Join marketingsites "+
+                            "On dbo.UserSites.SiteId = marketingsites.id "+
+                            "Where UserSites.Active = 1 "+
+                            "And BookRequests.RequestId = @RequestId "+
+                            "Group by BookRequests.EmployeeId, BookRequests.RequestDate, BookRequests.RequestNo, "+
+                            "Employees.FirstName , Employees.MiddleName, Employees.LastName, Departments.DepartmentName,marketingsites.sitename, "+
+                            "marketingrectype.[name],BookResposibilities.ReceiveDate";
+
+            using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
+            {
+                Conn.Open();
+                using (SqlCommand Com = new SqlCommand(Cmd, Conn))
+                {
+                    Com.Parameters.AddWithValue("@RequestId", Convert.ToInt32(form["RequestId"].ToString()));
+                    SqlDataAdapter Adapt = new SqlDataAdapter(Com);
+                    DataTable dt = new DataTable();
+                    Adapt.Fill(dt);
+                    ReportDocument Doc = new ReportDocument();
+                    Doc.Load(Path.Combine(Server.MapPath("~/CrystalReports/Marketing"), "rptMarketingReceiveBook.rpt"));
+                    Doc.SetDataSource(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        try
+                        {
+                            Stream stream = Doc.ExportToStream(ExportFormatType.PortableDocFormat);
+                            stream.Seek(0, SeekOrigin.Begin);
+                            return File(stream, "application/pdf");
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("PrintRequests");
+        }
     }
 }
