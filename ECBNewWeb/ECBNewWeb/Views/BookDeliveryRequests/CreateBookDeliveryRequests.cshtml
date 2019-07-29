@@ -1,0 +1,322 @@
+﻿@model ECBNewWeb.Models.BookDeliveryModel
+@{
+    ViewBag.Title = "BookDeliveryRequests";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+<link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/chosen.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+<script src="~/Content/assets/demo/default/base/dataTables.select.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
+
+<div class="">
+    <div class="row">
+        <div class="container">
+            <!--begin::Portlet-->
+            <div class="">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                إذن تسليم عهدة
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @using (Html.BeginForm())
+                {
+                        <!--begin::Form-->
+                    @Html.HiddenFor(d => d.BookTypeId)
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label for="" class="">رقم طلب الصرف</label>
+                                @Html.DropDownListFor(m => m.RequestId, Model.MyRequests, new { @size = 6, @class = "form-control", @id = "requests" })
+                                @Html.ValidationMessageFor(m => m.RequestNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group m-form__group col-md-4">
+                                <label for="" class="">نوع الدفتر</label>
+                                @Html.DropDownListFor(x => x.RecTypeId, new SelectList(string.Empty, "value", "text"), new { @class = "form-control m-input", @id = "recTypeName" })
+                                @Html.ValidationMessageFor(m => m.RecTypeId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-4">
+                                <label for="">رقم الدفاتر</label>
+                                @Html.DropDownListFor(m => m.ResponsibilityId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control m-input", @multiple = "multiple", @id = "bookNumbers" })
+                                @Html.ValidationMessageFor(m => m.BookTypeId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-4">
+                                <label></label>
+                                <div class="">
+                                    <button type="button" class="btn btn-outline-info m-btn" id="btnAdd" disabled>
+                                        <span>                                            
+                                            <span>إضافة</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="table table-striped  table-bordered table-hover table-sm" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
+                                <thead>
+                                    <tr>
+                                        <th>نوع الدفتر</th>
+                                        <th>عدد الدفاتر</th>
+                                        <th>من دفتر</th>
+                                        <th>إلى دفتر</th>
+                                        <th>من إيصال</th>
+                                        <th>إلى إيصال</th>
+                                        <th>حذف</th>
+                                        <th hidden="hidden">RespIdValues</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <button id="btnSave" class="btn btn-success m-btn--pill" disabled>
+                                        حفظ
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button id="" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                        الغاء
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+@if (Session["Msg"] != null)
+{
+    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+           alert("تم الحفظ بنجاح");
+        </script>
+    }
+    else if (Session["Msg"].ToString() == "PendingRequest")
+    {
+        <script>
+            alert("يوجد طلب تسوية معلق لم يتم الموافقة عليه");
+        </script>
+    }
+    else
+    {
+        <script>
+            alert("خطأ أثناء الحفظ");
+        </script>
+    }
+}
+<script>
+    var table;
+    var stringRow;
+    var totalRespIds = [];
+    var myNewArray = [];
+    $(document).ready(function () {
+        $.noConflict();
+        $("#bookNumbers").chosen();
+
+        table = $('#m_table_1').DataTable({
+            "scrollY": 200,
+            "scrollX": true,
+            "searching": false,
+            "language": {
+                "emptyTable": "لاتوجد بيانات"
+            }
+        });
+        $("#requests").change(function () {
+            var ReqId = $("#requests option:selected").val();
+            var data = [];
+            $.getJSON("/BookDeliveryRequests/PopulateRecType", { "RequestId": ReqId }, function (data) {
+                data = $.map(data, function (item, a) {
+                    return "<option value=" + item.Value + ">" + item.Text + "</option>";
+                });
+                $("#recTypeName").html(data);
+                $("#recTypeName").val(-1);
+                //clear remaining data
+                table.rows().remove().draw();
+                $("#bookNumbers").html('');
+                $('#bookNumbers').trigger("chosen:updated");
+            });
+        });
+        $("#recTypeName").change(function () {
+            var selectedvalue = $("#recTypeName option:selected").val();
+            var ReqId = $("#requests option:selected").val();
+            if (selectedvalue != -1) {
+                $("#btnAdd").removeAttr("disabled");
+                var data = [];
+                $.getJSON("/BookDeliveryRequests/GetBookNumberFromRecType", { "RecTypeId": selectedvalue, "RequestId": ReqId }, function (data) {
+                    data = $.map(JSON.parse(data), function (item, a) {
+                        return "<option value=" + item.RespId + ">" + item.BookNo + "</option>";
+                    });
+                    $("#bookNumbers").html(data);
+                    $('#bookNumbers').trigger("chosen:updated");
+                });
+            }
+        });
+    });
+    var RespIdvalues = [];
+    $('#bookNumbers').on('change', function (e) {
+        RespIdvalues = $("#bookNumbers").val();
+        for (var i = 0; i < RespIdvalues.length; i++) {
+            totalRespIds.push(RespIdvalues[i]);
+        }
+        //Remove Duplicates From Array
+        myNewArray = totalRespIds.filter(function (elem, index, self) {
+            return index === self.indexOf(elem);
+        });
+    });
+
+    $("#btnAdd").click(function () {
+        var isdisabled = $("#btnSave").attr("disabled");
+        if (isdisabled) {
+            $("#btnSave").removeAttr("disabled");
+        }
+        var RowExists;
+        var rowData = table.rows().column(0).data();
+        rowData.each(function (value, index) {
+            if (value == "<tr><td>" + $("#recTypeName option:selected").text() + "</td>") {
+                RowExists = true;
+            }
+        });
+        if (RowExists) {
+            alert("هذا الدفتر موجود بالفعل");
+            return;
+        }
+        else {
+            var BookNoText = [];
+            var FromRec = 0;
+            var ToRec = 0;
+            BookNoText = $("#bookNumbers option:selected").text();
+    
+            $.getJSON("/BookDeliveryRequests/GetInfoDetails/", $.param({ RespIds: RespIdvalues }, true), function (data) {
+                data = $.map(JSON.parse(data), function (item, a) {
+                    return item;
+                });
+                FromRec = data[0]["FromReceipt"];
+                ToRec = data[0]['ToReceipt'];
+                stringRow = ["<tr><td>" + $("#recTypeName option:selected").text() + "</td>",
+                                        "<td>" + BookNoText.length + "</td>",
+                                        "<td>" + BookNoText[0] + "</td>",
+                                        "<td>" + BookNoText[BookNoText.length - 1] + "</td>",
+                                        "<td>" + FromRec + "</td>",
+                                        "<td>" + ToRec + "</td>",
+                                        "<td>" + '<button type="button" id="deleteRow' + '"' + 'class="btn btn-danger btn-xs dt-delete">' + "Delete" + "</td>",
+                                        "<td>" + RespIdvalues + "</td></tr>"
+                ];
+                table.column(7).visible(false);
+                table.row.add(stringRow).draw();
+            });
+        }
+    });
+    var splitedArray;
+    var actualNumbers;
+    $("table").on('click', '.dt-delete', function () {
+        $(this).parents('tr').addClass('selected');
+        //Remove Duplicates From Array
+         myNewArray = totalRespIds.filter(function (elem, index, self) {
+            return index === self.indexOf(elem);
+        });
+         var value = $('table > tbody > tr.selected td:last-child').html();
+         splitedArray = value.split(',');
+         //alert(splitedArray + " willremove");
+         myNewArray = myNewArray.filter(function (elem) {
+             return elem != splitedArray;
+         });
+         for (var i = 0; i < myNewArray.length; i++) {
+             alert("My New Array: " + myNewArray[i]);
+        }
+        table.row($(this).parents('tr')).remove().draw(false);
+        //check if table has rows
+        var tableHasRows = table.page.info().recordsTotal;
+        if (tableHasRows == 0) {
+            myNewArray = [];
+            $("#btnSave").attr("disabled","disabled");
+        }
+    });
+    $("#btnSave").click(function (e) {
+        //e.preventDefault();
+        var ReqId = $("#requests option:selected").val();
+        $.ajax(
+          {
+              type: "POST",
+              url: "/BookDeliveryRequests/SaveBookDeliveryRequest",
+              data: {
+                  'RespIds': myNewArray,
+                  'RequestId': ReqId
+              },
+              success: function () {
+
+              },
+              error: function (req, err) {
+                  console.log(err);
+              }
+          });
+    });
+</script>
+@if (Session["Msg"] != null)
+{
+    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+
+        </script>
+    }
+    else if (Session["Msg"].ToString() == "PendingRequest")
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
+                    text: "يوجد طلب تسوية لم يتم الموافقة عليه",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+}

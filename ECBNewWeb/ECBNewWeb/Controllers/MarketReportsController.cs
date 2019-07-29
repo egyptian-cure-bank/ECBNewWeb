@@ -66,17 +66,22 @@ namespace ECBNewWeb.Controllers
                         "(currency + (case when cash = 1 then ' فيزا' when cash = 2 then ' نقدي' when cash = 3 then ' شيك' end)) as currency, "+
                         "CASE WHEN cash = 2 THEN amount else 0 END AS cash, "+
                         "Case When cash = 3 THEN amount else 0 End as Cheque, " +
-                        "concat(login.FirstName, ' ', login.LastName) AS employee, "+
+                        "concat(Employees.FirstName, ' ',Employees.MiddleName,' ', Employees.LastName) AS employee, " +
                         "marketingrectype.name AS TYPE, "+
                         "note, "+
                         "marketingsites.siteName AS site, "+
                         "combID, TargetCurr.CurrencyName, TargetCurr.Id as CurrencyId, DonationPurpose.Purpose, BookTypes.BookNo "+ 
                         "FROM   market "+
+                        "Inner Join Employees "+ 
+                        "On Employees.EmployeeId = market.employee "+
                         "INNER JOIN login "+
-                        "ON login.id = market.employee "+
+                        "ON login.employee_id = Employees.EmployeeId "+
                         "INNER JOIN marketingsites "+
                         "ON marketingsites.id = market.site "+
-                        "INNER JOIN marketingrectype "+
+                        "Inner Join UserSites "+
+                        "On login.id = UserSites.UserId "+
+                        "And UserSites.SiteId = marketingsites.id "+
+                        "INNER JOIN marketingrectype " +
                         "ON marketingrectype.id = market.type "+
                         "INNER JOIN doners "+
                         "ON doners.id = market.name "+
@@ -90,8 +95,7 @@ namespace ECBNewWeb.Controllers
                         "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId "+
                         "Inner Join BookTypes "+
                         "On dbo.BookTypes.BookTypeId = HandleBookReceipts.BookTypeId "+
-                        "Where market.site = @SiteId "+
-                        "And employee = @UserId " +
+                        "Where BookResposibilities.EmployeeId = @EmployeeId " +
                         "And market.dat = @DateParam " +
                         ")T "+
                         "Left Join(Select CurrencyCovnersionRates.SourceCurrency, CurrencyCovnersionRates.TargetCurrency, Rate From CurrencyCovnersionRates "+
@@ -100,24 +104,20 @@ namespace ECBNewWeb.Controllers
                         "First "+
                         "Group By dat, no, name, currency, employee, type, note, site, combID, Rates, GrandTotal, Purpose "+
                         "Union "+
-                        "Select CanceledReceipts.ActualDate, ReceiptNo as no,null as [name],0.00 amount,null currency,0.00 cash,0.00 as Cheque,login.FirstName + ' ' + login.LastName employee, " +
+                        "Select CanceledReceipts.ActualDate, ReceiptNo as no,null as [name],0.00 amount,null currency,0.00 cash,0.00 as Cheque,Employees.FirstName+' '+Employees.MiddleName + ' ' + Employees.LastName employee, " +
                         "marketingrectype.[name] + '-' + Convert(NVARCHAR, BookNo) type,null note,null site,null combID,0.00 as Rates,0.00 GrandTotal,null Purpose "+
                         "FROM CanceledReceipts "+
                         "Inner Join BookResposibilities "+
                         "On dbo.BookResposibilities.RespId = dbo.CanceledReceipts.ResponsibilityId "+
-                        "Inner Join UserSites "+
-                        "On dbo.BookResposibilities.EmployeeId = dbo.UserSites.UserId "+
-                        "INNER JOIN login "+
-                        "ON login.id = BookResposibilities.EmployeeId "+
-                        "And UserSites.UserId = [login].id "+
-                        "Inner Join HandleBookReceipts "+
+                        "INNER JOIN Employees "+
+                        "ON Employees.EmployeeId = BookResposibilities.EmployeeId "+
+                        "Inner Join HandleBookReceipts " +
                         "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId "+ 
                         "Inner Join BookTypes "+
                         "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId "+ 
                         "Inner Join marketingrectype "+
                         "On marketingrectype.id = BookTypes.RecTypeId "+
-                        "Where dbo.UserSites.SiteId = @SiteId "+
-                        "And dbo.BookResposibilities.EmployeeId = @UserId " +
+                        "Where dbo.BookResposibilities.EmployeeId = @EmployeeId " +
                         "And Convert(Date, dbo.CanceledReceipts.ActualDate) = @DateParam " +
                         ")TT "+
                         "Order by type,no,Cash ";
@@ -126,8 +126,7 @@ namespace ECBNewWeb.Controllers
                 Conn.Open();
                 using (SqlCommand Com = new SqlCommand(Cmd, Conn))
                 {
-                    Com.Parameters.AddWithValue("@SiteId", Convert.ToInt32(form["SiteId"].ToString()));
-                    Com.Parameters.AddWithValue("@UserId", UserInfo.UserId);
+                    Com.Parameters.AddWithValue("@EmployeeId", UserInfo.EmployeeId);
                     Com.Parameters.AddWithValue("@DateParam",Convert.ToDateTime(form["Date"].ToString()));
                     //List<Models.DonationData> DonationTable = new List<Models.DonationData>();
                     SqlDataAdapter Adapt = new SqlDataAdapter(Com);
