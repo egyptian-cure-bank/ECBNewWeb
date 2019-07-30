@@ -59,31 +59,40 @@ namespace ECBNewWeb.Controllers
             DataTable dt = new DataTable();
             SqlDataAdapter adapt = null;
             string JsonString = null;
-            string Cmd = "Select BookRequests.RequestNo,BookDeliveryRequest.DeliveryId,BookDeliveryRequest.DeliveryNo,Employees.EmployeeNo,Employees.FirstName+' '+Employees.MiddleName+' '+Employees.LastName as FullEmpName, " +
-                          "Departments.DepartmentName,BookDeliveryRequest.DeliveryDate,marketingrectype.[name],Count(distinct BookResposibilities.RespId) BookCount, " +
-                          "Min(BookTypes.BookNo)FromBook,Max(BookTypes.BookNo)ToBook,Min(HandleBookReceipts.FirstReceiptNo) as FromReceipt,Max(HandleBookReceipts.LastReceiptNo) as ToReceipt " +
-                          "From marketingrectype " +
-                          "Inner Join BookTypes " +
-                          "On BookTypes.RecTypeId = marketingrectype.id " +
-                          "Inner Join HandleBookReceipts " +
-                          "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId " +
-                          "Inner Join BookResposibilities " +
-                          "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId " +
-                          "Inner Join Employees " +
-                          "On BookResposibilities.EmployeeId = Employees.EmployeeId " +
-                          "Inner Join Departments " +
-                          "On Employees.DepartmentId = Departments.DepartmentId " +
-                          "Inner Join BookDeliveryRequestDetails " +
-                          "On BookResposibilities.RespId = BookDeliveryRequestDetails.ResponsibilityId " +
-                          "Inner Join BookDeliveryRequest " +
-                          "On BookDeliveryRequest.DeliveryNo = BookDeliveryRequestDetails.DeliveryNo " +
-                          "Inner Join BookRequests " +
-                          "On BookDeliveryRequest.RequestId = BookRequests.RequestId " +
-                          "Where BookResposibilities.DoneFlag = 0 " +
-                          "And BookDeliveryRequest.RequestId = @RequestId " +
-                          "Group By marketingrectype.[name],BookDeliveryRequest.DeliveryId,Employees.EmployeeNo,Employees.FirstName,Employees.MiddleName,Employees.LastName,Departments.DepartmentName, " +
-                          "BookDeliveryRequest.DeliveryNo,BookDeliveryRequest.DeliveryDate,BookRequests.RequestNo " +
-                          "Order By marketingrectype.[name]";
+            string Cmd = "Select BookRequests.RequestNo,BookDeliveryRequest.DeliveryId,BookDeliveryRequest.DeliveryNo,Employees.EmployeeNo,Employees.FirstName+' '+Employees.MiddleName+' '+Employees.LastName as FullEmpName, "+
+                            "Departments.DepartmentName,BookDeliveryRequest.DeliveryDate,marketingrectype.[name],Count(distinct BookResposibilities.RespId) BookCount, "+
+                            "Min(BookTypes.BookNo)FromBook,Max(BookTypes.BookNo)ToBook,Min(HandleBookReceipts.FirstReceiptNo) as FromReceipt,Max(HandleBookReceipts.LastReceiptNo) as ToReceipt , "+
+                            "marketingsites.sitename,ParentEmp.FirstName + ' ' + ParentEmp.MiddleName + ' ' + ParentEmp.LastName ParentEmpName "+
+                            "        From marketingrectype "+
+                            "        Inner Join BookTypes "+
+                            "On BookTypes.RecTypeId = marketingrectype.id "+
+                            "Inner Join HandleBookReceipts "+
+                            "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId "+
+                            "Inner Join BookResposibilities "+
+                            "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId "+
+                            "Inner Join Employees "+
+                            "On BookResposibilities.EmployeeId = Employees.EmployeeId "+
+                            "Inner Join Departments "+
+                            "On Employees.DepartmentId = Departments.DepartmentId "+
+                            "Inner Join BookDeliveryRequestDetails "+
+                            "On BookResposibilities.RespId = BookDeliveryRequestDetails.ResponsibilityId "+
+                            "Inner Join BookDeliveryRequest "+
+                            "On BookDeliveryRequest.DeliveryNo = BookDeliveryRequestDetails.DeliveryNo "+
+                            "Inner Join BookRequests "+
+                            "On BookDeliveryRequest.RequestId = BookRequests.RequestId "+
+                            "Inner Join[login] "+
+                            "On Employees.EmployeeId = [login].employee_id "+
+                            "Inner Join UserSites "+
+                            "On[login].id = UserSites.UserId "+
+                            "Inner Join marketingsites "+
+                            "On UserSites.SiteId = marketingsites.id "+
+                            "Inner Join Employees ParentEmp "+
+                            "On ParentEmp.EmployeeId = Employees.ParentEmployeeId "+
+                            "Where BookResposibilities.DoneFlag = 0 "+
+                            "And BookDeliveryRequest.RequestId = @RequestId "+
+                            "Group By marketingrectype.[name],BookDeliveryRequest.DeliveryId,Employees.EmployeeNo,Employees.FirstName,Employees.MiddleName,Employees.LastName,Departments.DepartmentName,  "+
+                            "BookDeliveryRequest.DeliveryNo,BookDeliveryRequest.DeliveryDate,BookRequests.RequestNo,marketingsites.sitename ,ParentEmp.FirstName,ParentEmp.MiddleName,ParentEmp.LastName "+
+                            "Order By marketingrectype.[name]";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
                 Conn.Open();
