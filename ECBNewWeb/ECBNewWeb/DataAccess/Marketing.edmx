@@ -30,6 +30,26 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BankName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="BookDeliveryRequest">
+          <Key>
+            <PropertyRef Name="DeliveryNo" />
+          </Key>
+          <Property Name="DeliveryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryNo" Type="bigint" Nullable="false" />
+          <Property Name="RequestId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="DeliveryDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BookDeliveryRequestDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryNo" Type="bigint" />
+          <Property Name="ResponsibilityId" Type="int" />
+          <Property Name="FinanceApproval" Type="int" />
+          <Property Name="SupervisorApproval" Type="int" />
+        </EntityType>
         <EntityType Name="BookRequestDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -401,6 +421,8 @@
           <EntitySet Name="ApproveReceipt" EntityType="Self.ApproveReceipt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bankDeposit" EntityType="Self.bankDeposit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Banks" EntityType="Self.Banks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookDeliveryRequest" EntityType="Self.BookDeliveryRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookDeliveryRequestDetails" EntityType="Self.BookDeliveryRequestDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookRequestDetails" EntityType="Self.BookRequestDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookRequests" EntityType="Self.BookRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookResposibilities" EntityType="Self.BookResposibilities" Schema="dbo" store:Type="Tables" />
@@ -531,7 +553,6 @@
             <End Role="market" EntitySet="markets" />
           </AssociationSet>
           <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
-          <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
           <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
           <EntitySet Name="BookRequestDetails" EntityType="MarketingModel.BookRequestDetail" />
           <EntitySet Name="BookRequests" EntityType="MarketingModel.BookRequest" />
@@ -542,6 +563,9 @@
           <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
           <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
           <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
+          <EntitySet Name="BookDeliveryRequests" EntityType="MarketingModel.BookDeliveryRequest" />
+          <EntitySet Name="BookDeliveryRequestDetails" EntityType="MarketingModel.BookDeliveryRequestDetail" />
+          <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -756,31 +780,6 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
         </EntityType>
-        <EntityType Name="UserLogin">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-          <Property Name="employee_id" Type="Int32" />
-          <Property Name="volunteer_id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="passChanged" Type="Int16" />
-          <Property Name="department" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
-          <Property Name="UserComments" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyID" Type="Int32" />
-          <Property Name="LastLoginTime" Type="DateTime" Precision="0" />
-          <Property Name="IsResetPasswordNeeded" Type="Int16" />
-          <Property Name="PasswordChangedOn" Type="DateTime" Precision="0" />
-          <Property Name="SecurityQuestionID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="SecurityAnswer" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="userRole" Type="Int32" />
-          <Property Name="importance" Type="Int32" />
-          <Property Name="active" Type="Int16" />
-        </EntityType>
         <EntityType Name="ChequeBank">
           <Key>
             <PropertyRef Name="ChequeBankId" />
@@ -888,6 +887,51 @@
           <Property Name="ParentBookReceiptId" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BookDeliveryRequest">
+          <Key>
+            <PropertyRef Name="DeliveryNo" />
+          </Key>
+          <Property Name="DeliveryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryNo" Type="Int64" Nullable="false" />
+          <Property Name="RequestId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="BookDeliveryRequestDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryNo" Type="Int64" />
+          <Property Name="ResponsibilityId" Type="Int32" />
+          <Property Name="FinanceApproval" Type="Int32" />
+          <Property Name="SupervisorApproval" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="volunteer_id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="passChanged" Type="Int16" />
+          <Property Name="department" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="UserComments" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="0" />
+          <Property Name="IsResetPasswordNeeded" Type="Int16" />
+          <Property Name="PasswordChangedOn" Type="DateTime" Precision="0" />
+          <Property Name="SecurityQuestionID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="SecurityAnswer" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="userRole" Type="Int32" />
+          <Property Name="importance" Type="Int32" />
+          <Property Name="active" Type="Int16" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1133,32 +1177,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserLogins">
-            <EntityTypeMapping TypeName="MarketingModel.UserLogin">
-              <MappingFragment StoreEntitySet="login">
-                <ScalarProperty Name="active" ColumnName="active" />
-                <ScalarProperty Name="importance" ColumnName="importance" />
-                <ScalarProperty Name="userRole" ColumnName="userRole" />
-                <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-                <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
-                <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
-                <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
-                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="department" ColumnName="department" />
-                <ScalarProperty Name="passChanged" ColumnName="passChanged" />
-                <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
-                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ChequeBanks">
             <EntityTypeMapping TypeName="MarketingModel.ChequeBank">
               <MappingFragment StoreEntitySet="ChequeBanks">
@@ -1274,6 +1292,54 @@
                 <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
                 <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
                 <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookDeliveryRequests">
+            <EntityTypeMapping TypeName="MarketingModel.BookDeliveryRequest">
+              <MappingFragment StoreEntitySet="BookDeliveryRequest">
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
+                <ScalarProperty Name="DeliveryId" ColumnName="DeliveryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookDeliveryRequestDetails">
+            <EntityTypeMapping TypeName="MarketingModel.BookDeliveryRequestDetail">
+              <MappingFragment StoreEntitySet="BookDeliveryRequestDetails">
+                <ScalarProperty Name="SupervisorApproval" ColumnName="SupervisorApproval" />
+                <ScalarProperty Name="FinanceApproval" ColumnName="FinanceApproval" />
+                <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
+                <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="MarketingModel.UserLogin">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="importance" ColumnName="importance" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+                <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+                <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+                <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+                <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+                <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

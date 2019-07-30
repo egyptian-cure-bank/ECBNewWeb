@@ -45,7 +45,6 @@ namespace ECBNewWeb.DataAccess
         public DbSet<BookType> BookTypes { get; set; }
         public DbSet<marketingsite> marketingsites { get; set; }
         public DbSet<DonationPurpose> DonationPurposes { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<ChequeBank> ChequeBanks { get; set; }
         public DbSet<BookRequestDetail> BookRequestDetails { get; set; }
         public DbSet<BookRequest> BookRequests { get; set; }
@@ -55,8 +54,9 @@ namespace ECBNewWeb.DataAccess
         public DbSet<cashDeposit> cashDeposits { get; set; }
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<BookDeliveryRequestDetail> BookDeliveryRequestDetails { get; set; }
-        public DbSet<BookDeliveryRequest> BookDeliveryRequests { get; set; }
         public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
+        public DbSet<BookDeliveryRequest> BookDeliveryRequests { get; set; }
+        public DbSet<BookDeliveryRequestDetail> BookDeliveryRequestDetails { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
     }
 }

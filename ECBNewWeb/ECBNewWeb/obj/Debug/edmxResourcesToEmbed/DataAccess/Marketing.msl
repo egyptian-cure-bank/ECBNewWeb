@@ -109,6 +109,7 @@
     <EntitySetMapping Name="BookResposibilities">
       <EntityTypeMapping TypeName="MarketingModel.BookResposibility">
         <MappingFragment StoreEntitySet="BookResposibilities">
+          <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
           <ScalarProperty Name="DoneFlag" ColumnName="DoneFlag" />
           <ScalarProperty Name="NextReceiptNo" ColumnName="NextReceiptNo" />
           <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
@@ -159,19 +160,6 @@
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="HandleBookReceipts">
-      <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
-        <MappingFragment StoreEntitySet="HandleBookReceipts">
-          <ScalarProperty Name="ParentBookReceiptId" ColumnName="ParentBookReceiptId" />
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
-          <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
-          <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
-          <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -248,32 +236,6 @@
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Purpose" ColumnName="Purpose" />
           <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="UserLogins">
-      <EntityTypeMapping TypeName="MarketingModel.UserLogin">
-        <MappingFragment StoreEntitySet="login">
-          <ScalarProperty Name="active" ColumnName="active" />
-          <ScalarProperty Name="importance" ColumnName="importance" />
-          <ScalarProperty Name="userRole" ColumnName="userRole" />
-          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
-          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
-          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
-          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="department" ColumnName="department" />
-          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
-          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
-          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -379,6 +341,67 @@
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
           <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HandleBookReceipts">
+      <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
+        <MappingFragment StoreEntitySet="HandleBookReceipts">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ParentBookReceiptId" ColumnName="ParentBookReceiptId" />
+          <ScalarProperty Name="LastReceiptNo" ColumnName="LastReceiptNo" />
+          <ScalarProperty Name="FirstReceiptNo" ColumnName="FirstReceiptNo" />
+          <ScalarProperty Name="BookTypeId" ColumnName="BookTypeId" />
+          <ScalarProperty Name="BookReceiptId" ColumnName="BookReceiptId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookDeliveryRequests">
+      <EntityTypeMapping TypeName="MarketingModel.BookDeliveryRequest">
+        <MappingFragment StoreEntitySet="BookDeliveryRequest">
+          <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+          <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
+          <ScalarProperty Name="DeliveryId" ColumnName="DeliveryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookDeliveryRequestDetails">
+      <EntityTypeMapping TypeName="MarketingModel.BookDeliveryRequestDetail">
+        <MappingFragment StoreEntitySet="BookDeliveryRequestDetails">
+          <ScalarProperty Name="SupervisorApproval" ColumnName="SupervisorApproval" />
+          <ScalarProperty Name="FinanceApproval" ColumnName="FinanceApproval" />
+          <ScalarProperty Name="ResponsibilityId" ColumnName="ResponsibilityId" />
+          <ScalarProperty Name="DeliveryNo" ColumnName="DeliveryNo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLogins">
+      <EntityTypeMapping TypeName="MarketingModel.UserLogin">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="importance" ColumnName="importance" />
+          <ScalarProperty Name="userRole" ColumnName="userRole" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -29,7 +29,6 @@
         <EntityTypeShape EntityType="MarketingModel.PaymentMethod" Width="1.5" PointX="13.75" PointY="13.75" />
         <EntityTypeShape EntityType="MarketingModel.TypeContact" Width="1.5" PointX="14.75" PointY="0.75" />
         <EntityTypeShape EntityType="MarketingModel.UserSite" Width="1.5" PointX="15.75" PointY="3.75" />
-        <EntityTypeShape EntityType="MarketingModel.UserLogin" Width="1.5" PointX="15.75" PointY="6.75" />
         <AssociationConnector Association="MarketingModel.FK_centers_governments" />
         <AssociationConnector Association="MarketingModel.FK_doners_centers" />
         <EntityTypeShape EntityType="MarketingModel.BookRequestDetail" Width="1.5" PointX="0.75" PointY="5.75" />
@@ -41,6 +40,7 @@
         <EntityTypeShape EntityType="MarketingModel.market" Width="1.5" PointX="10" PointY="1" />
         <AssociationConnector Association="MarketingModel.FK_market_marketingsites" />
         <EntityTypeShape EntityType="MarketingModel.HandleBookReceipt" Width="1.5" PointX="5.375" PointY="13.75" />
+        <EntityTypeShape EntityType="MarketingModel.UserLogin" Width="1.5" PointX="16.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
