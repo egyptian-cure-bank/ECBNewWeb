@@ -16,6 +16,8 @@ namespace ECBNewWeb.Models
         public List<SelectListItem> MyDeliveryNo { get; set; }
         public int? EmployeeNo { get; set; }
         public string FullEmployeeName { get; set; }
+        public string SupervisorName { get; set; }
+        public string SiteName { get; set; }
         public int ResponsibilityId { get; set; }
         public int[] TotalRespIds { get; set; }
         public int RecTypeId { get; set; }

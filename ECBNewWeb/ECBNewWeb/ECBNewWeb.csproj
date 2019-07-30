@@ -398,7 +398,6 @@
     <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\BookRequestDetailModel.cs" />
     <Compile Include="Models\BookRequestModel.cs" />
-    <Compile Include="Models\BookRequestsModel.cs" />
     <Compile Include="Models\BookResposibilityModel.cs" />
     <Compile Include="Models\cashDepositModel.cs" />
     <Compile Include="Models\Center.cs" />

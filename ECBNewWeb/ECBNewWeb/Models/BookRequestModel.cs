@@ -23,12 +23,5 @@ namespace ECBNewWeb.Models
         public int? RecTypeId { get; set; }
         public string BookTypeName { get; set; }
         public int? Amount { get; set; }
-
-        
-
-        
-        
-
-
     }
 }
