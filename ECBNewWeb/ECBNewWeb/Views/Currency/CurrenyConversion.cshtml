@@ -44,12 +44,12 @@
                                     </div>
                                     <div class="form-group  m-form__group col-md-3">
                                         <label for="" class="">الى عملة</label>
-                                         @Html.DropDownListFor(x => x.TargetCurrencyId, Model.TargetMyCurrencies as List<SelectListItem>, new { @class = "form-control m-input", @id = "targetCurrencyList" }) 
+                                         @Html.DropDownListFor(x => x.TargetCurrencyId, Model.TargetMyCurrencies as List<SelectListItem>, new { @class = "form-control m-input", @id = "targetCurrencyList" ,@disabled = "disabled" }) 
                                          @Html.ValidationMessageFor(m => m.TargetCurrencyId, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group m-form__group col-md-3">
-                                        <label for="">القيمة</label>
+                                        <label for="">سعر التحويل</label>
                                         @*<input type="number" class="form-control m-input" placeholder="القيمة">*@
                                         @Html.TextBoxFor(m => m.ConversionRate, new { @class = "form-control m-input",@type = "number", @placeholder = "القيمة" })
                                         @Html.ValidationMessageFor(m => m.ConversionRate, "", new { @class = "text-danger" })
@@ -146,10 +146,8 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        //Select Default Value For sites DropDownList
         $("#sourceCurrencyList").val(-1);
-        //Select Default Value For Paymentmethod DropDownList
-        $("#targetCurrencyList").val(-1);
+        $("#targetCurrencyList").val(1);
     })
 </script>
 
