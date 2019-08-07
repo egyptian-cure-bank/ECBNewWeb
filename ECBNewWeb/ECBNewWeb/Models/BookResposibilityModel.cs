@@ -35,5 +35,15 @@ namespace ECBNewWeb.Models
         public string MiddleName { get; set; }
         public string lastName { get; set; }
         public int BookReceiptId { get; set; }
+        public int DeliveryId { get; set; }
+        public long DeliveryNo { get; set; }
+        public List<SelectListItem> MyDeliveryNo { get; set; }
+        public int? EmployeeNo { get; set; }
+        public string FullEmployeeName { get; set; }
+        public string SupervisorName { get; set; }
+        public string SiteName { get; set; }
+        public int? RequestId { get; set; }
+        public long RequestNo { get; set; }
+        public string BookState { get; set; }
     }
 }

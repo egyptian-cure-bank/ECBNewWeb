@@ -949,9 +949,7 @@
     <Content Include="Views\Book\EditHandleBookReceipts.cshtml" />
     <Content Include="Views\MarketReports\MarketGroupBrief.cshtml" />
     <Content Include="Views\MarketReports\MarketPerformance.cshtml" />
-    <Content Include="Views\BookResposibilities\AddBookResponsibility.cshtml" />
     <Content Include="Views\BookResposibilities\AllBookResponsibility.cshtml" />
-    <Content Include="Views\BookResposibilities\EditBookResponsibility.cshtml" />
     <Content Include="Views\UserSite\AddUserToSite.cshtml" />
     <Content Include="Views\UserSite\AllUserSites.cshtml" />
     <Content Include="Views\UserSite\EditUserSites.cshtml" />
