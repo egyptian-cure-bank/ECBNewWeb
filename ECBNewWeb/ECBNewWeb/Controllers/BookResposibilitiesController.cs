@@ -98,7 +98,7 @@ namespace ECBNewWeb.Controllers
             int insertedRows = 0;
             MarketEntities db = new MarketEntities();
             BookResposibility BookRespToUpdate = new BookResposibility();
-            BookDeliveryRequestDetail DeliveryRequestDetailUpdate = new BookDeliveryRequestDetail();
+            List<BookDeliveryRequestDetail> DeliveryRequestDetailUpdate = new List<BookDeliveryRequestDetail>();
             HandleBookReceipt HbookReceipt = new HandleBookReceipt();
             //Update Resp
             BookRespToUpdate = db.BookResposibilities.Find(model.RespId);
@@ -107,8 +107,11 @@ namespace ECBNewWeb.Controllers
             //Update BookeDeliverydetails
             DeliveryRequestDetailUpdate = (from d in db.BookDeliveryRequestDetails
                                            where d.ResponsibilityId == model.RespId
-                                           select d).FirstOrDefault();
-            DeliveryRequestDetailUpdate.FinanceApproval = 1;
+                                           select d).ToList();
+            foreach (var DeliveryItem in DeliveryRequestDetailUpdate)
+            {
+                DeliveryItem.FinanceApproval = 1;
+            }
             rowAffected = db.SaveChanges();
             if (model.BookState == "غير منتهي")
             {
@@ -150,6 +153,33 @@ namespace ECBNewWeb.Controllers
                 TempData["Msg"] = "لم يتم الحفظ";
             }
             return RedirectToAction("AllBookResponsibility") ;
+        }
+        [HttpPost]
+        public ActionResult CancelBookDeliveryRequest(int RespId)
+        {
+            int rowAffected = 0;
+            List<BookDeliveryRequestDetail> DeliveryRequestDetailUpdate = new List<BookDeliveryRequestDetail>();
+            using (MarketEntities db = new MarketEntities())
+            {
+                DeliveryRequestDetailUpdate = (from d in db.BookDeliveryRequestDetails
+                                               where d.ResponsibilityId == RespId
+                                               select d).ToList();
+                foreach (var DeliveryItem in DeliveryRequestDetailUpdate)
+                {
+                    DeliveryItem.FinanceApproval = 0;
+                    DeliveryItem.SupervisorApproval = 0;
+                }
+                rowAffected = db.SaveChanges();
+            }
+            if (rowAffected > 0)
+            {
+                TempData["Msg"] = "تم رفض الطلب بنجاح";
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
+            }
+            return RedirectToAction("AllBookResponsibility");
         }
         private List<SelectListItem> PopulateRequests()
         {
