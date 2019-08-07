@@ -32,15 +32,31 @@ namespace ECBNewWeb.Controllers
         }
         private List<SelectListItem> PopulateRequests()
         {
+            List<BookRequestModel> MyRequests;
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
-                List<BookRequestModel> MyRequests = (from S in db.BookRequests
-                                                     join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
-                                                     join E in db.Employees on S.EmployeeId equals E.EmployeeId
-                                                     where S.Active == 1 && D.FinanceApproval == 1 && D.SupervisorApproval == 1
-                                                     //&& S.EmployeeId == UserInfo.EmployeeId
-                                                     select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).OrderByDescending(order => order.RequestNo).Distinct().ToList<BookRequestModel>();
+                var AllAdmins = (from E in db.Employees
+                                 join U in db.UserLogins on E.EmployeeId equals U.employee_id
+                                 where E.Active == 1 && U.active == 1 && E.ParentEmployeeId == null && E.EmployeeId == UserInfo.EmployeeId
+                                 select E).FirstOrDefault();
+                if (AllAdmins != null)
+                {
+                    MyRequests = (from S in db.BookRequests
+                                  join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
+                                  join E in db.Employees on S.EmployeeId equals E.EmployeeId
+                                  where S.Active == 1 && D.FinanceApproval != 1 && D.SupervisorApproval == 1
+                                  select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.RequestNo).ToList<BookRequestModel>();
+                }
+                else
+                {
+                    MyRequests = (from S in db.BookRequests
+                                  join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
+                                  join E in db.Employees on S.EmployeeId equals E.EmployeeId
+                                  where S.Active == 1 && D.FinanceApproval != 1 && D.SupervisorApproval == 1
+                                  && (E.ParentEmployeeId == UserInfo.EmployeeId)
+                                  select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.RequestNo).ToList<BookRequestModel>();
+                }
                 foreach (BookRequestModel item in MyRequests)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -113,7 +129,7 @@ namespace ECBNewWeb.Controllers
         {
             string Cmd = "Select Distinct BookRequests.EmployeeId, BookRequests.RequestDate ,BookResposibilities.ReceiveDate, BookRequests.RequestNo,  "+
                             "Employees.FirstName + ' ' + Employees.MiddleName + ' ' + Employees.LastName As EmpFullName, Departments.DepartmentName,marketingsites.sitename,  "+
-                            "marketingrectype.[name]As RecType, Count(BookResposibilities.RespId)As Amount, "+
+                            "marketingrectype.[name]As RecType, Count(distinct BookResposibilities.RespId)As Amount, " +
                             "Min(BookTypes.BookNo)FromBook, Max(BookTypes.BookNo)ToBook, Min(HandleBookReceipts.FirstReceiptNo) as FromReceipt, Max(HandleBookReceipts.LastReceiptNo) as ToReceipt, "+
                             "(Select Max(market.no) "+
                             "From market "+

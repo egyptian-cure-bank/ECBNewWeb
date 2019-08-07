@@ -32,15 +32,32 @@ namespace ECBNewWeb.Controllers
         private List<SelectListItem> PopulateRequests()
         {
             List<SelectListItem> Items = new List<SelectListItem>();
+            List<BookDeliveryModel> MyRequests;
             using (MarketEntities db = new MarketEntities())
             {
-                List<BookDeliveryModel> MyRequests = (from S in db.BookDeliveryRequests
-                                                     join D in db.BookRequests on S.RequestId equals D.RequestId
-                                                     join J in db.BookDeliveryRequestDetails on S.DeliveryNo equals J.DeliveryNo
-                                                     join E in db.Employees on S.EmployeeId equals E.EmployeeId
-                                                     where E.ParentEmployeeId == UserInfo.EmployeeId &&
-                                                     J.SupervisorApproval == 0 && J.FinanceApproval == 0
-                                                     select new BookDeliveryModel() { RequestId = S.RequestId, DeliveryNo = S.DeliveryNo, EmployeeNo = E.EmployeeNo }).OrderByDescending(order => order.DeliveryNo).Distinct().ToList<BookDeliveryModel> ();
+                var AllAdmins = (from E in db.Employees
+                                 join U in db.UserLogins on E.EmployeeId equals U.employee_id
+                                 where E.Active == 1 && U.active == 1 && E.ParentEmployeeId == null && E.EmployeeId == UserInfo.EmployeeId
+                                 select E).FirstOrDefault();
+                if (AllAdmins != null)
+                {
+                    MyRequests = (from S in db.BookDeliveryRequests
+                                  join D in db.BookRequests on S.RequestId equals D.RequestId
+                                  join J in db.BookDeliveryRequestDetails on S.DeliveryNo equals J.DeliveryNo
+                                  join E in db.Employees on S.EmployeeId equals E.EmployeeId
+                                  where J.SupervisorApproval != 1 && J.FinanceApproval != 1
+                                  select new BookDeliveryModel() { RequestId = S.RequestId, DeliveryNo = S.DeliveryNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.DeliveryNo).ToList<BookDeliveryModel>();
+                }
+                else
+                {
+                    MyRequests = (from S in db.BookDeliveryRequests
+                                  join D in db.BookRequests on S.RequestId equals D.RequestId
+                                  join J in db.BookDeliveryRequestDetails on S.DeliveryNo equals J.DeliveryNo
+                                  join E in db.Employees on S.EmployeeId equals E.EmployeeId
+                                  where E.ParentEmployeeId == UserInfo.EmployeeId &&
+                                  J.SupervisorApproval != 1 && J.FinanceApproval != 1
+                                  select new BookDeliveryModel() { RequestId = S.RequestId, DeliveryNo = S.DeliveryNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.DeliveryNo).ToList<BookDeliveryModel>();
+                }
                 foreach (BookDeliveryModel item in MyRequests)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -112,10 +129,11 @@ namespace ECBNewWeb.Controllers
         [HttpPost]
         public ActionResult ApproveBookDelivery(BookDeliveryModel Model)
         {
+            int rowsAffected = 0;
             MarketEntities db = new MarketEntities();
             var DeliveryNoHeader = (from e in db.BookDeliveryRequests
                                     where e.RequestId == Model.RequestId
-                                    select e.DeliveryNo).FirstOrDefault();
+                                    select e.DeliveryNo).Max();
             var DeliveryDetails = (from d in db.BookDeliveryRequestDetails
                                    where d.DeliveryNo == DeliveryNoHeader
                                    select d);
@@ -123,7 +141,15 @@ namespace ECBNewWeb.Controllers
             {
                 item.SupervisorApproval = 1;
             }
-            db.SaveChanges();
+            rowsAffected = db.SaveChanges();
+            if (rowsAffected > 0)
+            {
+                TempData["Msg"] = "تم الحفظ بنجاح";
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
+            }
             return RedirectToAction("SupervisorBookDeliveryApprove");
         }
     }

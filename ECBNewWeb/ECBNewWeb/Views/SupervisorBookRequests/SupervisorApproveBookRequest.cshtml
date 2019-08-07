@@ -91,8 +91,8 @@
             <div class="row">
                 <div class="m-demo" data-code-preview="true" data-code-html="true">
                     <div class="m-demo__preview  m-demo__preview--btn">
-                        <button class="btn m-btn--pill btn-success  col-md-3 form-group" id="btnApprove">موافقة</button>
-                        <button class="btn btn-danger m-btn--pill col-md-3 form-group" type="reset">الغاء</button>
+                        <button class="btn btn-success  m-btn--pill" id="btnApprove">موافقة</button>
+                        <button class="btn btn-danger m-btn--pill" type="reset">الغاء</button>
                     </div>
                     <h4 class="text-danger">@TempData["ModelErrors"]</h4>
                 </div>
@@ -235,19 +235,23 @@
 
             /////////
         });
+        table2.rows().remove().draw();
+        RecTypeIds = [];
+        Amounts = [];
     });
        var RecTypeIds = [];
     var Amounts = [];
     $('#m_table_1').on('click', 'tr', function () {
         var currentRow;
         var mydata;
+        var ReqId = $("#requests option:selected").val();
         $(this).toggleClass('selected');
         if ($(this).hasClass('selected')) {
             currentRow = $(this).closest("tr");
             mydata = table.row(currentRow).data();
             RecTypeIds.push(mydata['RecTypeId']);
             Amounts.push(mydata['Amount']);
-            PopulateTable2(RecTypeIds, Amounts);
+            PopulateTable2(ReqId,RecTypeIds, Amounts);
         }
         else {
             currentRow = $(this).closest("tr");
@@ -255,7 +259,7 @@
             if (!table.row('.selected').count()) {
                 RecTypeIds = [];
                 Amounts = [];
-                PopulateTable2(RecTypeIds, Amounts);
+                PopulateTable2(ReqId,RecTypeIds, Amounts);
             }
             else {
                 mydata = table.row(currentRow).data();
@@ -270,12 +274,12 @@
                         Amounts.splice(i, 1);
                     }
                 }
-                PopulateTable2(RecTypeIds, Amounts);
+                PopulateTable2(ReqId,RecTypeIds, Amounts);
             }
 
         }    
     });
-    var PopulateTable2 = function (RectypIdArray, AmountArray) {
+    var PopulateTable2 = function (ReqId,RectypIdArray, AmountArray) {
         $("#m_table_2").dataTable().fnDestroy();
         table2 = $('#m_table_2').DataTable({
             "scrollY": 200,
@@ -284,7 +288,7 @@
             "ordering": false,
             ajax: {
                 url: '/SupervisorBookRequests/GetRequestMetaData/',
-                data: { RecTypeId: RectypIdArray, Amount: AmountArray },
+                data: { RequestId: ReqId, RecTypeId: RectypIdArray, Amount: AmountArray },
                 traditional: true,
                 dataSrc: function (data) {
                     data = $.parseJSON(data);

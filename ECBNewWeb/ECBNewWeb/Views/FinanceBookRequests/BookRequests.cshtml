@@ -251,11 +251,12 @@
             /////////
         });
         //for clearing table2 after requests changed
-        PopulateTable2(null, 1);
+        PopulateTable2(0,null, 1);
     });
     var BookTypeIds = [];
     var Amounts = [];
     $('#m_table_1').on('click', 'tr', function () {
+        var ReqId = $("#requests option:selected").val();
         var currentRow;
         var mydata;
         $(this).toggleClass('selected');
@@ -264,7 +265,7 @@
             mydata = table.row(currentRow).data();
             BookTypeIds.push(mydata['RecTypeId']);
             Amounts.push(mydata['Amount']);
-            PopulateTable2(BookTypeIds, Amounts);
+            PopulateTable2(ReqId,BookTypeIds, Amounts);
         }
         else {
             currentRow = $(this).closest("tr");
@@ -272,7 +273,7 @@
             if (!table.row('.selected').count()) {
                 BookTypeIds = [];
                 Amounts = [];
-                PopulateTable2(BookTypeIds, Amounts);
+                PopulateTable2(ReqId,BookTypeIds, Amounts);
             }
             else {
                 mydata = table.row(currentRow).data();
@@ -287,12 +288,12 @@
                         Amounts.splice(i, 1);
                     }
                 }
-                PopulateTable2(BookTypeIds, Amounts);
+                PopulateTable2(ReqId,BookTypeIds, Amounts);
             }
 
         }    
     });
-    var PopulateTable2 = function (BooktypIdArray,AmountArray) {
+    var PopulateTable2 = function (ReqId,BooktypIdArray,AmountArray) {
         $("#m_table_2").dataTable().fnDestroy();
         table2 = $('#m_table_2').DataTable({
             "scrollY": 200,
@@ -301,7 +302,7 @@
             "ordering": false,
             ajax: {
                 url: '/FinanceBookRequests/GetRequestMetaData/',
-                data: {RecTypeId:BooktypIdArray,Amount:AmountArray},
+                data: {RequestId:ReqId,RecTypeId:BooktypIdArray,Amount:AmountArray},
                 traditional: true,
                 dataSrc: function (data) {
                     data = $.parseJSON(data);

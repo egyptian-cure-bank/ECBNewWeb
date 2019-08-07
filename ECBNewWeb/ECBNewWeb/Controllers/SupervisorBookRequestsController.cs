@@ -32,14 +32,30 @@ namespace ECBNewWeb.Controllers
         private List<SelectListItem> PopulateRequests()
         {
             List<SelectListItem> Items = new List<SelectListItem>();
+            List<BookRequestModel> MyRequests;
             using (MarketEntities db = new MarketEntities())
             {
-                List<BookRequestModel> MyRequests = (from S in db.BookRequests
-                                                     join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
-                                                     join E in db.Employees on S.EmployeeId equals E.EmployeeId
-                                                     where S.Active == 1 && D.FinanceApproval != 1 && D.SupervisorApproval != 1
-                                                     && E.ParentEmployeeId == UserInfo.EmployeeId
-                                                     select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo,EmployeeNo = E.EmployeeNo }).OrderByDescending(order => order.RequestNo).Distinct().ToList<BookRequestModel>();
+                var AllAdmins = (from E in db.Employees
+                              join U in db.UserLogins on E.EmployeeId equals U.employee_id
+                              where E.Active == 1 && U.active == 1 && E.ParentEmployeeId == null && E.EmployeeId == UserInfo.EmployeeId
+                              select E).FirstOrDefault();
+                if (AllAdmins != null)
+                {
+                    MyRequests = (from S in db.BookRequests
+                                  join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
+                                  join E in db.Employees on S.EmployeeId equals E.EmployeeId
+                                  where S.Active == 1 && D.FinanceApproval != 1 && D.SupervisorApproval != 1
+                                  select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.RequestNo).ToList<BookRequestModel>();
+                }
+                else
+                {
+                    MyRequests = (from S in db.BookRequests
+                                  join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
+                                  join E in db.Employees on S.EmployeeId equals E.EmployeeId
+                                  where S.Active == 1 && D.FinanceApproval != 1 && D.SupervisorApproval != 1
+                                  && (E.ParentEmployeeId == UserInfo.EmployeeId)
+                                  select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.RequestNo).ToList<BookRequestModel>();
+                }
                 foreach (BookRequestModel item in MyRequests)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -66,7 +82,7 @@ namespace ECBNewWeb.Controllers
                                                join s in db.UserSites on u.id equals s.UserId
                                                join t in db.marketingsites on s.SiteId equals t.id
                                                join r in db.marketingrectypes on d.ReceiptTypeId equals r.id
-                                               where h.Active == 1 && d.SupervisorApproval != 1 && d.FinanceApproval != 1 && h.RequestId == RequestId
+                                               where h.Active == 1 && s.Active == 1 && d.SupervisorApproval != 1 && d.FinanceApproval != 1 && h.RequestId == RequestId
                                                select new BookRequestModel
                                                {
                                                    RequestNo = h.RequestNo,
@@ -82,7 +98,7 @@ namespace ECBNewWeb.Controllers
                 return Json(Data, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetRequestMetaData(int[] RecTypeId, int[] Amount)
+        public JsonResult GetRequestMetaData(int RequestId,int[] RecTypeId, int[] Amount)
         {
             DataTable dt = new DataTable();
             SqlDataAdapter adapt = null;
@@ -96,17 +112,20 @@ namespace ECBNewWeb.Controllers
                     {
                         for (var i = 0; i < RecTypeId.Length; i++)
                         {
-                            Command.CommandText = "Select BookNo,HandleBookReceipts.BookReceiptId,BookTypes.RecTypeId,marketingrectype.[name],HandleBookReceipts.FirstReceiptNo,HandleBookReceipts.LastReceiptNo " +
-                            "FROM BookTypes " +
-                            "Inner Join HandleBookReceipts " +
-                            "On BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                            "Inner Join marketingrectype " +
-                            "On BookTypes.RecTypeId = marketingrectype.id " +
-                            "Where Not Exists(Select 1 From BookResposibilities Where dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId) " +
-                            "And BookTypes.RecTypeId = " + RecTypeId[i] +
-                            " Order By marketingrectype.[name] " +
-                            "OFFSET 0 Rows " +
-                            "Fetch First " + Amount[i] + " Rows only";
+                            Command.CommandText = "Declare @SumAmount int; "+
+                                                "(Select @SumAmount = IsNull(Sum(BookRequestDetails.Amount), 0) From BookRequests Inner Join BookRequestDetails On BookRequestDetails.RequestNo = BookRequests.RequestNo "+
+                                                "            Where (BookRequestDetails.SupervisorApproval != 1 And BookRequestDetails.FinanceApproval = 0) And dbo.BookRequests.RequestId < " + RequestId+" And BookRequestDetails.ReceiptTypeId = " + RecTypeId[i] + " ) " +
+                                                "Select BookNo, HandleBookReceipts.BookReceiptId,BookTypes.RecTypeId,marketingrectype.[name],HandleBookReceipts.FirstReceiptNo,HandleBookReceipts.LastReceiptNo ,@SumAmount "+
+                                                "FROM BookTypes "+
+                                                "Inner Join HandleBookReceipts "+
+                                                "On BookTypes.BookTypeId = HandleBookReceipts.BookTypeId "+
+                                                "Inner Join marketingrectype "+
+                                                "On BookTypes.RecTypeId = marketingrectype.id "+
+                                                "Where Not Exists(Select 1 From BookResposibilities Where dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId) "+
+                                                "And BookTypes.RecTypeId = " + RecTypeId[i] +
+                                                "Order By marketingrectype.[name],BookNo " +
+                                                "OFFSET @SumAmount Rows "+
+                                                "Fetch First " + Amount[i] + " Rows only";
                             adapt = new SqlDataAdapter(Command);
                             adapt.Fill(dt);
                         }

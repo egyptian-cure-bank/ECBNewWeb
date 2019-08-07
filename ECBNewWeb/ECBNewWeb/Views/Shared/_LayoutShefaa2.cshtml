@@ -156,6 +156,14 @@
                                                         </span>
                                                     </a>
                                                 </li>
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddBookRequest" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("AddBookRequest", "BookRequests")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            طلب دفتر
+                                                        </span>
+                                                    </a>
+                                                </li>
                                                 <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "CreateBookDeliveryRequests" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("CreateBookDeliveryRequests", "BookDeliveryRequests")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
@@ -169,14 +177,6 @@
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
                                                         <span class="m-menu__link-text">
                                                             مراجعة إذن تسوية عهدة
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddBookRequest" ? "m-menu__item--active" : "") " aria-haspopup="true">
-                                                    <a href="@Url.Action("AddBookRequest", "BookRequests")" class="m-menu__link ">
-                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
-                                                        <span class="m-menu__link-text">
-                                                            طلب دفتر
                                                         </span>
                                                     </a>
                                                 </li>
@@ -319,14 +319,6 @@
                                         <div class="m-menu__submenu ">
                                             <span class="m-menu__arrow"></span>
                                             <ul class="m-menu__subnav">
-                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddBook" ? "m-menu__item--active" : "") " aria-haspopup="true">
-                                                    <a href="@Url.Action("AddBook", "Book")" class="m-menu__link ">
-                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
-                                                        <span class="m-menu__link-text">
-                                                            اضافة دفتر
-                                                        </span>
-                                                    </a>
-                                                </li>
                                                 <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddReceiptType" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("AddReceiptType", "Book")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
@@ -335,7 +327,14 @@
                                                         </span>
                                                     </a>
                                                 </li>
-
+                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddBook" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                                    <a href="@Url.Action("AddBook", "Book")" class="m-menu__link ">
+                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                                        <span class="m-menu__link-text">
+                                                            اضافة دفتر
+                                                        </span>
+                                                    </a>
+                                                </li>
                                                 <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "Allbooks" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("Allbooks", "Book")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
@@ -361,15 +360,6 @@
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddBookResponsibility" ? "m-menu__item--active" : "") " aria-haspopup="true">
-                                                    <a href="@Url.Action("AddBookResponsibility", "BookResposibilities")" class="m-menu__link ">
-                                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
-                                                        <span class="m-menu__link-text">
-                                                            تسليم دفتر
-                                                        </span>
-                                                    </a>
-                                                </li>
-
                                                 <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AllBookResponsibility" ? "m-menu__item--active" : "") " aria-haspopup="true">
                                                     <a href="@Url.Action("AllBookResponsibility", "BookResposibilities")" class="m-menu__link ">
                                                         <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>

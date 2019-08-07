@@ -34,16 +34,33 @@ namespace ECBNewWeb.Controllers
         }
         private List<SelectListItem> PopulateRequests()
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             List<SelectListItem> Items = new List<SelectListItem>();
+            List<BookDeliveryModel> MyRequests;
             using (MarketEntities db = new MarketEntities())
             {
-                List<BookDeliveryModel> MyRequests = (from S in db.BookDeliveryRequests
-                                                      join D in db.BookRequests on S.RequestId equals D.RequestId
-                                                      join J in db.BookDeliveryRequestDetails on S.DeliveryNo equals J.DeliveryNo
-                                                      join E in db.Employees on S.EmployeeId equals E.EmployeeId
-                                                      where E.ParentEmployeeId == UserInfo.EmployeeId &&
-                                                      J.SupervisorApproval == 1 && J.FinanceApproval == 1
-                                                      select new BookDeliveryModel() { RequestId = S.RequestId, DeliveryNo = S.DeliveryNo, EmployeeNo = E.EmployeeNo }).OrderByDescending(order => order.DeliveryNo).Distinct().ToList<BookDeliveryModel>();
+                var AllAdmins = (from E in db.Employees
+                                 join U in db.UserLogins on E.EmployeeId equals U.employee_id
+                                 where E.Active == 1 && U.active == 1 && E.ParentEmployeeId == null && E.EmployeeId == UserInfo.EmployeeId
+                                 select E).FirstOrDefault();
+                if (AllAdmins != null)
+                {
+                    MyRequests = (from B in db.BookDeliveryRequests
+                                  join H in db.BookRequests on B.RequestId equals H.RequestId
+                                  join D in db.BookDeliveryRequestDetails on B.DeliveryNo equals D.DeliveryNo
+                                  join E in db.Employees on B.EmployeeId equals E.EmployeeId
+                                  where D.SupervisorApproval == 1 
+                                  select new BookDeliveryModel() { RequestId = H.RequestId, DeliveryNo = B.DeliveryNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.DeliveryNo).ToList<BookDeliveryModel>();
+                }
+                else
+                {
+                    MyRequests = (from B in db.BookDeliveryRequests
+                                  join H in db.BookRequests on B.RequestId equals H.RequestId
+                                  join D in db.BookDeliveryRequestDetails on B.DeliveryNo equals D.DeliveryNo
+                                  join E in db.Employees on B.EmployeeId equals E.EmployeeId
+                                  where E.ParentEmployeeId == UserInfo.EmployeeId && D.SupervisorApproval == 1 
+                                  select new BookDeliveryModel() { RequestId = H.RequestId, DeliveryNo = B.DeliveryNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.DeliveryNo).ToList<BookDeliveryModel>();
+                }
                 foreach (BookDeliveryModel item in MyRequests)
                 {
                     SelectListItem selectList = new SelectListItem()
@@ -125,8 +142,7 @@ namespace ECBNewWeb.Controllers
                           "On BookDeliveryRequest.DeliveryNo = BookDeliveryRequestDetails.DeliveryNo " +
                           "Inner Join BookRequests " +
                           "On BookDeliveryRequest.RequestId = BookRequests.RequestId " +
-                          "Where BookResposibilities.DoneFlag = 0 " +
-                          "And BookDeliveryRequest.RequestId = @RequestId " +
+                          "Where BookDeliveryRequest.RequestId = @RequestId " +
                           "Group By marketingrectype.[name],BookDeliveryRequest.DeliveryId,Employees.EmployeeNo,Employees.FirstName,Employees.MiddleName,Employees.LastName,Departments.DepartmentName, " +
                           "BookDeliveryRequest.DeliveryNo,BookDeliveryRequest.DeliveryDate,BookRequests.RequestDate,BookRequests.RequestNo " +
                           "Order By marketingrectype.[name]";
@@ -157,7 +173,7 @@ namespace ECBNewWeb.Controllers
                     }
                 }
             }
-            return RedirectToAction("PrintRequests");
+            return RedirectToAction("PrintDeliveryRequests");
         }
     }
 }
