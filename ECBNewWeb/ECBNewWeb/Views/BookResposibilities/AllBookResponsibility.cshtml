@@ -72,6 +72,7 @@
                             <div class="m-demo" data-code-preview="true" data-code-html="true">
                                 <div class="m-demo__preview  m-demo__preview--btn">
                                     <button class="btn btn-success  m-btn--pill" id="approveRequest" disabled>إستلام</button>
+                                    <button class="btn btn-danger m-btn--pill" id="cancelRequest" disabled>رفض</button>
                                 </div>
                             </div>
                         </div>
@@ -100,11 +101,7 @@
         table = $('#m_table_1').DataTable({
             "scrollY": 200,
             "scrollX": true,
-            columnDefs: [{
-                orderable: false,
-                className: 'select-checkbox text-center',
-                targets: 0,
-            },
+            columnDefs: [
             { "className": "dt-center", "targets": [1, 2, 3,4] },
             { targets: 0, visible: false },
             {targets:1,visible:false}
@@ -168,12 +165,18 @@
                     }
                 }
             ],
+            columnDefs: [
+           { "className": "dt-center", "targets": [1, 2, 3,4] },
+           { targets: 0, visible: false },
+           {targets:1,visible:false}
+            ],
             order: [[1, 'asc']],
             "language": {
                 "emptyTable": "لاتوجد بيانات"
             }
         });
         $("#approveRequest").removeAttr("disabled");
+        $("#cancelRequest").removeAttr("disabled");
     });
     $("#approveRequest").click(function (e) {
         var ReqId = $("#deliveryRequests option:selected").val();
@@ -213,6 +216,29 @@
             });
         })
     });
+    $("#cancelRequest").click(function () {
+        if (!confirm("هل تريد رفض طلب تسوية العهدة؟")) {
+            return false;
+        }
+        else {
+            var myTableData = table.rows().data();
+            myTableData.each(function (rowValue, rowIndex) {
+                $.ajax(
+                {
+                    type: "POST",
+                    url: "/BookResposibilities/CancelBookDeliveryRequest/",
+                    data: {
+                        RespId: rowValue['RespId']
+                    },
+                    success: function () {
+                    },
+                    error: function (request, error) {
+                        console.log(error);
+                    }
+                });
+            });
+        }
+    });
 </script>
 
 @if (TempData["Msg"] != null)
@@ -231,12 +257,26 @@
             });
         </script>
     }
-    else
+    else if (TempData["Msg"].ToString() == "تم رفض الطلب بنجاح")
     {
         <script>
             $(function (e) {
                 swal({
-                    title: "خطأ",
+                    title: "حفظ",
+                    text: "تم رفض الطلب بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
                     text: "لم يتم الحفظ",
                     type: "error",
                     confirmButtonClass: "btn btn-danger"})
