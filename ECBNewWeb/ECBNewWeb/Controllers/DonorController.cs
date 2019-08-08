@@ -22,7 +22,7 @@ namespace ECBNewWeb.Controllers
             _DonorData.DonorOFs = PopulateMotabare3List();
             _DonorData.Freqs = PopulatFreqList();
             _DonorData.TypeContacts = PopulateTypeContactList();
-            return View("~/Views/Market/AddDoners.cshtml", _DonorData);
+            return View(_DonorData);
         }
 
         public List<SelectListItem> PopulateGovernments()
@@ -242,7 +242,7 @@ namespace ECBNewWeb.Controllers
         //    return RedirectToAction(Request.UrlReferrer.ToString());
         //}
 
-        public ActionResult Doner()
+        public ActionResult donor()
         {
             MarketEntities db = new MarketEntities();
             List<DonorData> list = (from a in db.doners
@@ -259,7 +259,7 @@ namespace ECBNewWeb.Controllers
                                         Address = a.address
                                     }).Take(20).ToList<DonorData>();
 
-            return View("~/Views/Market/donor.cshtml", list);
+            return View(list);
         }
 
         [HttpGet]
@@ -325,7 +325,7 @@ namespace ECBNewWeb.Controllers
                 FilteredDonor.MyCenters = Cens.MyCenters;
 
             }
-            return PartialView("~/Views/Market/Edit.cshtml", FilteredDonor);
+            return PartialView(FilteredDonor);
         }
         [HttpPost]
         public ActionResult SaveEdit(DonorData DonorVData)

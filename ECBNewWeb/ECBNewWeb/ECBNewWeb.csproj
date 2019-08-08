@@ -928,12 +928,8 @@
     <Content Include="webfonts\fa-solid-900.ttf" />
     <Content Include="webfonts\fa-solid-900.woff" />
     <Content Include="webfonts\fa-solid-900.woff2" />
-    <Content Include="Views\Market\AddDonations.cshtml" />
-    <Content Include="Views\Market\AddDoners.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-    <Content Include="Views\Market\Delete.cshtml" />
-    <Content Include="Views\Market\donor.cshtml" />
-    <Content Include="Views\Market\Edit.cshtml" />
+    <Content Include="Views\Donor\Delete.cshtml" />
     <Content Include="Views\Shared\_LayoutShefaa2.cshtml" />
     <Content Include="Views\Licenses\AddLicenses.cshtml" />
     <Content Include="Views\Book\AddBook.cshtml" />
@@ -968,10 +964,13 @@
     <Content Include="Views\SupervisorBookDelivery\SupervisorBookDeliveryApprove.cshtml" />
     <Content Include="Views\SupervisorBookRequests\SupervisorApproveBookRequest.cshtml" />
     <Content Include="Views\PrintBookDelivery\PrintDeliveryRequests.cshtml" />
+    <Content Include="Views\Donor\AddDoners.cshtml" />
+    <Content Include="Views\Donor\donor.cshtml" />
+    <Content Include="Views\Donor\Edit.cshtml" />
+    <Content Include="Views\Donation\AddDonations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Donation\" />
     <Folder Include="Views\ReceiptType\" />
   </ItemGroup>
   <ItemGroup>

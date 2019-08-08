@@ -37,7 +37,7 @@ namespace ECBNewWeb.Controllers
             _DonationData.MyPayments = PopulatePayment();
             _DonationData.MyKnowingMethods = PopulateKnowingMethod();
             _DonationData.BankInfoChecked = "false";
-            return View("~/Views/Market/AddDonations.cshtml", _DonationData);
+            return View(_DonationData);
         }
         public JsonResult GetReceiptNoFromRecType(int RecTypeId)
         {
