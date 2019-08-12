@@ -1,32 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="AuthenticationModelStoreContainer" CdmEntityContainer="AuthenticationEntities">
-    <EntitySetMapping Name="logins">
-      <EntityTypeMapping TypeName="AuthenticationModel.login">
-        <MappingFragment StoreEntitySet="login">
-          <ScalarProperty Name="active" ColumnName="active" />
-          <ScalarProperty Name="importance" ColumnName="importance" />
-          <ScalarProperty Name="userRole" ColumnName="userRole" />
-          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
-          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
-          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
-          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="department" ColumnName="department" />
-          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
-          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
-          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AccessLevels">
       <EntityTypeMapping TypeName="AuthenticationModel.AccessLevel">
         <MappingFragment StoreEntitySet="AccessLevels">
@@ -110,6 +84,48 @@
           <ScalarProperty Name="RoleID" ColumnName="RoleID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="AuthenticationModel.Menu">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="Sorting" ColumnName="Sorting" />
+          <ScalarProperty Name="ParentMenuId" ColumnName="ParentMenuId" />
+          <ScalarProperty Name="CssClass" ColumnName="CssClass" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+          <ScalarProperty Name="ArabicName" ColumnName="ArabicName" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logins">
+      <EntityTypeMapping TypeName="AuthenticationModel.login">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="importance" ColumnName="importance" />
+          <ScalarProperty Name="userRole" ColumnName="userRole" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="SecurityQuestionID" ColumnName="SecurityQuestionID" />
+          <ScalarProperty Name="PasswordChangedOn" ColumnName="PasswordChangedOn" />
+          <ScalarProperty Name="IsResetPasswordNeeded" ColumnName="IsResetPasswordNeeded" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="UserComments" ColumnName="UserComments" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="passChanged" ColumnName="passChanged" />
+          <ScalarProperty Name="volunteer_id" ColumnName="volunteer_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -332,23 +332,6 @@ D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\roslyn\VBCSCom
 D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\ECBNewWeb.dll.config
 D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\ECBNewWeb.dll
 D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\ECBNewWeb.pdb
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\EntityFramework.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Microsoft.AI.DependencyCollector.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Microsoft.AI.ServerTelemetryChannel.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Microsoft.AI.Web.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Microsoft.AI.WindowsServer.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Microsoft.ApplicationInsights.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.Helpers.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.Mvc.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.Optimization.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.Razor.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.WebPages.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.WebPages.Deployment.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\System.Web.WebPages.Razor.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Antlr3.Runtime.pdb
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\Newtonsoft.Json.xml
-D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.csprojResolveAssemblyReference.cache
 D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.dll
 D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.pdb
 C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\ApplicationInsights.config
@@ -387,3 +370,4 @@ C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\EC
 C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.dll
 C:\Users\ah.hassan\Desktop\New folder\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.pdb
 D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\bin\stdole.dll
+D:\CureBank Source Code Phase 2\ECBNewWeb\ECBNewWeb\ECBNewWeb\obj\Debug\ECBNewWeb.csprojResolveAssemblyReference.cache

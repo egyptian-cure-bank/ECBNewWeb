@@ -15,18 +15,67 @@ namespace ECBNewWeb.Controllers
     [AuthFilter]
     public class HomeController : Controller
     {
+        List<MenuModel> MenuSource;
+        AuthenticationEntities db = new AuthenticationEntities();
         public ActionResult Index(int UId)
         {
-            if (Convert.ToString(UId) == string.Empty)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-            }
+            //if (Convert.ToString(UId) == string.Empty)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            //}
             //ViewBag.CurrentUser = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             //ViewBag.AllRoles = Roles.GetRolesForUser(HttpContext.User.Identity.Name).ToList();
-            Session["CurrentUser"] =  Membership.GetUser(HttpContext.User.Identity.Name, false);
+            //Session["CurrentUser"] =  Membership.GetUser(HttpContext.User.Identity.Name, false);
             return View();
         }
+        public JsonResult MenuBulider()
+        {
+            //if (Convert.ToString(UId) == string.Empty)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            //}
+            //ViewBag.CurrentUser = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+            //ViewBag.AllRoles = Roles.GetRolesForUser(HttpContext.User.Identity.Name).ToList();
+            //Session["CurrentUser"] =  Membership.GetUser(HttpContext.User.Identity.Name, false);
+            List<MenuModel> MenuSource;
+            MenuSource = (from m in db.Menus
+                          select new MenuModel()
+                          {
+                              MenuId = m.MenuId,
+                              ArabicName = m.ArabicName,
+                              EnglishName = m.EnglishName,
+                              Action = m.Action,
+                              Controller = m.Controller,
+                              CssClass = m.CssClass,
+                              Url = m.Url,
+                              ParentMenuId = m.ParentMenuId,
+                              Description = m.Description,
+                              Sorting = m.Sorting
+                              }).ToList();
 
+            Session["Menus"] = CreateMenus(0, MenuSource);
+            return Json(Session["Menus"],JsonRequestBehavior.AllowGet);
+        }
+        public IEnumerable<MenuModel> CreateMenus (int parentId,List<MenuModel> Source)
+        {
+            var result = from m in Source
+                   where m.ParentMenuId == parentId
+                          select new MenuModel()
+                          {
+                              MenuId = m.MenuId,
+                              ArabicName = m.ArabicName,
+                              EnglishName = m.EnglishName,
+                              Action = m.Action,
+                              Controller = m.Controller,
+                              CssClass = m.CssClass,
+                              Url = m.Url,
+                              ParentMenuId = m.ParentMenuId,
+                              Description = m.Description,
+                              Sorting = m.Sorting,
+                              Children = CreateMenus(m.MenuId,Source).ToList()
+                          };
+            return result;
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

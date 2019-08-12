@@ -50,6 +50,21 @@
     <Property Name="importance" Type="int" />
     <Property Name="active" Type="smallint" />
   </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ArabicName" Type="nvarchar" MaxLength="100" />
+    <Property Name="EnglishName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Action" Type="nvarchar" MaxLength="50" />
+    <Property Name="Controller" Type="nvarchar" MaxLength="50" />
+    <Property Name="Url" Type="nvarchar(max)" />
+    <Property Name="CssClass" Type="nvarchar(max)" />
+    <Property Name="ParentMenuId" Type="int" />
+    <Property Name="Sorting" Type="int" />
+  </EntityType>
   <EntityType Name="ParentFacilities">
     <Key>
       <PropertyRef Name="ParentId" />
@@ -233,6 +248,7 @@
     <EntitySet Name="ActionMethods" EntityType="Self.ActionMethods" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Grants" EntityType="Self.Grants" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ParentFacilities" EntityType="Self.ParentFacilities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ParentFacilityRoles" EntityType="Self.ParentFacilityRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />

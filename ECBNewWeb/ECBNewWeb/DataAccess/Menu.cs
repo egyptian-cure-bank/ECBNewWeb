@@ -12,13 +12,17 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class UserRole
+    public partial class Menu
     {
-        public int UserRoleID { get; set; }
-        public int UserID { get; set; }
-        public int RoleID { get; set; }
-    
-        public virtual Role Role { get; set; }
-        public virtual login login { get; set; }
+        public int MenuId { get; set; }
+        public string ArabicName { get; set; }
+        public string EnglishName { get; set; }
+        public string Description { get; set; }
+        public string Action { get; set; }
+        public string Controller { get; set; }
+        public string Url { get; set; }
+        public string CssClass { get; set; }
+        public int ParentMenuId { get; set; }
+        public Nullable<int> Sorting { get; set; }
     }
 }

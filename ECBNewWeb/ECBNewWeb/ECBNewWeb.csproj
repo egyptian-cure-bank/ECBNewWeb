@@ -322,7 +322,7 @@
     <Compile Include="DataAccess\KnowingMethod.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\LogIn.cs">
+    <Compile Include="DataAccess\login.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\market.cs">
@@ -351,6 +351,9 @@
     </Compile>
     <Compile Include="DataAccess\marketingsite.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Menu.cs">
+      <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\ParentFacility.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
@@ -412,6 +415,7 @@
     <Compile Include="Models\MarketingLicensesModel.cs" />
     <Compile Include="Models\marketingrectypeModel.cs" />
     <Compile Include="Models\MarketSitesModel.cs" />
+    <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\ReceiptTypeModel.cs" />
     <Compile Include="Models\UserSiteModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -968,6 +972,8 @@
     <Content Include="Views\Donor\donor.cshtml" />
     <Content Include="Views\Donor\Edit.cshtml" />
     <Content Include="Views\Donation\AddDonations.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Views\Shared\_SubMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
