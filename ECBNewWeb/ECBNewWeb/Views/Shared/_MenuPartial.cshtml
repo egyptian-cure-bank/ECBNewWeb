@@ -1,0 +1,145 @@
+﻿
+<!DOCTYPE html>
+
+<html direction="rtl" style="direction: rtl">
+
+<!-- begin::Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>ECB</title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <!--begin::Web font -->
+    <!--end::Web font -->
+    <!--begin::Global Theme Styles -->
+    <link href="~/Content/assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />
+
+    <!--RTL version:<link href="assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
+    <link href="~/Content/assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />
+
+    <!--RTL version:<link href="assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
+    <!--end::Global Theme Styles -->
+    <!--begin::Page Vendors Styles -->
+    <link href="~/Content/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+
+    <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
+    <!--end::Page Vendors Styles -->
+    <link rel="shortcut icon" href="~/Content/assets/demo/default/media/img/logo/logotitle.png" />
+    
+
+    <link rel="stylesheet" href="~/Content/assets/demo/default/base/layout_custome_style.css">
+</head>
+
+<!-- end::Head -->
+<!-- begin::Body -->
+<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+
+ 
+    <!-- end:: Page -->
+    <!-- begin::Quick Sidebar -->
+    <!-- begin::Quick Nav -->
+    <!--begin::Global Theme Bundle -->
+    <script src="~/Content/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+    <script src="~/Content/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
+
+    <!--end::Global Theme Bundle -->
+    <!--begin::Page Vendors -->
+    <script src="~/Content/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+
+    <!--end::Page Vendors -->
+    <!--begin::Page Scripts -->
+    <script src="~/Content/assets/app/js/dashboard.js" type="text/javascript"></script>
+
+
+    <!--end::Page Scripts -->
+    <script src="~/Content/assets/demo/default/base/script.js"></script>
+    <script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+</body>
+
+<!-- end::Body -->
+</html>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/MenuBulider/',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                //alert($("#menu"));
+                buildMenu($("#menu"), data);
+                //$.each(data.Children, function () {
+                //    alert(this.ArabicName);
+                //})
+            },
+            error: function () {
+                alert("error");
+}
+        })
+        function buildMenu(parent, items) {
+            var li = '';
+            var ul = '';
+            var defaultCss = "m-menu__link-bullet m-menu__link-bullet--dot";
+            $.each(items, function () {
+                if (this.ParentMenuId == 0) {
+                    li = $('<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">' +
+                                   '<a href=""' + 'class=' + '"m-menu__link m-menu__toggle"' + '>' +
+                                      '<i class="' + this.CssClass + '"' + '></i>' +
+                                              '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
+                                                  '<i class=' + '"m-menu__ver-arrow la la-angle-right"' + '></i>' +
+                                          '</a>' +
+                                      '</li>');
+                }
+                else if (this.Action != null) {
+                    li = $('<li class="m-menu__item" aria-haspopup="true">' +
+                                   '<a href="/' + this.Controller + '/' + this.Action + '/"' + 'class=' + '"m-menu__link"' + '>' +
+                                      '<i class="' + defaultCss + '"' + '><span></span></i>' +
+                                              '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
+                                          '</a>' +
+                                      '</li>');
+                }
+                else {
+                    li = $('<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">' +
+                                       '<a href=""' + 'class=' + '"m-menu__link m-menu__toggle"' + '>' +
+                                          '<i class="' + defaultCss + '"' + '><span></span></i>' +
+                                                  '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
+                                                      '<i class=' + '"m-menu__ver-arrow la la-angle-right"' + '></i>' +
+                                              '</a>' +
+                                          '</li>');
+                }
+          
+            if (!this.Active) {
+                li.addClass('disabled');
+            }
+            li.appendTo(parent);
+            if (this.Children && this.Children.length > 0) {
+                divElement = $('<div class=' + '"m-menu__submenu">' +
+                                '<span class=' + '"m-menu__arrow"></span>' +
+                                    '</div>');
+                ul = $('<ul class=' + '"m-menu__subnav"></ul>');
+                ul.appendTo(divElement);
+                divElement.appendTo(li);
+                buildMenu(ul,this.Children);
+            }
+            //else {
+            //    var divElement2 = $('<div class=' + '"m-menu__submenu">' +
+            //                    '<span class=' + '"m-menu__arrow"></span>' +
+            //                        '</div>');
+            //    var ul2 = $('<ul class=' + '"m-menu__subnav"></ul>');
+            //    var childOnlyli = $('<li class="m-menu__item" aria-haspopup="true">' +
+            //                       '<a href=""' + 'class=' + '"m-menu__link"' + '>' +
+            //                          '<i class="' + defaultCss + '"' + '><span></span></i>' +
+            //                                  '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
+            //                              '</a>' +
+            //                          '</li>');
+            //    ul2.appendTo(divElement2);
+            //    divElement2.appendTo(childOnlyli);
+            //    buildMenu(ul2, this.Children);
+            //}
+            })
+
+        }
+
+
+    });
+</script>

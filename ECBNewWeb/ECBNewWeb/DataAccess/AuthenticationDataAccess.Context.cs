@@ -25,7 +25,6 @@ namespace ECBNewWeb.DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<login> logins { get; set; }
         public DbSet<AccessLevel> AccessLevels { get; set; }
         public DbSet<ActionMethod> ActionMethods { get; set; }
         public DbSet<Grant> Grants { get; set; }
@@ -35,5 +34,7 @@ namespace ECBNewWeb.DataAccess
         public DbSet<SubFacility> SubFacilities { get; set; }
         public DbSet<SubFacilityRole> SubFacilityRoles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<login> logins { get; set; }
+        public DbSet<Menu> Menus { get; set; }
     }
 }
