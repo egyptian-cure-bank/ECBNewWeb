@@ -66,7 +66,7 @@
             method: 'get',
             dataType: 'json',
             success: function (data) {
-                alert($("#menu"));
+                //alert($("#menu"));
                 buildMenu($("#menu"), data);
                 //$.each(data.Children, function () {
                 //    alert(this.ArabicName);
@@ -78,6 +78,7 @@
         })
         function buildMenu(parent, items) {
             var li = '';
+            var ul = '';
             var defaultCss = "m-menu__link-bullet m-menu__link-bullet--dot";
             $.each(items, function () {
                 if (this.ParentMenuId == 0) {
@@ -87,7 +88,15 @@
                                               '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
                                                   '<i class=' + '"m-menu__ver-arrow la la-angle-right"' + '></i>' +
                                           '</a>' +
-                                      '</li>')
+                                      '</li>');
+                }
+                else if (this.Action != null) {
+                    li = $('<li class="m-menu__item" aria-haspopup="true">' +
+                                   '<a href="/' + this.Controller + '/' + this.Action + '/"' + 'class=' + '"m-menu__link"' + '>' +
+                                      '<i class="' + defaultCss + '"' + '><span></span></i>' +
+                                              '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
+                                          '</a>' +
+                                      '</li>');
                 }
                 else {
                     li = $('<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">' +
@@ -96,22 +105,37 @@
                                                   '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
                                                       '<i class=' + '"m-menu__ver-arrow la la-angle-right"' + '></i>' +
                                               '</a>' +
-                                          '</li>')
+                                          '</li>');
                 }
           
-            //if (!this.Active) {
-            //    li.addClass('disabled');
-            //}
+            if (!this.Active) {
+                li.addClass('disabled');
+            }
             li.appendTo(parent);
-            if (this.Children&&this.Children.length > 0) {
-                var ul = $('<div class=' + '"m-menu__submenu">' +
+            if (this.Children && this.Children.length > 0) {
+                divElement = $('<div class=' + '"m-menu__submenu">' +
                                 '<span class=' + '"m-menu__arrow"></span>' +
-                                    '<ul class=' + '"m-menu__subnav">' +
-                                            '</ul>' +
-                                        '</div>')
-                ul.appendTo(li);
+                                    '</div>');
+                ul = $('<ul class=' + '"m-menu__subnav"></ul>');
+                ul.appendTo(divElement);
+                divElement.appendTo(li);
                 buildMenu(ul,this.Children);
             }
+            //else {
+            //    var divElement2 = $('<div class=' + '"m-menu__submenu">' +
+            //                    '<span class=' + '"m-menu__arrow"></span>' +
+            //                        '</div>');
+            //    var ul2 = $('<ul class=' + '"m-menu__subnav"></ul>');
+            //    var childOnlyli = $('<li class="m-menu__item" aria-haspopup="true">' +
+            //                       '<a href=""' + 'class=' + '"m-menu__link"' + '>' +
+            //                          '<i class="' + defaultCss + '"' + '><span></span></i>' +
+            //                                  '<span class="m-menu__link-text">' + this.ArabicName + '</span>' +
+            //                              '</a>' +
+            //                          '</li>');
+            //    ul2.appendTo(divElement2);
+            //    divElement2.appendTo(childOnlyli);
+            //    buildMenu(ul2, this.Children);
+            //}
             })
 
         }

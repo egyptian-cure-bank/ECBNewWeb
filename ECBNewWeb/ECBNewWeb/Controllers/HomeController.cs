@@ -44,8 +44,8 @@ namespace ECBNewWeb.Controllers
                               MenuId = m.MenuId,
                               ArabicName = m.ArabicName,
                               EnglishName = m.EnglishName,
-                              Action = m.Action,
-                              Controller = m.Controller,
+                              Action = m.ActionName,
+                              Controller = m.ControllerName,
                               CssClass = m.CssClass,
                               Url = m.Url,
                               ParentMenuId = m.ParentMenuId,
@@ -76,33 +76,5 @@ namespace ECBNewWeb.Controllers
                           };
             return result;
         }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult rules()
-        {
-            return View();
-        }
-
-        public ActionResult test()
-        {
-            return View();
-        }
-
-
-
-
-
     }
 }

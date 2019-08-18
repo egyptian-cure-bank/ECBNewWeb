@@ -973,7 +973,6 @@
     <Content Include="Views\Donor\Edit.cshtml" />
     <Content Include="Views\Donation\AddDonations.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
-    <Content Include="Views\Shared\_SubMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

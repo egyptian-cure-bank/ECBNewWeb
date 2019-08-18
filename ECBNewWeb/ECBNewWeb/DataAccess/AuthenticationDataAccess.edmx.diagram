@@ -22,10 +22,10 @@
         <AssociationConnector Association="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" />
         <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Roles" />
         <AssociationConnector Association="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6" />
-        <EntityTypeShape EntityType="AuthenticationModel.Menu" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuthenticationModel.login" Width="1.5" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="AuthenticationModel.FK__Grants__UserId__6D9742D9" />
         <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Users2" />
+        <EntityTypeShape EntityType="AuthenticationModel.Menu" Width="1.5" PointX="0.75" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
