@@ -46,7 +46,10 @@
                                 <div class="form-group m-form__group row">
                                     <div class="m-form__group form-group col-md-5">
                                         <label class="">اسم الموظف</label>
-                                        @Html.DropDownListFor(x => x.EmployeeId, ViewBag.emplist as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" })
+                                        @{ var UserSession = Session["CurrentUser"] as ECBNewWeb.CustomAuthentication.CustomMembershipUser;
+                                            var UserName = Session["CurrentUser"];/*@UserSession.FirstName + " " + @UserSession.LastName;*/}
+                                        <input type="text" class="form-control" value="@UserName" disabled>
+                                        @*@Html.DropDownListFor(x => x.EmployeeId, ViewBag.emplist as List<SelectListItem>, new { @class = "form-control m-input", @id = "empid" })*@
                                     </div>
                                 </div>
 
@@ -68,7 +71,7 @@
                                     <div class="col-lg-3">
                                         @if (ViewBag.Bookrequest != null)
                                         {
-                                            <button type="button" class="btn btn-secondary m-btn--pill " id="add" disabled>أضافة</button>
+                                            <button type="button" class="btn btn-secondary m-btn--pill " id="add" disabled>أضافة d</button>
                                         }
                                         else
                                         {
@@ -438,10 +441,21 @@
 
     // ADD Click
     $('#add').click(function () {
+        debugger;
         var rectypevalue = $('#rectype').val();
         var bookamount = $('#amount').val();
         if (rectypevalue == -1 || bookamount <= 0 || bookamount > max )
         {
+            if (rectypevalue == -1)
+                $('#rectype').css('border-color', 'red');
+            else
+                $('#rectype').css('border-color', '#ebedf2');
+            //////
+            if (bookamount <= 0 || bookamount > max)
+                $('#amount').css('border-color', 'red');
+            else
+                $('#amount').css('border-color', '#ebedf2');
+
             return
         }
         var bookrectypeId = $("#rectype option:selected").val();

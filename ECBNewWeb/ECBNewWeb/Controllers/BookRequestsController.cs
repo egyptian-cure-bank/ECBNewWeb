@@ -7,20 +7,27 @@ using ECBNewWeb.DataAccess;
 using ECBNewWeb.Models;
 using System.Data;
 using System.Data.SqlClient;
+using ECBNewWeb.CustomAuthentication;
+using System.Web.Security;
 
 namespace ECBNewWeb.Controllers
 {
     public class BookRequestsController : Controller
     {
-
+        private CustomMembershipUser UserInfo;
         public BookRequestsController()
         {
-
+           
         }
         // GET: BookRequests
         [HttpGet]
         public ActionResult AddBookRequest()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = UserInfo.FirstName + " " + UserInfo.MiddleName + " " + UserInfo.LastName;
+            }
             BookRequestDetailModel model = new BookRequestDetailModel();
             ViewBag.Bookrequest = PopulateAllBookRequest().FirstOrDefault();
             ViewBag.AllBookRequest = PopulateAllBookRequest();
@@ -30,8 +37,9 @@ namespace ECBNewWeb.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult AddBookRequest(int EmployeeId, int[] arr_Amount, int[] receiptTypeId)
+        public ActionResult AddBookRequest( int[] arr_Amount, int[] receiptTypeId)
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             int rowAffected = 0;
             MarketEntities market = new MarketEntities();
             if (ModelState.IsValid)
@@ -39,7 +47,7 @@ namespace ECBNewWeb.Controllers
                 var bookrequestmodel = new BookRequest()
                 {
                     RequestNo = market.Database.SqlQuery<Int64>("SELECT NEXT VALUE FOR [dbo].[SequenceRequestNo]").FirstOrDefault(),
-                    EmployeeId = EmployeeId,
+                    EmployeeId = UserInfo.EmployeeId,
                     RequestDate = DateTime.Now,
                     TimeStamp = DateTime.Now,
                     Active = 1
@@ -182,7 +190,7 @@ namespace ECBNewWeb.Controllers
                 ListOfBooks = (from br in db.BookRequests
                                join brd in db.BookRequestDetails on br.RequestNo equals brd.RequestNo
                                join t in db.marketingrectypes on brd.ReceiptTypeId equals t.id
-                               where br.EmployeeId == 202 //for test
+                               where br.EmployeeId == UserInfo.EmployeeId //for test
                                && brd.FinanceApproval == 0 && brd.SupervisorApproval == 0
                                select new BookRequestDetailModel()
                                {
@@ -203,7 +211,7 @@ namespace ECBNewWeb.Controllers
         public BookRequestDetailModel PopulateBookRequestDetailsById(int id)
         {
             var BookDetailsById = new BookRequestDetailModel();
-            using (MarketEntities db = new MarketEntities())
+            using (  MarketEntities db = new MarketEntities())
             {
                 BookDetailsById = (from brd in db.BookRequestDetails
                                    join t in db.marketingrectypes on brd.ReceiptTypeId equals t.id
@@ -222,6 +230,7 @@ namespace ECBNewWeb.Controllers
 
         public List<SelectListItem> emp()
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
@@ -229,7 +238,7 @@ namespace ECBNewWeb.Controllers
                                                    join m in db.Employees
                                                    on e.employee_id equals m.EmployeeId
                                                    where e.active == 1 && m.Active == 1
-                                                   select new LoginViewModel() { UserId = e.id, FullName = m.FirstName + " " + m.MiddleName + " " + m.LastName }).ToList<LoginViewModel>();
+                                                   select new LoginViewModel() { UserId = m.EmployeeId, FullName = m.FirstName + " " + m.MiddleName + " " + m.LastName }).ToList<LoginViewModel>();
                 SelectListItem DisabledList = new SelectListItem()
                 {
                     Text = " ",
@@ -252,10 +261,12 @@ namespace ECBNewWeb.Controllers
 
         public List<SelectListItem> PopulateRecTypes()
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
-                List<marketingrectypeModel> MyRecType = db.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL(tt.su , 0) as rec from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @empid and DoneFlag = 0 group by rec.id , rec.name) tt on p.id = tt.id where tt.su is null or tt.su != 3 ", new SqlParameter("@empid", 202)).ToList();
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                List<marketingrectypeModel> MyRecType = db.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL(tt.su , 0) as rec from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @empid and DoneFlag = 0 group by rec.id , rec.name) tt on p.id = tt.id where tt.su is null or tt.su != 3 ", new SqlParameter("@empid", UserInfo.EmployeeId)).ToList();
                 SelectListItem DisabledList = new SelectListItem()
                 {
                     Text = " ",
@@ -277,16 +288,16 @@ namespace ECBNewWeb.Controllers
                 }
             }
             return Items;
-
         }
 
         public List<SelectListItem> PopulateRecTypesNotInRequest(int requestNo)
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
 
-                List<marketingrectypeModel> MyRecType = db.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL(tt.su , 0) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @empid and DoneFlag = 0 group by rec.id , rec.name) tt on p.id = tt.id where (tt.su is null or tt.su != 3) and p.id not in (select ReceiptTypeId from BookRequestDetails where RequestNo = @requestNo)", new SqlParameter("@requestNo", requestNo), new SqlParameter("@empid", 202)).ToList();
+                List<marketingrectypeModel> MyRecType = db.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL(tt.su , 0) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @empid and DoneFlag = 0 group by rec.id , rec.name) tt on p.id = tt.id where (tt.su is null or tt.su != 3) and p.id not in (select ReceiptTypeId from BookRequestDetails where RequestNo = @requestNo)", new SqlParameter("@requestNo", requestNo), new SqlParameter("@empid", UserInfo.EmployeeId)).ToList();
                 SelectListItem DisabledList = new SelectListItem()
                 {
                     Text = " ",
@@ -313,11 +324,12 @@ namespace ECBNewWeb.Controllers
 
         public JsonResult CountBookbyType(int Rectypeid, int employeeid)
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             MarketEntities db = new MarketEntities();
             var CountBookbyEmployee = (from b in db.BookResposibilities
                                        join h in db.HandleBookReceipts on b.HandleBookReceiptId equals h.BookReceiptId
                                        join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
-                                       where t.RecTypeId == Rectypeid && b.EmployeeId == employeeid && b.DoneFlag == 0
+                                       where t.RecTypeId == Rectypeid && b.EmployeeId == UserInfo.EmployeeId && b.DoneFlag == 0
                                        select new BookResposibilityModel()
                                        {
                                            RecTypeId = t.RecTypeId,
@@ -332,32 +344,36 @@ namespace ECBNewWeb.Controllers
         // Get BookType Count Available to This Employee
         public JsonResult BookCountAvailable(int requestNo)
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             MarketEntities market = new MarketEntities();
-            var m = market.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL((3 -tt.su) , 3) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id where (tt.su is null or tt.su != 3) and p.id not in (select ReceiptTypeId from BookRequestDetails where RequestNo = @requestNo)", new SqlParameter("@requestNo ", 23), new SqlParameter("@Empid ", 202));
+            var m = market.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL((3 -tt.su) , 3) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id where (tt.su is null or tt.su != 3) and p.id not in (select ReceiptTypeId from BookRequestDetails where RequestNo = @requestNo)", new SqlParameter("@requestNo ", 23), new SqlParameter("@Empid ", UserInfo.EmployeeId));
             var BookCountAvailable = m.ToList();
             return Json(BookCountAvailable, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BookCountAvailableFirstAdd()
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             MarketEntities market = new MarketEntities();
-            var m = market.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL((3 -tt.su) , 3) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id where (tt.su is null or tt.su != 3) ", new SqlParameter("@Empid ", 202));
+            var m = market.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL((3 -tt.su) , 3) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id where (tt.su is null or tt.su != 3) ", new SqlParameter("@Empid ", UserInfo.EmployeeId));
             var BookCountAvailable = m.ToList();
             return Json(BookCountAvailable, JsonRequestBehavior.AllowGet);
         }
 
         public List<marketingrectypeModel> BookReceived()
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             MarketEntities market = new MarketEntities();
-            var m = market.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL((tt.su) , 0) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id order by recTypeCount desc ", new SqlParameter("@Empid ", 202));
+            var m = market.Database.SqlQuery<marketingrectypeModel>("select distinct p.id , p.name , ISNULL((tt.su) , 0) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id order by recTypeCount desc ", new SqlParameter("@Empid ", UserInfo.EmployeeId));
             var BookReceived = m.ToList();
             return BookReceived;
         }
 
         public int BookCountAvailableEdit(int rectypeID)
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             MarketEntities market = new MarketEntities();
-            var m = market.Database.SqlQuery<marketingrectypeModel>("select  ISNULL((3 -tt.su) , 3) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id where (tt.su is null or tt.su != 3) and p.id = @recTypeId ", new SqlParameter("@Empid ", 202), new SqlParameter("@recTypeId ", rectypeID)).FirstOrDefault();
+            var m = market.Database.SqlQuery<marketingrectypeModel>("select  ISNULL((3 -tt.su) , 3) as recTypeCount from marketingrectype p inner join BookTypes t on p.id = t.RecTypeId left join (select distinct rec.id , rec.name , count(t.RecTypeId) as su from marketingrectype rec left join BookTypes t on rec.id = t.RecTypeId left join HandleBookReceipts h on t.BookTypeId = h.BookTypeId left join BookResposibilities r on h.BookReceiptId = r.HandleBookReceiptId where r.EmployeeId = @Empid  and DoneFlag = 0 group by rec.id , rec.name ) tt on p.id = tt.id where (tt.su is null or tt.su != 3) and p.id = @recTypeId ", new SqlParameter("@Empid ", UserInfo.EmployeeId), new SqlParameter("@recTypeId ", rectypeID)).FirstOrDefault();
             int result = m.recTypeCount;
             return result;
         }
