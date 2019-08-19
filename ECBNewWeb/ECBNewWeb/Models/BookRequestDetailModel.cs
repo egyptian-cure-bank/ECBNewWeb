@@ -16,7 +16,7 @@ namespace ECBNewWeb.Models
         public Nullable<int> FinanceApproval { get; set; }
         public Nullable<int> EmployeeReceive { get; set; }
         public Nullable<System.DateTime> RequestDate { get; set; }
-        public int EmployeeId { get; set; }
+        public int ? EmployeeId { get; set; }
         public string FullEmployeeName { get; set; }
         public int[] arr_Amount { get; set; }
         public int[] receiptTypeId { get; set; }
