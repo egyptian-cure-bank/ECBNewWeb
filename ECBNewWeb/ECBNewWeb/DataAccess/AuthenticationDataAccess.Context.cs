@@ -30,11 +30,11 @@ namespace ECBNewWeb.DataAccess
         public DbSet<Grant> Grants { get; set; }
         public DbSet<ParentFacility> ParentFacilities { get; set; }
         public DbSet<ParentFacilityRole> ParentFacilityRoles { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<SubFacility> SubFacilities { get; set; }
         public DbSet<SubFacilityRole> SubFacilityRoles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<login> logins { get; set; }
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

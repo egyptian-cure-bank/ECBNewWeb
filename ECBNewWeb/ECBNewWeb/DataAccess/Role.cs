@@ -22,7 +22,8 @@ namespace ECBNewWeb.DataAccess
         }
     
         public int RoleID { get; set; }
-        public string RoleName { get; set; }
+        public string RoleEnglishName { get; set; }
+        public string RoleArabicName { get; set; }
         public string RoleDescription { get; set; }
         public string Comments { get; set; }
         public bool IsSystemGenerated { get; set; }
