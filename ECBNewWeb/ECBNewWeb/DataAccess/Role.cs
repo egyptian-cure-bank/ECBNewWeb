@@ -16,8 +16,6 @@ namespace ECBNewWeb.DataAccess
     {
         public Role()
         {
-            this.ParentFacilityRoles = new HashSet<ParentFacilityRole>();
-            this.SubFacilityRoles = new HashSet<SubFacilityRole>();
             this.UserRoles = new HashSet<UserRole>();
         }
     
@@ -28,8 +26,6 @@ namespace ECBNewWeb.DataAccess
         public string Comments { get; set; }
         public bool IsSystemGenerated { get; set; }
     
-        public virtual ICollection<ParentFacilityRole> ParentFacilityRoles { get; set; }
-        public virtual ICollection<SubFacilityRole> SubFacilityRoles { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }
