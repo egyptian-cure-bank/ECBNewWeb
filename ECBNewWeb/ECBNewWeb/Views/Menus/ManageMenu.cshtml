@@ -1,0 +1,147 @@
+﻿@model ECBNewWeb.Models.MenuManagementModel
+@{
+    ViewBag.Title = "ManageMenu";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+<link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/chosen.css" rel="stylesheet" />
+<link href="~/Content/jsTree/themes/default/style.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+<script src="~/Content/assets/demo/default/base/dataTables.select.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
+<script src="~/Scripts/jsTree3/jstree.js"></script>
+<!--End Scripts-->
+<!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
+<main class="page-content">
+    <div class="container-fluid">
+        <h2>إدارة القوائم</h2>
+        <hr>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="" class="">الدور الوظيفي</label>
+                    @Html.DropDownListFor(x => x.RoleId, Model.MyRoles as List<SelectListItem>, "--إختار دور وظيفي--", new { @class = "form-control", @id = "roleList" })
+                    @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" id="treeView">
+
+            </div>
+            <hr />
+            <div class="row">
+                <div class="m-demo" data-code-preview="true" data-code-html="true">
+                    <div class="m-demo__preview  m-demo__preview--btn">
+                        <button class="btn m-btn--pill btn-success" id="saveMenuRoles">حفظ</button>
+                        <button class="btn btn-danger m-btn--pill" type="reset">الغاء</button>
+                    </div>
+                    <h4 class="text-danger">@TempData["ModelErrors"]</h4>
+                </div>
+            </div>
+            <hr>
+        }
+    </div>
+</main>
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        $(function () {
+            $('#treeView').jstree({
+                "plugins" : [ "wholerow", "checkbox" ],
+                'core': {
+                    'data': {
+                        'url': '/Menus/BuildMenu',
+                        'dataType' : 'json'
+                    }
+                }
+            });
+        });
+        $("#saveMenuRoles").on('click', function () {
+            var checked_ids = [];
+            var undeterminedParents = [];
+            var RoleId = $("#roleList option:selected").val();
+            $.each($("#treeView").jstree("get_checked", true), function () {
+                //alert(this.id);
+                checked_ids.push(this.id);
+            });
+            
+            $("#treeView").find(".jstree-undetermined").each(function (i, element) {
+                //alert($(element).closest('.jstree-node').attr("id"));
+                undeterminedParents.push($(element).closest('.jstree-node').attr("id"));
+            });
+            $.ajax(
+          {
+              type: "POST",
+              url: "/Menus/SaveMenuRoles/",
+              data: {
+                  'UndeterminedParents': undeterminedParents,
+                  'checked_ids': checked_ids,
+                  'RoleId':RoleId
+              },
+              success: function () {
+
+              },
+              error: function (req, err) {
+                  console.log(err);
+              }
+          });
+        });
+    });
+</script>
+@if (Session["Msg"] != null)
+{
+    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+
+        </script>
+    }
+    else if (Session["Msg"].ToString() == "يجب إختيار قائمة على الأقل")
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
+                    text: "برجاء إختيار قائمة على الأقل",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"
+                })
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"
+                })
+            });
+        </script>
+    }
+}

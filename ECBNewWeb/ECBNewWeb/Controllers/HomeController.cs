@@ -15,10 +15,16 @@ namespace ECBNewWeb.Controllers
     [AuthFilter]
     public class HomeController : Controller
     {
-        List<MenuModel> MenuSource;
+        private CustomMembershipUser UserInfo;
         AuthenticationEntities db = new AuthenticationEntities();
         public ActionResult Index(int UId)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
+
             //if (Convert.ToString(UId) == string.Empty)
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -26,19 +32,25 @@ namespace ECBNewWeb.Controllers
             //ViewBag.CurrentUser = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             //ViewBag.AllRoles = Roles.GetRolesForUser(HttpContext.User.Identity.Name).ToList();
             //Session["CurrentUser"] =  Membership.GetUser(HttpContext.User.Identity.Name, false);
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
             return View();
         }
         public JsonResult MenuBulider()
         {
-            //if (Convert.ToString(UId) == string.Empty)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-            //}
-            //ViewBag.CurrentUser = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
-            //ViewBag.AllRoles = Roles.GetRolesForUser(HttpContext.User.Identity.Name).ToList();
-            //Session["CurrentUser"] =  Membership.GetUser(HttpContext.User.Identity.Name, false);
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
             List<MenuModel> MenuSource;
             MenuSource = (from m in db.Menus
+                          join mr in db.MenuRoles on m.MenuId equals mr.MenuId
+                          join ur in db.UserRoles on mr.RoleId equals ur.RoleID
+                          where ur.UserID == UserInfo.UserId
                           select new MenuModel()
                           {
                               MenuId = m.MenuId,
@@ -51,7 +63,7 @@ namespace ECBNewWeb.Controllers
                               ParentMenuId = m.ParentMenuId,
                               Description = m.Description,
                               Sorting = m.Sorting
-                              }).ToList();
+                              }).Distinct().ToList();
 
             Session["Menus"] = CreateMenus(0, MenuSource);
             return Json(Session["Menus"],JsonRequestBehavior.AllowGet);

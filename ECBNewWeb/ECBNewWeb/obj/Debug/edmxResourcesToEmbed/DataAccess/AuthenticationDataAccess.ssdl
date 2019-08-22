@@ -50,6 +50,14 @@
     <Property Name="importance" Type="int" />
     <Property Name="active" Type="smallint" />
   </EntityType>
+  <EntityType Name="MenuRoles">
+    <Key>
+      <PropertyRef Name="MenuRoleId" />
+    </Key>
+    <Property Name="MenuRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuId" Type="int" />
+    <Property Name="RoleId" Type="int" />
+  </EntityType>
   <EntityType Name="Menus">
     <Key>
       <PropertyRef Name="MenuId" />
@@ -58,12 +66,13 @@
     <Property Name="ArabicName" Type="nvarchar" MaxLength="100" />
     <Property Name="EnglishName" Type="nvarchar" MaxLength="100" />
     <Property Name="Description" Type="nvarchar" MaxLength="500" />
-    <Property Name="Action" Type="nvarchar" MaxLength="50" />
-    <Property Name="Controller" Type="nvarchar" MaxLength="50" />
+    <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ControllerName" Type="nvarchar" MaxLength="50" />
     <Property Name="Url" Type="nvarchar(max)" />
     <Property Name="CssClass" Type="nvarchar(max)" />
-    <Property Name="ParentMenuId" Type="int" />
+    <Property Name="ParentMenuId" Type="int" Nullable="false" />
     <Property Name="Sorting" Type="int" />
+    <Property Name="Active" Type="bit" />
   </EntityType>
   <EntityType Name="ParentFacilities">
     <Key>
@@ -87,7 +96,8 @@
       <PropertyRef Name="RoleID" />
     </Key>
     <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RoleName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="RoleEnglishName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="RoleArabicName" Type="nvarchar" MaxLength="500" />
     <Property Name="RoleDescription" Type="nvarchar" MaxLength="500" />
     <Property Name="Comments" Type="nvarchar" MaxLength="500" />
     <Property Name="IsSystemGenerated" Type="bit" Nullable="false" />
@@ -248,6 +258,7 @@
     <EntitySet Name="ActionMethods" EntityType="Self.ActionMethods" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Grants" EntityType="Self.Grants" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MenuRoles" EntityType="Self.MenuRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ParentFacilities" EntityType="Self.ParentFacilities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ParentFacilityRoles" EntityType="Self.ParentFacilityRoles" Schema="dbo" store:Type="Tables" />

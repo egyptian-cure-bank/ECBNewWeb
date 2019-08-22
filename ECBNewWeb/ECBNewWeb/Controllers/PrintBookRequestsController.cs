@@ -116,7 +116,7 @@ namespace ECBNewWeb.Controllers
                             stream.Seek(0, SeekOrigin.Begin);
                             return File(stream, "application/pdf");
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
                         }
@@ -183,7 +183,7 @@ namespace ECBNewWeb.Controllers
                             stream.Seek(0, SeekOrigin.Begin);
                             return File(stream, "application/pdf");
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
                         }
