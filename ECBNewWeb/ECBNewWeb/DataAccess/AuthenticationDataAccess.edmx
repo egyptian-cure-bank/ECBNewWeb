@@ -79,23 +79,6 @@
           <Property Name="Sorting" Type="int" />
           <Property Name="Active" Type="bit" />
         </EntityType>
-        <EntityType Name="ParentFacilities">
-          <Key>
-            <PropertyRef Name="ParentId" />
-          </Key>
-          <Property Name="ParentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ParentFacilityArabicName" Type="nvarchar" MaxLength="100" />
-          <Property Name="ParentFacilityEnglishName" Type="nvarchar" MaxLength="100" />
-          <Property Name="ClassNames" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="ParentFacilityRoles">
-          <Key>
-            <PropertyRef Name="FacilityRoleId" />
-          </Key>
-          <Property Name="FacilityRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ParentFacilityId" Type="int" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="RoleID" />
@@ -106,25 +89,6 @@
           <Property Name="RoleDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="Comments" Type="nvarchar" MaxLength="500" />
           <Property Name="IsSystemGenerated" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SubFacilities">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FacilityEnglishName" Type="nvarchar" MaxLength="100" />
-          <Property Name="FacilityArabicName" Type="nvarchar" MaxLength="100" />
-          <Property Name="ParentFacilityId" Type="int" />
-          <Property Name="URL" Type="nvarchar" MaxLength="100" />
-          <Property Name="CssClasses" Type="nvarchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="SubFacilityRoles">
-          <Key>
-            <PropertyRef Name="SubFacilityRoleId" />
-          </Key>
-          <Property Name="SubFacilityRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SubFacilityId" Type="int" />
-          <Property Name="RoleId" Type="int" />
         </EntityType>
         <EntityType Name="UserRoles">
           <Key>
@@ -170,66 +134,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ParentFac__Paren__6E8B6712">
-          <End Role="ParentFacilities" Type="Self.ParentFacilities" Multiplicity="1" />
-          <End Role="ParentFacilityRoles" Type="Self.ParentFacilityRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParentFacilities">
-              <PropertyRef Name="ParentId" />
-            </Principal>
-            <Dependent Role="ParentFacilityRoles">
-              <PropertyRef Name="ParentFacilityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ParentFac__RoleI__6F7F8B4B">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
-          <End Role="ParentFacilityRoles" Type="Self.ParentFacilityRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ParentFacilityRoles">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__Paren__7073AF84">
-          <End Role="ParentFacilities" Type="Self.ParentFacilities" Multiplicity="0..1" />
-          <End Role="SubFacilities" Type="Self.SubFacilities" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParentFacilities">
-              <PropertyRef Name="ParentId" />
-            </Principal>
-            <Dependent Role="SubFacilities">
-              <PropertyRef Name="ParentFacilityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__RoleI__7167D3BD">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
-          <End Role="SubFacilityRoles" Type="Self.SubFacilityRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="SubFacilityRoles">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__SubFa__725BF7F6">
-          <End Role="SubFacilities" Type="Self.SubFacilities" Multiplicity="0..1" />
-          <End Role="SubFacilityRoles" Type="Self.SubFacilityRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubFacilities">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SubFacilityRoles">
-              <PropertyRef Name="SubFacilityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserRoles_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -265,11 +169,7 @@
           <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuRoles" EntityType="Self.MenuRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ParentFacilities" EntityType="Self.ParentFacilities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ParentFacilityRoles" EntityType="Self.ParentFacilityRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SubFacilities" EntityType="Self.SubFacilities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SubFacilityRoles" EntityType="Self.SubFacilityRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Grants__AccessLe__6BAEFA67" Association="Self.FK__Grants__AccessLe__6BAEFA67">
             <End Role="AccessLevels" EntitySet="AccessLevels" />
@@ -282,26 +182,6 @@
           <AssociationSet Name="FK__Grants__UserId__6D9742D9" Association="Self.FK__Grants__UserId__6D9742D9">
             <End Role="login" EntitySet="login" />
             <End Role="Grants" EntitySet="Grants" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ParentFac__Paren__6E8B6712" Association="Self.FK__ParentFac__Paren__6E8B6712">
-            <End Role="ParentFacilities" EntitySet="ParentFacilities" />
-            <End Role="ParentFacilityRoles" EntitySet="ParentFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ParentFac__RoleI__6F7F8B4B" Association="Self.FK__ParentFac__RoleI__6F7F8B4B">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="ParentFacilityRoles" EntitySet="ParentFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__Paren__7073AF84" Association="Self.FK__SubFacili__Paren__7073AF84">
-            <End Role="ParentFacilities" EntitySet="ParentFacilities" />
-            <End Role="SubFacilities" EntitySet="SubFacilities" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__RoleI__7167D3BD" Association="Self.FK__SubFacili__RoleI__7167D3BD">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="SubFacilityRoles" EntitySet="SubFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__SubFa__725BF7F6" Association="Self.FK__SubFacili__SubFa__725BF7F6">
-            <End Role="SubFacilities" EntitySet="SubFacilities" />
-            <End Role="SubFacilityRoles" EntitySet="SubFacilityRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_UserRoles_Roles" Association="Self.FK_UserRoles_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -320,10 +200,6 @@
           <EntitySet Name="AccessLevels" EntityType="AuthenticationModel.AccessLevel" />
           <EntitySet Name="ActionMethods" EntityType="AuthenticationModel.ActionMethod" />
           <EntitySet Name="Grants" EntityType="AuthenticationModel.Grant" />
-          <EntitySet Name="ParentFacilities" EntityType="AuthenticationModel.ParentFacility" />
-          <EntitySet Name="ParentFacilityRoles" EntityType="AuthenticationModel.ParentFacilityRole" />
-          <EntitySet Name="SubFacilities" EntityType="AuthenticationModel.SubFacility" />
-          <EntitySet Name="SubFacilityRoles" EntityType="AuthenticationModel.SubFacilityRole" />
           <EntitySet Name="UserRoles" EntityType="AuthenticationModel.UserRole" />
           <AssociationSet Name="FK__Grants__AccessLe__6BAEFA67" Association="AuthenticationModel.FK__Grants__AccessLe__6BAEFA67">
             <End Role="AccessLevel" EntitySet="AccessLevels" />
@@ -332,18 +208,6 @@
           <AssociationSet Name="FK__Grants__ActionMe__6CA31EA0" Association="AuthenticationModel.FK__Grants__ActionMe__6CA31EA0">
             <End Role="ActionMethod" EntitySet="ActionMethods" />
             <End Role="Grant" EntitySet="Grants" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ParentFac__Paren__6E8B6712" Association="AuthenticationModel.FK__ParentFac__Paren__6E8B6712">
-            <End Role="ParentFacility" EntitySet="ParentFacilities" />
-            <End Role="ParentFacilityRole" EntitySet="ParentFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__Paren__7073AF84" Association="AuthenticationModel.FK__SubFacili__Paren__7073AF84">
-            <End Role="ParentFacility" EntitySet="ParentFacilities" />
-            <End Role="SubFacility" EntitySet="SubFacilities" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__SubFa__725BF7F6" Association="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6">
-            <End Role="SubFacility" EntitySet="SubFacilities" />
-            <End Role="SubFacilityRole" EntitySet="SubFacilityRoles" />
           </AssociationSet>
           <EntitySet Name="logins" EntityType="AuthenticationModel.login" />
           <AssociationSet Name="FK__Grants__UserId__6D9742D9" Association="AuthenticationModel.FK__Grants__UserId__6D9742D9">
@@ -356,14 +220,6 @@
           </AssociationSet>
           <EntitySet Name="Menus" EntityType="AuthenticationModel.Menu" />
           <EntitySet Name="Roles" EntityType="AuthenticationModel.Role" />
-          <AssociationSet Name="FK__ParentFac__RoleI__6F7F8B4B" Association="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ParentFacilityRole" EntitySet="ParentFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__RoleI__7167D3BD" Association="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="SubFacilityRole" EntitySet="SubFacilityRoles" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserRoles_Roles" Association="AuthenticationModel.FK_UserRoles_Roles">
             <End Role="Role" EntitySet="Roles" />
             <End Role="UserRole" EntitySet="UserRoles" />
@@ -400,50 +256,6 @@
           <NavigationProperty Name="ActionMethod" Relationship="AuthenticationModel.FK__Grants__ActionMe__6CA31EA0" FromRole="Grant" ToRole="ActionMethod" />
           <NavigationProperty Name="login" Relationship="AuthenticationModel.FK__Grants__UserId__6D9742D9" FromRole="Grant" ToRole="login" />
         </EntityType>
-        <EntityType Name="ParentFacility">
-          <Key>
-            <PropertyRef Name="ParentId" />
-          </Key>
-          <Property Name="ParentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentFacilityArabicName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ParentFacilityEnglishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ClassNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ParentFacilityRoles" Relationship="AuthenticationModel.FK__ParentFac__Paren__6E8B6712" FromRole="ParentFacility" ToRole="ParentFacilityRole" />
-          <NavigationProperty Name="SubFacilities" Relationship="AuthenticationModel.FK__SubFacili__Paren__7073AF84" FromRole="ParentFacility" ToRole="SubFacility" />
-        </EntityType>
-        <EntityType Name="ParentFacilityRole">
-          <Key>
-            <PropertyRef Name="FacilityRoleId" />
-          </Key>
-          <Property Name="FacilityRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentFacilityId" Type="Int32" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ParentFacility" Relationship="AuthenticationModel.FK__ParentFac__Paren__6E8B6712" FromRole="ParentFacilityRole" ToRole="ParentFacility" />
-          <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B" FromRole="ParentFacilityRole" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="SubFacility">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FacilityEnglishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FacilityArabicName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ParentFacilityId" Type="Int32" />
-          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CssClasses" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ParentFacility" Relationship="AuthenticationModel.FK__SubFacili__Paren__7073AF84" FromRole="SubFacility" ToRole="ParentFacility" />
-          <NavigationProperty Name="SubFacilityRoles" Relationship="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6" FromRole="SubFacility" ToRole="SubFacilityRole" />
-        </EntityType>
-        <EntityType Name="SubFacilityRole">
-          <Key>
-            <PropertyRef Name="SubFacilityRoleId" />
-          </Key>
-          <Property Name="SubFacilityRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubFacilityId" Type="Int32" />
-          <Property Name="RoleId" Type="Int32" />
-          <NavigationProperty Name="SubFacility" Relationship="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6" FromRole="SubFacilityRole" ToRole="SubFacility" />
-          <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" FromRole="SubFacilityRole" ToRole="Role" />
-        </EntityType>
         <EntityType Name="UserRole">
           <Key>
             <PropertyRef Name="UserRoleID" />
@@ -475,42 +287,6 @@
             </Principal>
             <Dependent Role="Grant">
               <PropertyRef Name="ActionMethodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ParentFac__Paren__6E8B6712">
-          <End Type="AuthenticationModel.ParentFacility" Role="ParentFacility" Multiplicity="1" />
-          <End Type="AuthenticationModel.ParentFacilityRole" Role="ParentFacilityRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParentFacility">
-              <PropertyRef Name="ParentId" />
-            </Principal>
-            <Dependent Role="ParentFacilityRole">
-              <PropertyRef Name="ParentFacilityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__Paren__7073AF84">
-          <End Type="AuthenticationModel.ParentFacility" Role="ParentFacility" Multiplicity="0..1" />
-          <End Type="AuthenticationModel.SubFacility" Role="SubFacility" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParentFacility">
-              <PropertyRef Name="ParentId" />
-            </Principal>
-            <Dependent Role="SubFacility">
-              <PropertyRef Name="ParentFacilityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__SubFa__725BF7F6">
-          <End Type="AuthenticationModel.SubFacility" Role="SubFacility" Multiplicity="0..1" />
-          <End Type="AuthenticationModel.SubFacilityRole" Role="SubFacilityRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubFacility">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SubFacilityRole">
-              <PropertyRef Name="SubFacilityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -593,34 +369,8 @@
           <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ParentFacilityRoles" Relationship="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B" FromRole="Role" ToRole="ParentFacilityRole" />
-          <NavigationProperty Name="SubFacilityRoles" Relationship="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" FromRole="Role" ToRole="SubFacilityRole" />
           <NavigationProperty Name="UserRoles" Relationship="AuthenticationModel.FK_UserRoles_Roles" FromRole="Role" ToRole="UserRole" />
         </EntityType>
-        <Association Name="FK__ParentFac__RoleI__6F7F8B4B">
-          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="AuthenticationModel.ParentFacilityRole" Role="ParentFacilityRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ParentFacilityRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__RoleI__7167D3BD">
-          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="0..1" />
-          <End Type="AuthenticationModel.SubFacilityRole" Role="SubFacilityRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="SubFacilityRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserRoles_Roles">
           <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -672,46 +422,6 @@
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="ActionMethodId" ColumnName="ActionMethodId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ParentFacilities">
-            <EntityTypeMapping TypeName="AuthenticationModel.ParentFacility">
-              <MappingFragment StoreEntitySet="ParentFacilities">
-                <ScalarProperty Name="ClassNames" ColumnName="ClassNames" />
-                <ScalarProperty Name="ParentFacilityEnglishName" ColumnName="ParentFacilityEnglishName" />
-                <ScalarProperty Name="ParentFacilityArabicName" ColumnName="ParentFacilityArabicName" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ParentFacilityRoles">
-            <EntityTypeMapping TypeName="AuthenticationModel.ParentFacilityRole">
-              <MappingFragment StoreEntitySet="ParentFacilityRoles">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
-                <ScalarProperty Name="FacilityRoleId" ColumnName="FacilityRoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SubFacilities">
-            <EntityTypeMapping TypeName="AuthenticationModel.SubFacility">
-              <MappingFragment StoreEntitySet="SubFacilities">
-                <ScalarProperty Name="CssClasses" ColumnName="CssClasses" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
-                <ScalarProperty Name="FacilityArabicName" ColumnName="FacilityArabicName" />
-                <ScalarProperty Name="FacilityEnglishName" ColumnName="FacilityEnglishName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SubFacilityRoles">
-            <EntityTypeMapping TypeName="AuthenticationModel.SubFacilityRole">
-              <MappingFragment StoreEntitySet="SubFacilityRoles">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="SubFacilityId" ColumnName="SubFacilityId" />
-                <ScalarProperty Name="SubFacilityRoleId" ColumnName="SubFacilityRoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

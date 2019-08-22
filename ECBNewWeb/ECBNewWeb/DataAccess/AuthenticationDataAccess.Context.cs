@@ -12,19 +12,19 @@ namespace ECBNewWeb.DataAccess
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class AuthenticationEntities : DbContext
     {
         public AuthenticationEntities()
             : base("name=AuthenticationEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public DbSet<AccessLevel> AccessLevels { get; set; }
         public DbSet<ActionMethod> ActionMethods { get; set; }
         public DbSet<Grant> Grants { get; set; }
