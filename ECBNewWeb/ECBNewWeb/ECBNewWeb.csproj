@@ -356,6 +356,9 @@
     <Compile Include="DataAccess\Menu.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\MenuRole.cs">
+      <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\PaymentMethod.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
