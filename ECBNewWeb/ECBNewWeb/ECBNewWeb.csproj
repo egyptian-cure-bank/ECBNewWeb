@@ -175,6 +175,7 @@
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\MarketReportsController.cs" />
+    <Compile Include="Controllers\MenusController.cs" />
     <Compile Include="Controllers\PrintBookDeliveryController.cs" />
     <Compile Include="Controllers\PrintBookRequestsController.cs" />
     <Compile Include="Controllers\SupervisorBookDeliveryController.cs" />
@@ -355,6 +356,9 @@
     <Compile Include="DataAccess\Menu.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\MenuRole.cs">
+      <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\ParentFacility.cs">
       <DependentUpon>AuthenticationDataAccess.tt</DependentUpon>
     </Compile>
@@ -415,6 +419,7 @@
     <Compile Include="Models\MarketingLicensesModel.cs" />
     <Compile Include="Models\marketingrectypeModel.cs" />
     <Compile Include="Models\MarketSitesModel.cs" />
+    <Compile Include="Models\MenuManagementModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\ReceiptTypeModel.cs" />
     <Compile Include="Models\UserSiteModel.cs" />
@@ -647,6 +652,17 @@
     <Content Include="Content\images\arrow.svg" />
     <Content Include="Content\images\bars.svg" />
     <Content Include="Content\images\close.svg" />
+    <Content Include="Content\jsTree\docs.css" />
+    <Content Include="Content\jsTree\themes\default-dark\32px.png" />
+    <Content Include="Content\jsTree\themes\default-dark\40px.png" />
+    <Content Include="Content\jsTree\themes\default-dark\style.css" />
+    <Content Include="Content\jsTree\themes\default-dark\style.min.css" />
+    <Content Include="Content\jsTree\themes\default-dark\throbber.gif" />
+    <Content Include="Content\jsTree\themes\default\32px.png" />
+    <Content Include="Content\jsTree\themes\default\40px.png" />
+    <Content Include="Content\jsTree\themes\default\style.css" />
+    <Content Include="Content\jsTree\themes\default\style.min.css" />
+    <Content Include="Content\jsTree\themes\default\throbber.gif" />
     <Content Include="Content\popper.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -751,6 +767,8 @@
     <Content Include="Scripts\jquery.nanoscroller.js" />
     <Content Include="Scripts\jquery.scrollex.min.js" />
     <Content Include="Scripts\jquery.scrolly.min.js" />
+    <Content Include="Scripts\jsTree3\jstree.js" />
+    <Content Include="Scripts\jsTree3\jstree.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\regular.js" />
     <Content Include="Scripts\regular.min.js" />
@@ -973,6 +991,8 @@
     <Content Include="Views\Donor\Edit.cshtml" />
     <Content Include="Views\Donation\AddDonations.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Views\Menus\ManageMenu.cshtml" />
+    <Content Include="Views\Menus\AllMenus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

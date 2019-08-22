@@ -1,0 +1,101 @@
+﻿@model ECBNewWeb.Models.MenuManagementDeleteModel
+
+@{
+    ViewBag.Title = "AllMenus";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+<link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/chosen.css" rel="stylesheet" />
+<link href="~/Content/jsTree/themes/default/style.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+<script src="~/Content/assets/demo/default/base/dataTables.select.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
+<script src="~/Scripts/jsTree3/jstree.js"></script>
+<!--End Scripts-->
+<!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
+<main class="page-content">
+    <div class="container-fluid">
+        <h2>عرض القوائم</h2>
+        <hr>
+        @using (Html.BeginForm("DeletePredefinedMenus","Menus",FormMethod.Post,new { @id="myForm"}))
+        {
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="" class="">الدور الوظيفي</label>
+                @Html.DropDownListFor(x => x.RoleId, Model.MyRoles as List<SelectListItem>, "--إختار دور وظيفي--", new { @class = "form-control", @id = "roleList" })
+            </div>
+            <hr />
+        </div>
+        <div class="row" id="treeView">
+        </div>
+        <hr />
+        <div class="row">
+            <button class="btn btn-danger m-btn--pill" type="submit">حذف</button>
+        </div>
+        }
+    </div>
+</main>
+
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        $("#roleList").change(function () {
+            $('#treeView').jstree("destroy").empty();
+            var RoleId = $("#roleList option:selected").val();
+            $('#treeView').jstree({
+                'core': {
+                    'data': {
+                        'url': '/Menus/BuildPredefinedMenu',
+                        'dataType': 'json',
+                        'data': { 'RoleId': RoleId }
+                    }
+                }
+            }).bind("loaded.jstree", function (event, data) {
+                $(this).jstree("open_all");
+            });
+        });
+    });
+</script>
+@if (Session["Msg"] != null)
+{
+    if (Session["Msg"].ToString() == "تم الحذف بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحذف بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+            swal({
+                title: "خطأ",
+                    text: "لم يتم الحذف",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"
+                })
+            });
+        </script>
+    }
+}
+

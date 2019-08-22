@@ -18,7 +18,7 @@ namespace ECBNewWeb.DataAccess
         public Nullable<int> SubFacilityId { get; set; }
         public Nullable<int> RoleId { get; set; }
     
-        public virtual Role Role { get; set; }
         public virtual SubFacility SubFacility { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

@@ -46,17 +46,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="AuthenticationModel.Role">
-        <MappingFragment StoreEntitySet="Roles">
-          <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
-          <ScalarProperty Name="Comments" ColumnName="Comments" />
-          <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
-          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="SubFacilities">
       <EntityTypeMapping TypeName="AuthenticationModel.SubFacility">
         <MappingFragment StoreEntitySet="SubFacilities">
@@ -87,22 +76,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Menus">
-      <EntityTypeMapping TypeName="AuthenticationModel.Menu">
-        <MappingFragment StoreEntitySet="Menus">
-          <ScalarProperty Name="Sorting" ColumnName="Sorting" />
-          <ScalarProperty Name="ParentMenuId" ColumnName="ParentMenuId" />
-          <ScalarProperty Name="CssClass" ColumnName="CssClass" />
-          <ScalarProperty Name="Url" ColumnName="Url" />
-          <ScalarProperty Name="Controller" ColumnName="Controller" />
-          <ScalarProperty Name="Action" ColumnName="Action" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
-          <ScalarProperty Name="ArabicName" ColumnName="ArabicName" />
-          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="logins">
       <EntityTypeMapping TypeName="AuthenticationModel.login">
         <MappingFragment StoreEntitySet="login">
@@ -126,6 +99,44 @@
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="AuthenticationModel.Menu">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Sorting" ColumnName="Sorting" />
+          <ScalarProperty Name="ParentMenuId" ColumnName="ParentMenuId" />
+          <ScalarProperty Name="CssClass" ColumnName="CssClass" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+          <ScalarProperty Name="ArabicName" ColumnName="ArabicName" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="AuthenticationModel.Role">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+          <ScalarProperty Name="RoleArabicName" ColumnName="RoleArabicName" />
+          <ScalarProperty Name="RoleEnglishName" ColumnName="RoleEnglishName" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MenuRoles">
+      <EntityTypeMapping TypeName="AuthenticationModel.MenuRole">
+        <MappingFragment StoreEntitySet="MenuRoles">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+          <ScalarProperty Name="MenuRoleId" ColumnName="MenuRoleId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

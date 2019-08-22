@@ -55,6 +55,14 @@
           <Property Name="importance" Type="int" />
           <Property Name="active" Type="smallint" />
         </EntityType>
+        <EntityType Name="MenuRoles">
+          <Key>
+            <PropertyRef Name="MenuRoleId" />
+          </Key>
+          <Property Name="MenuRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuId" Type="int" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
         <EntityType Name="Menus">
           <Key>
             <PropertyRef Name="MenuId" />
@@ -93,7 +101,8 @@
             <PropertyRef Name="RoleID" />
           </Key>
           <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="RoleEnglishName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="RoleArabicName" Type="nvarchar" MaxLength="500" />
           <Property Name="RoleDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="Comments" Type="nvarchar" MaxLength="500" />
           <Property Name="IsSystemGenerated" Type="bit" Nullable="false" />
@@ -254,6 +263,7 @@
           <EntitySet Name="ActionMethods" EntityType="Self.ActionMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grants" EntityType="Self.Grants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenuRoles" EntityType="Self.MenuRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParentFacilities" EntityType="Self.ParentFacilities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParentFacilityRoles" EntityType="Self.ParentFacilityRoles" Schema="dbo" store:Type="Tables" />
@@ -312,7 +322,6 @@
           <EntitySet Name="Grants" EntityType="AuthenticationModel.Grant" />
           <EntitySet Name="ParentFacilities" EntityType="AuthenticationModel.ParentFacility" />
           <EntitySet Name="ParentFacilityRoles" EntityType="AuthenticationModel.ParentFacilityRole" />
-          <EntitySet Name="Roles" EntityType="AuthenticationModel.Role" />
           <EntitySet Name="SubFacilities" EntityType="AuthenticationModel.SubFacility" />
           <EntitySet Name="SubFacilityRoles" EntityType="AuthenticationModel.SubFacilityRole" />
           <EntitySet Name="UserRoles" EntityType="AuthenticationModel.UserRole" />
@@ -332,18 +341,6 @@
             <End Role="ParentFacility" EntitySet="ParentFacilities" />
             <End Role="SubFacility" EntitySet="SubFacilities" />
           </AssociationSet>
-          <AssociationSet Name="FK__ParentFac__RoleI__6F7F8B4B" Association="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ParentFacilityRole" EntitySet="ParentFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SubFacili__RoleI__7167D3BD" Association="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="SubFacilityRole" EntitySet="SubFacilityRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRoles_Roles" Association="AuthenticationModel.FK_UserRoles_Roles">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="UserRole" EntitySet="UserRoles" />
-          </AssociationSet>
           <AssociationSet Name="FK__SubFacili__SubFa__725BF7F6" Association="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6">
             <End Role="SubFacility" EntitySet="SubFacilities" />
             <End Role="SubFacilityRole" EntitySet="SubFacilityRoles" />
@@ -358,6 +355,20 @@
             <End Role="UserRole" EntitySet="UserRoles" />
           </AssociationSet>
           <EntitySet Name="Menus" EntityType="AuthenticationModel.Menu" />
+          <EntitySet Name="Roles" EntityType="AuthenticationModel.Role" />
+          <AssociationSet Name="FK__ParentFac__RoleI__6F7F8B4B" Association="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ParentFacilityRole" EntitySet="ParentFacilityRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubFacili__RoleI__7167D3BD" Association="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="SubFacilityRole" EntitySet="SubFacilityRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Roles" Association="AuthenticationModel.FK_UserRoles_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <EntitySet Name="MenuRoles" EntityType="AuthenticationModel.MenuRole" />
           </EntityContainer>
         <EntityType Name="AccessLevel">
           <Key>
@@ -410,19 +421,6 @@
           <NavigationProperty Name="ParentFacility" Relationship="AuthenticationModel.FK__ParentFac__Paren__6E8B6712" FromRole="ParentFacilityRole" ToRole="ParentFacility" />
           <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B" FromRole="ParentFacilityRole" ToRole="Role" />
         </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ParentFacilityRoles" Relationship="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B" FromRole="Role" ToRole="ParentFacilityRole" />
-          <NavigationProperty Name="SubFacilityRoles" Relationship="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" FromRole="Role" ToRole="SubFacilityRole" />
-          <NavigationProperty Name="UserRoles" Relationship="AuthenticationModel.FK_UserRoles_Roles" FromRole="Role" ToRole="UserRole" />
-        </EntityType>
         <EntityType Name="SubFacility">
           <Key>
             <PropertyRef Name="Id" />
@@ -443,8 +441,8 @@
           <Property Name="SubFacilityRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubFacilityId" Type="Int32" />
           <Property Name="RoleId" Type="Int32" />
-          <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" FromRole="SubFacilityRole" ToRole="Role" />
           <NavigationProperty Name="SubFacility" Relationship="AuthenticationModel.FK__SubFacili__SubFa__725BF7F6" FromRole="SubFacilityRole" ToRole="SubFacility" />
+          <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" FromRole="SubFacilityRole" ToRole="Role" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -453,8 +451,8 @@
           <Property Name="UserRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK_UserRoles_Roles" FromRole="UserRole" ToRole="Role" />
           <NavigationProperty Name="login" Relationship="AuthenticationModel.FK_UserRoles_Users2" FromRole="UserRole" ToRole="login" />
+          <NavigationProperty Name="Role" Relationship="AuthenticationModel.FK_UserRoles_Roles" FromRole="UserRole" ToRole="Role" />
         </EntityType>
         <Association Name="FK__Grants__AccessLe__6BAEFA67">
           <End Type="AuthenticationModel.AccessLevel" Role="AccessLevel" Multiplicity="1" />
@@ -501,44 +499,6 @@
             </Principal>
             <Dependent Role="SubFacility">
               <PropertyRef Name="ParentFacilityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ParentFac__RoleI__6F7F8B4B">
-          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="AuthenticationModel.ParentFacilityRole" Role="ParentFacilityRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ParentFacilityRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SubFacili__RoleI__7167D3BD">
-          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="0..1" />
-          <End Type="AuthenticationModel.SubFacilityRole" Role="SubFacilityRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="SubFacilityRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRoles_Roles">
-          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AuthenticationModel.UserRole" Role="UserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="UserRole">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -623,6 +583,66 @@
           <Property Name="Sorting" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleEnglishName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RoleArabicName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ParentFacilityRoles" Relationship="AuthenticationModel.FK__ParentFac__RoleI__6F7F8B4B" FromRole="Role" ToRole="ParentFacilityRole" />
+          <NavigationProperty Name="SubFacilityRoles" Relationship="AuthenticationModel.FK__SubFacili__RoleI__7167D3BD" FromRole="Role" ToRole="SubFacilityRole" />
+          <NavigationProperty Name="UserRoles" Relationship="AuthenticationModel.FK_UserRoles_Roles" FromRole="Role" ToRole="UserRole" />
+        </EntityType>
+        <Association Name="FK__ParentFac__RoleI__6F7F8B4B">
+          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="AuthenticationModel.ParentFacilityRole" Role="ParentFacilityRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ParentFacilityRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubFacili__RoleI__7167D3BD">
+          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="AuthenticationModel.SubFacilityRole" Role="SubFacilityRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="SubFacilityRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Roles">
+          <End Type="AuthenticationModel.Role" Role="Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AuthenticationModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MenuRole">
+          <Key>
+            <PropertyRef Name="MenuRoleId" />
+          </Key>
+          <Property Name="MenuRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -671,17 +691,6 @@
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="ParentFacilityId" ColumnName="ParentFacilityId" />
                 <ScalarProperty Name="FacilityRoleId" ColumnName="FacilityRoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="AuthenticationModel.Role">
-              <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -755,6 +764,27 @@
                 <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
                 <ScalarProperty Name="ArabicName" ColumnName="ArabicName" />
                 <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="AuthenticationModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="RoleArabicName" ColumnName="RoleArabicName" />
+                <ScalarProperty Name="RoleEnglishName" ColumnName="RoleEnglishName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuRoles">
+            <EntityTypeMapping TypeName="AuthenticationModel.MenuRole">
+              <MappingFragment StoreEntitySet="MenuRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="MenuRoleId" ColumnName="MenuRoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

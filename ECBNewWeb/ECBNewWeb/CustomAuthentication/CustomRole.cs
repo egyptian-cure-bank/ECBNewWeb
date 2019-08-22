@@ -45,7 +45,7 @@ namespace ECBNewWeb.CustomAuthentication
                 if (selectedUser != null)
                 {
                     var currentRoleId = (dbContext.UserRoles.Where(x => x.login.id == selectedUser.id).Select(s => s.RoleID).ToList());
-                    userRoles = dbContext.Roles.Where(x => currentRoleId.Contains(x.RoleID)).Select(x => x.RoleName).ToList();
+                    userRoles = dbContext.Roles.Where(x => currentRoleId.Contains(x.RoleID)).Select(x => x.RoleArabicName).ToList();
                 }
 
                 return userRoles.ToArray();
@@ -95,7 +95,7 @@ namespace ECBNewWeb.CustomAuthentication
         {
             using (AuthenticationEntities db = new AuthenticationEntities())
             {
-                return db.Roles.Select(r => r.RoleName).ToArray<string>();
+                return db.Roles.Select(r => r.RoleArabicName).ToArray<string>();
             }
         }
 
