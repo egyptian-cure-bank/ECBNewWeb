@@ -18,13 +18,13 @@
 <!-- sidebar-wrapper------------------------------------Content---------------------------------------  -->
 <main class="page-content">
     <div class="container-fluid">
-        <h2>بيانات الموظف</h2>
-        <p>إضافة موظف</p>
+        <h2>إضافة الموظف</h2>
+        <p>البيانات الاساسية</p>
         <hr>
         @using (Html.BeginForm("SaveEmployee", "Employees", FormMethod.Post, new { @id = "saveEmployeeForm" }))
         {
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" , autocomplete = "off" })
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="" class="">اسم الأول</label>
@@ -81,10 +81,31 @@
                     @Html.TextBoxFor(m => m.NickName, new { @class = "form-control", @id = "nathionalId" })
                 </div>
             </div>
+            <p>بيانات الدخول الخاصة بالموظف</p>
+            <hr />
+            <div class="row" >
+                <div class="form-group col-md-3">
+                    <label for="" class="">اسم الدخول </label>
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control"   })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3" >
+                    <label for="" class="">الباسورد</label>
+                    
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "Password" , autocomplete = "new-password" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="" class="">تاكيد كلمة السر</label>
+                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @id = "Password", type = "Password" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
             <div class="row">
                 <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
                     <div class="m-demo__preview  m-demo__preview--btn">
-                        <button class="btn m-btn--pill btn-success" type="submit">حفظ</button>
+                        <button class="btn m-btn--pill btn-success" type="submit" >حفظ</button>
                         <button class="btn btn-danger m-btn--pill" type="reset">الغاء</button>
                     </div>
                     <h4 class="text-danger">@TempData["ModelErrors"]</h4>

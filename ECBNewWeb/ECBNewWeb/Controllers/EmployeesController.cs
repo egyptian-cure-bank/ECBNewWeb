@@ -10,15 +10,20 @@ using System.Web.Security;
 using System.Data.SqlClient;
 using System.Data.Objects.SqlClient;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ECBNewWeb.Controllers
 {
     public class EmployeesController : Controller
     {
+       
         private CustomMembershipUser UserInfo;
+        
         // GET: Employees
         public ActionResult AddEmployee()
         {
+            TempData["Controller"] = this.ControllerContext.RouteData.Values["controller"].ToString();
             if (User.Identity.IsAuthenticated)
             {
                 UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
@@ -26,10 +31,12 @@ namespace ECBNewWeb.Controllers
             }
             EmployeeModel EmpModel = new EmployeeModel();
             EmpModel.MyDepartments = PopulateDepartments();
+            
             return View(EmpModel);
         }
         public ActionResult AllEmployees()
         {
+            TempData["Controller"] = this.ControllerContext.RouteData.Values["controller"].ToString();
             MarketEntities db = new MarketEntities();
             List<EmployeeModel> list = (from e in db.Employees
                                         join d in db.Departments on e.DepartmentId equals d.DepartmentId
@@ -196,6 +203,29 @@ namespace ECBNewWeb.Controllers
                     Market.Employees.Add(EmployeeToSave);
                     int rowAffected = Market.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    using (AuthenticationEntities Authentication = new AuthenticationEntities())
+                    {
+                        // Crypt Pass
+                        SHA1 s = new SHA1CryptoServiceProvider();
+                        byte[] bytes = Encoding.UTF8.GetBytes(EmpModel.Password);
+                        byte[] bytess = s.ComputeHash(bytes);
+                        string sos = Convert.ToBase64String(bytess);
+                        login EmployeeLogin = new login();
+                        login lastid =  Authentication.logins.OrderByDescending(x => x.id).FirstOrDefault(); 
+                        EmployeeLogin.id = lastid.id + 1;
+                        EmployeeLogin.username = EmpModel.UserName;
+                        EmployeeLogin.password = sos;
+                        EmployeeLogin.employee_id = EmployeeToSave.EmployeeId;
+                        EmployeeLogin.department = EmpModel.DepartmentId;
+                        EmployeeLogin.FirstName = EmpModel.FirstName;
+                        EmployeeLogin.MiddleName = EmpModel.MiddleName;
+                        EmployeeLogin.LastName = EmpModel.LastName;
+                        EmployeeLogin.active = 1;
+                        Authentication.logins.Add(EmployeeLogin);
+                        rowAffected = Authentication.SaveChanges();
+                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    }
+
                     ModelState.Clear();
                     return RedirectToAction("AddEmployee", EmpModel);
                 }

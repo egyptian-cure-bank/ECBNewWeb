@@ -126,7 +126,7 @@
                             <h4 class="m-menu__section-text">عام</h4>
                             <i class="m-menu__section-icon flaticon-more-v2"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu @(ViewContext.RouteData.Values["Controller"].ToString() == "Employees"? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <li class="m-menu__item  m-menu__item--submenu @(ViewContext.RouteData.Values["Controller"].ToString() == "Employees" || ViewContext.RouteData.Values["Controller"].ToString() == "UserRoles" ? "m-menu__item--open" : "")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="javascript:;" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-cogwheel-1"></i><span class="m-menu__link-text">إعدادات النظام</span><i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
@@ -138,6 +138,22 @@
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
                                             <span class="m-menu__link-text">
                                                 إضافة موظف
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AddUserRoles" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                        <a href="@Url.Action("AddUserRoles", "UserRoles")" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                            <span class="m-menu__link-text">
+                                                إضافة صلاحيات موظف
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item @(ViewContext.RouteData.Values["Action"].ToString() == "AllUserRoles" ? "m-menu__item--active" : "") " aria-haspopup="true">
+                                        <a href="@Url.Action("AllUserRoles", "UserRoles")" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+                                            <span class="m-menu__link-text">
+                                                صلاحيات الموظفين
                                             </span>
                                         </a>
                                     </li>
