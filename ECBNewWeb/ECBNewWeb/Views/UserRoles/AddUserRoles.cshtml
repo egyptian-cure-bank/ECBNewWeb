@@ -1,0 +1,159 @@
+﻿@model ECBNewWeb.Models.UserRoleModel
+@{
+    ViewBag.Title = "AddUserRoles";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/fontawesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<style>
+    span.select2 {
+        width:500px !important
+    }
+</style>
+
+<main class="page-content">
+    <div class="container-fluid">
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet 1-->
+                    <div class="m-portlet">
+                        <!--begin::Header-->
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        اضافة الصلاحيات للموظفين
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::form-->
+                        @using (Html.BeginForm("AddUserRoles", "UserRoles", FormMethod.Post, htmlAttributes: new { @id = "myForm", @class = "m-form m-form--label-align-right" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <!--begin::body-->
+                            <div class="m-portlet__body">
+                                <div class="row">
+                                    <div class="m-form__group form-group col-md-3">
+                                        <label class="">اسم الموظف</label>
+                                        @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form-control", @id = "parentEmp" })
+                                        @Html.TextBoxFor(m => m.EmployeeID, new { @class = "form-control", @id = "parentEmpId", @hidden = true })
+                                        @Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(m => m.EmployeeID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="m-form__group form-group col-md-3">
+                                        <label>الصلاحيات</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="m-form__group form-group col-md-10">
+                                        @Html.DropDownListFor(x => x.roleArr, ViewBag.Rolelist as List<SelectListItem>, new { @class = "form-control m-input", @id = "m_select2_3",  multiple = "multiple" })
+                                        @Html.ValidationMessageFor(m => m.roleArr, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--end::body-->
+                            <!--begin::footer-->
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <button type="submit" class="btn btn-success m-btn--pill" id="save">حفظ</button>
+                                    <button type="reset" class="btn btn-danger  m-btn--pill">الغاء</button>
+                                </div>
+                            </div>
+                            <!--end::footer-->
+                        }
+                        <!--end::from--
+                        </div>
+                        <!--end::Portlet 1-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="~/Content/assets/demo/default/custom/crud/forms/widgets/select2.js"></script>
+<script>
+    var item = [];
+    $("#parentEmp").autocomplete({
+        source: function (request, response) {
+            if ($("#parentEmp").val() != null) {
+                $.ajax({
+                    url: '@Url.Action("AutoCompleteEmployee")',
+                    type: "GET",
+                    data: { prefix: $("#parentEmp").val() },
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        //$("#donors").html(''),
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.FullName,
+                                value: item.EmployeeId
+                            }
+                        }));
+                    }
+                });
+            }
+        },
+        select: function (event, ui) {
+            this.value = ui.item.label;
+            $("#parentEmpId").val(ui.item.value);
+            return false;
+        },
+        search: function (event, ui) {
+            $(".submit-progress").removeClass("d-none");
+        },
+        response: function (event, ui) {
+            $(".submit-progress").addClass("d-none");
+        }
+    });
+</script>
+
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+
+}

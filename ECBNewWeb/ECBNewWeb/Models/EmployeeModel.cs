@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using ECBNewWeb.CustomValidation;
 
+
 namespace ECBNewWeb.Models
 {
     public class EmployeeModel
@@ -53,5 +54,18 @@ namespace ECBNewWeb.Models
 
         public string FullName { get; set; }
         public string job { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة اسم الدخول")]
+        public string UserName { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة الباسورد")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء تاكيد الباسورد")]
+        [DataType(DataType.Password)]
+        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage ="كلمة السر غير مطابقة") ]
+        public string ConfirmPassword { get; set; }
+
+
     }
 }
