@@ -80,7 +80,7 @@ namespace ECBNewWeb.Controllers
             List<SelectListItem> Items = new List<SelectListItem>();
             using (AuthenticationEntities db = new AuthenticationEntities())
             {
-                List<RolesModel> MyRoles = db.Database.SqlQuery<RolesModel>("SELECT RoleID,RoleName FROM Roles").ToList();
+                List<RolesModel> MyRoles = db.Database.SqlQuery<RolesModel>("SELECT RoleID,RoleArabicName FROM Roles").ToList();
                 SelectListItem DisabledList = new SelectListItem()
                 {
                     Text = " ",
@@ -92,7 +92,7 @@ namespace ECBNewWeb.Controllers
                 {
                     SelectListItem selectList = new SelectListItem()
                     {
-                        Text = r.RoleName,
+                        Text = r.RoleArabicName,
                         Value = r.RoleID.ToString(),
                     };
 
