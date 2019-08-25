@@ -53,10 +53,12 @@ namespace ECBNewWeb.DataAccess
         public DbSet<Bank> Banks { get; set; }
         public DbSet<cashDeposit> cashDeposits { get; set; }
         public DbSet<ChequeInformation> ChequeInformations { get; set; }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<HandleBookReceipt> HandleBookReceipts { get; set; }
         public DbSet<BookDeliveryRequest> BookDeliveryRequests { get; set; }
         public DbSet<BookDeliveryRequestDetail> BookDeliveryRequestDetails { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<JobHistory> JobHistories { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

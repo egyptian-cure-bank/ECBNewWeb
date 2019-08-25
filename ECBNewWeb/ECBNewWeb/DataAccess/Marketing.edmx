@@ -80,8 +80,8 @@
           <Property Name="RespId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmployeeId" Type="int" />
           <Property Name="HandleBookReceiptId" Type="int" />
-          <Property Name="ReceiveDate" Type="date" />
-          <Property Name="DeliveryDate" Type="date" />
+          <Property Name="ReceiveDate" Type="datetime" />
+          <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="PartialBookIndicator" Type="int" />
           <Property Name="ParentEmployeeId" Type="int" />
           <Property Name="NextReceiptNo" Type="int" />
@@ -243,7 +243,7 @@
           <Property Name="MiddleName" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="DepartmentId" Type="int" />
-          <Property Name="job" Type="nvarchar" MaxLength="50" />
+          <Property Name="job" Type="int" />
           <Property Name="ParentEmployeeId" Type="int" />
           <Property Name="NationalId" Type="float" />
           <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
@@ -270,6 +270,28 @@
           <Property Name="ParentBookReceiptId" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="JobHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="JobId" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+        </EntityType>
+        <EntityType Name="Jobs">
+          <Key>
+            <PropertyRef Name="JobId" />
+          </Key>
+          <Property Name="JobId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobArabicName" Type="nvarchar(max)" />
+          <Property Name="JobEnglishName" Type="nvarchar(max)" />
+          <Property Name="JobDescription" Type="nvarchar(max)" />
+          <Property Name="MinSalary" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MaxSalary" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="KnowingMethod">
           <Key>
@@ -442,6 +464,8 @@
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="governments" EntityType="Self.governments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HandleBookReceipts" EntityType="Self.HandleBookReceipts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobHistory" EntityType="Self.JobHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KnowingMethod" EntityType="Self.KnowingMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="market" EntityType="Self.market" Schema="dbo" store:Type="Tables" />
@@ -561,11 +585,13 @@
           <EntitySet Name="Banks" EntityType="MarketingModel.Bank" />
           <EntitySet Name="cashDeposits" EntityType="MarketingModel.cashDeposit" />
           <EntitySet Name="ChequeInformations" EntityType="MarketingModel.ChequeInformation" />
-          <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
           <EntitySet Name="HandleBookReceipts" EntityType="MarketingModel.HandleBookReceipt" />
           <EntitySet Name="BookDeliveryRequests" EntityType="MarketingModel.BookDeliveryRequest" />
           <EntitySet Name="BookDeliveryRequestDetails" EntityType="MarketingModel.BookDeliveryRequestDetail" />
           <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
+          <EntitySet Name="JobHistories" EntityType="MarketingModel.JobHistory" />
+          <EntitySet Name="Jobs" EntityType="MarketingModel.Job" />
+          <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -624,8 +650,8 @@
           <Property Name="RespId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="HandleBookReceiptId" Type="Int32" />
-          <Property Name="ReceiveDate" Type="DateTime" Precision="0" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="ReceiveDate" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
           <Property Name="PartialBookIndicator" Type="Int32" />
           <Property Name="ParentEmployeeId" Type="Int32" />
           <Property Name="NextReceiptNo" Type="Int32" />
@@ -857,25 +883,6 @@
           <Property Name="ChequeDate" Type="DateTime" Precision="0" />
           <Property Name="TimeStamp" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="EmployeeId" />
-          </Key>
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmployeeNo" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="job" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ParentEmployeeId" Type="Int32" />
-          <Property Name="NationalId" Type="Double" />
-          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Active" Type="Int32" />
-        </EntityType>
         <EntityType Name="HandleBookReceipt">
           <Key>
             <PropertyRef Name="BookReceiptId" />
@@ -932,6 +939,47 @@
           <Property Name="userRole" Type="Int32" />
           <Property Name="importance" Type="Int32" />
           <Property Name="active" Type="Int16" />
+        </EntityType>
+        <EntityType Name="JobHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="JobId" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobId" />
+          </Key>
+          <Property Name="JobId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobArabicName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JobEnglishName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JobDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MinSalary" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxSalary" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeNo" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="job" Type="Int32" />
+          <Property Name="ParentEmployeeId" Type="Int32" />
+          <Property Name="NationalId" Type="Double" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1262,26 +1310,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="MarketingModel.Employee">
-              <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="NickName" ColumnName="NickName" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
-                <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
-                <ScalarProperty Name="job" ColumnName="job" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HandleBookReceipts">
             <EntityTypeMapping TypeName="MarketingModel.HandleBookReceipt">
               <MappingFragment StoreEntitySet="HandleBookReceipts">
@@ -1340,6 +1368,50 @@
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobHistories">
+            <EntityTypeMapping TypeName="MarketingModel.JobHistory">
+              <MappingFragment StoreEntitySet="JobHistory">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="MarketingModel.Job">
+              <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="MaxSalary" ColumnName="MaxSalary" />
+                <ScalarProperty Name="MinSalary" ColumnName="MinSalary" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="JobEnglishName" ColumnName="JobEnglishName" />
+                <ScalarProperty Name="JobArabicName" ColumnName="JobArabicName" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MarketingModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="NationalId" ColumnName="NationalId" />
+                <ScalarProperty Name="ParentEmployeeId" ColumnName="ParentEmployeeId" />
+                <ScalarProperty Name="job" ColumnName="job" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

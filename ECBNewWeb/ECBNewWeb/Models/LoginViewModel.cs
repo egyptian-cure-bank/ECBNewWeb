@@ -9,7 +9,9 @@ namespace ECBNewWeb.Models
     public class LoginViewModel
     {
         public int UserId { get; set; }
+        [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة إسم المستخدم")]
         public string UserName { get; set; }
+        [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة كلمة السر")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public bool RememberMe { get; set; }

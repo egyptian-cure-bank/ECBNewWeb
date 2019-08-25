@@ -36,13 +36,16 @@ namespace ECBNewWeb.CustomAuthentication
                             && string.Compare(sos, us.password, StringComparison.OrdinalIgnoreCase) == 0
                             && us.active == 1
                             select new { us }).FirstOrDefault();
-                using (MarketEntities dbMarket = new MarketEntities())
+                if (user != null)
                 {
-                    var AllInfo = (from e in dbMarket.Employees
-                                   where e.EmployeeId == user.us.employee_id
-                                   select new { user.us.id,user.us.userRole,user.us.username,user.us.department,user.us.employee_id, e }).FirstOrDefault();
-                    return (user != null) ? true : false;
+                    using (MarketEntities dbMarket = new MarketEntities())
+                    {
+                        var AllInfo = (from e in dbMarket.Employees
+                                       where e.EmployeeId == user.us.employee_id
+                                       select new { user.us.id, user.us.userRole, user.us.username, user.us.department, user.us.employee_id, e }).FirstOrDefault();
+                    }
                 }
+                return (user != null) ? true : false;
             }
         }
 

@@ -504,6 +504,10 @@ namespace ECBNewWeb.Controllers
             int CanceledRecIdCount = 0;
             int rowAffected = 0;
             int UpdateRecordCount = 0;
+            ModelState.Remove("ChequeBankId");
+            ModelState.Remove("ChequeNumber");
+            ModelState.Remove("ChequeDate");
+            ModelState.Remove("recDate");
             if (!string.IsNullOrWhiteSpace(Donation.RecNumber))
             {
                 using (MarketEntities Market = new MarketEntities())

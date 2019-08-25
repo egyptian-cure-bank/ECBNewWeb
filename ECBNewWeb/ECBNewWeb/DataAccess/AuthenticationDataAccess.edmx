@@ -201,7 +201,6 @@
           <EntitySet Name="ActionMethods" EntityType="AuthenticationModel.ActionMethod" />
           <EntitySet Name="Grants" EntityType="AuthenticationModel.Grant" />
           <EntitySet Name="logins" EntityType="AuthenticationModel.login" />
-          <EntitySet Name="MenuRoles" EntityType="AuthenticationModel.MenuRole" />
           <EntitySet Name="Menus" EntityType="AuthenticationModel.Menu" />
           <EntitySet Name="Roles" EntityType="AuthenticationModel.Role" />
           <EntitySet Name="UserRoles" EntityType="AuthenticationModel.UserRole" />
@@ -225,6 +224,7 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="UserRole" EntitySet="UserRoles" />
           </AssociationSet>
+          <EntitySet Name="MenuRoles" EntityType="AuthenticationModel.MenuRole" />
         </EntityContainer>
         <EntityType Name="AccessLevel">
           <Key>
@@ -282,14 +282,6 @@
           <Property Name="active" Type="Int16" />
           <NavigationProperty Name="Grants" Relationship="AuthenticationModel.FK__Grants__UserId__6D9742D9" FromRole="login" ToRole="Grant" />
           <NavigationProperty Name="UserRoles" Relationship="AuthenticationModel.FK_UserRoles_Users2" FromRole="login" ToRole="UserRole" />
-        </EntityType>
-        <EntityType Name="MenuRole">
-          <Key>
-            <PropertyRef Name="MenuRoleId" />
-          </Key>
-          <Property Name="MenuRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MenuId" Type="Int32" />
-          <Property Name="RoleId" Type="Int32" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -393,6 +385,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MenuRole">
+          <Key>
+            <PropertyRef Name="MenuRoleId" />
+          </Key>
+          <Property Name="MenuRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -451,15 +451,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MenuRoles">
-            <EntityTypeMapping TypeName="AuthenticationModel.MenuRole">
-              <MappingFragment StoreEntitySet="MenuRoles">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-                <ScalarProperty Name="MenuRoleId" ColumnName="MenuRoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Menus">
             <EntityTypeMapping TypeName="AuthenticationModel.Menu">
               <MappingFragment StoreEntitySet="Menus">
@@ -495,6 +486,15 @@
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuRoles">
+            <EntityTypeMapping TypeName="AuthenticationModel.MenuRole">
+              <MappingFragment StoreEntitySet="MenuRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="MenuRoleId" ColumnName="MenuRoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
