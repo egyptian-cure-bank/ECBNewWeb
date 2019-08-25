@@ -27,16 +27,12 @@
 
                         @using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { @id = "myform", @class = "m-form m-form--fit m-form--label-align-righ" }))
                         {
-                            @*@Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "لم يتم الحفظ", new { @class = "text-danger" })*@
-                        <!--begin::Form-->
-
                             <div class="m-portlet__body">
                                 <div class="row">
                                     <div class="form-group m-form__group col-md-3">
                                         <label for="" class="">إسم المحصل</label>
                                         @Html.CheckBoxFor(x => x.UserNameCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "usrNameCheck" })
-                                        @Html.DropDownListFor(x => x.UserId, Model.MyUserList as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control m-input", @id = "userList" })
+                                        @Html.DropDownListFor(x => x.EmployeeId, Model.MyUserList as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control m-input", @id = "userList" })
                                     </div>
                                     @*</div>
                                         <div class="row">*@
@@ -64,19 +60,18 @@
                                         @Html.CheckBoxFor(x => x.PurposeCheck, new { @class = "m-checkbox m-checkbox--state-success", @id = "purposeCheck" })
                                         @Html.DropDownListFor(x => x.DonationPurposeId, Model.MyDonationPurpose as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control m-input", @id = "purposeList" })
                                     </div>
-
                                 </div>
                                 <br />
                                 <div class="m-portlet__foot m-portlet__foot--fit">
                                     <div class="m-form__actions">
-                                        <button type="submit" formaction="RunMarketGroupBriefCash" class="btn btn-success m-btn--pill">إجمالي نقدي</button>
-                                        <button type="submit" formaction="RunMarketGroupBriefVisa" class="btn btn-dark  m-btn--pill">إجمالي فيزا</button>
-                                        <button type="submit" formaction="RunMarketGroupBriefCheque" class="btn btn-accent  m-btn--pill">إجمالي شيك</button>
-                                        <button type="submit" formaction="RunMarketGroupAll" class="btn btn-danger  m-btn--pill">الإجماليات</button>
+                                        <button formaction='@Url.Action("RunMarketGroupBriefCash","MarketReports")' class="btn btn-success m-btn--pill" id="groupCash">إجمالي نقدي</button>
+                                        <button formaction='@Url.Action("RunMarketGroupBriefVisa","MarketReports")' class="btn btn-dark  m-btn--pill">إجمالي فيزا</button>
+                                        <button formaction='@Url.Action("RunMarketGroupBriefCheque","MarketReports")' class="btn btn-accent  m-btn--pill">إجمالي شيك</button>
+                                        <button formaction='@Url.Action("RunMarketGroupAll","MarketReports")' class="btn btn-danger  m-btn--pill">الإجماليات</button>
                                     </div>
                                     <div class="m-form__actions">
-                                        <button type="submit" formaction="RunMarketAdminDetails" class="btn btn-accent btn-outline-accent  m-btn--pill">التفاصيل</button>
-                                        <button type="submit" formaction="" class="btn btn-success btn-outline-danger m-btn--pill">التراخيص</button>
+                                        <button formaction='@Url.Action("RunMarketAdminDetails","MarketReports")' class="btn btn-accent btn-outline-accent  m-btn--pill">التفاصيل</button>
+                                        <button formaction="" class="btn btn-success btn-outline-danger m-btn--pill">التراخيص</button>
                                         <hr />
                                     </div>
                                     <h4 class="text-danger">@TempData["ModelErrors"]</h4>
@@ -102,7 +97,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON("/MarketReports/PopulateRecTypes", { UserId: null }, function (data) {
+        $.getJSON("/MarketReports/PopulateRecTypes", { EmployeeId: null }, function (data) {
             data = $.map(data, function (item, a) {
                 return "<option value=" + item.Value + ">" + item.Text + "</option>";
             });
@@ -160,7 +155,7 @@
     $("#userList").change(function () {
         var data = [];
         var selectedvalue = $("#userList option:selected").val();
-        $.getJSON("/MarketReports/PopulateRecTypes", { UserId: selectedvalue }, function (data) {
+        $.getJSON("/MarketReports/PopulateRecTypes", { EmployeeId: selectedvalue }, function (data) {
             data = $.map(data, function (item, a) {
                 return "<option value=" + item.Value + ">" + item.Text + "</option>";
             });

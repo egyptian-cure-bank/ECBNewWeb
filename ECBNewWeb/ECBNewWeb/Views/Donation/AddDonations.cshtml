@@ -26,8 +26,14 @@
         <h2>بيانات إيصال التبرع</h2>
         <p>إضافة تبرع</p>
         <hr>
-        
-        @using (Html.BeginForm("CancelReceipt", "Donation", FormMethod.Post, new { @id = "saveDonationForm" }))
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption text-danger">
+                <h6>
+                    @ViewBag.CurrentLicenseName
+                </h6>
+            </div>
+        </div>
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "saveDonationForm" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -114,12 +120,12 @@
             </div>
             <div class="row" >
                 <div class="col-md-10">
-                    <button class="btn m-btn--pill btn-success " formaction="SaveDonation" type="submit">حفظ</button>
+                    <button class="btn m-btn--pill btn-success " formaction="SaveDonation">حفظ</button>
                     
                 </div>
                 <div class="col-md-2">
                     
-                    <button class="btn btn-danger m-btn m-btn--icon m-btn--pill " formaction='@Url.Action("CancelReceipt")' type="submit" formnovalidate="formnovalidate" >
+                    <button class="btn btn-danger m-btn m-btn--icon m-btn--pill cancel " formaction='@Url.Action("CancelReceipt")' id="cancelBtn">
                         <span>
                             <i class="fa flaticon-cancel"></i>
                             <span> إلغاء إيصال </span>
@@ -148,7 +154,7 @@
         //get NextReceiptNumber When RecType changed
         $("#recType").val(-1);
         $("#currency").val("جنيه مصري");
-
+        
         $("#recType").change(function () {
             var selectedvalue = $("#recType option:selected").val();
             if (selectedvalue == "-1" ) {

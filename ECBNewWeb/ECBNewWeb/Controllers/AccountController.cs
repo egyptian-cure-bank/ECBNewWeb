@@ -48,16 +48,12 @@ namespace ECBNewWeb.Controllers
                             LastName = user.LastName
                         };
                         string userData = JsonConvert.SerializeObject(userModel);
-                        FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-                            1, loginView.UserName, DateTime.Now, DateTime.Now.AddMinutes(2), false, userData
-                            );
-
+                        FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, loginView.UserName, DateTime.Now, DateTime.Now.AddMinutes(2), false, userData);
                         string enTicket = FormsAuthentication.Encrypt(authTicket);
                         HttpCookie faCookie = new HttpCookie("Cookie3", enTicket);
                         Response.Cookies.Add(faCookie);
-                        var serializer = new JavaScriptSerializer();
+                        //var serializer = new JavaScriptSerializer();
                     }
-
                     //if (Url.IsLocalUrl(ReturnUrl))
                     //{
                     //    return Redirect(ReturnUrl);
@@ -67,8 +63,13 @@ namespace ECBNewWeb.Controllers
                     return RedirectToAction("Index", "Home", new { UId = userModel.UserId });
                     //}
                 }
+                else
+                {
+                    @ViewBag.ErrorMessage = "خطأ بإسم المستخدم أو كلمة السر";
+                    return View(loginView);
+                }
             }
-            ModelState.AddModelError("", "Something Wrong : Username or Password invalid ^_^ ");
+            //ModelState.AddModelError("", "Something Wrong : Username or Password invalid ^_^ ");
             return View(loginView);
         }
         public ActionResult LogOut()

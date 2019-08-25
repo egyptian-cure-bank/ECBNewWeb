@@ -198,7 +198,7 @@ namespace ECBNewWeb.Controllers
                     EmployeeToSave.MobileNumber = EmpModel.MobileNumber;
                     EmployeeToSave.EmailAddress = EmpModel.EmailAddress;
                     EmployeeToSave.NickName = EmpModel.NickName;
-                    EmployeeToSave.job = EmpModel.job;
+                    //EmployeeToSave.job = EmpModel.job;
                     EmployeeToSave.Active = 1;
                     Market.Employees.Add(EmployeeToSave);
                     int rowAffected = Market.SaveChanges();
@@ -270,7 +270,7 @@ namespace ECBNewWeb.Controllers
                              EmailAddress = e.EmailAddress,
                              NickName = e.NickName,
                              Active = e.Active,
-                             job = e.job
+                             //job = e.job
                              
                          }).FirstOrDefault<EmployeeModel>();
             }
@@ -301,7 +301,7 @@ namespace ECBNewWeb.Controllers
                     modelToUpdate.EmailAddress = model.EmailAddress;
                     modelToUpdate.NickName = model.NickName;
                     modelToUpdate.Active = model.Active;
-                    modelToUpdate.job = model.job;
+                    //modelToUpdate.job = model.job;
                     TryUpdateModel(modelToUpdate);
                     int rowAffected = Market.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";

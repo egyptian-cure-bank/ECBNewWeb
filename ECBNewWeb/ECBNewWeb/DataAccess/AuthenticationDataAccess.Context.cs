@@ -29,9 +29,9 @@ namespace ECBNewWeb.DataAccess
         public DbSet<ActionMethod> ActionMethods { get; set; }
         public DbSet<Grant> Grants { get; set; }
         public DbSet<login> logins { get; set; }
-        public DbSet<MenuRole> MenuRoles { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<MenuRole> MenuRoles { get; set; }
     }
 }

@@ -320,6 +320,12 @@
     <Compile Include="DataAccess\HandleBookReceipt.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\Job.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\JobHistory.cs">
+      <DependentUpon>Marketing.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\KnowingMethod.cs">
       <DependentUpon>Marketing.tt</DependentUpon>
     </Compile>

@@ -180,10 +180,10 @@ namespace ECBNewWeb.Controllers
                         "INNER JOIN BookResposibilities ON market.ResponsibilityId = BookResposibilities.RespId " +
                         "INNER JOIN HandleBookReceipts ON HandleBookReceipts.BookReceiptId = BookResposibilities.HandleBookReceiptId " +
                         "INNER JOIN BookTypes ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                        "INNER JOIN login ON login.id = BookResposibilities.EmployeeId " +
+                        "INNER JOIN login ON login.employee_id = BookResposibilities.EmployeeId " +
                         "INNER JOIN marketingsites ON marketingsites.id = market.site " +
                         "INNER JOIN marketingrectype ON marketingrectype.id = BookTypes.RecTypeId " +
-                         WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) + " And market.cash = 2 " +
+                         WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) + " And market.cash = 2 " +
                         "group by marketingsites.siteName,DonationPurpose.Purpose";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -218,12 +218,12 @@ namespace ECBNewWeb.Controllers
                                         "INNER JOIN BookTypes " +
                                         "ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
                                         "INNER JOIN login " +
-                                        "ON login.id = BookResposibilities.EmployeeId " +
+                                        "ON login.employee_id = BookResposibilities.EmployeeId " +
                                         "INNER JOIN marketingsites " +
                                         "ON marketingsites.id = market.Site " +
                                         "INNER JOIN marketingrectype " +
                                         "ON marketingrectype.id = BookTypes.RecTypeId " +
-                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) +
+                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) +
                                         " And market.cash = 2";
                         using (SqlCommand Com2 = new SqlCommand(Cmd2, Conn))
                         {
@@ -268,10 +268,10 @@ namespace ECBNewWeb.Controllers
                         "INNER JOIN BookResposibilities ON market.ResponsibilityId = BookResposibilities.RespId " +
                         "INNER JOIN HandleBookReceipts ON HandleBookReceipts.BookReceiptId = BookResposibilities.HandleBookReceiptId " +
                         "INNER JOIN BookTypes ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                        "INNER JOIN login ON login.id = BookResposibilities.EmployeeId " +
+                        "INNER JOIN login ON login.employee_id = BookResposibilities.EmployeeId " +
                         "INNER JOIN marketingsites ON marketingsites.id = market.site " +
                         "INNER JOIN marketingrectype ON marketingrectype.id = BookTypes.RecTypeId " +
-                         WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) + " And market.cash = 1 " +
+                         WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) + " And market.cash = 1 " +
                         "group by marketingsites.siteName,DonationPurpose.Purpose";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -306,12 +306,12 @@ namespace ECBNewWeb.Controllers
                                         "INNER JOIN BookTypes " +
                                         "ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
                                         "INNER JOIN login " +
-                                        "ON login.id = BookResposibilities.EmployeeId " +
+                                        "ON login.employee_id = BookResposibilities.EmployeeId " +
                                         "INNER JOIN marketingsites " +
                                         "ON marketingsites.id = market.Site " +
                                         "INNER JOIN marketingrectype " +
                                         "ON marketingrectype.id = BookTypes.RecTypeId " +
-                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) +
+                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) +
                                         " And market.cash = 1";
                         using (SqlCommand Com2 = new SqlCommand(Cmd2, Conn))
                         {
@@ -357,10 +357,10 @@ namespace ECBNewWeb.Controllers
                             "INNER JOIN BookResposibilities ON market.ResponsibilityId = BookResposibilities.RespId " +
                             "INNER JOIN HandleBookReceipts ON HandleBookReceipts.BookReceiptId = BookResposibilities.HandleBookReceiptId " +
                             "INNER JOIN BookTypes ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                            "INNER JOIN login ON login.id = BookResposibilities.EmployeeId " +
+                            "INNER JOIN login ON login.employee_id = BookResposibilities.EmployeeId " +
                             "INNER JOIN marketingsites ON marketingsites.id = market.site " +
                             "INNER JOIN marketingrectype ON marketingrectype.id = BookTypes.RecTypeId " +
-                             WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) + " And market.cash = 3 " +
+                             WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) + " And market.cash = 3 " +
                             "group by marketingsites.siteName,DonationPurpose.Purpose";
                 using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
                 {
@@ -395,12 +395,12 @@ namespace ECBNewWeb.Controllers
                                             "INNER JOIN BookTypes " +
                                             "ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
                                             "INNER JOIN login " +
-                                            "ON login.id = BookResposibilities.EmployeeId " +
+                                            "ON login.employee_id = BookResposibilities.EmployeeId " +
                                             "INNER JOIN marketingsites " +
                                             "ON marketingsites.id = market.Site " +
                                             "INNER JOIN marketingrectype " +
                                             "ON marketingrectype.id = BookTypes.RecTypeId " +
-                                            WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) +
+                                            WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) +
                                             " And market.cash = 3";
                             using (SqlCommand Com2 = new SqlCommand(Cmd2, Conn))
                             {
@@ -445,10 +445,10 @@ namespace ECBNewWeb.Controllers
                         "INNER JOIN BookResposibilities ON market.ResponsibilityId = BookResposibilities.RespId " +
                         "INNER JOIN HandleBookReceipts ON HandleBookReceipts.BookReceiptId = BookResposibilities.HandleBookReceiptId " +
                         "INNER JOIN BookTypes ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                        "INNER JOIN login ON login.id = BookResposibilities.EmployeeId " +
+                        "INNER JOIN login ON login.employee_id = BookResposibilities.EmployeeId " +
                         "INNER JOIN marketingsites ON marketingsites.id = market.site " +
                         "INNER JOIN marketingrectype ON marketingrectype.id = BookTypes.RecTypeId " +
-                         WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) +
+                         WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) +
                         "group by marketingsites.siteName,DonationPurpose.Purpose";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
@@ -483,12 +483,12 @@ namespace ECBNewWeb.Controllers
                                         "INNER JOIN BookTypes " +
                                         "ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
                                         "INNER JOIN login " +
-                                        "ON login.id = BookResposibilities.EmployeeId " +
+                                        "ON login.employee_id = BookResposibilities.EmployeeId " +
                                         "INNER JOIN marketingsites " +
                                         "ON marketingsites.id = market.Site " +
                                         "INNER JOIN marketingrectype " +
                                         "ON marketingrectype.id = BookTypes.RecTypeId " +
-                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck);
+                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId);
                         using (SqlCommand Com2 = new SqlCommand(Cmd2, Conn))
                         {
                             using (SqlDataReader Reader = Com2.ExecuteReader())
@@ -539,14 +539,14 @@ namespace ECBNewWeb.Controllers
                         "SELECT dat, no, cod, doners.name,case when cash = 1 then amount else 0 end as amount, " +
                         "(currency + (case when cash = 1 then ' فيزا' when cash = 2 then ' نقدي' when cash = 3 then ' شيك' end)) as currency, " +
                         "CASE WHEN cash = 2 or cash = 3 THEN amount else 0 END AS cash, " +
-                        "concat(login.FirstName, ' ', login.LastName) AS employee, " +
+                        "(Employees.FirstName+' ' +Employees.MiddleName+ ' '+Employees.LastName) AS employee, " +
                         "marketingrectype.name AS TYPE, " +
                         "note, " +
                         "marketingsites.siteName AS site, " +
                         "combID, TargetCurr.CurrencyName, TargetCurr.Id as CurrencyId, DonationPurpose.Purpose, BookTypes.BookNo " +
                         "FROM   market " +
-                        "INNER JOIN login " +
-                        "ON login.id = market.employee " +
+                        "INNER JOIN Employees "+
+                        "ON Employees.EmployeeId = market.employee "+
                         "INNER JOIN marketingsites " +
                         "ON marketingsites.id = market.site " +
                         "INNER JOIN marketingrectype " +
@@ -563,7 +563,7 @@ namespace ECBNewWeb.Controllers
                         "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId " +
                         "Inner Join BookTypes " +
                         "On dbo.BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck)+
+                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId)+
                         " )T " +
                         "Left Join(Select CurrencyCovnersionRates.SourceCurrency, CurrencyCovnersionRates.TargetCurrency, Rate From CurrencyCovnersionRates " +
                         "Where getdate() Between CurrencyCovnersionRates.FromDate And CurrencyCovnersionRates.ToDate)ConvRates " +
@@ -571,25 +571,22 @@ namespace ECBNewWeb.Controllers
                         "First " +
                         "Group By dat, no, name, currency, employee, type, note, site, combID, Rates, Purpose " +
                         "Union " +
-                        "Select CanceledReceipts.ActualDate, ReceiptNo as no,null as [name],0.00 amount,null currency,0.00 cash,login.FirstName + ' ' + login.LastName employee, " +
+                        "Select CanceledReceipts.ActualDate, ReceiptNo as no,null as [name],0.00 amount,null currency,0.00 cash,(Employees.FirstName+' ' +Employees.MiddleName+ ' '+Employees.LastName) employee, " +
                         "marketingrectype.[name] + '-' + Convert(NVARCHAR, BookNo) type,null note,null site,null combID,0.00 as Rates,null Purpose " +
                         "FROM CanceledReceipts " +
                         "Inner Join BookResposibilities " +
                         "On dbo.BookResposibilities.RespId = dbo.CanceledReceipts.ResponsibilityId " +
-                        "Inner Join UserSites " +
-                        "On dbo.BookResposibilities.EmployeeId = dbo.UserSites.UserId " +
-                        "INNER JOIN login " +
-                        "ON login.id = BookResposibilities.EmployeeId " +
-                        "And UserSites.UserId = [login].id " +
+                        "INNER JOIN Employees " +
+                        "ON Employees.EmployeeId = BookResposibilities.EmployeeId " +
                         "Inner Join HandleBookReceipts " +
                         "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId " +
                         "Inner Join BookTypes " +
                         "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId " +
                         "Inner Join marketingrectype " +
                         "On marketingrectype.id = BookTypes.RecTypeId " +
-                        CanceledWCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck) +
+                        CanceledWCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck,MarketModel.EmployeeId) +
                         " )TT " +
-                        "Order by type, Cash, no";
+                        "Order by type,no";
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ECBConnectionString"].ConnectionString))
             {
                 Conn.Open();
@@ -603,7 +600,7 @@ namespace ECBNewWeb.Controllers
                     Doc.SetDataSource(dt);
                     if (dt.Rows.Count > 0)
                     {
-                        Doc.SetParameterValue("CollectorName", UserInfo.FirstName + " " + UserInfo.LastName);
+                        Doc.SetParameterValue("CollectorName", UserInfo.FirstName+ " " + UserInfo.MiddleName+" " + UserInfo.LastName);
                         //string Tafkeet = dt.Rows[0][12].ToString();
                         //try
                         //{
@@ -636,32 +633,27 @@ namespace ECBNewWeb.Controllers
                                         "ON HandleBookReceipts.BookReceiptId = BookResposibilities.HandleBookReceiptId " +
                                         "INNER JOIN BookTypes " +
                                         "ON BookTypes.BookTypeId = HandleBookReceipts.BookTypeId " +
-                                        "INNER JOIN login " +
-                                        "ON login.id = BookResposibilities.EmployeeId " +
+                                        "INNER JOIN Employees " +
+                                        "ON Employees.EmployeeId = BookResposibilities.EmployeeId " +
                                         "INNER JOIN marketingsites " +
                                         "ON marketingsites.id = market.Site " +
                                         "INNER JOIN marketingrectype " +
                                         "ON marketingrectype.id = BookTypes.RecTypeId " +
-                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck) +
+                                        WCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck, MarketModel.PurposeCheck,MarketModel.EmployeeId) +
                                         " Union " +
                                         "Select Min(CanceledReceipts.ActualDate), Max(CanceledReceipts.ActualDate) " +
                                         "FROM CanceledReceipts " +
                                         "Inner Join BookResposibilities " +
                                         "On dbo.BookResposibilities.RespId = dbo.CanceledReceipts.ResponsibilityId " +
-                                        "Inner Join UserSites " +
-                                        "On dbo.BookResposibilities.EmployeeId = dbo.UserSites.UserId " +
-                                        "INNER JOIN login " +
-                                        "ON login.id = BookResposibilities.EmployeeId " +
-                                        "And UserSites.UserId = [login].id " +
+                                        "INNER JOIN Employees " +
+                                        "ON Employees.EmployeeId = BookResposibilities.EmployeeId " +
                                         "Inner Join HandleBookReceipts " +
                                         "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId " +
                                         "Inner Join BookTypes " +
                                         "On HandleBookReceipts.BookTypeId = BookTypes.BookTypeId " +
                                         "Inner Join marketingrectype " +
                                         "On marketingrectype.id = BookTypes.RecTypeId " +
-                                        "Inner Join market " +
-                                        "On BookResposibilities.RespId = dbo.market.ResponsibilityId " +
-                                        CanceledWCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.SiteCheck) +
+                                        CanceledWCondition(MarketModel.UserNameCheck, MarketModel.DateCheck, MarketModel.RecTypeCheck, MarketModel.EmployeeId) +
                                         " )T";
                             using (SqlCommand Com2 = new SqlCommand(Cmd2, Conn))
                             {
@@ -692,7 +684,7 @@ namespace ECBNewWeb.Controllers
                 }
             }
         }
-        private string WCondition(bool UserNameCheck,bool DateCheck,bool RecTypeCheck,bool SiteCheck,bool PurposeCheck)
+        private string WCondition(bool UserNameCheck,bool DateCheck,bool RecTypeCheck,bool SiteCheck,bool PurposeCheck,int? EmployeeId)
         {
             string Condition = " ";
             int cbChecked = 0;
@@ -702,7 +694,7 @@ namespace ECBNewWeb.Controllers
                     Condition += "and ";
                 else
                     Condition += "where ";
-                Condition += "BookResposibilities.EmployeeId = " + UserInfo.UserId + " ";
+                Condition += "BookResposibilities.EmployeeId = " + EmployeeId+ " ";
 
                 cbChecked++;
             }
@@ -747,7 +739,7 @@ namespace ECBNewWeb.Controllers
             }
             return Condition;
         }
-        private string CanceledWCondition(bool UserNameCheck, bool DateCheck, bool RecTypeCheck, bool SiteCheck)
+        private string CanceledWCondition(bool UserNameCheck, bool DateCheck, bool RecTypeCheck,int? EmployeeId)
         {
             string Condition = " ";
             int cbChecked = 0;
@@ -757,7 +749,7 @@ namespace ECBNewWeb.Controllers
                     Condition += "and ";
                 else
                     Condition += "where ";
-                Condition += "BookResposibilities.EmployeeId = " + UserInfo.UserId + " ";
+                Condition += "BookResposibilities.EmployeeId = " + EmployeeId + " ";
 
                 cbChecked++;
             }
@@ -771,16 +763,16 @@ namespace ECBNewWeb.Controllers
 
                 cbChecked++;
             }
-            if (SiteCheck)
-            {
-                if (cbChecked > 0)
-                    Condition += "and ";
-                else
-                    Condition += "where ";
-                Condition += "market.site = " + SiteId + " ";
+            //if (SiteCheck)
+            //{
+            //    if (cbChecked > 0)
+            //        Condition += "and ";
+            //    else
+            //        Condition += "where ";
+            //    Condition += "market.site = " + SiteId + " ";
 
-                cbChecked++;
-            }
+            //    cbChecked++;
+            //}
             if (DateCheck)
             {
                 if (cbChecked > 0)
@@ -808,14 +800,16 @@ namespace ECBNewWeb.Controllers
             using (MarketEntities db = new MarketEntities())
             {
                 List<MarketGroupBriefModel> MyUser = (from S in db.UserLogins
+                                                      join E in db.Employees
+                                                      on S.employee_id equals E.EmployeeId
                                                        where S.active ==1
-                                             select new MarketGroupBriefModel() { UserId = S.id, UserName = S.FirstName+" "+S.LastName }).ToList<MarketGroupBriefModel>();
+                                             select new MarketGroupBriefModel() { EmployeeId = E.EmployeeId, UserName = E.FirstName+" "+E.MiddleName+" "+ E.LastName }).ToList<MarketGroupBriefModel>();
                 foreach (MarketGroupBriefModel S in MyUser)
                 {
                     SelectListItem selectList = new SelectListItem()
                     {
                         Text = S.UserName,
-                        Value = S.UserId.ToString()
+                        Value = S.EmployeeId.ToString()
                     };
                     Items.Add(selectList);
 
@@ -823,7 +817,7 @@ namespace ECBNewWeb.Controllers
             }
             return Items;
         }
-        public JsonResult PopulateRecTypes(int? UserId)
+        public JsonResult PopulateRecTypes(int? EmployeeId)
         {
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities context = new MarketEntities())
@@ -835,7 +829,7 @@ namespace ECBNewWeb.Controllers
                                                                 on h.BookTypeId equals t.BookTypeId
                                                                 join r in context.marketingrectypes
                                                                 on t.RecTypeId equals r.id
-                                                                where b.EmployeeId == UserId || UserId == null
+                                                                where b.EmployeeId == EmployeeId || EmployeeId == null
                                                                 select new MarketGroupBriefModel() { RecTypeId = r.id,
                                                                     RecType = r.name,BookNumber = t.BookNo}
                                                                 ).OrderBy(x => x.RecType).ToList<MarketGroupBriefModel>();

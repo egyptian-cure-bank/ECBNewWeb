@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="AuthenticationModel.ActionMethod" Width="1.5" PointX="0.75" PointY="12.625" />
         <EntityTypeShape EntityType="AuthenticationModel.Grant" Width="1.5" PointX="3" PointY="3.625" />
         <EntityTypeShape EntityType="AuthenticationModel.login" Width="1.5" PointX="0.75" PointY="2.125" />
-        <EntityTypeShape EntityType="AuthenticationModel.MenuRole" Width="1.5" PointX="5.75" PointY="1.75" />
         <EntityTypeShape EntityType="AuthenticationModel.Menu" Width="1.5" PointX="2.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuthenticationModel.Role" Width="1.5" PointX="0.75" PointY="8.875" />
         <EntityTypeShape EntityType="AuthenticationModel.UserRole" Width="1.5" PointX="3" PointY="0.75" />
@@ -18,6 +17,7 @@
         <AssociationConnector Association="AuthenticationModel.FK__Grants__UserId__6D9742D9" />
         <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Users2" />
         <AssociationConnector Association="AuthenticationModel.FK_UserRoles_Roles" />
+        <EntityTypeShape EntityType="AuthenticationModel.MenuRole" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
