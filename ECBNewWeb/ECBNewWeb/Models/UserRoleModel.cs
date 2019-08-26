@@ -11,7 +11,7 @@ namespace ECBNewWeb.Models
     {
         public int UserRoleID { get; set; }
         public int UserID { get; set; }
-        public int RoleID { get; set; }
+        public int ? RoleID { get; set; }
 
         public string RoleName { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage ="يجب اختيار الموظف")]
