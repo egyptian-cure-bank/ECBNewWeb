@@ -7,6 +7,7 @@ using ECBNewWeb.CustomAuthentication;
 using System.Web.Security;
 using ECBNewWeb.DataAccess;
 using ECBNewWeb.Models;
+using System.Data.SqlClient;
 
 namespace ECBNewWeb.Controllers
 {
@@ -54,10 +55,84 @@ namespace ECBNewWeb.Controllers
         [HttpGet]
         public ActionResult AllUserRoles()
         {
-            MarketEntities db = new MarketEntities();
-            var m = db.Database.SqlQuery<UserRoleModel>("select UserID,(e.FirstName +' ' +e.MiddleName + ' ' + e.LastName) as FullName, RoleName = STUFF((select ', ' + r.RoleName from UserRoles ur1 inner join Roles r on ur1.RoleID = r.RoleID where ur1.UserID = ur2.UserID FOR XML PATH('')), 1, 2, '') from UserRoles ur2 inner join login l on ur2.UserID = l.id inner join Employees e on l.employee_id = e.EmployeeId group by ur2.UserID , e.FirstName , e.LastName , e.MiddleName ");
-            var userRoles = m.ToList();
-            return View();
+            AuthenticationEntities db = new AuthenticationEntities();
+            MarketEntities mdb = new MarketEntities();
+            var AllUserRoles = db.UserRoles
+                .Join(db.Roles, ur => ur.RoleID, r => r.RoleID, (ur, r) => new { Roles = r, UserRole = ur })
+                .GroupBy(x => x.UserRole.UserID)
+                .Join(db.logins , x => x.Key  , l => l.id , (x , l) => new { login = l , UserRole = x })
+                               .Select(c => new
+                               {
+                                   UserID = c.UserRole.Key,
+                                   FirstName = c.login.FirstName , 
+                                   LastName = c.login.LastName,
+                                   RoleName = c.UserRole.Select(x => x.Roles.RoleName)
+                               }).ToList()
+                               .Select(x => new UserRoleModel()
+                               {
+                                   EmployeeName = x.FirstName + ' ' + x.LastName,
+                                   UserID = x.UserID,
+                                   RoleName = String.Join(", ", x.RoleName),
+                               }
+                              )
+                              .ToList<UserRoleModel>();
+
+
+            return View(AllUserRoles);
+        }
+
+        [HttpGet]
+        public ActionResult EditUserRoles(int id)
+        {
+            using (AuthenticationEntities db = new AuthenticationEntities())
+            {
+                var userRole = (from d in db.UserRoles
+                                join l in db.logins on d.UserID equals l.id
+                                 where d.UserID == id
+                                 select new 
+                                 {
+                                     fullName = (l.FirstName +" " +l.LastName),
+                                     d.RoleID,
+                                     d.Role.RoleName
+                                 });
+                ViewBag.Rolelist = PopulateRoles();
+                UserRoleModel model = new UserRoleModel();
+                model.UserID = id;
+                model.EmployeeName = userRole.Select(x => x.fullName).FirstOrDefault();
+                model.roleArr = userRole.Select(x => x.RoleID).ToArray();
+                return PartialView(model);
+            }
+        }
+        [HttpPost]
+        public ActionResult EditUserRoles(UserRoleModel userrole)
+        {
+            int rowAffected = 0;
+            if (ModelState.IsValid)
+            {
+                using (AuthenticationEntities db = new AuthenticationEntities())
+                {
+                    rowAffected =  db.Database.ExecuteSqlCommand(@"DELETE FROM UserRoles WHERE UserID = @id" , new SqlParameter("@id", userrole.UserID));
+
+                    foreach (var item in userrole.roleArr)
+                    {
+
+                        var role = new UserRole()
+                        {
+                            UserID = userrole.UserID,
+                            RoleID = item
+                        };
+                        db.UserRoles.Add(role);
+                        rowAffected = db.SaveChanges();
+                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    }
+
+                }
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
+            }
+            return RedirectToAction("AllUserRoles");
         }
 
 
