@@ -190,5 +190,27 @@ namespace ECBNewWeb.Controllers
             }
             return RedirectToAction("AllMenus");
         }
+        public ActionResult AddRole(MenuManagementModel model)
+        {
+            int InsertedRows = 0;
+            using (AuthenticationEntities db = new AuthenticationEntities())
+            {
+                Role RoleToSave = new Role();
+                RoleToSave.RoleArabicName = model.RoleArabicName;
+                RoleToSave.RoleEnglishName = model.RoleEnglishName;
+                RoleToSave.RoleDescription = model.RoleDescription;
+                db.Roles.Add(RoleToSave);
+                InsertedRows = db.SaveChanges();
+            }
+            if (InsertedRows > 0)
+            {
+                TempData["Msg"] = "تم الحفظ بنجاح";
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
+            }
+            return RedirectToAction("ManageMenu");
+        }
     }
 }

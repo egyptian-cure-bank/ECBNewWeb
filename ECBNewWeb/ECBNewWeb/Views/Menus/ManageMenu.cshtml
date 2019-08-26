@@ -36,6 +36,8 @@
                     <label for="" class="">الدور الوظيفي</label>
                     @Html.DropDownListFor(x => x.RoleId, Model.MyRoles as List<SelectListItem>, "--إختار دور وظيفي--", new { @class = "form-control", @id = "roleList" })
                     @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+                        <label for="" class=""></label>
+                        <button id=""onclick="AddRole()" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-add"></i></button>
                 </div>
             </div>
             <div class="row" id="treeView">
@@ -55,6 +57,19 @@
         }
     </div>
 </main>
+<div id="myModalAddRoles" class="modal fade " style="text-align:center">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderPartial("AddRole");}
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $.noConflict();
@@ -100,6 +115,12 @@
           });
         });
     });
+    function AddRole() {
+        $('#myModalAddRoles').modal('show');
+        //$('#myModalAddRoles').on('hidden.bs.modal', function (e) {
+        //    $('.modal-body').html("");
+        //})
+    };
 </script>
 @if (Session["Msg"] != null)
 {
@@ -141,6 +162,36 @@
                     type: "error",
                     confirmButtonClass: "btn btn-danger"
                 })
+            });
+        </script>
+    }
+}
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "حفظ",
+                    text: "تم الحفظ بنجاح",
+                    type: "success",
+                    confirmButtonClass: "btn btn-success"
+                })
+
+            });
+
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "خطأ",
+                    text: "لم يتم الحفظ",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
             });
         </script>
     }
