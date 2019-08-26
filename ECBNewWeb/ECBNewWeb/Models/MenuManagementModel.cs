@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ namespace ECBNewWeb.Models
     {
         [Remote("IsRoleHasMenus", "Menus",ErrorMessage = "يوجد قوائم على هذا الدور الوظيفي")]
         public int RoleId { get; set; }
+        [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة إسم الدور الوظيفي")]
         public string RoleArabicName { get; set; }
         public string RoleEnglishName { get; set; }
         public string RoleDescription { get; set; }
