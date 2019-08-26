@@ -66,7 +66,7 @@ namespace ECBNewWeb.Controllers
                                    UserID = c.UserRole.Key,
                                    FirstName = c.login.FirstName , 
                                    LastName = c.login.LastName,
-                                   RoleName = c.UserRole.Select(x => x.Roles.RoleName)
+                                   RoleName = c.UserRole.Select(x => x.Roles.RoleArabicName)
                                }).ToList()
                                .Select(x => new UserRoleModel()
                                {
@@ -93,7 +93,7 @@ namespace ECBNewWeb.Controllers
                                  {
                                      fullName = (l.FirstName +" " +l.LastName),
                                      d.RoleID,
-                                     d.Role.RoleName
+                                     d.Role.RoleArabicName
                                  });
                 ViewBag.Rolelist = PopulateRoles();
                 UserRoleModel model = new UserRoleModel();
