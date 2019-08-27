@@ -100,6 +100,13 @@ namespace ECBNewWeb.Controllers
 
            return RedirectToAction("addApproveReceipt");
         }
+        public ActionResult SomeControllerAction(int Siteid)
+        {
+            //var jsonResult = Json(getReceiptsBySite(Siteid), JsonRequestBehavior.AllowGet);
+            var jsonResult = getReceiptsBySite(Siteid);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
         public JsonResult getReceiptsBySite(int Siteid)
         {
             MarketEntities db = new MarketEntities();
