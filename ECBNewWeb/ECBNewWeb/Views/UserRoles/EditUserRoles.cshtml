@@ -27,13 +27,12 @@
                             <span class="m-portlet__head-icon m--hide">
                                 <i class="la la-gear"></i>
                             </span>
-                            <h3 class="m-portlet__head-text">
-                            </h3>
+                            <h3 class="m-portlet__head-text"></h3>
                         </div>
                     </div>
                 </div>
 
-                @using (Html.BeginForm("EditUserRoles", "UserRoles", FormMethod.Post, new { @id = "userRoleEditForm" , @class = "m-form m-form--label-align-right" }))
+                @using (Html.BeginForm("EditUserRoles", "UserRoles", FormMethod.Post, new { @id = "userRoleEditForm", @class = "m-form m-form--label-align-right" }))
                 {
 
                     @Html.AntiForgeryToken()
@@ -42,7 +41,7 @@
                         <div class="row">
                             <div class="m-form__group form-group col-md-3">
                                 <label class="">اسم الموظف</label>
-                                @Html.TextBoxFor(m => m.EmployeeName, new {  @class = "form-control m-input", @id = "parentEmp" , @readonly="readonly" })
+                                @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form-control m-input", @id = "parentEmp", @readonly = "readonly" })
                                 @*@Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })*@
                             </div>
                         </div>

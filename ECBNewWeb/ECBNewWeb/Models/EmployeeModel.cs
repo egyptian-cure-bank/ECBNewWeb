@@ -53,7 +53,11 @@ namespace ECBNewWeb.Models
         public Nullable<int> EmployeeNo { get; set; }
 
         public string FullName { get; set; }
-        public string job { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء إختيار وظيفة")]
+        public int? JobId { get; set; }
+        public string JobArabicName { get; set; }
+        public IEnumerable<SelectListItem> MyJobs { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة اسم الدخول")]
         public string UserName { get; set; }

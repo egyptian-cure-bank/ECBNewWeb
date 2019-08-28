@@ -112,7 +112,7 @@ namespace ECBNewWeb.Controllers
                         for (int i = 0; i < checked_ids.Length; i++)
                         {
                             Com.CommandText = "Insert Into MenuRoles(MenuId,RoleId) Values(" + checked_ids[i] + "," + RoleId + ")";
-                            InsertedRows = Com.ExecuteNonQuery();
+                            InsertedRows += Com.ExecuteNonQuery();
                         }
                         if (InsertedRows > 0)
                         {
@@ -181,14 +181,14 @@ namespace ECBNewWeb.Controllers
 
                 if (DeletedRowsCount > 0)
                 {
-                    Session["Msg"] = "تم الحذف بنجاح";
+                    TempData["Msg"] = "تم الحذف بنجاح";
                 }
                 else
                 {
-                    Session["Msg"] = "لم يتم الحفظ";
+                    TempData["Msg"] = "لم يتم الحفظ";
                 }
             }
-            return RedirectToAction("AllMenus");
+            return RedirectToAction("AllMenus", TempData["Msg"]);
         }
         public ActionResult AddRole(MenuManagementModel model)
         {
@@ -204,11 +204,11 @@ namespace ECBNewWeb.Controllers
             }
             if (InsertedRows > 0)
             {
-                TempData["Msg"] = "تم الحفظ بنجاح";
+                TempData["Msg2"] = "تم الحفظ بنجاح";
             }
             else
             {
-                TempData["Msg"] = "لم يتم الحفظ";
+                TempData["Msg2"] = "لم يتم الحفظ";
             }
             return RedirectToAction("ManageMenu");
         }

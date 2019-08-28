@@ -20,5 +20,6 @@ namespace ECBNewWeb.DataAccess
         public string JobDescription { get; set; }
         public Nullable<decimal> MinSalary { get; set; }
         public Nullable<decimal> MaxSalary { get; set; }
+        public Nullable<int> DepartmentId { get; set; }
     }
 }

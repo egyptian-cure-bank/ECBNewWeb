@@ -127,22 +127,21 @@ namespace ECBNewWeb.Controllers
         public List<SelectListItem> GetJob(int deptid)
         {
             List<SelectListItem> Jobs = new List<SelectListItem>();
-            if (deptid == 1)
+            using (MarketEntities db = new MarketEntities())
             {
-                Jobs = new List<SelectListItem>()
-                {   new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
-                    new SelectListItem() { Text="مشرف موقع" , Value = "مشرف موقع"},
-                    new SelectListItem() { Text = "مساعد مشرف" , Value = "مساعد مشرف"}
-                };
-            }
-            else if (deptid == 2)
-            {
-                Jobs = new List<SelectListItem>()
+                List<EmployeeModel> MyJobList = (from j in db.Jobs
+                                                 where j.DepartmentId == deptid
+                                                 select new EmployeeModel() { JobId = j.JobId, JobArabicName = j.JobArabicName }
+                                                 ).ToList<EmployeeModel>();
+                foreach (EmployeeModel item in MyJobList)
                 {
-                    new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
-                    new SelectListItem() { Text="مبرمج" , Value = "مبرمج"},
-                    new SelectListItem() { Text = "مساعد مبرمج" , Value = "مساعد مبرمج"}
-                };
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = item.JobArabicName,
+                        Value = item.JobId.ToString()
+                    };
+                    Jobs.Add(selectList);
+                }
             }
             return Jobs;
         }
@@ -150,24 +149,29 @@ namespace ECBNewWeb.Controllers
         public JsonResult GetJobList(int deptid)
         {
             List<SelectListItem> Jobs = new List<SelectListItem>();
-            if (deptid == 1)
+            using (MarketEntities db = new MarketEntities())
             {
-                Jobs = new List<SelectListItem>()
-                {   new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
-                    new SelectListItem() { Text="مشرف موقع" , Value = "مشرف موقع"},
-                    new SelectListItem() { Text = "مساعد مشرف" , Value = "مساعد مشرف"}
-                };
-            }
-            else if(deptid == 2)
+                List<EmployeeModel> MyJobList = (from j in db.Jobs
+                                                 where j.DepartmentId == deptid
+                                                 select new EmployeeModel() {JobId = j.JobId,JobArabicName = j.JobArabicName }
+                                                 ).ToList<EmployeeModel>();
+                SelectListItem DisabledItem = new SelectListItem()
                 {
-                Jobs = new List<SelectListItem>()
-                {
-                    new SelectListItem() { Text = "" , Value = "-1" ,  Selected = true },
-                    new SelectListItem() { Text="مبرمج" , Value = "مبرمج"},
-                    new SelectListItem() { Text = "مساعد مبرمج" , Value = "مساعد مبرمج"}
+                    Text = "",
+                    Value = "-1"
                 };
+                Jobs.Add(DisabledItem);
+                foreach (EmployeeModel item in MyJobList)
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = item.JobArabicName,
+                        Value = item.JobId.ToString()
+                    };
+                    Jobs.Add(selectList);
+                }
             }
-            
+
             return Json(Jobs, JsonRequestBehavior.AllowGet);
                 
         }
@@ -189,6 +193,7 @@ namespace ECBNewWeb.Controllers
                 using (MarketEntities Market = new MarketEntities())
                 {
                     Employee EmployeeToSave = new Employee();
+                    JobHistory JobHistories = new JobHistory();
                     EmployeeToSave.FirstName = EmpModel.FirstName;
                     EmployeeToSave.MiddleName = EmpModel.MiddleName;
                     EmployeeToSave.LastName = EmpModel.LastName;
@@ -198,10 +203,14 @@ namespace ECBNewWeb.Controllers
                     EmployeeToSave.MobileNumber = EmpModel.MobileNumber;
                     EmployeeToSave.EmailAddress = EmpModel.EmailAddress;
                     EmployeeToSave.NickName = EmpModel.NickName;
-                    //EmployeeToSave.job = EmpModel.job;
                     EmployeeToSave.Active = 1;
                     Market.Employees.Add(EmployeeToSave);
                     int rowAffected = Market.SaveChanges();
+                    JobHistories.JobId = EmpModel.JobId;
+                    JobHistories.DepartmentId = EmpModel.DepartmentId;
+                    JobHistories.EmployeeId = Market.Employees.Max(id=>id.EmployeeId);
+                    Market.JobHistories.Add(JobHistories);
+                    rowAffected += Market.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     using (AuthenticationEntities Authentication = new AuthenticationEntities())
                     {
@@ -249,6 +258,10 @@ namespace ECBNewWeb.Controllers
             EmployeeModel model = new EmployeeModel();
             using (MarketEntities db = new MarketEntities())
             {
+                int? jobId = (from j in db.JobHistories
+                              where j.EmployeeId == id
+                              select j.JobId
+             ).FirstOrDefault();
                 model = (from e in db.Employees
                          join d in db.Departments on e.DepartmentId equals d.DepartmentId
                          join p in db.Employees on e.ParentEmployeeId equals p.EmployeeId
@@ -270,13 +283,13 @@ namespace ECBNewWeb.Controllers
                              EmailAddress = e.EmailAddress,
                              NickName = e.NickName,
                              Active = e.Active,
-                             //job = e.job
+                             JobId = jobId
                              
                          }).FirstOrDefault<EmployeeModel>();
             }
             model.MyDepartments = PopulateDepartments();
+            model.MyJobs = GetJob(model.DepartmentId);
             ViewBag.MyParentEmployees = PopulateParentEmp();
-            ViewBag.joblist = GetJob(model.DepartmentId);
             return PartialView(model);
         }
         [HttpPost]
@@ -288,9 +301,16 @@ namespace ECBNewWeb.Controllers
             }
             using (MarketEntities Market = new MarketEntities())
             {
+                ModelState.Remove("UserName");
+                ModelState.Remove("Password");
+                ModelState.Remove("ConfirmPassword");
                 if (ModelState.IsValid)
                 {
                     var modelToUpdate = Market.Employees.Find(model.EmployeeId);
+                    var jobToUpdate = (from j in Market.JobHistories
+                                       where j.EmployeeId == model.EmployeeId
+                                       select j
+                                       ).FirstOrDefault();
                     modelToUpdate.FirstName = model.FirstName;
                     modelToUpdate.MiddleName = model.MiddleName;
                     modelToUpdate.LastName = model.LastName;
@@ -301,14 +321,23 @@ namespace ECBNewWeb.Controllers
                     modelToUpdate.EmailAddress = model.EmailAddress;
                     modelToUpdate.NickName = model.NickName;
                     modelToUpdate.Active = model.Active;
-                    //modelToUpdate.job = model.job;
+                    jobToUpdate.JobId = model.JobId;
+                    TryUpdateModel(jobToUpdate);
                     TryUpdateModel(modelToUpdate);
                     int rowAffected = Market.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                 }
                 else
                 {
-                    TempData["Msg"] = "لم يتم الحفظ";
+                    //TempData["Msg"] = "لم يتم الحفظ";
+                    var errors = ModelState.Values.SelectMany(v => v.Errors);
+                    foreach (ModelState modelstate in ViewData.ModelState.Values)
+                    {
+                        foreach (ModelError error in modelstate.Errors)
+                        {
+                            TempData["ModelErrors"] += error.ErrorMessage;
+                        }
+                    }
                 }
             }
             return RedirectToAction("AllEmployees", TempData["Msg"]);
