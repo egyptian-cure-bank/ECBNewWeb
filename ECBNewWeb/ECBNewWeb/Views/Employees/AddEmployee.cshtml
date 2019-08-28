@@ -56,9 +56,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="" class="">الوظيفة</label>
-                    <select id="JobList" name="job" class="form-control m-input"  data-val-required="يجب اختيار وظيفة" required data-msg-required="يجب اختيار وظيفة " ></select>
-                    <span class="field-validation-valid text-danger" data-valmsg-for="job" data-valmsg-replace="true"></span>
-                    @*@Html.DropDownListFor(x => x.job, Model. as List<SelectListItem>, new { @class = "form-control", @id = "parentEmpList" })*@
+                    @Html.DropDownListFor(x => x.JobId, new SelectList(string.Empty, "Value", "Text"),"--إختار وظيفة--", new { @class = "form-control", @id = "JobList"})
+                    @Html.ValidationMessageFor(m => m.JobId, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group col-md-3">
@@ -134,7 +133,7 @@
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">OK</button>
                             </div>
 
-
+                          
                         </div>
                     </div>
                 </div>
@@ -200,6 +199,7 @@
                     txt += '<option value= ' +respone[item].Value +'>' + respone[item].Text +'</option>';
                 }
                 $('#JobList').html(txt);
+                $('#JobList').val(-1);
             }
         })
     });

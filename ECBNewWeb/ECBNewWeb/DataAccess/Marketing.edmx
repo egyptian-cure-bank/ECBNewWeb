@@ -68,7 +68,7 @@
           </Key>
           <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestNo" Type="bigint" Nullable="false" />
-          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
           <Property Name="RequestDate" Type="datetime" />
           <Property Name="TimeStamp" Type="datetime" />
           <Property Name="Active" Type="int" />
@@ -292,6 +292,7 @@
           <Property Name="JobDescription" Type="nvarchar(max)" />
           <Property Name="MinSalary" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MaxSalary" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DepartmentId" Type="int" />
         </EntityType>
         <EntityType Name="KnowingMethod">
           <Key>
@@ -579,7 +580,6 @@
           <EntitySet Name="DonationPurposes" EntityType="MarketingModel.DonationPurpose" />
           <EntitySet Name="ChequeBanks" EntityType="MarketingModel.ChequeBank" />
           <EntitySet Name="BookRequestDetails" EntityType="MarketingModel.BookRequestDetail" />
-          <EntitySet Name="BookRequests" EntityType="MarketingModel.BookRequest" />
           <EntitySet Name="ApproveReceipts" EntityType="MarketingModel.ApproveReceipt" />
           <EntitySet Name="bankDeposits" EntityType="MarketingModel.bankDeposit" />
           <EntitySet Name="Banks" EntityType="MarketingModel.Bank" />
@@ -590,8 +590,9 @@
           <EntitySet Name="BookDeliveryRequestDetails" EntityType="MarketingModel.BookDeliveryRequestDetail" />
           <EntitySet Name="UserLogins" EntityType="MarketingModel.UserLogin" />
           <EntitySet Name="JobHistories" EntityType="MarketingModel.JobHistory" />
-          <EntitySet Name="Jobs" EntityType="MarketingModel.Job" />
           <EntitySet Name="Employees" EntityType="MarketingModel.Employee" />
+          <EntitySet Name="BookRequests" EntityType="MarketingModel.BookRequest" />
+          <EntitySet Name="Jobs" EntityType="MarketingModel.Job" />
         </EntityContainer>
         <EntityType Name="center">
           <Key>
@@ -828,17 +829,6 @@
           <Property Name="FinanceApproval" Type="Int32" />
           <Property Name="EmployeeReceive" Type="Int32" />
         </EntityType>
-        <EntityType Name="BookRequest">
-          <Key>
-            <PropertyRef Name="RequestNo" />
-          </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RequestNo" Type="Int64" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="RequestDate" Type="DateTime" Precision="3" />
-          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
-          <Property Name="Active" Type="Int32" />
-        </EntityType>
         <EntityType Name="ApproveReceipt">
           <Key>
             <PropertyRef Name="approveReceiptId" />
@@ -951,17 +941,6 @@
           <Property Name="JobId" Type="Int32" />
           <Property Name="DepartmentId" Type="Int32" />
         </EntityType>
-        <EntityType Name="Job">
-          <Key>
-            <PropertyRef Name="JobId" />
-          </Key>
-          <Property Name="JobId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JobArabicName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="JobEnglishName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="JobDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MinSalary" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MaxSalary" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -980,6 +959,29 @@
           <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BookRequest">
+          <Key>
+            <PropertyRef Name="RequestNo" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestNo" Type="Int64" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="RequestDate" Type="DateTime" Precision="3" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobId" />
+          </Key>
+          <Property Name="JobId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobArabicName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JobEnglishName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JobDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MinSalary" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxSalary" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DepartmentId" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1249,18 +1251,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BookRequests">
-            <EntityTypeMapping TypeName="MarketingModel.BookRequest">
-              <MappingFragment StoreEntitySet="BookRequests">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ApproveReceipts">
             <EntityTypeMapping TypeName="MarketingModel.ApproveReceipt">
               <MappingFragment StoreEntitySet="ApproveReceipt">
@@ -1383,18 +1373,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Jobs">
-            <EntityTypeMapping TypeName="MarketingModel.Job">
-              <MappingFragment StoreEntitySet="Jobs">
-                <ScalarProperty Name="MaxSalary" ColumnName="MaxSalary" />
-                <ScalarProperty Name="MinSalary" ColumnName="MinSalary" />
-                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
-                <ScalarProperty Name="JobEnglishName" ColumnName="JobEnglishName" />
-                <ScalarProperty Name="JobArabicName" ColumnName="JobArabicName" />
-                <ScalarProperty Name="JobId" ColumnName="JobId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="MarketingModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
@@ -1412,6 +1390,31 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookRequests">
+            <EntityTypeMapping TypeName="MarketingModel.BookRequest">
+              <MappingFragment StoreEntitySet="BookRequests">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="RequestNo" ColumnName="RequestNo" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="MarketingModel.Job">
+              <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="MaxSalary" ColumnName="MaxSalary" />
+                <ScalarProperty Name="MinSalary" ColumnName="MinSalary" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="JobEnglishName" ColumnName="JobEnglishName" />
+                <ScalarProperty Name="JobArabicName" ColumnName="JobArabicName" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

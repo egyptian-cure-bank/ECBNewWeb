@@ -65,7 +65,7 @@
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                @{Html.RenderPartial("AddRole");}
+                @{Html.RenderPartial("_AddRole");}
             </div>
         </div>
     </div>
@@ -166,9 +166,9 @@
         </script>
     }
 }
-@if (TempData["Msg"] != null)
+@if (Session["Msg"] != null)
 {
-    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
+    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
     {
         <script>
             $(function (e) {

@@ -992,7 +992,8 @@
     <Content Include="Views\Menus\AllMenus.cshtml" />
     <Content Include="Views\UserRoles\AddUserRoles.cshtml" />
     <Content Include="Views\UserRoles\AllUserRoles.cshtml" />
-    <Content Include="Views\Menus\AddRole.cshtml" />
+    <Content Include="Views\Menus\_AddRole.cshtml" />
+    <Content Include="Views\UserRoles\EditUserRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

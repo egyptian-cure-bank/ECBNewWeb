@@ -58,9 +58,8 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="" class="">الوظيفة</label>
-                                @*<select id="JobList" name="job" class="form-control m-input" data-val-required="يجب اختيار وظيفة" required data-msg-required="يجب اختيار وظيفة "></select>*@
-                                @Html.DropDownListFor(x => x.job, ViewBag.joblist as List<SelectListItem>, new { @class = "form-control m-input", @id = "JobList", @data_val_required = "يجب اختيار وظيفة" })
-                                <span class="field-validation-valid text-danger" data-valmsg-for="job" data-valmsg-replace="true"></span>
+                                @Html.DropDownListFor(x => x.JobId, Model.MyJobs, "--إختار وظيفة--", new { @class = "form-control m-input", @id = "JobList", @data_val_required = "يجب اختيار وظيفة" })
+                                @Html.ValidationMessageFor(m => m.JobId, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="" class="">الرقم القومي</label>
@@ -105,6 +104,7 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                         </div>
+                       
                     </div>
                 }
 
