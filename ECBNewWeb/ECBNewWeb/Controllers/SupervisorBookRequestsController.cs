@@ -123,6 +123,7 @@ namespace ECBNewWeb.Controllers
                                                 "On BookTypes.RecTypeId = marketingrectype.id "+
                                                 "Where Not Exists(Select 1 From BookResposibilities Where dbo.BookResposibilities.HandleBookReceiptId = dbo.HandleBookReceipts.BookReceiptId) "+
                                                 "And BookTypes.RecTypeId = " + RecTypeId[i] +
+                                                " And dbo.HandleBookReceipts.Active = 1 " +
                                                 "Order By marketingrectype.[name],BookNo " +
                                                 "OFFSET @SumAmount Rows "+
                                                 "Fetch First " + Amount[i] + " Rows only";
