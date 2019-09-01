@@ -57,8 +57,8 @@ namespace ECBNewWeb.DataAccess
         public DbSet<BookDeliveryRequestDetail> BookDeliveryRequestDetails { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<JobHistory> JobHistories { get; set; }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<BookRequest> BookRequests { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

@@ -934,7 +934,6 @@
     <Content Include="Scripts\js\bootstrap.js.map" />
     <Content Include="Scripts\js\bootstrap.min.js.map" />
     <Content Include="Views\Shared\_LayoutShefaa.cshtml" />
-    <Content Include="Views\test.cshtml" />
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.woff" />
