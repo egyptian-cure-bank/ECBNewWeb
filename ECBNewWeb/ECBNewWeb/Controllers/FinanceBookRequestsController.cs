@@ -44,7 +44,7 @@ namespace ECBNewWeb.Controllers
                     MyRequests = (from S in db.BookRequests
                                   join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
                                   join E in db.Employees on S.EmployeeId equals E.EmployeeId
-                                  where S.Active == 1 && D.FinanceApproval != 1 && D.SupervisorApproval == 1
+                                  where S.Active == 1 && D.SupervisorApproval == 1
                                   select new BookRequestModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.RequestNo).ToList<BookRequestModel>();
                 }
                 else
