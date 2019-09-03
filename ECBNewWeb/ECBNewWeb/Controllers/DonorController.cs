@@ -237,29 +237,54 @@ namespace ECBNewWeb.Controllers
             _DonorData.MyGovernments = PopulateGovernments();
             return RedirectToAction("AddDoners", Donor);
         }
-        //public ActionResult Cancel(DonorData Donor)
-        //{
-        //    return RedirectToAction(Request.UrlReferrer.ToString());
-        //}
-
-        public ActionResult donor()
+        public ActionResult donor(DonorData donorModel)
         {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult donor()
+        {
+            var list = new List<DonorData>();
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault()
+                                        + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            var DonorNameSearch = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var DonorTeleSearch = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            int skip = start != null ? Convert.ToInt16(start) : 0;
+            int recordsTotal = 0;
             MarketEntities db = new MarketEntities();
-            List<DonorData> list = (from a in db.doners
-                                    join cen in db.centers on a.cent_id equals cen.center_id
-                                    join gov in db.governments on cen.government_id equals gov.government_id
-                                    select new DonorData()
-                                    {
-                                        Id = a.id,
-                                        DonorName = a.name,
-                                        Title = a.title,
-                                        Tele = a.mob,
-                                        CenterName = cen.center_name,
-                                        GovernmentName = gov.government_name,
-                                        Address = a.address
-                                    }).Take(20).ToList<DonorData>();
-
-            return View(list);
+            list = (from a in db.doners
+                    join cen in db.centers on a.cent_id equals cen.center_id
+                    join gov in db.governments on cen.government_id equals gov.government_id
+                    select new DonorData()
+                    {
+                        Id = a.id,
+                        DonorName = a.name,
+                        Title = a.title,
+                        Tele = a.mob,
+                        CenterName = cen.center_name,
+                        GovernmentName = gov.government_name,
+                        Address = a.address
+                    }).ToList<DonorData>();
+            if (!string.IsNullOrEmpty(DonorNameSearch))
+            {
+                list = list.Where(a=> DonorNameSearch.Contains(a.DonorName)).ToList<DonorData>();
+            }
+            if (!string.IsNullOrEmpty(DonorTeleSearch))
+            {
+                list = list.Where(a => a.Tele != null && a.Tele.Contains(DonorTeleSearch)).ToList<DonorData>();
+            }
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    list = list.OrderBy(sortColumn + " " + sortColumnDir);
+            //}
+            recordsTotal = list.Count();
+            var data = list.Skip(skip).Take(pageSize).ToList<DonorData>();
+            return Json(new {draw = draw,recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data},JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
