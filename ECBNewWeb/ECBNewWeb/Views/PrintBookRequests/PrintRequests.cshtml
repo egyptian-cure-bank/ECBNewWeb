@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <h2>طباعة طلبات الصرف</h2>
         <hr>
-        @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "approveBookRequest" }))
+        @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -27,8 +27,8 @@
             <div class="row">
                 <div class="m-demo" data-code-preview="true" data-code-html="true">
                     <div class="m-demo__preview  m-demo__preview--btn">
-                        <button class="btn m-btn--pill" formaction="PrintReport" id="btnPrint" disabled>طباعة طلب صرف</button>
-                        <button class="btn m-btn--pill" formaction="PrintReceiveReport" id="btnReceivePrint" disabled>طباعة إذن صرف</button>
+                        <button class="btn m-btn--pill" formaction='@Url.Action("PrintReport","PrintBookRequests")' id="btnPrint" disabled>طباعة طلب صرف</button>
+                        <button class="btn m-btn--pill" formaction='@Url.Action("PrintReceiveReport","PrintBookRequests")' id="btnReceivePrint" disabled>طباعة إذن صرف</button>
                     </div>
                     <h4 class="text-danger">@TempData["ModelErrors"]</h4>
                 </div>
@@ -63,3 +63,23 @@
         $("#btnReceivePrint").removeAttr("disabled");
     })
 </script>
+@if (TempData["Msg"] != null)
+{
+    if (TempData["Msg"].ToString() == "يجب الموافقة من المالية للطباعة")
+    {
+        <script>
+            $(function (e) {
+                swal({
+                    title: "خطأ",
+                    text: "يجب الموافقة من المالية للطباعة",
+                    type: "error",
+                    confirmButtonClass: "btn btn-danger"})
+            });
+        </script>
+    }
+    else
+    {
+
+    }
+
+}
