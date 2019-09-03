@@ -54,13 +54,13 @@ namespace ECBNewWeb.Controllers
                         Response.Cookies.Add(faCookie);
                         //var serializer = new JavaScriptSerializer();
                     }
-                    //if (Url.IsLocalUrl(ReturnUrl))
+                    //if (!string.IsNullOrEmpty(Request.Form["ReturnUrl"]))
                     //{
-                    //    return Redirect(ReturnUrl);
+                    //    return RedirectToAction(Request.Form["ReturnUrl"].Split('/')[2]);
                     //}
                     //else
                     //{
-                    return RedirectToAction("Index", "Home", new { UId = userModel.UserId });
+                        return RedirectToAction("Index", "Home", new { UId = userModel.UserId });
                     //}
                 }
                 else
