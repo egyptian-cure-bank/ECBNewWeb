@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace ECBNewWeb.Controllers
 {
-    public class UserRolesController : Controller
+    public class UserRolesController : Controller 
     {
         // GET: UserRoles
         public ActionResult AddUserRoles()
@@ -149,6 +149,30 @@ namespace ECBNewWeb.Controllers
             }
 
         }
+
+        public JsonResult CountUserRoles( int empid)
+        {
+            bool valid;
+            AuthenticationEntities db = new AuthenticationEntities();
+            var CountUserRoles = (from r in db.UserRoles
+                                       where r.UserID == empid
+                                       select new UserRoleModel()
+                                       {
+                                           UserRoleID = r.UserRoleID
+                                       }).Count();
+            if(CountUserRoles > 0)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            //  return Json(CountUserRoles, JsonRequestBehavior.AllowGet);
+        }
+
+        
+
 
         public List<SelectListItem> PopulateRoles()
         {

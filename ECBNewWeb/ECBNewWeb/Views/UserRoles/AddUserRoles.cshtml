@@ -55,6 +55,7 @@
                                         @Html.TextBoxFor(m => m.EmployeeID, new { @class = "form-control", @id = "parentEmpId", @hidden = true })
                                         @Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })
                                         @Html.ValidationMessageFor(m => m.EmployeeID, "", new { @class = "text-danger" })
+                                        <span class="text-danger" id="hasrole"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -124,6 +125,31 @@
         response: function (event, ui) {
             $(".submit-progress").addClass("d-none");
         }
+    });
+
+    ////////////
+    $('#parentEmp').change(function () {
+        var emid = $("#parentEmpId").val();
+        $.ajax({
+            url: "/UserRoles/CountUserRoles/",
+            data :{empid : emid },
+            datatype: "json",
+            success: function (response) {
+                if(response)
+                {
+                    $('#hasrole').html('')
+                    $('#save').removeAttr('disabled')
+                }
+                else
+                {
+                    $('#hasrole').html('هذا المستخدم له صلاحيات مسبقاً');
+                    $('#save').attr('disabled', 'disabled');
+                }
+
+            }
+
+        })
+
     });
 </script>
 
