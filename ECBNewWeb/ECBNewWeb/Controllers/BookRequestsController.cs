@@ -31,6 +31,8 @@ namespace ECBNewWeb.Controllers
             BookRequestDetailModel model = new BookRequestDetailModel();
             ViewBag.Bookrequest = PopulateAllBookRequest().FirstOrDefault();
             ViewBag.AllBookRequest = PopulateAllBookRequest();
+            ViewBag.EnableBookRequest = PopulateEnableBookRequest().FirstOrDefault();
+            ViewBag.EnableEditBookRequest = PopulateEnableEditBookRequest().FirstOrDefault();
             ViewBag.emplist = emp();
             ViewBag.rectypelist = PopulateRecTypes();
             ViewBag.AllbookReceiveList = BookReceived();
@@ -183,6 +185,60 @@ namespace ECBNewWeb.Controllers
         }
 
         public List<BookRequestDetailModel> PopulateAllBookRequest()
+        {
+            var ListOfBooks = new List<BookRequestDetailModel>();
+            using (MarketEntities db = new MarketEntities())
+            {
+                ListOfBooks = (from br in db.BookRequests
+                               join brd in db.BookRequestDetails on br.RequestNo equals brd.RequestNo
+                               join t in db.marketingrectypes on brd.ReceiptTypeId equals t.id
+                               where br.EmployeeId == UserInfo.EmployeeId //for test
+                              // && brd.FinanceApproval == 0 && brd.SupervisorApproval == 0
+                               select new BookRequestDetailModel()
+                               {
+                                   Id = brd.Id,
+                                   RequestNo = br.RequestNo,
+                                   EmployeeId = br.EmployeeId,
+                                   ReceiptTypeId = brd.ReceiptTypeId,
+                                   bookTypeName = t.name,
+                                   Amount = brd.Amount,
+                                   RequestDate = br.RequestDate,
+                                   SupervisorApproval = brd.SupervisorApproval,
+                                   FinanceApproval = brd.FinanceApproval
+                               }).ToList<BookRequestDetailModel>();
+            }
+
+            return ListOfBooks;
+        }
+
+        public List<BookRequestDetailModel> PopulateEnableBookRequest()
+        {
+            var ListOfBooks = new List<BookRequestDetailModel>();
+            using (MarketEntities db = new MarketEntities())
+            {
+                ListOfBooks = (from br in db.BookRequests
+                               join brd in db.BookRequestDetails on br.RequestNo equals brd.RequestNo
+                               join t in db.marketingrectypes on brd.ReceiptTypeId equals t.id
+                               where br.EmployeeId == UserInfo.EmployeeId //for test
+                               && brd.FinanceApproval == 0 
+                               select new BookRequestDetailModel()
+                               {
+                                   Id = brd.Id,
+                                   RequestNo = br.RequestNo,
+                                   EmployeeId = br.EmployeeId,
+                                   ReceiptTypeId = brd.ReceiptTypeId,
+                                   bookTypeName = t.name,
+                                   Amount = brd.Amount,
+                                   RequestDate = br.RequestDate,
+                                   SupervisorApproval = brd.SupervisorApproval,
+                                   FinanceApproval = brd.FinanceApproval
+                               }).ToList<BookRequestDetailModel>();
+            }
+
+            return ListOfBooks;
+        }
+
+        public List<BookRequestDetailModel> PopulateEnableEditBookRequest()
         {
             var ListOfBooks = new List<BookRequestDetailModel>();
             using (MarketEntities db = new MarketEntities())
