@@ -143,6 +143,7 @@ namespace ECBNewWeb.Controllers
                           "Inner Join BookRequests " +
                           "On BookDeliveryRequest.RequestId = BookRequests.RequestId " +
                           "Where BookDeliveryRequest.RequestId = @RequestId " +
+                          "And BookDeliveryRequest.DeliveryNo = @DeliveryNo " +
                           "Group By marketingrectype.[name],BookDeliveryRequest.DeliveryId,Employees.EmployeeNo,Employees.FirstName,Employees.MiddleName,Employees.LastName,Departments.DepartmentName, " +
                           "BookDeliveryRequest.DeliveryNo,BookDeliveryRequest.DeliveryDate,BookRequests.RequestDate,BookRequests.RequestNo " +
                           "Order By marketingrectype.[name]";
@@ -152,6 +153,7 @@ namespace ECBNewWeb.Controllers
                 using (SqlCommand Com = new SqlCommand(Cmd, Conn))
                 {
                     Com.Parameters.AddWithValue("@RequestId", model.RequestId);
+                    Com.Parameters.AddWithValue("@DeliveryNo", model.DeliveryNo);
                     SqlDataAdapter Adapt = new SqlDataAdapter(Com);
                     DataTable dt = new DataTable();
                     Adapt.Fill(dt);
