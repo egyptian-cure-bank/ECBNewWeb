@@ -53,7 +53,7 @@ namespace ECBNewWeb.Controllers
                                   join D in db.BookRequestDetails on S.RequestNo equals D.RequestNo
                                   join E in db.Employees on S.EmployeeId equals E.EmployeeId
                                   where S.Active == 1 && D.FinanceApproval == 1 && D.SupervisorApproval == 1
-                                  && (E.ParentEmployeeId == UserInfo.EmployeeId)
+                                  && (E.EmployeeId == UserInfo.EmployeeId)
                                   select new BookDeliveryModel() { RequestId = S.RequestId, RequestNo = S.RequestNo, EmployeeNo = E.EmployeeNo }).Distinct().OrderByDescending(order => order.RequestNo).ToList<BookDeliveryModel>();
                 }
                 foreach (BookDeliveryModel item in MyRequests)
@@ -150,6 +150,7 @@ namespace ECBNewWeb.Controllers
                             "Left Join CanceledReceipts "+
                             "On BookResposibilities.RespId = CanceledReceipts.ResponsibilityId "+
                             "Where BookResposibilities.DoneFlag = 0 "+
+                            "And HandleBookReceipts.Active = 1 " +
                             "And BookResposibilities.RespId in ({0}) "+
                             "Group By marketingrectype.[name] "+ 
                             "Order By marketingrectype.[name]",string.Join(",",RespIds));

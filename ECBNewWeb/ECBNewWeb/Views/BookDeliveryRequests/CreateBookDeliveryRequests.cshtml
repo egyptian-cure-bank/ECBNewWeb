@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group m-form__group col-md-4">
                                 <label for="">رقم الدفاتر</label>
-                                @Html.DropDownListFor(m => m.ResponsibilityId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control m-input", @multiple = "multiple", @id = "bookNumbers" })
+                                @Html.DropDownListFor(m => m.ResponsibilityId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control m-input", @multiple = "multiple",@name="bookNumbers[]", @id = "bookNumbers" })
                                 @Html.ValidationMessageFor(m => m.BookTypeId, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group m-form__group col-md-4">
@@ -162,6 +162,7 @@
                 $("#bookNumbers").html('');
                 $('#bookNumbers').trigger("chosen:updated");
             });
+            BookNoText = [];
         });
         $("#recTypeName").change(function () {
             var selectedvalue = $("#recTypeName option:selected").val();
@@ -180,6 +181,7 @@
         });
     });
     var RespIdvalues = [];
+    
     $('#bookNumbers').on('change', function (e) {
         RespIdvalues = $("#bookNumbers").val();
         for (var i = 0; i < RespIdvalues.length; i++) {
@@ -209,25 +211,44 @@
         }
         else {
             var BookNoText = [];
+            var bookTextResult = [];
             var FromRec = 0;
             var ToRec = 0;
-            BookNoText = $("#bookNumbers option:selected").text();
-    
+            $("#bookNumbers option:selected").each(function () {
+                BookNoText.push(this.text);
+            })
+            BookNoText.join(',');
+            var BookNoTextCount = $("#bookNumbers option:selected").length;
             $.getJSON("/BookDeliveryRequests/GetInfoDetails/", $.param({ RespIds: RespIdvalues }, true), function (data) {
                 data = $.map(JSON.parse(data), function (item, a) {
                     return item;
                 });
                 FromRec = data[0]["FromReceipt"];
                 ToRec = data[0]['ToReceipt'];
-                stringRow = ["<tr><td>" + $("#recTypeName option:selected").text() + "</td>",
-                                        "<td>" + BookNoText.length + "</td>",
-                                        "<td>" + BookNoText[0] + "</td>",
-                                        "<td>" + BookNoText[BookNoText.length - 1] + "</td>",
-                                        "<td>" + FromRec + "</td>",
-                                        "<td>" + ToRec + "</td>",
-                                        "<td>" + '<button type="button" id="deleteRow' + '"' + 'class="btn btn-danger btn-xs dt-delete">' + "Delete" + "</td>",
-                                        "<td>" + RespIdvalues + "</td></tr>"
-                ];
+                if (BookNoText.length > 1) {
+                    stringRow = ["<tr><td>" + $("#recTypeName option:selected").text() + "</td>",
+                                            "<td>" + BookNoTextCount + "</td>",
+                                            "<td>" + BookNoText[0] + "</td>",
+                                            "<td>" + BookNoText[(BookNoTextCount - 1)] + "</td>",
+                                            "<td>" + FromRec + "</td>",
+                                            "<td>" + ToRec + "</td>",
+                                            "<td>" + '<button type="button" id="deleteRow' + '"' + 'class="btn btn-danger btn-xs dt-delete">' + "Delete" + "</td>",
+                                            "<td>" + RespIdvalues + "</td></tr>"
+                    ];
+                }
+                else {
+                    alert("Else Fired");
+                    stringRow = ["<tr><td>" + $("#recTypeName option:selected").text() + "</td>",
+                                            "<td>" + BookNoTextCount + "</td>",
+                                            "<td>" + BookNoText + "</td>",
+                                            "<td>" + BookNoText + "</td>",
+                                            "<td>" + FromRec + "</td>",
+                                            "<td>" + ToRec + "</td>",
+                                            "<td>" + '<button type="button" id="deleteRow' + '"' + 'class="btn btn-danger btn-xs dt-delete">' + "Delete" + "</td>",
+                                            "<td>" + RespIdvalues + "</td></tr>"
+                    ];
+                }
+
                 table.column(7).visible(false);
                 table.row.add(stringRow).draw();
             });
