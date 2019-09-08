@@ -23,6 +23,7 @@ namespace ECBNewWeb.Controllers
             {
                 UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
                 Session["CurrentUser"] = Membership.GetUser(HttpContext.User.Identity.Name, false);
+                Session["CurrentName"] = UserInfo.FirstName + ' ' + UserInfo.MiddleName + ' ' + UserInfo.LastName; ;
             }
 
             //if (Convert.ToString(UId) == string.Empty)
