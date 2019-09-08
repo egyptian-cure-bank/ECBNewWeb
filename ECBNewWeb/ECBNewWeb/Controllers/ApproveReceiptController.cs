@@ -116,20 +116,19 @@ namespace ECBNewWeb.Controllers
                                            //join t in db.BookTypes on h.BookTypeId equals t.BookTypeId
                                        join s in db.marketingsites on m.site equals s.id
                                        join ty in db.marketingrectypes on m.type equals ty.id
-                                       join emp in db.UserLogins on m.employee equals emp.id
+                                       join emp in db.Employees on m.employee equals emp.EmployeeId
                                        where m.site == Siteid && (m.FinApprov == null || m.FinApprov == "0")
                                        select new DonationData()
                                        {
+                                           
                                            id = m.id,
                                            SiteId = m.site,
                                            SiteName = s.sitename,
                                            RecId = m.type,
                                            RecName = ty.name,
                                            Amount = m.amount,
-                                           FirstName = emp.FirstName,
-                                           LastName = emp.LastName , 
+                                           FirstName = (emp.FirstName+" "+emp.MiddleName+" "+emp.LastName)  , 
                                            no = m.no,
-                                        
                                      }).ToList<DonationData>();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
