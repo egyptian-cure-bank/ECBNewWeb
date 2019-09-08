@@ -33,6 +33,7 @@ namespace ECBNewWeb.Controllers
             ViewBag.AllBookRequest = PopulateAllBookRequest();
             ViewBag.EnableBookRequest = PopulateEnableBookRequest().FirstOrDefault();
             ViewBag.EnableEditBookRequest = PopulateEnableEditBookRequest().FirstOrDefault();
+            ViewBag.EditBookRequest = PopulateEnableEditBookRequest();
             ViewBag.emplist = emp();
             ViewBag.rectypelist = PopulateRecTypes();
             ViewBag.AllbookReceiveList = BookReceived();
