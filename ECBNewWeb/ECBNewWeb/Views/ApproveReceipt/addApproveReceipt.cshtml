@@ -177,8 +177,8 @@
                                             <div class="form-group m-form__group  col-md-12 ">
                                                 <div class="row">
                                                     <div class="form-group m-form__group  col-md-12">
-                                                        <label for="" class="">الايصالات المحددة </label>
-                                                        <input class="form-control m-input" type="text" id="txt_id"   name="receipt_id" readonly />
+                                                        @*<label for="" class="">الايصالات المحددة </label>*@
+                                                        <input class="form-control m-input" type="text" id="txt_id" style="color: white; border: none;"   name="receipt_id" readonly />
                                                         <label for="txt_id" class="error field-validation-valid text-danger"></label>
                                                     </div>
                                                 </div>
@@ -230,7 +230,7 @@
 
     function validatedeposite()
     {
-        debugger;
+     
         if($("#radio_1").is(":checked"))
         {
             $('#receiptvoucher').prop('required', true);
@@ -251,7 +251,7 @@
         })
 
         $('#submit').click(function () {
-            debugger;
+      
             validatedeposite();
             var selectedrow = $('tr').hasClass('selected');
             if(selectedrow == false)
@@ -323,7 +323,7 @@
                 columns: [
                     { "defaultContent": "" },
                     { data: "id" },
-                    { data: "FirstName" },
+                    { data: "FirstName"  },
                     { data: "SiteName" },
                     { data: "RecName" },
                     { data: "no" },
@@ -333,7 +333,14 @@
                     orderable: false,
                     className: 'select-checkbox',
                     targets: 0
-                }],
+                    }
+                    ,
+                {
+                    "data": "id",
+                    "targets": [ 1 ],
+                    "visible": false,
+                    }
+                ],
                 select: {
                     style: 'multi',
                     selector: 'td:first-child'
@@ -353,13 +360,15 @@
             var i = 0;
             var totalSUM = 0;
             $("tbody tr.selected").each(function () {
-               
-                var getValue = $(this).find("td:eq(6)").html().replace("$", "");
+                
+                var getValue = $(this).find("td:eq(5)").html().replace("$", "");
                 var filteresValue = getValue.replace(/\,/g, '');
-                idOfmarket[i]= $(this).find("td:eq(1)").html();
+                //idOfmarket[i]= $(this).find("td:eq(0)").html();
+                idOfmarket[i] = $("#m_table_1").dataTable().fnGetData(this).id;
                 totalSUM += Number(filteresValue)
                 console.log(filteresValue);
                 i++;
+               
             });
 
             $('#selectedtotal').html(totalSUM);
@@ -373,7 +382,7 @@
 
             $(this).toggleClass('selected');
             $('#button').trigger('click');
-            console.log($('tfoot tr > th').eq(13)
+            console.log($('tfoot tr > th').eq(11)
                         .html(' ' + $('#selectedtotal').html()));
 
 
