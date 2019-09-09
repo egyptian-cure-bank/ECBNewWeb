@@ -79,7 +79,7 @@ namespace ECBNewWeb.Controllers
                                                   join H in db.HandleBookReceipts on B.BookTypeId equals H.BookTypeId
                                                   join R in db.BookResposibilities on H.BookReceiptId equals R.HandleBookReceiptId
                                                   join Q in db.BookRequests on R.RequestNo equals Q.RequestNo
-                                                  where R.DoneFlag == 0 && Q.RequestId == RequestId
+                                                  where /*R.DoneFlag ==1 && */Q.RequestId == RequestId
                                              select new BookDeliveryModel() { RecTypeName = M.name,RecTypeId=M.id }).Distinct().ToList<BookDeliveryModel>();
                 foreach (BookDeliveryModel Book in MyRecType)
                 {
@@ -109,7 +109,7 @@ namespace ECBNewWeb.Controllers
                         "Inner Join BookRequests "+
                         "On BookRequests.RequestNo = BookResposibilities.RequestNo "+
                         "Where Not Exists(Select 1 From BookDeliveryRequestDetails Where ResponsibilityId = BookResposibilities.RespId) "+
-                        "And BookResposibilities.DoneFlag = 0 "+
+                      //  "And BookResposibilities.DoneFlag = 1 "+
                         "And marketingrectype.id = @RecTypeId " +
                         "And BookRequests.RequestId = @RequestId "+
                         "Order By BookTypes.BookNo";
@@ -149,8 +149,8 @@ namespace ECBNewWeb.Controllers
                             "On BookResposibilities.HandleBookReceiptId = HandleBookReceipts.BookReceiptId "+
                             "Left Join CanceledReceipts "+
                             "On BookResposibilities.RespId = CanceledReceipts.ResponsibilityId "+
-                            "Where BookResposibilities.DoneFlag = 0 "+
-                            "And HandleBookReceipts.Active = 1 " +
+                            "Where  "+
+                            " HandleBookReceipts.Active = 1 " +
                             "And BookResposibilities.RespId in ({0}) "+
                             "Group By marketingrectype.[name] "+ 
                             "Order By marketingrectype.[name]",string.Join(",",RespIds));
@@ -327,8 +327,8 @@ namespace ECBNewWeb.Controllers
                           "On BookDeliveryRequest.DeliveryNo = BookDeliveryRequestDetails.DeliveryNo "+
                           "Inner Join BookRequests "+
                           "On BookDeliveryRequest.RequestId = BookRequests.RequestId "+
-                          "Where BookResposibilities.DoneFlag = 0 "+ 
-                          "And BookDeliveryRequest.RequestId = @RequestId "+
+                          "Where /*BookResposibilities.DoneFlag = 0*/ "+ 
+                          "/*And*/ BookDeliveryRequest.RequestId = @RequestId "+
                           "Group By marketingrectype.[name],BookDeliveryRequest.DeliveryId,Employees.EmployeeNo,Employees.FirstName,Employees.MiddleName,Employees.LastName,Departments.DepartmentName, " +
                           "BookDeliveryRequest.DeliveryNo,BookDeliveryRequest.DeliveryDate,BookRequests.RequestNo " +
                           "Order By marketingrectype.[name]";
