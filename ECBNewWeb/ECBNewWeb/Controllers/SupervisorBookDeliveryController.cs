@@ -105,8 +105,8 @@ namespace ECBNewWeb.Controllers
                             "On UserSites.SiteId = marketingsites.id "+
                             "Inner Join Employees ParentEmp "+
                             "On ParentEmp.EmployeeId = Employees.ParentEmployeeId "+
-                            "Where BookResposibilities.DoneFlag = 0 "+
-                            "And BookDeliveryRequest.RequestId = @RequestId "+
+                            "Where /*BookResposibilities.DoneFlag = 0*/ "+
+                            "/*And*/ BookDeliveryRequest.RequestId = @RequestId "+
                             "Group By marketingrectype.[name],BookDeliveryRequest.DeliveryId,Employees.EmployeeNo,Employees.FirstName,Employees.MiddleName,Employees.LastName,Departments.DepartmentName,  "+
                             "BookDeliveryRequest.DeliveryNo,BookDeliveryRequest.DeliveryDate,BookRequests.RequestNo,marketingsites.sitename ,ParentEmp.FirstName,ParentEmp.MiddleName,ParentEmp.LastName "+
                             "Order By marketingrectype.[name]";
