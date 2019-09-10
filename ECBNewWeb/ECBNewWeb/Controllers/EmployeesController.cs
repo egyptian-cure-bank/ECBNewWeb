@@ -322,7 +322,7 @@ namespace ECBNewWeb.Controllers
                     modelToUpdate.NickName = model.NickName;
                     modelToUpdate.Active = model.Active;
                     jobToUpdate.JobId = model.JobId;
-                    TryUpdateModel(jobToUpdate);
+                 //   TryUpdateModel(jobToUpdate);
                     TryUpdateModel(modelToUpdate);
                     int rowAffected = Market.SaveChanges();
                     TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
