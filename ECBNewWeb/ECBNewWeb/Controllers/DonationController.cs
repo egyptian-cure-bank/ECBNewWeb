@@ -21,7 +21,7 @@ namespace ECBNewWeb.Controllers
     {
         private CustomMembershipUser UserInfo;
         [AuthFilter]
-        [CustomAuthorize(AccessLevel = "CreateAddDonationsDonation,FullControlAddDonationsDonation")]
+        //[CustomAuthorize(AccessLevel = "CreateAddDonationsDonation,FullControlAddDonationsDonation")]
         public ActionResult AddDonations()
         {
             if (User.Identity.IsAuthenticated)
