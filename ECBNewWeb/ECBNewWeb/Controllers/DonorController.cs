@@ -13,7 +13,7 @@ namespace ECBNewWeb.Controllers
 {
     public class DonorController : Controller
     {
-        [CustomAuthorize(AccessLevel = "CreateAddDonersDonor,FullControlAddDonersDonor")]
+        //[CustomAuthorize(AccessLevel = "CreateAddDonersDonor,FullControlAddDonersDonor")]
         public ActionResult AddDoners()
         {
             ViewBag.Msg = null;
