@@ -493,6 +493,15 @@ namespace ECBNewWeb.Controllers
                 throw;
             }
         }
+
+        public ActionResult CancelReceipt(string RecNumber, int? RecId)
+        {
+            DonationData model = new DonationData();
+            model.RecNumber = RecNumber;
+            model.RecId = RecId;
+            return PartialView(model);
+        }
+
         [HttpPost]
         public ActionResult CancelReceipt(DonationData Donation)
         {

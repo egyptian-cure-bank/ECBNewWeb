@@ -1,0 +1,58 @@
+﻿
+@model ECBNewWeb.Models.DonationData
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                هل تريد حذف الايصال رقم : @Model.RecNumber
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("CancelReceipt", "Donation", FormMethod.Post, new { @id = "CanelReceiptForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.RecNumber)
+                    @Html.HiddenFor(m => m.RecId)
+                    <div class="m-portlet__body">
+                        @*<div class="row">
+                                <div class="form-group m-form__group col-md-8">
+                                    <label class="m-checkbox m-checkbox--single  m-checkbox--state-success ">
+                                        @Html.CheckBoxFor(m => m.IsActive, new { @name = "حالة الموظف" })الحالة
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>*@
+
+                    </div>
+
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+
+                    </div>
+                }
+
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
