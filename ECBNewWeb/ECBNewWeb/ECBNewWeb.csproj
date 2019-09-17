@@ -618,6 +618,7 @@
     <Content Include="Content\assets\vendors\custom\jqvmap\jqvmap.bundle.css" />
     <Content Include="Content\assets\vendors\custom\jqvmap\jqvmap.bundle.js" />
     <Content Include="Content\assets\vendors\custom\jqvmap\jqvmap.bundle.rtl.css" />
+    <Content Include="Content\bootstrap-glyphicons.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -649,6 +650,7 @@
     <Content Include="Content\images\arrow.svg" />
     <Content Include="Content\images\bars.svg" />
     <Content Include="Content\images\close.svg" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\jsTree\docs.css" />
     <Content Include="Content\jsTree\themes\default-dark\32px.png" />
     <Content Include="Content\jsTree\themes\default-dark\40px.png" />
@@ -661,6 +663,7 @@
     <Content Include="Content\jsTree\themes\default\style.min.css" />
     <Content Include="Content\jsTree\themes\default\throbber.gif" />
     <Content Include="Content\popper.css" />
+    <Content Include="Content\responsive.bootstrap.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -993,6 +996,7 @@
     <Content Include="Views\UserRoles\AllUserRoles.cshtml" />
     <Content Include="Views\Menus\_AddRole.cshtml" />
     <Content Include="Views\UserRoles\EditUserRoles.cshtml" />
+    <Content Include="Views\Donation\CancelReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
