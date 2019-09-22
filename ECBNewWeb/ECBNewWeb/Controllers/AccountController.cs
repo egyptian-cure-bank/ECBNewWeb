@@ -12,12 +12,15 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Data.Entity;
 using System.Web.Script.Serialization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ECBNewWeb.Controllers
 {
     [AllowAnonymous]
     public class AccountController : Controller
     {
+        private CustomMembershipUser UserInfo;
         [HttpGet]
         public ActionResult Login()
         {
@@ -72,6 +75,76 @@ namespace ECBNewWeb.Controllers
             //ModelState.AddModelError("", "Something Wrong : Username or Password invalid ^_^ ");
             return View(loginView);
         }
+        public ActionResult ChangePassword()
+        {
+            return PartialView("_ChangePassword");
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            bool Changed;
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
+            if (ModelState.IsValid)
+            {
+                string username = UserInfo.UserName;
+                using (MarketEntities dbMarket = new MarketEntities())
+                {
+                    Employee Emp;
+                    using (AuthenticationEntities dbContext = new AuthenticationEntities())
+                    {
+                        var user = (from us in dbContext.logins
+                                    where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
+                                    select us).FirstOrDefault();
+
+                        if (user == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            Emp = dbMarket.Employees.Where(x => x.EmployeeId == user.employee_id).FirstOrDefault();
+                        }
+                        CustomMembershipUser MemberChangePassword = new CustomMembershipUser(user, Emp);
+                        Changed = MemberChangePassword.ChangePassword(model.OldPassword, model.ConfirmPassword);
+                        TempData["Msg"] = Changed == true ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    }
+                }
+            }
+            else
+            {
+                TempData["Msg"] = "لم يتم الحفظ";
+            }
+            return RedirectToAction("LogOut");
+        }
+
+        public JsonResult ValidateOldPassword(string OldPassword)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
+            SHA1 s = new SHA1CryptoServiceProvider();
+            var bytes = Encoding.UTF8.GetBytes(OldPassword);
+            var bytess = s.ComputeHash(bytes);
+            var sos = Convert.ToBase64String(bytess);
+            using (AuthenticationEntities dbContext = new AuthenticationEntities())
+            {
+                LoginViewModel user = (from us in dbContext.logins
+                                       where string.Compare(UserInfo.UserName, us.username, StringComparison.OrdinalIgnoreCase) == 0
+                                       && string.Compare(sos, us.password, StringComparison.OrdinalIgnoreCase) == 0
+                                       && us.active == 1
+                                       select new LoginViewModel { UserId = us.id, UserName = us.username, Password = us.password }).FirstOrDefault();
+                if (user == null)
+                {
+                    return Json(false,JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult LogOut()
         {
             HttpCookie cookie = new HttpCookie("Cookie3", "");

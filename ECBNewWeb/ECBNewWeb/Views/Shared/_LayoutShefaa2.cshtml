@@ -95,10 +95,10 @@
                                         <span class="m-menu__arrow m-menu__arrow--adjust" style="left: 71px;"></span>
                                         <ul class="m-menu__subnav">
                                             <li class="m-menu__item " aria-haspopup="true">
-                                                <a href="#" class="m-menu__link ">
+                                                <button onclick="changePassword()" class="btn btn-link m-menu__link">
                                                     <i class="m-menu__link-icon flaticon-file"></i>
                                                     <span class="m-menu__link-text">تغيير كلمة السر</span>
-                                                </a>
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
@@ -175,7 +175,19 @@
 
 
     </div>
-
+    <div id="myModalChangePassword" class="modal fade " style="text-align:center">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderPartial("~/Views/Account/_ChangePassword.cshtml");}
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end:: Page -->
     <!-- begin::Quick Sidebar -->
     <!-- begin::Quick Nav -->
@@ -198,3 +210,11 @@
 </body>
 <!-- end::Body -->
 </html>
+<script>
+    function changePassword() {
+        $('#myModalChangePassword').modal('show');
+    }
+</script>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")

@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Security.Cryptography;
 using ECBNewWeb.DataAccess;
 using System.Text;
+using ECBNewWeb.Models;
 
 namespace ECBNewWeb.CustomAuthentication
 {
@@ -207,7 +208,38 @@ namespace ECBNewWeb.CustomAuthentication
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(oldPassword)||string.IsNullOrEmpty(newPassword))
+            {
+                return false;
+            }
+            SHA1 s = new SHA1CryptoServiceProvider();
+            var bytes = Encoding.UTF8.GetBytes(oldPassword);
+            var bytess = s.ComputeHash(bytes);
+            var sos = Convert.ToBase64String(bytess);
+            using (AuthenticationEntities dbContext = new AuthenticationEntities())
+            {
+                LoginViewModel user = (from us in dbContext.logins
+                            where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
+                            && string.Compare(sos, us.password, StringComparison.OrdinalIgnoreCase) == 0
+                            && us.active == 1
+                            select new LoginViewModel { UserId = us.id,UserName = us.username,Password = us.password }).FirstOrDefault();
+                if (user != null)
+                {
+                    SHA1 sha = new SHA1CryptoServiceProvider();
+                    var passBytes = Encoding.UTF8.GetBytes(newPassword);
+                    var hashBytes = s.ComputeHash(passBytes);
+                    var Pass = Convert.ToBase64String(hashBytes);
+                    login UserToUpdate = new login();
+                    UserToUpdate = dbContext.logins.Find(user.UserId);
+                    UserToUpdate.password = Pass;
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)

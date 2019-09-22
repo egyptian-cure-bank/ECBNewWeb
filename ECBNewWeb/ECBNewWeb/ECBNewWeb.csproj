@@ -403,6 +403,7 @@
     <Compile Include="Models\BookResposibilityModel.cs" />
     <Compile Include="Models\cashDepositModel.cs" />
     <Compile Include="Models\Center.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\ConversionRateModel.cs" />
     <Compile Include="Models\CurrencyModel.cs" />
     <Compile Include="Models\DonationData.cs" />
@@ -997,6 +998,7 @@
     <Content Include="Views\Menus\_AddRole.cshtml" />
     <Content Include="Views\UserRoles\EditUserRoles.cshtml" />
     <Content Include="Views\Donation\CancelReceipt.cshtml" />
+    <Content Include="Views\Account\_ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
