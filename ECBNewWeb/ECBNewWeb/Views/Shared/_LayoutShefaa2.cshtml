@@ -95,7 +95,7 @@
                                         <span class="m-menu__arrow m-menu__arrow--adjust" style="left: 71px;"></span>
                                         <ul class="m-menu__subnav">
                                             <li class="m-menu__item " aria-haspopup="true">
-                                                <button onclick="changePassword()" class="btn btn-link m-menu__link">
+                                                <button onclick="ChangePassword(@UserInfo.UserId)" class="btn btn-link m-menu__link">
                                                     <i class="m-menu__link-icon flaticon-file"></i>
                                                     <span class="m-menu__link-text">تغيير كلمة السر</span>
                                                 </button>
@@ -183,7 +183,7 @@
                     <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
-                    @{Html.RenderPartial("~/Views/Account/_ChangePassword.cshtml");}
+                    
                 </div>
             </div>
         </div>
@@ -211,8 +211,14 @@
 <!-- end::Body -->
 </html>
 <script>
-    function changePassword() {
+    function ChangePassword(id) {
+
+        $.get("@Url.Action("_ChangePassword", "Account")/" + id,
+        function (data) { $('.modal-body').html(data); })
         $('#myModalChangePassword').modal('show');
+        $('#myModalChangePassword').on('hidden.bs.modal', function (e) {
+            $('.modal-body').html("");
+        })
     }
 </script>
 @Scripts.Render("~/bundles/jquery")

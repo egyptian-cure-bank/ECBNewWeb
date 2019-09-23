@@ -75,48 +75,53 @@ namespace ECBNewWeb.Controllers
             //ModelState.AddModelError("", "Something Wrong : Username or Password invalid ^_^ ");
             return View(loginView);
         }
-        public ActionResult ChangePassword()
+
+        public JsonResult isPasswordMatch(string OldPassword)
         {
-            return PartialView("_ChangePassword");
-        }
-        [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
-        {
-            bool Changed;
             if (User.Identity.IsAuthenticated)
             {
                 UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             }
-            if (ModelState.IsValid)
+            AuthenticationEntities db = new AuthenticationEntities();
+            SHA1 s = new SHA1CryptoServiceProvider();
+            byte[] bytes = Encoding.UTF8.GetBytes(OldPassword);
+            byte[] bytess = s.ComputeHash(bytes);
+            string sos = Convert.ToBase64String(bytess);
+            var test = db.logins.Where(x => x.id == UserInfo.UserId).Any(x => x.password == sos);
+            return Json(test ,JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult _ChangePassword(int id)
+        {
+            AuthenticationEntities db = new AuthenticationEntities();
+            var model = db.logins.Find(id);
+            EmployeeModel m = new EmployeeModel();
+            m.EmployeeId = model.id; // User ID
+            m.FullName = (model.FirstName + " " + model.MiddleName + " " + model.LastName);
+            //m.OldPassword = model.password ;
+            return PartialView(m);
+        }
+        [HttpPost]
+        public ActionResult _ChangePassword(EmployeeModel model)
+        {
+            
+            if (User.Identity.IsAuthenticated)
             {
-                string username = UserInfo.UserName;
-                using (MarketEntities dbMarket = new MarketEntities())
-                {
-                    Employee Emp;
-                    using (AuthenticationEntities dbContext = new AuthenticationEntities())
-                    {
-                        var user = (from us in dbContext.logins
-                                    where string.Compare(username, us.username, StringComparison.OrdinalIgnoreCase) == 0
-                                    select us).FirstOrDefault();
+                UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+            }
 
-                        if (user == null)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            Emp = dbMarket.Employees.Where(x => x.EmployeeId == user.employee_id).FirstOrDefault();
-                        }
-                        CustomMembershipUser MemberChangePassword = new CustomMembershipUser(user, Emp);
-                        Changed = MemberChangePassword.ChangePassword(model.OldPassword, model.ConfirmPassword);
-                        TempData["Msg"] = Changed == true ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
-                    }
-                }
-            }
-            else
+            SHA1 s = new SHA1CryptoServiceProvider();
+            byte[] bytes = Encoding.UTF8.GetBytes(model.Password);
+            byte[] bytess = s.ComputeHash(bytes);
+            string sos = Convert.ToBase64String(bytess);
+
+            using (AuthenticationEntities dbContext = new AuthenticationEntities())
             {
-                TempData["Msg"] = "لم يتم الحفظ";
+                var dbmodel =  dbContext.logins.Find(UserInfo.UserId);
+                dbmodel.password = sos;
+                int rowAffected = dbContext.SaveChanges();
+                TempData["Msg"]  = rowAffected > 0 ?  "تم الحفظ بنجاح" : "لم يتم الحفظ";
             }
+
             return RedirectToAction("LogOut");
         }
 
