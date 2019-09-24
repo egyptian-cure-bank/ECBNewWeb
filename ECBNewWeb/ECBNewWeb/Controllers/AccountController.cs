@@ -94,14 +94,14 @@ namespace ECBNewWeb.Controllers
         {
             AuthenticationEntities db = new AuthenticationEntities();
             var model = db.logins.Find(id);
-            EmployeeModel m = new EmployeeModel();
-            m.EmployeeId = model.id; // User ID
-            m.FullName = (model.FirstName + " " + model.MiddleName + " " + model.LastName);
+            ChangePasswordModel m = new ChangePasswordModel();
+            //m.EmployeeId = model.id; // User ID
+            //m.FullName = (model.FirstName + " " + model.MiddleName + " " + model.LastName);
             //m.OldPassword = model.password ;
             return PartialView(m);
         }
         [HttpPost]
-        public ActionResult _ChangePassword(EmployeeModel model)
+        public ActionResult _ChangePassword(ChangePasswordModel model)
         {
             
             if (User.Identity.IsAuthenticated)
@@ -110,7 +110,7 @@ namespace ECBNewWeb.Controllers
             }
 
             SHA1 s = new SHA1CryptoServiceProvider();
-            byte[] bytes = Encoding.UTF8.GetBytes(model.Password);
+            byte[] bytes = Encoding.UTF8.GetBytes(model.ConfirmPassword);
             byte[] bytess = s.ComputeHash(bytes);
             string sos = Convert.ToBase64String(bytess);
 

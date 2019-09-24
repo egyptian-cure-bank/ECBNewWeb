@@ -67,13 +67,7 @@ namespace ECBNewWeb.Models
         public string Password { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء تاكيد الباسورد")]
         [DataType(DataType.Password)]
-        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage ="كلمة السر غير مطابقة") ]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "كلمة السر غير مطابقة")]
         public string ConfirmPassword { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كلمة السر القديمة")]
-        [Remote("isPasswordMatch","Account" , ErrorMessage = "كلمة السر غير صحيحة")]
-        public string OldPassword { get; set; }
-
-
     }
 }
