@@ -23,10 +23,19 @@
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
     <!--end::Page Vendors Styles -->
     <link rel="shortcut icon" href="~/Content/assets/demo/default/media/img/logo/logotitle.png" />
-    @RenderSection("links", false)
-
     <link rel="stylesheet" href="~/Content/assets/demo/default/base/layout_custome_style.css">
-
+    <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+    <link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+    @RenderSection("links", false)
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/chosen")
+    
+    @Scripts.Render("~/bundles/sweetalert")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
 </head>
 
 <!-- end::Head -->
@@ -221,6 +230,5 @@
         })
     }
 </script>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/bootstrap")
+
+@Scripts.Render("~/bundles/select2")

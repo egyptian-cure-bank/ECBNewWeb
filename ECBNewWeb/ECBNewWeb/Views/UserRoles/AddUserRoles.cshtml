@@ -90,66 +90,67 @@
         </div>
     </div>
 </main>
-<script src="~/Content/assets/demo/default/custom/crud/forms/widgets/select2.js"></script>
+@*<script src="~/Content/assets/demo/default/custom/crud/forms/widgets/select2.js"></script>*@
 <script>
     var item = [];
-    $("#parentEmp").autocomplete({
-        source: function (request, response) {
-            if ($("#parentEmp").val() != null) {
-                $.ajax({
-                    url: '@Url.Action("AutoCompleteEmployee")',
-                    type: "GET",
-                    data: { prefix: $("#parentEmp").val() },
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (data) {
-                        //$("#donors").html(''),
-                        response($.map(data, function (item) {
-                            return {
-                                label: item.FullName,
-                                value: item.EmployeeId
-                            }
-                        }));
+    $(document).ready(function () {
+
+        $("#parentEmp").autocomplete({
+            source: function (request, response) {
+                if ($("#parentEmp").val() != null) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteEmployee")',
+                        type: "GET",
+                        data: { prefix: $("#parentEmp").val() },
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            //$("#donors").html(''),
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.FullName,
+                                    value: item.EmployeeId
+                                }
+                            }));
+                        }
+                    });
+                }
+            },
+            select: function (event, ui) {
+                this.value = ui.item.label;
+                $("#parentEmpId").val(ui.item.value);
+                return false;
+            },
+            search: function (event, ui) {
+                $(".submit-progress").removeClass("d-none");
+            },
+            response: function (event, ui) {
+                $(".submit-progress").addClass("d-none");
+            }
+        });
+
+        ////////////
+        $('#parentEmp').change(function () {
+            var emid = $("#parentEmpId").val();
+            $.ajax({
+                url: "/UserRoles/CountUserRoles/",
+                data: { empid: emid },
+                datatype: "json",
+                success: function (response) {
+                    if (response) {
+                        $('#hasrole').html('')
+                        $('#save').removeAttr('disabled')
                     }
-                });
-            }
-        },
-        select: function (event, ui) {
-            this.value = ui.item.label;
-            $("#parentEmpId").val(ui.item.value);
-            return false;
-        },
-        search: function (event, ui) {
-            $(".submit-progress").removeClass("d-none");
-        },
-        response: function (event, ui) {
-            $(".submit-progress").addClass("d-none");
-        }
-    });
+                    else {
+                        $('#hasrole').html('هذا المستخدم له صلاحيات مسبقاً');
+                        $('#save').attr('disabled', 'disabled');
+                    }
 
-    ////////////
-    $('#parentEmp').change(function () {
-        var emid = $("#parentEmpId").val();
-        $.ajax({
-            url: "/UserRoles/CountUserRoles/",
-            data :{empid : emid },
-            datatype: "json",
-            success: function (response) {
-                if(response)
-                {
-                    $('#hasrole').html('')
-                    $('#save').removeAttr('disabled')
-                }
-                else
-                {
-                    $('#hasrole').html('هذا المستخدم له صلاحيات مسبقاً');
-                    $('#save').attr('disabled', 'disabled');
                 }
 
-            }
+            })
 
         })
-
     });
 </script>
 

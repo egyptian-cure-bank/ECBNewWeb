@@ -110,27 +110,6 @@
         </div>
     </div>
 </div>
-@if (Session["Msg"] != null)
-{
-    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
-    {
-        <script>
-           alert("تم الحفظ بنجاح");
-        </script>
-    }
-    else if (Session["Msg"].ToString() == "PendingRequest")
-    {
-        <script>
-            alert("يوجد طلب تسوية معلق لم يتم الموافقة عليه");
-        </script>
-    }
-    else
-    {
-        <script>
-            alert("خطأ أثناء الحفظ");
-        </script>
-    }
-}
 <script>
     var table;
     var stringRow;
@@ -181,7 +160,7 @@
         });
     });
     var RespIdvalues = [];
-    
+
     $('#bookNumbers').on('change', function (e) {
         RespIdvalues = $("#bookNumbers").val();
         for (var i = 0; i < RespIdvalues.length; i++) {
@@ -298,6 +277,28 @@
           });
     });
 </script>
+@if (Session["Msg"] != null)
+{
+    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
+    {
+        <script>
+           alert("تم الحفظ بنجاح");
+        </script>
+    }
+    else if (Session["Msg"].ToString() == "PendingRequest")
+    {
+        <script>
+            alert("يوجد طلب تسوية معلق لم يتم الموافقة عليه");
+        </script>
+    }
+    else
+    {
+        <script>
+            alert("خطأ أثناء الحفظ");
+        </script>
+    }
+}
+
 @if (Session["Msg"] != null)
 {
     if (Session["Msg"].ToString() == "تم الحفظ بنجاح")

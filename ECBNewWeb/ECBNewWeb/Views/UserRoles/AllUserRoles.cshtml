@@ -101,17 +101,23 @@
     </div>
 </div>
 
-<script src="~/Scripts/jquery.min.js"></script>
+
 <script src="~/Scripts/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+@*<script src="~/content/assets/demo/default/custom/crud/forms/widgets/select2.js"></script>*@
 <script>
+    $(document).ready(function () {
+        $("#m_select2_3").select2({
+            dropdownParent: $("#myModalEdit")
+        });
+    });
+
 
         $('#m_table_1').DataTable({
             "scrollY": 200,
             "scrollX": true,
         });
         function EditUserRoles(id) {
-
             $.get("@Url.Action("EditUserRoles", "UserRoles")/" + id,
             function (data) { $('.modal-body').html(data); })
             $('#myModalEdit').modal('show');
