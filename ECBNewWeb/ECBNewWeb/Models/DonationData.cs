@@ -45,11 +45,13 @@ namespace ECBNewWeb.Models
         public string KnowingMethodName { get; set; }
         public IEnumerable<SelectListItem> MyKnowingMethods { get; set; }
         //////////////////
-        public int DonorId { get; set; }
+        public int? DonorId { get; set; }
         [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء إختيار إسم متبرع")]
         public string DonorName { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء إختيار تاريخ")]
-        public DateTime RecDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public DateTime? RecDate { get; set; }
         [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة مبلغ")]
         [Range(1,9999999999999,ErrorMessage ="القيمة يجب ان تكون اكبر من الصفر")]
         public decimal ? Amount { get; set; }
@@ -66,13 +68,16 @@ namespace ECBNewWeb.Models
         public string ChequeNumber { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة تاريخ إستحقاق الشيك")]
-        public DateTime ChequeDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public DateTime? ChequeDate { get; set; }
         public DateTime? MaxAssignDate { get; set; }
 
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
 
-
+        public string FullEmployeeName { get; set; }
+        public string FinanceApproval { get; set; }
     }
 }

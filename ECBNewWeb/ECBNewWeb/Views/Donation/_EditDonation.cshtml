@@ -1,0 +1,222 @@
+﻿@model ECBNewWeb.Models.DonationData
+    <!--Scripts-->
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/fontawesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+@*<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h5 class="m-portlet__head-text">
+                                تعديل متبرع
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @using (Html.BeginForm("_EditDonation", "Donation", FormMethod.Post))
+                {
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group m-form__group col-md-4">
+                                <label for="">رقم الإيصال</label>
+                                @Html.HiddenFor(d => d.id, new { @id = "recId" })
+                                @Html.HiddenFor(d => d.DonorId, new { @id = "donorId" })
+                                @Html.TextBoxFor(d => d.no, new { @class = "form-control m-input",@disabled="disabled"})
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">إسم المتبرع</label>
+                                @Html.TextBoxFor(d => d.DonorName, new { @class = "form-control m-input",@id = "donors", @placeholder = "أسم المتبرع" })
+                                @Html.ValidationMessageFor(m => m.DonorName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">الموقع</label>
+                                @Html.DropDownListFor(x=>x.SiteId, ViewBag.MySites as List<SelectListItem>, new { @class = "form-control"})
+                                @Html.ValidationMessageFor(x => x.SiteId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">تاريخ الإيصال</label>
+                                @Html.TextBoxFor(m => m.RecDate, new { @class = "form-control", @id = "recDate", @type = "date", @Value = Model.RecDate.Value.ToString("yyyy-MM-dd") })
+                                @Html.ValidationMessageFor(m => m.RecDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">نوع الإيصال</label>
+                                @Html.TextBoxFor(m => m.RecName, new { @class = "form-control", @id = "recName", @disabled = "disabled" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">المبلغ</label>
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @id = "amount", @type = "number" })
+                                @Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">العملة</label>
+                                @Html.DropDownListFor(x => x.CurrencyName, ViewBag.MyCurrency as List<SelectListItem>, new { @class = "form-control", @id = "currency" })
+                                @Html.ValidationMessageFor(m => m.CurrencyName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">الغرض</label>
+                                @Html.DropDownListFor(x => x.PurpId, ViewBag.MyPurposes as List<SelectListItem>, new { @class = "form-control", @id = "purpose" })
+                                @Html.ValidationMessageFor(m => m.PurpId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">طريقة الدفع</label>
+                                @Html.DropDownListFor(x => x.PaymentId, ViewBag.MyPayments as List<SelectListItem>, new { @class = "form-control", @id = "paymentmethod" })
+                                @Html.ValidationMessageFor(m => m.PaymentId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="" class="">وسيلة التعرف</label>
+                                @Html.DropDownListFor(x => x.KnowingId, ViewBag.MyKnowingMethods as List<SelectListItem>, "--إختار وسيلة التعرف--", new { @class = "form-control", @id = "knowingMethod" })
+                            </div>
+                        </div>
+                        <div class="row" id="chequeInformation">
+                            <div class="form-group col-md-3">
+                                <label for="" class="" id="lblbankNames" hidden="hidden">بنك</label>
+                                @Html.DropDownListFor(x => x.ChequeBankId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control", @id = "bankNames", @hidden = "hidden" })
+                                @Html.ValidationMessageFor(m => m.ChequeBankId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="" class="" id="lblchequeNumber" hidden="hidden">رقم الشيك</label>
+                                @Html.TextBoxFor(m => m.ChequeNumber, new { @class = "form-control", @id = "chequeNumber", @Value = "", @hidden = "hidden" })
+                                @Html.ValidationMessageFor(m => m.ChequeNumber, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="chequeDate" class="" id="lblchequeDate" hidden="hidden">تاريخ الإستحقاق</label>
+                                @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @id = "chequeDate", @type = "date", @hidden = "hidden" })
+                                @Html.ValidationMessageFor(m => m.ChequeDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="saveDonor" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="cancelSave" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if ($("#paymentmethod option:selected").val() ==3) {
+            $('#bankNames').removeAttr('hidden');
+            $('#chequeNumber').removeAttr('hidden');
+            $('#chequeDate').removeAttr('hidden');
+            $('#lblbankNames').removeAttr('hidden');
+            $('#lblchequeNumber').removeAttr('hidden');
+            $('#lblchequeDate').removeAttr('hidden');
+            $.getJSON("/Donation/PopulateBankInfo", null, function (data) {
+                data = $.map(data, function (item, a) {
+                    return "<option value=" + item.Value + ">" + item.Text + "</option>";
+                });
+                $("#bankNames").html(data);
+                $("#bankNames").val(-1);
+                $("#bankInfoChecked").val('true');
+            });
+            var id = $("#recId").val();
+            $.getJSON("/Donation/GetChequeBankInfo", { id: id }, function (data) {
+                $("#bankNames").val(data.ChequeBankId);
+                $("#chequeNumber").val(data.ChequeNumber);
+                $("#chequeDate").val(parseJsonDate(data.ChequeDate));
+            });
+        }
+        //Show Hidden Div When User Choose cheque as payment method only
+        $("#paymentmethod").change(function () {
+            var paymentMethodSelectedValue = $("#paymentmethod option:selected").val();
+            if (paymentMethodSelectedValue.toString() == '3') {
+                $('#bankNames').removeAttr('hidden');
+                $('#chequeNumber').removeAttr('hidden');
+                $('#chequeDate').removeAttr('hidden');
+                $('#lblbankNames').removeAttr('hidden');
+                $('#lblchequeNumber').removeAttr('hidden');
+                $('#lblchequeDate').removeAttr('hidden');
+                $.getJSON("/Donation/PopulateBankInfo", null, function (data) {
+                    data = $.map(data, function (item, a) {
+                        return "<option value=" + item.Value + ">" + item.Text + "</option>";
+                    });
+                    $("#bankNames").html(data);
+                    $("#bankNames").val(-1);
+                    $("#bankInfoChecked").val('true');
+                });
+            }
+            else {
+                $('#bankNames').attr("hidden", "hidden");
+                $('#chequeNumber').attr("hidden", "hidden");
+                $('#chequeDate').attr("hidden", "hidden");
+                $('#lblbankNames').attr("hidden", "hidden");
+                $('#lblchequeNumber').attr("hidden", "hidden");
+                $('#lblchequeDate').attr("hidden", "hidden");
+                $("#bankNames").html(null);
+                $("#bankInfoChecked").val('false');
+            }
+        });
+        var item = [];
+        $("#donors").autocomplete({
+            source: function (request, response) {
+                if ($("#donors").val != null) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteDonor", "Donation")',
+                        type: "GET",
+                        data: { prefix: $("#donors").val() },
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            //$("#donors").html(''),
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name,
+                                    value: item.id
+                                }
+                            }));
+                        }
+                    });
+                }
+            },
+            select: function (event, ui) {
+                this.value = ui.item.label;
+                $("#donorId").val(ui.item.value);
+                return false;
+            },
+            search: function (event, ui) {
+                $(".submit-progress").removeClass("d-none");
+            },
+            response: function (event, ui) {
+                $(".submit-progress").addClass("d-none");
+            }
+        });
+    })
+    function parseJsonDate(jsonDateString) {
+        var longDate = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+        var formatedDate = longDate.getFullYear() + '-' + (longDate.getMonth() + 1) + '-' + longDate.getUTCDate();
+        return formatedDate;
+    }
+</script>

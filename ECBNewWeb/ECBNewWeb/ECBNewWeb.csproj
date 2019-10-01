@@ -999,6 +999,8 @@
     <Content Include="Views\UserRoles\EditUserRoles.cshtml" />
     <Content Include="Views\Donation\CancelReceipt.cshtml" />
     <Content Include="Views\Account\_ChangePassword.cshtml" />
+    <Content Include="Views\Donation\AllDonations.cshtml" />
+    <Content Include="Views\Donation\_EditDonation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

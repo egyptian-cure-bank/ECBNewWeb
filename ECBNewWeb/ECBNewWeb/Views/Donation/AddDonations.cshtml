@@ -249,7 +249,7 @@
     //Show Hidden Div When User Choose cheque as payment method only
     $("#paymentmethod").change(function () {
         var paymentMethodSelectedValue = $("#paymentmethod option:selected").val();
-        if (paymentMethodSelectedValue == 3) {
+        if (paymentMethodSelectedValue.toString() == '3') {
             $('#bankNames').removeAttr('hidden');
             $('#chequeNumber').removeAttr('hidden');
             $('#chequeDate').removeAttr('hidden');
@@ -272,7 +272,6 @@
             $('#lblbankNames').attr("hidden", "hidden");
             $('#lblchequeNumber').attr("hidden", "hidden");
             $('#lblchequeDate').attr("hidden", "hidden");
-            $("#chequeInformation").attr("hidden", "hidden");
             $("#bankNames").html(null);
             $("#bankInfoChecked").val('false');
         }

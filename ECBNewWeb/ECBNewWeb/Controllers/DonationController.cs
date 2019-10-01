@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Newtonsoft.Json;
 using System.Data.Entity.Validation;
+using System.Net;
 
 namespace ECBNewWeb.Controllers
 {
@@ -112,6 +113,7 @@ namespace ECBNewWeb.Controllers
         }
         private List<SelectListItem> PopulateSites()
         {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
             List<SelectListItem> Items = new List<SelectListItem>();
             using (MarketEntities db = new MarketEntities())
             {
@@ -704,6 +706,151 @@ namespace ECBNewWeb.Controllers
                     }
                 }
             }
+        }
+        public ActionResult AllDonations(DonationData DonationModel)
+        {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult AllDonations()
+        {
+            UserInfo = (CustomMembershipUser)Membership.GetUser(HttpContext.User.Identity.Name, false);
+            var list = new List<DonationData>();
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault()
+                                        + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            var RecNoSearch = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            int RecNo = RecNoSearch == string.Empty?0 :Convert.ToInt32(RecNoSearch);
+            int skip = start != null ? Convert.ToInt16(start) : 0;
+            int recordsTotal = 0;
+            MarketEntities db = new MarketEntities();
+            DateTime CurrentDate = DateTime.Now.Date;
+            list = (from m in db.markets
+                    join B in db.BookResposibilities on m.ResponsibilityId equals B.RespId
+                    join E in db.Employees on B.EmployeeId equals E.EmployeeId
+                    join ms in db.marketingsites on m.site equals ms.id
+                    join mr in db.marketingrectypes on m.type equals mr.id
+                    join d in db.doners on m.name equals d.id
+                    join p in db.PaymentMethods on m.cash equals p.Id
+                    join bt in db.BookTypes on mr.id equals bt.RecTypeId
+                    join h in db.HandleBookReceipts on new { X1 = (int?)bt.BookTypeId, X2 = (int?)B.HandleBookReceiptId } equals new { X1 = (int?)h.BookTypeId, X2 = (int?)h.BookReceiptId }
+                    join l in db.MarketingLicenses on bt.LicenseId equals l.Id
+                    where h.Active == 1 && (CurrentDate >= l.FromDate && CurrentDate <= l.ToDate) && B.EmployeeId == UserInfo.EmployeeId
+                    select new DonationData()
+                    {
+                        id=m.id,
+                        no = m.no,
+                        FullEmployeeName = E.FirstName +" " +E.MiddleName +" " +E.LastName ,
+                        SiteName = ms.sitename ,
+                        RecName = mr.name,
+                        DonorName = d.name,
+                        PaymentName = p.MethodName,
+                        Amount = m.amount,
+                        FinanceApproval = m.FinApprov
+                    }).ToList<DonationData>();
+            if (RecNo != 0)
+            {
+                list = list.Where(a => RecNo == a.no).ToList<DonationData>();
+            }
+            recordsTotal = list.Count();
+            var data = list.Skip(skip).Take(pageSize).ToList<DonationData>();
+            return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult _EditDonation(int id)
+        {
+            ViewBag.MySites = PopulateSites();
+            ViewBag.MyCurrency = PopulateCurrency();
+            ViewBag.MyPurposes = PopulatePurpose();
+            ViewBag.MyPayments = PopulatePayment();
+            ViewBag.MyKnowingMethods = PopulateKnowingMethod();
+            //ViewBag.BankInfoChecked = "false";
+            MarketEntities db = new MarketEntities();
+            DonationData MyRec = (from m in db.markets
+                                  join d in db.doners on m.name equals d.id
+                                  join mr in db.marketingrectypes on m.type equals mr.id
+                                  where m.id == id
+                                  select new DonationData {
+                                      id = m.id,
+                                      no =m.no,
+                                      DonorName = d.name,
+                                      DonorId = d.id,
+                                      SiteId = m.site,
+                                      RecName = mr.name,
+                                      RecDate = m.dat,
+                                      Amount = m.amount,
+                                      CurrencyName = m.currency,
+                                      PurpId = m.DonationPurposeId,
+                                      PaymentId = m.cash
+                                  }).FirstOrDefault();
+            return PartialView(MyRec);
+        }
+        [HttpPost]
+        public ActionResult _EditDonation(DonationData DonationModel)
+        {
+            if (DonationModel.id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            using (MarketEntities Market = new MarketEntities())
+            {
+                var DonationToUpdate = Market.markets.Find(DonationModel.id);
+                if (DonationModel.PaymentId == 3)//Save Cheque Info
+                {
+                    DonationToUpdate.name = DonationModel.DonorId;
+                    DonationToUpdate.site = DonationModel.SiteId;
+                    DonationToUpdate.dat = DonationModel.RecDate;
+                    DonationToUpdate.amount = DonationModel.Amount;
+                    DonationToUpdate.currency = DonationModel.CurrencyName;
+                    DonationToUpdate.DonationPurposeId = DonationModel.PurpId;
+                    DonationToUpdate.cash = DonationModel.PaymentId;
+                    //get the the necessary cheque information
+                    var MarketsCheque = (from m in Market.markets
+                                         where m.id == DonationModel.id
+                                         select m).SingleOrDefault();
+                    var ChequeInfoToUpdate = Market.ChequeInformations.Find(MarketsCheque.ChequeInfoId);
+                    ChequeInfoToUpdate.ChequeBankId = DonationModel.ChequeBankId;
+                    ChequeInfoToUpdate.ChequeNo = DonationModel.ChequeNumber;
+                    ChequeInfoToUpdate.ChequeDate = DonationModel.ChequeDate;
+                    //TryUpdateModel(DonationToUpdate);
+                    //TryUpdateModel(ChequeInfoToUpdate);
+                    int AffectedRows = Market.SaveChanges();
+                    TempData["Msg"] = AffectedRows > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                }
+                else
+                {
+                    ModelState.Remove("ChequeBankId");
+                    ModelState.Remove("ChequeNumber");
+                    ModelState.Remove("ChequeDate");
+                    DonationToUpdate.name = DonationModel.DonorId;
+                    DonationToUpdate.site = DonationModel.SiteId;
+                    DonationToUpdate.dat = DonationModel.RecDate;
+                    DonationToUpdate.amount = DonationModel.Amount;
+                    DonationToUpdate.currency = DonationModel.CurrencyName;
+                    DonationModel.PurpId = DonationModel.PurpId;
+                    DonationModel.PaymentId = DonationModel.PaymentId;
+                    TryUpdateModel(DonationToUpdate);
+                    int AffectedRows = Market.SaveChanges();
+                    TempData["Msg"] = AffectedRows > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                }
+            }
+            return RedirectToAction("AllDonations");
+        }
+        public JsonResult GetChequeBankInfo(int id)
+        {
+            MarketEntities db = new MarketEntities();
+            DonationData MyChequeBankInfo = (from ci in db.ChequeInformations
+                                             join m in db.markets on ci.Id equals m.ChequeInfoId
+                                             where m.id == id
+                                             select new DonationData {
+                                                 ChequeBankId = ci.ChequeBankId,
+                                                 ChequeNumber = ci.ChequeNo,
+                                                 ChequeDate = ci.ChequeDate
+                                             }).FirstOrDefault();
+            return Json(MyChequeBankInfo, JsonRequestBehavior.AllowGet);
         }
     }
 }

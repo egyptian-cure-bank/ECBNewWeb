@@ -1,12 +1,17 @@
-﻿@model IEnumerable<ECBNewWeb.Models.DonorData>
+﻿@model IEnumerable<ECBNewWeb.Models.DonationData>
+
+@{
+    ViewBag.Title = "AllDonations";
+    Layout = "~/Views/Shared/_LayoutShefaa2.cshtml";
+}
 
 
 <!--Start Test Area-->
 @section links {
-<link href="~/Content/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
-<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
-    }
+    <link href="~/Content/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+}
 <main class="page-content">
     <div class="container-fluid">
         <div class="m-content">
@@ -21,7 +26,7 @@
                                         <i class="la la-gear"></i>
                                     </span>
                                     <h3 class="m-portlet__head-text">
-                                        المتبرعين
+                                        إيصالات التبرع
                                     </h3>
                                 </div>
                             </div>
@@ -31,7 +36,7 @@
                                         <a href="#" class="btn btn-accent m-btn  m-btn--pill m-btn--icon ">
                                             <span>
                                                 <i class="la la-plus"></i>
-                                                <span>اضافة متبرع جديد</span>
+                                                <span>اضافة تبرع جديد</span>
                                             </span>
                                         </a>
                                     </li>
@@ -48,10 +53,8 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td style="color: blue">إسم المتبرع</td>
-                                                <td><input type="text" class="form-control" id="txtName" /></td>
-                                                <td style="color: blue">رقم التليفون</td>
-                                                <td><input type="tel" class="form-control" id="txtTele" /></td>
+                                                <td style="color: blue">رقم الإيصال</td>
+                                                <td><input type="text" class="form-control" id="recNo" /></td>
                                                 <td>
                                                     <input type="button" class="btn btn-success btn-md" value="بحث" id="btnFilter" />
                                                 </td>
@@ -62,67 +65,32 @@
                                 <table class="table table-striped  table-bordered table-hover" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 974px;">
                                     <thead>
                                         <tr>
-                                            <th>كودالمتبرع</th>
-                                            <th>اسم المتبرع</th>
-                                            <th>التليفون </th>
-                                            <th> المحافظة </th>
-                                            <th>المركز</th>
+                                            <th>Id</th>
+                                            <th>رقم الإيصال</th>
+                                            <th>نوع الإيصال</th>
+                                            <th>إسم المتبرع</th>
+                                            <th>نوع الدفع</th>
+                                            <th>قيمة الإيصال</th>
+                                            <th>موافقة المالية</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
-                    <div class="m-portlet__foot m-portlet__foot--fit">
-                        <div class="m-form__actions">
-                           
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+
+                                </div>
+                            </div>
                         </div>
+                        <!--end::Portlet-->
                     </div>
                 </div>
-                <!--end::Portlet-->
             </div>
         </div>
     </div>
-        </div>
-        </div>
 </main>
-
-<!-- Start Message When Edit -->
-@if (TempData["Msg"] != null)
-{
-    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
-    {
-        <script>
-            $(function (e) {
-                swal({
-                    title: "حفظ",
-                    text: "تم الحفظ بنجاح",
-                    type: "success",
-                    confirmButtonClass: "btn btn-success"
-                })
-
-            });
-
-        </script>
-    }
-    else
-    {
-        <script>
-            $(function (e) {
-                swal({
-                    title: "خطأ",
-                    text: "لم يتم الحفظ",
-                    type: "error",
-                    confirmButtonClass: "btn btn-danger"})
-            });
-        </script>
-    }
-}
-
-<!-- End Message When Edit -->
-
-<!--End Test Area-->
-<!-- Edit and Delete -->
 <div id="myModalEdit" class="modal fade " style="text-align:center">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -137,47 +105,19 @@
     </div>
 </div>
 
-<div id="myModalDelete" class="modal fade " style="text-align:center">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body">
-            </div>
-        </div>
-    </div>
-</div>
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
 <script>
+    function EditDonation(id) {
 
-    function EditDonor(id) {
-
-        $.get("@Url.Action("Edit", "Donor")/" + id,
+        $.get("@Url.Action("_EditDonation", "Donation")/" + id,
         function (data) { $('.modal-body').html(data); })
         $('#myModalEdit').modal('show');
         $('#myModalEdit').on('hidden.bs.modal', function (e) {
             $('.modal-body').html("");
         })
     }
-
-    function DeleteDonor(id) {
-
-        $.get("@Url.Action("Delete", "Donor")/" + id,
-        function (data) { $('.modal-body').html(data); })
-        $('#myModalDelete').modal('show');
-        $('#myModalDelete').on('hidden.bs.modal', function (e) {
-            $('.modal-body').html("");
-        })
-    }
-</script>
-
-
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-    <script>
-
         var myTable = $('#m_table_1').DataTable({
             "processing": true,
             "serverSide": true,
@@ -185,27 +125,27 @@
             "scrollY": 200,
             "scrollX": true,
             "ajax": {
-                "url": '@Url.Action("donor","Donor")',
+                "url": '@Url.Action("AllDonations", "Donation")',
                 "type": "POST"
             },
             columns:[
-            {data: "Id"},
-            {data: "DonorName"},
-            {data: "Tele"},
-            {data: "GovernmentName"},
-            {data: "CenterName"},
+            {data: "id"},
+            {data: "no"},
+            { data: "RecName" },
+            { data: "DonorName" },
+            { data: "PaymentName" },
+            { data: "Amount" },
+            { data: "FinanceApproval" },
             {data:"",render: function (data,type,full,meta) {
-                return '<button class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only" onclick="EditDonor('+full.Id+')"> <i class="fa flaticon-edit"></i></button>'
+                return '<button class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only" onclick="EditDonation(' + full.id + ')"> <i class="fa flaticon-edit"></i></button>'
             }
             }]
         });
         $('#btnFilter').click(function () {
-            myTable.columns(1).search($('#txtName').val().trim());
-            myTable.columns(2).search($('#txtTele').val().trim());
+            myTable.columns(1).search($('#recNo').val().trim());
             myTable.draw();
         });
-    </script>
-
+</script>
 @if (TempData["Msg"] != null)
 {
     if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
@@ -235,9 +175,3 @@
         </script>
     }
 }
-
-
-
-
-
-
