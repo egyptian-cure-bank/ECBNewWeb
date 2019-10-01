@@ -272,7 +272,7 @@ namespace ECBNewWeb.Controllers
                     }).ToList<DonorData>();
             if (!string.IsNullOrEmpty(DonorNameSearch))
             {
-                list = list.Where(a=> DonorNameSearch.Contains(a.DonorName)).ToList<DonorData>();
+                list = list.Where(a=> a.DonorName.Contains(DonorNameSearch)).ToList<DonorData>();
             }
             if (!string.IsNullOrEmpty(DonorTeleSearch))
             {
@@ -311,7 +311,7 @@ namespace ECBNewWeb.Controllers
                                      CenterId = d.cent_id,
                                      GenderValue = d.sex,
                                      Job = d.job,
-                                     TypeContactName = d.Typecontact,
+                                     ContactValue = d.Typecontact,
                                      DonorOfName  = d.motabare3,
                                      FreqName = d.freq,
                                      Address = d.address,
@@ -348,7 +348,6 @@ namespace ECBNewWeb.Controllers
                     MyCenters = Items
                 };
                 FilteredDonor.MyCenters = Cens.MyCenters;
-
             }
             return PartialView(FilteredDonor);
         }
@@ -368,7 +367,7 @@ namespace ECBNewWeb.Controllers
                 DonorToUpdate.cent_id = DonorVData.CenterId;
                 DonorToUpdate.sex = DonorVData.GenderValue;
                 DonorToUpdate.job = DonorVData.Job;
-                DonorToUpdate.Typecontact = DonorVData.TypeContactName;
+                DonorToUpdate.Typecontact = DonorVData.ContactValue;
                 DonorToUpdate.motabare3 = DonorVData.DonorOfName;
                 DonorToUpdate.freq = DonorVData.FreqName;
                 DonorToUpdate.address = DonorVData.Address;
@@ -376,9 +375,10 @@ namespace ECBNewWeb.Controllers
                 DonorToUpdate.email = DonorVData.Email;
                 DonorToUpdate.notes = DonorVData.Notes;
                 TryUpdateModel(DonorToUpdate);
-                Market.SaveChanges();
+                int SavedRecords = Market.SaveChanges();
+                TempData["Msg"] = SavedRecords > 0 ? "تم الحفظ بنجاح" : "خطأ أثناء الحفظ";
             }
-                return RedirectToAction("doner");
+                return RedirectToAction("donor");
         }
         [HttpGet]
         public ActionResult Delete(int id)

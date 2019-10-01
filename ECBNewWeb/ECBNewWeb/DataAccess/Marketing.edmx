@@ -344,7 +344,7 @@
           <Property Name="note" Type="varchar" MaxLength="43" />
           <Property Name="site" Type="int" />
           <Property Name="combID" Type="varchar" MaxLength="55" />
-          <Property Name="timestamp" Type="datetime2" Precision="7" />
+          <Property Name="timestamp" Type="datetime2" Precision="7" StoreGeneratedPattern="Computed" />
           <Property Name="FinApprov" Type="varchar" MaxLength="1" />
           <Property Name="ResponsibilityId" Type="int" />
           <Property Name="DonationPurposeId" Type="int" />
@@ -538,7 +538,7 @@
           <Property Name="note" Type="String" MaxLength="43" FixedLength="false" Unicode="false" />
           <Property Name="site" Type="Int32" />
           <Property Name="combID" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
-          <Property Name="timestamp" Type="DateTime" Precision="7" />
+          <Property Name="timestamp" Type="DateTime" Precision="7" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="FinApprov" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="ResponsibilityId" Type="Int32" />
           <Property Name="DonationPurposeId" Type="Int32" />
