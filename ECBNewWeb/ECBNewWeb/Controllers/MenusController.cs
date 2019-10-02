@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Newtonsoft.Json;
 using System.Data;
+using System.Data.Entity.Validation;
 
 namespace ECBNewWeb.Controllers
 {
@@ -30,22 +31,24 @@ namespace ECBNewWeb.Controllers
                           {
                               id = m.MenuId,
                               text = m.ArabicName,
+                              Sorting = m.Sorting,
                               ParentMenuId = m.ParentMenuId
-                          }).ToList();
+                          }).OrderBy(x=>x.Sorting).ToList();
 
             var Menus = CreateMenus(0, MenuSource);
             return Json(Menus,JsonRequestBehavior.AllowGet);
         }
         public IEnumerable<MenuManagementModel> CreateMenus(int parentId, List<MenuManagementModel> Source)
         {
-            var result = from m in Source
+            var result = (from m in Source
                          where m.ParentMenuId == parentId
                          select new MenuManagementModel()
                          {
                              id = m.id,
                              text = m.text,
+                             Sorting = m.Sorting,
                              children = CreateMenus(m.id, Source).ToList()
-                         };
+                         }).OrderBy(x=>x.Sorting);
             return result;
         }
         public List<SelectListItem> PopulateRoles()
@@ -147,22 +150,24 @@ namespace ECBNewWeb.Controllers
                           {
                               id = m.MenuId,
                               text = m.ArabicName,
+                              Sorting = m.Sorting,
                               ParentMenuId = m.ParentMenuId
-                          }).Distinct().ToList();
+                          }).OrderBy(x=>x.Sorting).Distinct().ToList();
 
             var Menus = CreatePredefinedMenus(0, MenuSourceForDelete);
             return Json(Menus, JsonRequestBehavior.AllowGet);
         }
         public IEnumerable<MenuManagementDeleteModel> CreatePredefinedMenus(int parentId, List<MenuManagementDeleteModel> Source)
         {
-            var result = from m in Source
+            var result = (from m in Source
                          where m.ParentMenuId == parentId
                          select new MenuManagementDeleteModel()
                          {
                              id = m.id,
                              text = m.text,
+                             Sorting = m.Sorting,
                              children = CreatePredefinedMenus(m.id, Source).ToList()
-                         };
+                         }).OrderBy(x=>x.Sorting);
             return result;
         }
         [HttpPost]
@@ -190,25 +195,50 @@ namespace ECBNewWeb.Controllers
             }
             return RedirectToAction("AllMenus", TempData["Msg"]);
         }
-        public ActionResult AddRole(MenuManagementModel model)
+        public ActionResult _AddRole()
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        public ActionResult _AddRole(MenuManagementModel model)
         {
             int InsertedRows = 0;
-            using (AuthenticationEntities db = new AuthenticationEntities())
+            try
             {
-                Role RoleToSave = new Role();
-                RoleToSave.RoleArabicName = model.RoleArabicName;
-                RoleToSave.RoleEnglishName = model.RoleEnglishName;
-                RoleToSave.RoleDescription = model.RoleDescription;
-                db.Roles.Add(RoleToSave);
-                InsertedRows = db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    using (AuthenticationEntities db = new AuthenticationEntities())
+                    {
+                        Role RoleToSave = new Role();
+                        RoleToSave.RoleArabicName = model.RoleArabicName;
+                        RoleToSave.RoleEnglishName = model.RoleEnglishName;
+                        RoleToSave.RoleDescription = model.RoleDescription;
+                        db.Roles.Add(RoleToSave);
+                        InsertedRows = db.SaveChanges();
+                    }
+                    if (InsertedRows > 0)
+                    {
+                        TempData["Msg"] = "تم الحفظ بنجاح";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "لم يتم الحفظ";
+                    }
+                }
             }
-            if (InsertedRows > 0)
+            catch (DbEntityValidationException e)
             {
-                TempData["Msg2"] = "تم الحفظ بنجاح";
-            }
-            else
-            {
-                TempData["Msg2"] = "لم يتم الحفظ";
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
             }
             return RedirectToAction("ManageMenu");
         }

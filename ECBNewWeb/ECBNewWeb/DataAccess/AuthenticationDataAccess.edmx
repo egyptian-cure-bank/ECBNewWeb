@@ -88,7 +88,7 @@
           <Property Name="RoleArabicName" Type="nvarchar" MaxLength="500" />
           <Property Name="RoleDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="Comments" Type="nvarchar" MaxLength="500" />
-          <Property Name="IsSystemGenerated" Type="bit" Nullable="false" />
+          <Property Name="IsSystemGenerated" Type="bit" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="UserRoles">
           <Key>
@@ -308,7 +308,7 @@
           <Property Name="RoleArabicName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" />
+          <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="UserRoles" Relationship="AuthenticationModel.FK_UserRoles_Roles" FromRole="Role" ToRole="UserRole" />
         </EntityType>
         <EntityType Name="UserRole">

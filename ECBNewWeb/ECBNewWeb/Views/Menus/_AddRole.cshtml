@@ -1,1 +1,77 @@
-﻿
+﻿@model ECBNewWeb.Models.MenuManagementModel
+
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+<link href="~/Content/assets/demo/default/base/select.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/chosen.css" rel="stylesheet" />
+<link href="~/Content/jsTree/themes/default/style.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/demo/default/custom/components/base/sweetalert2.js"></script>
+<script src="~/Content/assets/demo/default/base/dataTables.select.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
+<script src="~/Scripts/jsTree3/jstree.js"></script>
+
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="">
+
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h5 class="m-portlet__head-text">
+                                تعديل متبرع
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @using (Html.BeginForm("_AddRole", "Menus", FormMethod.Post))
+                {
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">إسم الدور الوظيفي بالعربي</label>
+                                @Html.TextBoxFor(d => d.RoleArabicName, new { @class = "form-control m-input", @placeholder = "الدور الوظيفي بالعربي" })
+                                @Html.ValidationMessageFor(m => m.RoleArabicName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">إسم الدور الوظيفي الإنجليزي</label>
+                                @Html.TextBoxFor(d => d.RoleEnglishName, new { @class = "form-control m-input", @placeholder = "الدور الوظيفي الإنجليزي" })
+                                @Html.ValidationMessageFor(m => m.RoleEnglishName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group m-form__group col-md-3">
+                                <label for="">الوصف</label>
+                                @Html.TextBoxFor(x => x.RoleDescription, new { @class = "form-control",@placeholder="الوصف" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button id="saveDonor" class="btn btn-success m-btn--pill " type="submit">
+                                حفظ
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="cancelSave" class="btn btn-danger m-btn--pill" data-dismiss="modal" type="reset">
+                                الغاء
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

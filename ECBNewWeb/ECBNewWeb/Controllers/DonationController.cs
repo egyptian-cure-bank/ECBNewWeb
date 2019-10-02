@@ -812,13 +812,25 @@ namespace ECBNewWeb.Controllers
                                          where m.id == DonationModel.id
                                          select m).SingleOrDefault();
                     var ChequeInfoToUpdate = Market.ChequeInformations.Find(MarketsCheque.ChequeInfoId);
-                    ChequeInfoToUpdate.ChequeBankId = DonationModel.ChequeBankId;
-                    ChequeInfoToUpdate.ChequeNo = DonationModel.ChequeNumber;
-                    ChequeInfoToUpdate.ChequeDate = DonationModel.ChequeDate;
-                    //TryUpdateModel(DonationToUpdate);
-                    //TryUpdateModel(ChequeInfoToUpdate);
+                    int ChequeAffectedRows = 0;
+                    ChequeInformation chequeBankInfo = new ChequeInformation();
+                    if (ChequeInfoToUpdate == null)
+                    {
+                        chequeBankInfo.ChequeBankId = DonationModel.ChequeBankId;
+                        chequeBankInfo.ChequeNo = DonationModel.ChequeNumber;
+                        chequeBankInfo.ChequeDate = DonationModel.ChequeDate;
+                        Market.ChequeInformations.Add(chequeBankInfo);
+                        ChequeAffectedRows = Market.SaveChanges();
+                        DonationToUpdate.ChequeInfoId = chequeBankInfo.Id;
+                    }
+                    else
+                    {
+                        ChequeInfoToUpdate.ChequeBankId = DonationModel.ChequeBankId;
+                        ChequeInfoToUpdate.ChequeNo = DonationModel.ChequeNumber;
+                        ChequeInfoToUpdate.ChequeDate = DonationModel.ChequeDate;
+                    }
                     int AffectedRows = Market.SaveChanges();
-                    TempData["Msg"] = AffectedRows > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    TempData["Msg"] = (AffectedRows + ChequeAffectedRows) > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                 }
                 else
                 {
@@ -830,9 +842,12 @@ namespace ECBNewWeb.Controllers
                     DonationToUpdate.dat = DonationModel.RecDate;
                     DonationToUpdate.amount = DonationModel.Amount;
                     DonationToUpdate.currency = DonationModel.CurrencyName;
-                    DonationModel.PurpId = DonationModel.PurpId;
-                    DonationModel.PaymentId = DonationModel.PaymentId;
+                    DonationToUpdate.DonationPurposeId = DonationModel.PurpId;
+                    DonationToUpdate.cash = DonationModel.PaymentId;
+                    var MarketsCheque = Market.ChequeInformations.Find(DonationToUpdate.ChequeInfoId);
+                    DonationToUpdate.ChequeInfoId = 0;
                     TryUpdateModel(DonationToUpdate);
+                    Market.ChequeInformations.Remove(MarketsCheque);
                     int AffectedRows = Market.SaveChanges();
                     TempData["Msg"] = AffectedRows > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                 }
