@@ -10,15 +10,18 @@ namespace ECBNewWeb.Models
     public class MenuManagementModel
     {
         [Remote("IsRoleHasMenus", "Menus",ErrorMessage = "يوجد قوائم على هذا الدور الوظيفي")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء إختيار دور الوظيفي")]
         public int RoleId { get; set; }
-        [Required(AllowEmptyStrings =false,ErrorMessage ="برجاء كتابة إسم الدور الوظيفي")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة الدور الوظيفي بالعربي")]
         public string RoleArabicName { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "برجاء كتابة الدور الوظيفي بالإنجليزية")]
         public string RoleEnglishName { get; set; }
         public string RoleDescription { get; set; }
         public List<SelectListItem> MyRoles { get; set; }
         public int id { get; set; }
         public string text { get; set; }
         public int ParentMenuId { get; set; }
+        public int? Sorting { get; set; }
         public List<MenuManagementModel> children { get; set; }
         public List<SelectListItem> MyParentMenus { get; set; }
     }
@@ -32,6 +35,7 @@ namespace ECBNewWeb.Models
         public int id { get; set; }
         public string text { get; set; }
         public int ParentMenuId { get; set; }
+        public int? Sorting { get; set; }
         public List<MenuManagementDeleteModel> children { get; set; }
         public List<SelectListItem> MyParentMenus { get; set; }
     }

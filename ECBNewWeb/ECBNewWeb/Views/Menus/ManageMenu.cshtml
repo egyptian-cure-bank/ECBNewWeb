@@ -36,8 +36,12 @@
                     <label for="" class="">الدور الوظيفي</label>
                     @Html.DropDownListFor(x => x.RoleId, Model.MyRoles as List<SelectListItem>, "--إختار دور وظيفي--", new { @class = "form-control", @id = "roleList" })
                     @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
-                        <label for="" class=""></label>
-                        <button id=""onclick="AddRole()" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only"> <i class="fa flaticon-add"></i></button>
+                </div>
+                <div class="form-group col-md-3">
+                    <br />
+                    <br />
+                    <label for="" class=""></label>
+                    <button id="" onclick="AddRole()" class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only" title="إضافة دور وظيفي"> <i class="fa flaticon-add"></i></button>
                 </div>
             </div>
             <div class="row" id="treeView">
@@ -166,9 +170,9 @@
         </script>
     }
 }
-@if (Session["Msg"] != null)
+@if (TempData["Msg"] != null)
 {
-    if (Session["Msg"].ToString() == "تم الحفظ بنجاح")
+    if (TempData["Msg"].ToString() == "تم الحفظ بنجاح")
     {
         <script>
             $(function (e) {
@@ -187,11 +191,12 @@
     {
         <script>
             $(function (e) {
-                swal({
-                    title: "خطأ",
+            swal({
+                title: "خطأ",
                     text: "لم يتم الحفظ",
                     type: "error",
-                    confirmButtonClass: "btn btn-danger"})
+                    confirmButtonClass: "btn btn-danger"
+                })
             });
         </script>
     }

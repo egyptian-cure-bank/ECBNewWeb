@@ -71,8 +71,8 @@ namespace ECBNewWeb.Controllers
         }
         public IEnumerable<MenuModel> CreateMenus (int parentId,List<MenuModel> Source)
         {
-            var result = from m in Source
-                   where m.ParentMenuId == parentId
+            var result = (from m in Source
+                          where m.ParentMenuId == parentId
                           select new MenuModel()
                           {
                               MenuId = m.MenuId,
@@ -86,7 +86,7 @@ namespace ECBNewWeb.Controllers
                               Description = m.Description,
                               Sorting = m.Sorting,
                               Children = CreateMenus(m.MenuId,Source).ToList()
-                          };
+                          }).OrderBy(x=>x.Sorting);
             return result;
         }
     }
