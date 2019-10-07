@@ -79,5 +79,11 @@ namespace ECBNewWeb.Models
 
         public string FullEmployeeName { get; set; }
         public string FinanceApproval { get; set; }
+        public string FinApprove { get; set; }
+        public bool Approved
+        {
+            get { return Convert.ToInt32(FinApprove) == 1; }
+            set { FinApprove = value ? "1" : "0"; }
+        }
     }
 }

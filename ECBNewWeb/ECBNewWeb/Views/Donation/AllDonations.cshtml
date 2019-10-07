@@ -135,12 +135,22 @@
             { data: "DonorName" },
             { data: "PaymentName" },
             { data: "Amount" },
-            { data: "FinanceApproval" },
+            {
+                data: "FinanceApproval", render: function (data, type, full, meta) {
+                    return full.FinanceApproval == "1" ? '<input type=\"checkbox\" name="chk1" disabled checked value=true' + '>' : '<input type=\"checkbox\" name="chk2" disabled value=false' + '>';
+                }
+            },
             {data:"",render: function (data,type,full,meta) {
-                return '<button class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only" onclick="EditDonation(' + full.id + ')"> <i class="fa flaticon-edit"></i></button>'
+                return full.FinanceApproval == "1" ? '<button class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only" disabled"> <i class="fa flaticon-edit"></i></button>' : '<button class="btn btn-outline-accent m-btn m-btn--icon m-btn--icon-only" onclick="EditDonation(' + full.id + ')"> <i class="fa flaticon-edit"></i></button>';
             }
-            }]
+            }],
+            "rowCallback": function (row, data, index) {
+                if (data.FinanceApproval != null) {
+                    $('td', row).css('background-color', 'Red');
+                }
+            }
         });
+    myTable.column(0).visible(false);
         $('#btnFilter').click(function () {
             myTable.columns(1).search($('#recNo').val().trim());
             myTable.draw();
