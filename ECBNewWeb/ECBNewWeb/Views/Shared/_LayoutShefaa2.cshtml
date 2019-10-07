@@ -223,10 +223,10 @@
     function ChangePassword(id) {
 
         $.get("@Url.Action("_ChangePassword", "Account")/" + id,
-        function (data) { $('.modal-body').html(data); })
+        function (data) { $('#myModalChangePassword .modal-body').html(data); })
         $('#myModalChangePassword').modal('show');
         $('#myModalChangePassword').on('hidden.bs.modal', function (e) {
-            $('.modal-body').html("");
+            $('#myModalChangePassword .modal-body').html("");
         })
     }
 </script>
