@@ -119,10 +119,10 @@
         });
         function EditUserRoles(id) {
             $.get("@Url.Action("EditUserRoles", "UserRoles")/" + id,
-            function (data) { $('.modal-body').html(data); })
+            function (data) { $('#myModalEdit .modal-body').html(data); })
             $('#myModalEdit').modal('show');
             $('#myModalEdit').on('hidden.bs.modal', function (e) {
-                $('.modal-body').html("");
+                $('#myModalEdit .modal-body').html("");
             })
         }
 </script>
