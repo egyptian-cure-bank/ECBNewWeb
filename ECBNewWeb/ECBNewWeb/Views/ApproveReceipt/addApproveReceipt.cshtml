@@ -143,6 +143,10 @@
                                                         <input type="radio" name="payment_method" value="2" id='radio_2'> ايداع بنكى
                                                         <span></span>
                                                     </label>
+                                                    <label class="m-radio">
+                                                        <input type="radio" name="payment_method" value="3" id='radio_3'> فيزا
+                                                        <span></span>
+                                                    </label>
                                                 </div>
                                                 <span class="m-form__help"></span>
                                             </div>
@@ -236,7 +240,7 @@
             $('#receiptvoucher').prop('required', true);
             $('#BankName').removeAttr('required');
         }
-        else
+        else if ($("#radio_2").is(":checked"))
         {
             $('#BankName').prop('required', true);
             $('#bankDepositeDate').prop('required', true);
@@ -278,11 +282,17 @@
                 $('#box').css('display', 'block');
                 
             }
-            else
+            else if ($("#radio_2").is(":checked"))
             {
                // show  bank
                 $('#box').css('display', 'none');
                 $('#bank').css('display', 'block');
+            }
+            else if ($("#radio_3").is(":checked"))
+            {
+                $('#bank').css('display', 'none');
+                $('#box').css('display', 'none');
+
             }
         });
         

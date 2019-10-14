@@ -60,7 +60,7 @@ namespace ECBNewWeb.Controllers
                         TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     }
                 }
-                else //ايداع بنكى 
+                else if (payment_method == 2) //ايداع بنكى 
                 {
                     for (int i = 0; i < marketid.Length; i++)
                     {
@@ -91,7 +91,29 @@ namespace ECBNewWeb.Controllers
                         TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
                     }
                 }
-            
+                else if (payment_method == 3)
+                {
+                    for (int i = 0; i < marketid.Length; i++)
+                    {
+                        // insert into Approve Receipt
+                        var approvereceipt = new ApproveReceipt()
+                        {
+                            approveDate = DateTime.Now,
+                            marketId = int.Parse(marketid[i]),
+                            depositType = 3
+                        };
+                        db.ApproveReceipts.Add(approvereceipt);
+                        rowAffected = db.SaveChanges();
+                      
+                        // update market FinApprov
+                        int market_id = int.Parse(marketid[i]);
+                        market marketmodel = db.markets.Where(x => x.id == market_id).FirstOrDefault();
+                        marketmodel.FinApprov = "1";
+                        rowAffected = db.SaveChanges();
+                        TempData["Msg"] = rowAffected > 0 ? "تم الحفظ بنجاح" : "لم يتم الحفظ";
+                    }
+                }
+                
             }
             else
             {
